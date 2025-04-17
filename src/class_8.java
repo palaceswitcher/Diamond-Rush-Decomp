@@ -509,7 +509,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 	// $FF: renamed from: i byte[]
 	public static byte[] field_330;
 	// $FF: renamed from: j byte[]
-	public static byte[] field_331;
+	public static byte[] preferenceData;
 	// $FF: renamed from: a int[][]
 	public static int[][] field_332;
 	// $FF: renamed from: b int[][]
@@ -609,7 +609,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 	// $FF: renamed from: cu int
 	public int field_380;
 	// $FF: renamed from: cv int
-	public int field_381;
+	public int preferenceDataSize;
 	// $FF: renamed from: cw int
 	public int field_382;
 	// $FF: renamed from: N boolean
@@ -975,7 +975,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 	// $FF: renamed from: g int[][]
 	public static final int[][] field_563;
 	// $FF: renamed from: a java.lang.String[]
-	public static String[] field_564;
+	public static String[] menuText;
 	// $FF: renamed from: s byte[]
 	public static byte[] field_565;
 	// $FF: renamed from: b java.lang.String[]
@@ -1168,7 +1168,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 			if (var5 != 48) {
 				if (var5 != 47) {
 					if (this.field_241 <= 0L && this.field_240 == 0 && this.field_254 == 0 && this.field_197 != 6 && (this.field_233 & 112) == 0 || this.field_234 > 0) {
-						++this.field_247;
+						this.field_247++;
 						this.method_62((byte)(this.field_239 - var1));
 						if (this.field_257 == 0 && this.field_239 == 0) {
 							this.field_453 = 0L;
@@ -1284,12 +1284,16 @@ public final class class_8 extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: a (long) void
-	private static void method_66(long var0) {
-		if (var0 > 0L) {
+	/**
+	 * Sleeps the game thread for a duration of time in milliseconds
+	 * @param time Sleep time in milliseconds
+	 */
+	private static void method_66(long time) {
+		if (time > 0L) {
 			System.currentTimeMillis();
 
 			try {
-				Thread.sleep(var0);
+				Thread.sleep(time);
 			} catch (Exception var5) {
 			}
 		}
@@ -1298,10 +1302,10 @@ public final class class_8 extends GameCanvas implements Runnable {
 	public final void run() {
 		this.field_228 = System.currentTimeMillis();
 		this.method_65();
-		this.method_111();
+		this.loadPreferenceData();
 
 		while(!this.field_303) {
-			Thread.yield();
+			Thread.yield(); //Yield to any other running threads
 			if (!this.field_455) {
 				this.field_368 = System.currentTimeMillis();
 
@@ -1317,7 +1321,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 				}
 
 				if (field_222 != 2) {
-					++field_226;
+					field_226++;
 				}
 
 				this.field_369 = System.currentTimeMillis();
@@ -1327,14 +1331,14 @@ public final class class_8 extends GameCanvas implements Runnable {
 					this.field_370 = 0L;
 				} else {
 					this.method_132(this.getGraphics());
-					this.flushGraphics();
+					this.flushGraphics(); 
 					this.field_229 = false;
 					if (field_222 != 2) {
-						++field_227;
+						field_227++;
 					}
 
 					this.field_370 = Math.abs(System.currentTimeMillis() - this.field_368);
-					method_66(50L - (System.currentTimeMillis() - this.field_368));
+					method_66(50L - (System.currentTimeMillis() - this.field_368)); //Set frame rate to 20FPS (50ms per frame)
 				}
 			}
 		}
@@ -1413,7 +1417,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 					return;
 				}
 
-				field_564 = method_77("/lang.f", 115);
+				menuText = loadStringsFromFile("/lang.f", 115);
 				method_442();
 				field_320[18] = loadGfxFile("/ui.f", 3);
 				this.method_95();
@@ -1434,7 +1438,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 				return;
 			case 9:
 				try {
-					if ((field_331[0] & 1) == 0) {
+					if ((preferenceData[0] & 1) == 0) {
 						this.field_473 = true;
 					}
 
@@ -1505,7 +1509,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 			case 28:
 				try {
 					this.method_71(this.field_266);
-					++this.field_266;
+					this.field_266++;
 					if (this.field_266 == 11) {
 						field_222 = 27;
 					}
@@ -1534,41 +1538,17 @@ public final class class_8 extends GameCanvas implements Runnable {
 
 	// $FF: renamed from: i () void
 	private void method_68() {
-		label25: {
-			class_8 var10000;
-			byte var10001;
-			if (this.field_148 >= this.field_151) {
-				var10000 = this;
-				var10001 = -1;
-			} else {
-				if (this.field_148 > -this.field_151) {
-					break label25;
-				}
-
-				var10000 = this;
-				var10001 = 1;
-			}
-
-			var10000.field_149 = var10001;
+		if (this.field_148 >= this.field_151) {
+			this.field_149 = -1;
+		} else if (this.field_148 <= -this.field_151) {
+			this.field_149 = 1;
 		}
 
-		label19: {
-			this.field_148 += this.field_149 * this.field_153;
-			class_8 var1;
-			byte var2;
-			if (this.field_147 >= this.field_152) {
-				var1 = this;
-				var2 = -1;
-			} else {
-				if (this.field_148 > -this.field_152) {
-					break label19;
-				}
-
-				var1 = this;
-				var2 = 1;
-			}
-
-			var1.field_150 = var2;
+		this.field_148 += this.field_149 * this.field_153;
+		if (this.field_147 >= this.field_152) {
+			this.field_150 = -1;
+		} else if (this.field_148 <= -this.field_152) {
+			this.field_150 = 1;
 		}
 
 		this.field_147 += this.field_150 * this.field_154;
@@ -1881,39 +1861,39 @@ public final class class_8 extends GameCanvas implements Runnable {
 		if (this.field_101 == 3) {
 			var10000 = this;
 			var10001 = new StringBuffer();
-			var10002 = field_564[82];
+			var10002 = menuText[82];
 		} else if (method_73(this.field_101)) {
 			var10000 = this;
 			var10001 = new StringBuffer();
-			var10002 = field_564[82];
+			var10002 = menuText[82];
 		} else {
 			var10000 = this;
 			var10001 = (new StringBuffer()).append(class_0.worldPrices[this.field_101]).append(" ");
-			var10002 = field_564[114].toLowerCase();
+			var10002 = menuText[114].toLowerCase();
 		}
 
-		var10000.field_106 = var10001.append(var10002).append(" ").append(field_564[79]).toString();
+		var10000.field_106 = var10001.append(var10002).append(" ").append(menuText[79]).toString();
 		String[] var3;
 		byte var4;
 		switch (this.field_101) {
 			case 0:
 				var10000 = this;
-				var3 = field_564;
+				var3 = menuText;
 				var4 = 28;
 				break;
 			case 1:
 				var10000 = this;
-				var3 = field_564;
+				var3 = menuText;
 				var4 = 29;
 				break;
 			case 2:
 				var10000 = this;
-				var3 = field_564;
+				var3 = menuText;
 				var4 = 30;
 				break;
 			case 3:
 				var10000 = this;
-				var3 = field_564;
+				var3 = menuText;
 				var4 = 31;
 				break;
 			default:
@@ -1938,21 +1918,21 @@ public final class class_8 extends GameCanvas implements Runnable {
 			StringBuffer var1 = new StringBuffer();
 			if (this.field_143 > 0) {
 				label30: {
-					var1.append(field_564[92]).append("\n");
+					var1.append(menuText[92]).append("\n");
 					byte[] var2;
 					byte var10001;
 					byte var10002;
 					byte var10003;
 					switch (this.field_143) {
 						case 1:
-							var1.append(field_564[29]);
+							var1.append(menuText[29]);
 							var2 = field_330;
 							var10001 = 2;
 							var10002 = var2[2];
 							var10003 = 8;
 							break;
 						case 2:
-							var1.append(field_564[30]);
+							var1.append(menuText[30]);
 							byte[] var10000 = field_330;
 							var10000[2] = (byte)(var10000[2] | 8);
 							var2 = field_330;
@@ -1976,7 +1956,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 					var1.append("\n\n");
 				}
 
-				var1.append(field_564[99]).append("\n").append(field_564[85 + this.field_144 - 1]);
+				var1.append(menuText[99]).append("\n").append(menuText[85 + this.field_144 - 1]);
 				this.field_144 = 0;
 			}
 
@@ -2110,9 +2090,9 @@ public final class class_8 extends GameCanvas implements Runnable {
 					this.field_353.method_52();
 					field_222 = 9;
 					this.method_63(-1);
-					field_510 = new StringBuffer(field_564[8]);
+					field_510 = new StringBuffer(menuText[8]);
 					field_510.delete(field_510.length() - 1, field_510.length());
-					field_511 = new StringBuffer(field_564[20]);
+					field_511 = new StringBuffer(menuText[20]);
 					field_511.delete(field_511.length() - 1, field_511.length());
 					field_512 = new StringBuffer("1");
 				default:
@@ -2121,26 +2101,32 @@ public final class class_8 extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: a (java.lang.String, int) java.lang.String[]
-	public static String[] method_77(String var0, int var1) {
-		byte[] var2 = loadPackedFile(var0, 0);
-		int var3 = 0;
-		int var4 = 0;
-		int var5 = 0;
-		String[] var6 = new String[var1];
+	/**
+	 * Loads null-terminated strings from the first file of an asset pack
+	 * @param path Asset pack path
+	 * @param stringCount Amount of strings to load
+	 * @return
+	 */
+	public static String[] loadStringsFromFile(String path, int stringCount) {
+		byte[] rawStrings = loadPackedFile(path, 0); //Load raw strings from asset pack
+		int strStartInd = 0;
+		int strCharInd = 0;
+		int strNum = 0;
+		String[] var6 = new String[stringCount];
 
-		while(var5 < var1) {
-			if (var2[var3 + var4] == 0) {
+		while(strNum < stringCount) {
+			if (rawStrings[strStartInd + strCharInd] == 0) {
 				try {
-					var6[var5] = new String(var2, var3, var4, "ISO-8859-1");
+					var6[strNum] = new String(rawStrings, strStartInd, strCharInd, "ISO-8859-1");
 				} catch (Exception var8) {
 					((Throwable)var8).printStackTrace();
 				}
 
-				var3 += var4 + 1;
-				var4 = 0;
-				++var5;
+				strStartInd += strCharInd + 1;
+				strCharInd = 0;
+				strNum++;
 			} else {
-				++var4;
+				strCharInd++;
 			}
 		}
 
@@ -2347,7 +2333,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 												return;
 											case 5:
 												this.field_260 = field_226 + 60;
-												(new StringBuffer(field_564[38])).append("\n").append(this.field_156).append(" ").append(field_564[39]).toString();
+												(new StringBuffer(menuText[38])).append("\n").append(this.field_156).append(" ").append(menuText[39]).toString();
 												this.method_96();
 												return;
 											case 6:
@@ -3404,45 +3390,47 @@ public final class class_8 extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: H () void
-	private void method_111() {
-		RecordStore var1 = null;
+	private void loadPreferenceData() {
+		RecordStore preferences = null;
 
 		try {
-			var1 = RecordStore.openRecordStore("Preferences", false);
+			preferences = RecordStore.openRecordStore("Preferences", false);
 		} catch (Exception var5) {
 		}
 
-		field_331 = new byte[1];
-		if (var1 == null) {
+		preferenceData = new byte[1];
+		// If preference data doesn't exist
+		if (preferences == null) {
 			try {
-				var1 = RecordStore.openRecordStore("Preferences", true);
-				field_331[0] = 0;
-				this.field_381 = field_331.length;
-				var1.closeRecordStore();
-				this.method_112();
+				preferences = RecordStore.openRecordStore("Preferences", true); //Create and open record
+				preferenceData[0] = 0; //Initialize preference data
+				this.preferenceDataSize = preferenceData.length; //Get size of preference data
+				preferences.closeRecordStore();
+				this.initPreferenceRecord();
 			} catch (Exception var3) {
 			}
+		// If preference data already exists
 		} else {
 			try {
-				field_331 = var1.getRecord(1);
-				this.field_381 = field_331.length;
-				var1.closeRecordStore();
+				preferenceData = preferences.getRecord(1); //Load preference data
+				this.preferenceDataSize = preferenceData.length; //Get size of preference data
+				preferences.closeRecordStore();
 			} catch (Exception var4) {
 			}
 		}
 	}
 
 	// $FF: renamed from: I () void
-	private void method_112() {
+	private void initPreferenceRecord() {
 		try {
-			RecordStore var1;
-			if ((var1 = RecordStore.openRecordStore("Preferences", true)).getNumRecords() == 0) {
-				var1.addRecord(field_331, 0, this.field_381);
+			RecordStore preferences;
+			if ((preferences = RecordStore.openRecordStore("Preferences", true)).getNumRecords() == 0) {
+				preferences.addRecord(preferenceData, 0, this.preferenceDataSize); //Add record if preference record store is empty
 			} else {
-				var1.setRecord(1, field_331, 0, this.field_381);
+				preferences.setRecord(1, preferenceData, 0, this.preferenceDataSize); //Initialize preference record if it already exists
 			}
 
-			var1.closeRecordStore();
+			preferences.closeRecordStore();
 		} catch (Exception var2) {
 		}
 	}
@@ -3942,12 +3930,12 @@ public final class class_8 extends GameCanvas implements Runnable {
 					this.field_557 = true;
 					field_222 = 25;
 					this.field_554 = this.field_97;
-					this.field_555 = field_564[110] + " " + getShortFromBytes(field_330, 4) + " " + field_564[109];
+					this.field_555 = menuText[110] + " " + getShortFromBytes(field_330, 4) + " " + menuText[109];
 				case 25:
 					this.method_431();
 					break;
 				case 20:
-					method_405(this.field_314, field_320[41], field_564[48], 120, 180, 3, 20, true);
+					method_405(this.field_314, field_320[41], menuText[48], 120, 180, 3, 20, true);
 					break;
 				case 22:
 					this.method_435();
@@ -3968,7 +3956,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 				case 30:
 					this.method_142(this.field_314, true);
 					if (field_226 % 20 >= 10) {
-						field_320[41].method_13(this.field_314, field_564[82], 120, 250, 17);
+						field_320[41].method_13(this.field_314, menuText[82], 120, 250, 17);
 					}
 					break;
 				case 31:
@@ -3977,7 +3965,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 						this.field_314.setColor(0);
 						this.field_314.fillRect(0, 0, 240, 320);
 						field_320[41].field_26 = 5;
-						field_320[41].method_14(this.field_314, method_441(field_564[this.field_383 ? 69 : 68], 220), 120, 160, 3);
+						field_320[41].method_14(this.field_314, method_441(menuText[this.field_383 ? 69 : 68], 220), 120, 160, 3);
 						this.method_177();
 						this.method_176();
 					}
@@ -4001,7 +3989,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 			this.field_314.setClip(0, 0, 240, 320);
 			this.field_314.fillRect(0, 0, 240, 320);
 			field_320[41].field_26 = 3;
-			String var1 = method_441(field_564[4] + "\n\n" + field_564[103] + "\n" + field_564[104] + "\n" + field_564[105] + "\n\n" + field_564[106] + "\n\n" + field_564[107] + "\n\n" + field_564[108], 235);
+			String var1 = method_441(menuText[4] + "\n\n" + menuText[103] + "\n" + menuText[104] + "\n" + menuText[105] + "\n\n" + menuText[106] + "\n\n" + menuText[107] + "\n\n" + menuText[108], 235);
 			field_320[41].method_14(this.field_314, var1, 120, 10, 17);
 			this.method_176();
 			this.field_557 = false;
@@ -4088,7 +4076,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 				class_2.method_18(this.field_314);
 				int var4 = field_320[41].field_26;
 				field_320[41].field_26 = 3;
-				String var6 = method_441(field_564[40] + "\n" + field_564[97], 220);
+				String var6 = method_441(menuText[40] + "\n" + menuText[97], 220);
 				field_320[41].method_12(var6);
 				method_429(this.field_314, (240 - BitmapGfx.field_23 >> 1) - 3, (320 - BitmapGfx.field_24 >> 1) - 3, BitmapGfx.field_23 + 6, BitmapGfx.field_24 + 6, 7096587, 0);
 				field_320[41].method_14(this.field_314, var6, 120, 160, 3);
@@ -4108,7 +4096,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 			field_320[17].method_8(this.field_314, 11, 120 + class_0.field_2[6], 136 + class_0.field_2[7], 0, 0, 0);
 			this.method_176();
 			this.method_177();
-			field_320[41].method_13(this.field_314, field_564[27].toLowerCase(), 222, 311, 10);
+			field_320[41].method_13(this.field_314, menuText[27].toLowerCase(), 222, 311, 10);
 			this.field_557 = false;
 		}
 
@@ -4300,11 +4288,11 @@ public final class class_8 extends GameCanvas implements Runnable {
 						break;
 					case 3:
 						var4 = 63;
-						var10000 = " 9 - " + field_564[this.field_391 ? 66 : 67];
+						var10000 = " 9 - " + menuText[this.field_391 ? 66 : 67];
 						break;
 					case 4:
 						var4 = 64;
-						var10000 = " 0 - " + field_564[this.field_392 ? 66 : 67];
+						var10000 = " 0 - " + menuText[this.field_392 ? 66 : 67];
 						break;
 					case 5:
 						var4 = -1;
@@ -4319,11 +4307,11 @@ public final class class_8 extends GameCanvas implements Runnable {
 
 			int var5 = i * 35;
 			if (var4 >= 0) {
-				var2.method_13(this.field_314, field_564[var4], 110, var5, 17);
+				var2.method_13(this.field_314, menuText[var4], 110, var5, 17);
 			}
 
 			var5 += var2.field_26;
-			var2.method_13(this.field_314, field_564[65], 110, var5, 24);
+			var2.method_13(this.field_314, menuText[65], 110, var5, 24);
 			var2.method_13(this.field_314, var1, 110, var5, 20);
 		}
 
@@ -4354,7 +4342,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 		switch (this.field_437) {
 			case 0:
 				var1 = "Mix";
-				var2.method_14(this.field_314, field_564[this.field_438[0]], 10, 5, 20);
+				var2.method_14(this.field_314, menuText[this.field_438[0]], 10, 5, 20);
 				break;
 			case 1:
 				var1 = "Tips";
@@ -4393,7 +4381,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 		this.field_314.setColor(0);
 		this.field_314.fillRect(0, 0, 240, 320);
 		BitmapGfx var1;
-		(var1 = field_320[41]).method_13(this.field_314, field_564[35], 120, 50, 17);
+		(var1 = field_320[41]).method_13(this.field_314, menuText[35], 120, 50, 17);
 		BitmapGfx var10000;
 		Graphics var10001;
 		String var10002;
@@ -4403,13 +4391,13 @@ public final class class_8 extends GameCanvas implements Runnable {
 		if (this.field_174 == 2) {
 			var10000 = var1;
 			var10001 = this.field_314;
-			var10002 = field_564[26];
+			var10002 = menuText[26];
 			var10003 = 0;
 			var10004 = 320;
 			var10005 = 36;
 		} else {
-			var1.method_13(this.field_314, field_564[1], 0, 320, 36);
-			String var2 = field_564[111] + " " + (getShortFromBytes(field_330, 4) < 500 ? getShortFromBytes(field_330, 4) : 500) + " " + field_564[109];
+			var1.method_13(this.field_314, menuText[1], 0, 320, 36);
+			String var2 = menuText[111] + " " + (getShortFromBytes(field_330, 4) < 500 ? getShortFromBytes(field_330, 4) : 500) + " " + menuText[109];
 			var10000 = var1;
 			var10001 = this.field_314;
 			var10002 = var2;
@@ -4489,6 +4477,11 @@ public final class class_8 extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: b (int, int) void
+	/**
+	 * Update the graphics for a level tile to be blank?
+	 * @param var1
+	 * @param var2
+	 */
 	private void method_147(int var1, int var2) {
 		int var3 = this.field_201 - this.field_201 % 24;
 		int var4 = this.field_202 - this.field_202 % 24;
@@ -5311,18 +5304,18 @@ public final class class_8 extends GameCanvas implements Runnable {
 
 			this.field_202 += this.field_256;
 			if (this.field_238) {
-				method_405(var1, field_320[41], field_564[40], 120, 160, 17, 19, false);
+				method_405(var1, field_320[41], menuText[40], 120, 160, 17, 19, false);
 			}
 
 			if (this.field_260 > field_226 && this.field_174 != 2) {
 				if (!this.field_461 && !this.field_122) {
 					var4 = (var3 = this.field_260 - field_226) < 20 ? (var3 - 10) * 240 / 20 : (var3 >= 50 ? (60 - var3) * 240 / 15 : 120);
 					var5 = 240 - var4;
-					method_405(var1, field_320[41], field_564[field_562[this.currentWorld]], var4, 15, 17, 20, false);
-					method_405(var1, field_320[41], field_564[field_563[this.currentWorld][this.currentLevel]], var5, 50, 17, 20, false);
+					method_405(var1, field_320[41], menuText[field_562[this.currentWorld]], var4, 15, 17, 20, false);
+					method_405(var1, field_320[41], menuText[field_563[this.currentWorld][this.currentLevel]], var5, 50, 17, 20, false);
 				}
 			} else if (this.field_175 > field_226 && this.field_366 <= 2) {
-				method_405(var1, field_320[41], field_564[36], 120, 230, 33, 20, false);
+				method_405(var1, field_320[41], menuText[36], 120, 230, 33, 20, false);
 			} else if (this.field_175 == field_226 && this.field_366 <= 2) {
 				++this.field_366;
 				this.method_114();
@@ -5985,7 +5978,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 		this.field_420 = 0;
 
 		for(int var1 = 0; var1 < this.field_419; ++var1) {
-			int var2 = method_361(field_320[41], field_564[field_561[this.field_262][var1 * 2 + 1]], 0);
+			int var2 = method_361(field_320[41], menuText[field_561[this.field_262][var1 * 2 + 1]], 0);
 			if ((this.field_262 != 0 || var1 != 3) && var2 > this.field_420) {
 				this.field_420 = var2;
 			}
@@ -6048,7 +6041,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 		}
 
 		if (this.field_262 == 7) {
-			field_320[41].method_13(this.field_314, field_564[this.field_223 == 5 ? 102 : 113], 120, var1 - 20, 17);
+			field_320[41].method_13(this.field_314, menuText[this.field_223 == 5 ? 102 : 113], 120, var1 - 20, 17);
 		}
 
 		if (field_222 == 7) {
@@ -6150,7 +6143,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 
 				int var11 = 0;
 				boolean var14 = false;
-				field_320[41].method_12(field_564[field_561[this.field_262][var18 * 2 + 1]]);
+				field_320[41].method_12(menuText[field_561[this.field_262][var18 * 2 + 1]]);
 				int var9;
 				int var10 = var9 = BitmapGfx.field_23;
 				int var12 = var18 == 2 && this.field_262 == 0 ? 152 : 210;
@@ -6166,7 +6159,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 				}
 
 				field_320[41].spritePalette = var8;
-				field_320[41].method_13(this.field_314, field_564[field_561[this.field_262][var18 * 2 + 1]], 120 - var9 / 2 - var11, var7 + 1, 6);
+				field_320[41].method_13(this.field_314, menuText[field_561[this.field_262][var18 * 2 + 1]], 120 - var9 / 2 - var11, var7 + 1, 6);
 				if (var14) {
 					this.field_314.setClip(0, 0, 240, 320);
 				}
@@ -6271,7 +6264,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 		var1.setColor(16554500);
 		this.field_314.drawRoundRect(4, 309, 231, 6, 2, 2);
 		field_320[41].spritePalette = 0;
-		field_320[41].method_13(this.field_314, field_564[37], 120, 293, 1);
+		field_320[41].method_13(this.field_314, menuText[37], 120, 293, 1);
 	}
 
 	// $FF: renamed from: ap () void
@@ -7117,8 +7110,8 @@ public final class class_8 extends GameCanvas implements Runnable {
 				int var6 = (var1 >> 1) % 5;
 				this.field_314.drawImage(field_318[10][8 + var6], this.field_271 + 24 - 12 + this.field_288 + var6 * 3, this.field_272 + this.field_289 + 24, 36);
 				if ((var1 >> 1 & 1) == 0 && field_334[this.field_281 - 1][this.field_282] >= 0) {
-					--this.field_288;
-					++this.field_289;
+					this.field_288--;
+					this.field_289++;
 				}
 			}
 		}
@@ -7244,22 +7237,22 @@ public final class class_8 extends GameCanvas implements Runnable {
 				if (this.method_298(var1, var2) && var4 != 10) {
 					byte var21;
 					switch (var4) {
-						case 4:
-						case 5:
-							var21 = 1;
-							break;
-						case 6:
-							var21 = 2;
-							break;
-						case 7:
-						case 8:
-							var21 = 3;
-							break;
-						case 9:
-							var21 = 4;
-							break;
-						default:
-							var21 = field_326[this.field_233 & 7];
+					case 4:
+					case 5:
+						var21 = 1;
+						break;
+					case 6:
+						var21 = 2;
+						break;
+					case 7:
+					case 8:
+						var21 = 3;
+						break;
+					case 9:
+						var21 = 4;
+						break;
+					default:
+						var21 = field_326[this.field_233 & 7];
 					}
 
 					byte var18 = var21;
@@ -7278,94 +7271,87 @@ public final class class_8 extends GameCanvas implements Runnable {
 				int var10 = this.method_324(var1, var2, this.field_230, this.field_231, true);
 				boolean var11 = false;
 				switch (var4) {
-					case 0:
-					case 3:
-					case 4:
-					case 7:
-					case 9:
-						var11 = true;
-					case 1:
-					case 2:
-					case 5:
-					case 6:
-					case 8:
-					default:
-						boolean var12 = var10 == 4;
-						int var9;
-						int var13;
-						int var14;
-						if (var11 != var12) {
-							var9 = var12 ? 3 : 2;
-							var13 = var1;
-							var14 = var2;
-						} else {
-							label160: {
-								var13 = var1 - field_325[var10];
-								var14 = var2 - field_325[8 + var10];
-								byte var22;
-								if (var12) {
-									if (this.method_298(var13, var14) && var4 != 0) {
-										var9 = 0;
-										var13 = var1;
-										var14 = var2;
-										break label160;
-									}
-
-									switch (var10) {
-										case 1:
-											var22 = 4;
-											break;
-										case 2:
-										default:
-											var22 = 0;
-											break;
-										case 3:
-											var22 = 7;
-											break;
-										case 4:
-											var22 = 9;
-									}
-								} else {
-									if (this.method_298(var13, var14) && var4 != 1) {
-										var9 = 1;
-										var13 = var1;
-										var14 = var2;
-										break label160;
-									}
-
-									switch (var10) {
-										case 1:
-											var22 = 5;
-											break;
-										case 2:
-											var22 = 6;
-											break;
-										case 3:
-											var22 = 8;
-											break;
-										default:
-											var22 = 1;
-									}
-								}
-
-								var9 = var22;
-							}
-						}
-
-						if (field_334[var13][var14] >= 0 || var6) {
-							if (var13 != var1 || var14 != var2) {
+				case 0:
+				case 3:
+				case 4:
+				case 7:
+				case 9:
+					var11 = true;
+				case 1:
+				case 2:
+				case 5:
+				case 6:
+				case 8:
+				default:
+					boolean var12 = var10 == 4;
+					int var9;
+					int var13;
+					int var14;
+					if (var11 != var12) {
+						var9 = var12 ? 3 : 2;
+						var13 = var1;
+						var14 = var2;
+					} else {
+						var13 = var1 - field_325[var10];
+						var14 = var2 - field_325[8 + var10];
+						if (var12) {
+							if (this.method_298(var13, var14) && var4 != 0) {
 								var9 = 0;
+								var13 = var1;
+								var14 = var2;
+							} else {
+								switch (var10) {
+								case 1:
+									var9 = 4;
+									break;
+								case 2:
+								default:
+									var9 = 0;
+									break;
+								case 3:
+									var9 = 7;
+									break;
+								case 4:
+									var9 = 9;
+								}
 							}
+						} else {
+							if (this.method_298(var13, var14) && var4 != 1) {
+								var9 = 1;
+								var13 = var1;
+								var14 = var2;
+							} else {
+								switch (var10) {
+								case 1:
+									var9 = 5;
+									break;
+								case 2:
+									var9 = 6;
+									break;
+								case 3:
+									var9 = 8;
+									break;
+								default:
+									var9 = 1;
+								}
+							}
+						}
+					}
 
-							var13 = var1;
-							var14 = var2;
+					if (field_334[var13][var14] >= 0 || var6) {
+						if (var13 != var1 || var14 != var2) {
+							var9 = 0;
 						}
 
-						field_334[var1][var2] = -1;
-						field_335[var13][var14] = 0;
-						field_333[var13][var14] = var3 << 10 | var9;
-						field_333[var13][var14] &= -2088961;
-						field_334[var13][var14] = 45;
+						var13 = var1;
+						var14 = var2;
+					}
+
+					field_334[var1][var2] = -1;
+					field_335[var13][var14] = 0;
+					field_333[var13][var14] = var3 << 10 | var9;
+					field_333[var13][var14] &= -2088961;
+					field_334[var13][var14] = 45;
 				}
 			}
 		}
@@ -7378,29 +7364,29 @@ public final class class_8 extends GameCanvas implements Runnable {
 			int var19 = var1;
 			int var20 = var2;
 			switch (var4) {
-				case 0:
-				case 1:
-				case 2:
-				case 3:
-				default:
-					break;
-				case 4:
-				case 5:
-					var20 = var2 + 1;
-					break;
-				case 6:
-					var19 = var1 - 1;
-					break;
-				case 7:
-				case 8:
-					var20 = var2 - 1;
-					break;
-				case 9:
-					var19 = var1 + 1;
-					break;
-				case 10:
-					var19 = -1;
-					var20 = -1;
+			case 0:
+			case 1:
+			case 2:
+			case 3:
+			default:
+				break;
+			case 4:
+			case 5:
+				var20 = var2 + 1;
+				break;
+			case 6:
+				var19 = var1 - 1;
+				break;
+			case 7:
+			case 8:
+				var20 = var2 - 1;
+				break;
+			case 9:
+				var19 = var1 + 1;
+				break;
+			case 10:
+				var19 = -1;
+				var20 = -1;
 			}
 
 			if (!this.method_298(var19, var20)) {
@@ -7688,14 +7674,14 @@ public final class class_8 extends GameCanvas implements Runnable {
 			if (canBuyItem(this.field_97) == 0) {
 				this.field_98 = -1;
 				var2 = this;
-				var3 = field_564;
+				var3 = menuText;
 				var10002 = 81;
 			} else {
 				this.field_98 = class_0.itemPrices[this.field_97];
 				this.field_556.delete(0, this.field_556.length());
 				this.field_556.append(this.field_98);
 				var2 = this;
-				var3 = field_564;
+				var3 = menuText;
 				var10002 = 90;
 			}
 
@@ -7723,24 +7709,24 @@ public final class class_8 extends GameCanvas implements Runnable {
 		this.field_554 = -1;
 		switch (canBuyItem(var1)) {
 			case -1:
-				this.field_99 = field_564[89]; //Display text if player can't afford the item
+				this.field_99 = menuText[89]; //Display text if player can't afford the item
 				return;
 			case 0:
-				this.field_99 = field_564[81]; //Display text if the player already bought the item
+				this.field_99 = menuText[81]; //Display text if the player already bought the item
 				return;
 			case 1:
 				this.collectedDiamonds = getShortFromBytes(field_330, 4) - class_0.itemPrices[this.field_97];
 				this.field_555 = null;
 				System.gc();
-				this.field_555 = field_564[110] + " " + this.collectedDiamonds + " " + field_564[109];
+				this.field_555 = menuText[110] + " " + this.collectedDiamonds + " " + menuText[109];
 				field_330[4] = (byte)(this.collectedDiamonds & 255);
 				field_330[5] = (byte)(this.collectedDiamonds >> 8 & 255);
 				field_330[8] = (byte)(4 + var1 + 1);
 				this.method_110();
 				this.field_98 = -1;
-				this.field_99 = field_564[81];
+				this.field_99 = menuText[81];
 				this.field_435 = true;
-				this.method_437(field_564[91], -1, -1, 5000, 0x41340D, 0);
+				this.method_437(menuText[91], -1, -1, 5000, 0x41340D, 0);
 			default:
 		}
 	}
@@ -7776,116 +7762,105 @@ public final class class_8 extends GameCanvas implements Runnable {
 			this.method_438(true);
 			keysPressed = 0;
 		} else {
-			label102: {
-				byte var10000;
-				label101: {
-					switch (field_222) {
-						case 1:
-							if (this.field_122 || this.field_461) {
-								keysPressed = 0;
-							}
-
-							field_224 = field_222;
-							this.method_220();
-							this.method_227();
-							break label102;
-						case 2:
-						case 7:
-						case 32:
-							this.method_228();
-						case 3:
-						case 5:
-						case 6:
-						case 8:
-						case 9:
-						case 10:
-						case 11:
-						case 13:
-						case 14:
-						case 16:
-						case 18:
-						case 19:
-						case 21:
-						case 22:
-						case 23:
-						case 28:
-						case 29:
-						default:
-							break label102;
-						case 4:
-							this.method_228();
-							break label102;
-						case 12:
-							this.method_226();
-							break label102;
-						case 15:
-							this.method_424();
-							break label102;
-						case 17:
-						case 20:
-							if (!isKeyPressed(SKEY_NUM5|SKEY_CENTER_ALT|SKEY_CENTER|SKEY_LSH)) {
-								break label102;
-							}
-
-							if (this.field_223 == 5) {
-								this.method_253();
-								this.method_95();
-							}
-
-							this.field_225 = true;
-							break;
-						case 24:
-							this.method_223();
-							break label102;
-						case 25:
-							this.method_212();
-							break label102;
-						case 26:
-							this.method_216();
-							break label102;
-						case 27:
-							field_224 = field_222;
-							this.method_220();
-							this.method_221();
-							break label102;
-						case 30:
-							if (!isKeyPressed(SKEY_NUM5|SKEY_CENTER)) {
-								break label102;
-							}
-
-							field_222 = 4;
-							if (this.field_262 == -1) {
-								this.field_223 = 0;
-								this.method_63(0);
-							} else {
-								this.field_223 = 2;
-							}
-
-							var10000 = 0;
-							break label101;
-						case 31:
-							if (isKeyPressed(SKEY_RSH)) {
-								this.field_266 = 0;
-								this.field_265 = 8;
-								field_222 = 9;
-								this.method_63(-1);
-							} else if (isKeyPressed(SKEY_NUM5|SKEY_CENTER_ALT|SKEY_CENTER|SKEY_LSH)) {
-								this.method_218();
-							}
-							break;
-						case 33:
-							this.method_219();
-							break label102;
-						case 34:
-							this.method_225();
-							break label102;
-					}
-
-					var10000 = 0;
+			switch (field_222) {
+			case 1:
+				if (this.field_122 || this.field_461) {
+					keysPressed = 0;
 				}
 
-				keysPressed = var10000;
+				field_224 = field_222;
+				this.method_220();
+				this.method_227();
+				break;
+			case 2:
+			case 7:
+			case 32:
+				this.method_228();
+			case 3:
+			case 5:
+			case 6:
+			case 8:
+			case 9:
+			case 10:
+			case 11:
+			case 13:
+			case 14:
+			case 16:
+			case 18:
+			case 19:
+			case 21:
+			case 22:
+			case 23:
+			case 28:
+			case 29:
+			default:
+				break;
+			case 4:
+				this.method_228();
+				break;
+			case 12:
+				this.method_226();
+				break;
+			case 15:
+				this.method_424();
+				break;
+			case 17:
+			case 20:
+				if (isKeyPressed(SKEY_NUM5|SKEY_CENTER_ALT|SKEY_CENTER|SKEY_LSH)) {
+					if (this.field_223 == 5) {
+						this.method_253();
+						this.method_95();
+					}
+
+					this.field_225 = true;
+					break;
+				}
+				break;
+			case 24:
+				this.method_223();
+				break;
+			case 25:
+				this.method_212();
+				break;
+			case 26:
+				this.method_216();
+				break;
+			case 27:
+				field_224 = field_222;
+				this.method_220();
+				this.method_221();
+				break;
+			case 30:
+				if (isKeyPressed(SKEY_NUM5|SKEY_CENTER)) {
+					field_222 = 4;
+					if (this.field_262 == -1) {
+						this.field_223 = 0;
+						this.method_63(0);
+					} else {
+						this.field_223 = 2;
+					}
+
+					keysPressed = 0;
+				}
+				break;
+			case 31:
+				if (isKeyPressed(SKEY_RSH)) {
+					this.field_266 = 0;
+					this.field_265 = 8;
+					field_222 = 9;
+					this.method_63(-1);
+				} else if (isKeyPressed(SKEY_NUM5|SKEY_CENTER_ALT|SKEY_CENTER|SKEY_LSH)) {
+					this.method_218();
+				}
+				break;
+			case 33:
+				this.method_219();
+				break;
+			case 34:
+				this.method_225();
+				break;
 			}
+
 
 			if (!this.noKeysPressed) {
 				if ((this.field_233 & 7) != 0) {
@@ -9426,7 +9401,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 						 n = 0;
 					}
 					class_8.field_323[0].field_73.method_7(a2, 12, 0, 7 + n, 243, 0, 0, 0);
-					a.method_14(a2, class_8.field_564[44], 120, 243, 17);
+					a.method_14(a2, class_8.menuText[44], 120, 243, 17);
 					a.method_14(a2, String.valueOf(this.field_248), 120, 255, 17);
 					if (this.field_247 == 0) {
 						 if ((this.field_445 & 0x10) != 0x0) {
@@ -9445,7 +9420,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 						 n2 = 0;
 					}
 					class_8.field_323[0].field_73.method_7(a2, 10, 0, 7 + n2, 189, 0, 0, 0);
-					a.method_14(a2, class_8.field_564[43], 120, 185, 17);
+					a.method_14(a2, class_8.menuText[43], 120, 185, 17);
 					a.method_14(a2, String.valueOf(this.field_247), 120, 197, 17);
 					if (this.collectedRedDiamonds == this.levelRedDiamondCount) {
 						 if ((this.field_445 & 0x8) != 0x0) {
@@ -9464,7 +9439,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 						 n3 = 0;
 					}
 					class_8.field_320[method_149(3)].method_8(a2, 0, 7 + n3, 127, 0, 0, 0);
-					a.method_14(a2, class_8.field_564[114], 120, 127, 17);
+					a.method_14(a2, class_8.menuText[114], 120, 127, 17);
 					a.method_14(a2, this.collectedRedDiamonds + "/" + this.levelRedDiamondCount, 120, 139, 17);
 					if (this.collectedDiamonds == this.levelDiamondCount) {
 						 if ((this.field_445 & 0x4) != 0x0) {
@@ -9483,7 +9458,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 						 n4 = 0;
 					}
 					class_8.field_320[method_149(2)].method_8(a2, 0, 7 + n4, 69, 0, 0, 0);
-					a.method_14(a2, class_8.field_564[109], 120, 69, 17);
+					a.method_14(a2, class_8.menuText[109], 120, 69, 17);
 					int az;
 					if (am != 1 || (az = class_8.field_226 >> 1) > this.collectedDiamonds) {
 						 az = this.collectedDiamonds;
@@ -9508,12 +9483,12 @@ public final class class_8 extends GameCanvas implements Runnable {
 						 }
 						 n5 = 0;
 					}
-					a.method_13(a2, class_8.field_564[class_8.field_563[this.currentWorld][this.currentLevel]], 120 + n6, 10, 17);
-					a.method_13(a2, class_8.field_564[41], 120 + n5, 25, 17);
+					a.method_13(a2, class_8.menuText[class_8.field_563[this.currentWorld][this.currentLevel]], 120 + n6, 10, 17);
+					a.method_13(a2, class_8.menuText[41], 120 + n5, 25, 17);
 					break;
 			  }
 		 }
-		 class_8.field_320[41].method_13(this.field_314, class_8.field_564[(this.field_223 == 5) ? 98 : 53], 5, 318, 36);
+		 class_8.field_320[41].method_13(this.field_314, class_8.menuText[(this.field_223 == 5) ? 98 : 53], 5, 318, 36);
 	}
 
 	// $FF: renamed from: a (byte[], int) int
@@ -13064,7 +13039,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 					this.field_339 = this.field_230 * 24 - 108;
 					this.field_340 = this.field_231 * 24 - 108;
 					this.field_341 = 5;
-					this.field_462 = field_564[field_343[field_345]];
+					this.field_462 = menuText[field_343[field_345]];
 					field_320[41].method_6(this.field_462);
 					this.field_463 = 80;
 					return;
@@ -16301,11 +16276,11 @@ public final class class_8 extends GameCanvas implements Runnable {
 
 	// $FF: renamed from: cj () void
 	private void method_365() {
-		if ((field_331[0] & 1) == 0) {
+		if ((preferenceData[0] & 1) == 0) {
 			this.field_473 = true;
-			byte[] var10000 = field_331;
+			byte[] var10000 = preferenceData;
 			var10000[0] = (byte)(var10000[0] | 1);
-			this.method_112();
+			this.initPreferenceRecord();
 		}
 
 	}
@@ -18620,7 +18595,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 		this.field_314.setColor(var1);
 		this.field_314.fillRect(0, 0, 240, 320);
 		field_320[var5].method_8(this.field_314, 0, 120, 0, 0, 0, 0);
-		field_320[41].method_13(this.field_314, field_564[var4], 8, 6, 20);
+		field_320[41].method_13(this.field_314, menuText[var4], 8, 6, 20);
 		field_514 = field_513.getGraphics();
 		field_514.setColor(var1);
 		field_514.fillRect(0, 0, 186, 226);
@@ -18631,7 +18606,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 		this.field_314.drawRoundRect(2, 282, 236, 22, 8, 8);
 		this.method_176();
 		this.method_177();
-		field_320[41].method_13(this.field_314, field_564[96], 222, 311, 10);
+		field_320[41].method_13(this.field_314, menuText[96], 222, 311, 10);
 		if (field_320[17] != null) {
 			field_320[17].method_8(this.field_314, 12, 11, 284, 0, 0, 0);
 			field_320[17].method_8(this.field_314, 10, 155, 285, 0, 0, 0);
@@ -19151,7 +19126,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 				this.field_314.fillRect(0, 0, 240, 15);
 				this.field_314.setColor(0xFFFFFF);
 				this.field_314.drawLine(0, 15, 240, 15);
-				field_320[41].method_13(this.field_314, field_564[72], 120, 0, 17);
+				field_320[41].method_13(this.field_314, menuText[72], 120, 0, 17);
 				method_429(this.field_314, 10, 35, 220, 90, 0x41340D, 0);
 				if (this.field_98 != -1) {
 					field_320[41].method_14(this.field_314, method_441(this.field_99, 200), 120, 280, 17);
@@ -19181,7 +19156,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 			byte var10003;
 			short var10004;
 			if (this.field_98 != -1) {
-				String var1 = field_564[74] + " " + this.field_556.toString() + "\n" + field_564[42];
+				String var1 = menuText[74] + " " + this.field_556.toString() + "\n" + menuText[42];
 				field_320[41].field_26 = 0;
 				var10000 = field_320[41];
 				var10001 = this.field_314;
@@ -19202,7 +19177,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 			for(int var2 = 0; var2 < 4; ++var2) {
 				var10 = 43 + 20 * var2;
 				field_320[46].method_8(this.field_314, 0 + var2, 27, var10, 0, 0, 0);
-				field_320[41].method_13(this.field_314, field_564[85 + var2], 53, var10, 0);
+				field_320[41].method_13(this.field_314, menuText[85 + var2], 53, var10, 0);
 			}
 
 			Image[] var12;
@@ -19542,7 +19517,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 		field_325 = new byte[]{0, 0, -1, 0, 1, 0, 0, 0, 0, 1, 0, -1, 0, 0, 0, 0};
 		field_326 = new byte[]{0, 3, 4, 1, 2, 5, 6};
 		field_330 = null;
-		field_331 = null;
+		preferenceData = null;
 		field_355 = null;
 		field_356 = null;
 		field_367 = false;

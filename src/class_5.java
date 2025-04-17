@@ -46,7 +46,7 @@ public final class class_5 {
       field_59 = class_8.loadGfxFile("/tips.f", 0);
       if (field_62 == null) {
          boolean var0 = false;
-         field_62 = class_8.method_77("/lang_IGA.f", 15);
+         field_62 = class_8.loadStringsFromFile("/lang_IGA.f", 15);
          field_62[7] = class_8.method_441(field_62[7], 170);
          field_62[8] = class_8.method_441(field_62[8], 170);
          field_62[9] = class_8.method_441(field_62[9], 170);

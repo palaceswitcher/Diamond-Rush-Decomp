@@ -218,7 +218,7 @@ public final class class_3 {
             case 27:
                class_8.field_320[41].field_26 = 2;
                int var21 = var2[var3 + 6] & 255;
-               class_8.method_430(var1, 6, 229, 226, 35, 73, 1, class_8.method_361(class_8.field_320[41], class_8.field_564[70], 0) + 10, 15);
+               class_8.method_430(var1, 6, 229, 226, 35, 73, 1, class_8.method_361(class_8.field_320[41], class_8.menuText[70], 0) + 10, 15);
                String var22 = null;
 
                try {
@@ -228,7 +228,7 @@ public final class class_3 {
 
                this.method_33(var22, 196);
                this.method_32(var1, var22, 22, 231, var21, var21 + 2);
-               class_8.field_320[41].method_13(var1, class_8.field_564[70], 19, 211, 20);
+               class_8.field_320[41].method_13(var1, class_8.menuText[70], 19, 211, 20);
                if (class_8.field_227 / 2 % 4 < 2) {
                   var1.drawImage(class_8.field_319[0][9], 223, 220, 17);
                   return;
@@ -327,7 +327,7 @@ public final class class_3 {
                var1.setColor(0);
                var1.fillRect(0, 0, 240, 42);
                var1.fillRect(0, 278, 240, 42);
-               class_8.field_320[41].method_13(var1, class_8.field_564[53], 5, 315, 36);
+               class_8.field_320[41].method_13(var1, class_8.menuText[53], 5, 315, 36);
          }
 
          if (this.field_45[0] == 0) {
