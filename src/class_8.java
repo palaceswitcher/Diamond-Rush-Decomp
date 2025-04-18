@@ -177,7 +177,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 	// $FF: renamed from: h byte
 	public byte field_164;
 	// $FF: renamed from: k boolean
-	public static boolean field_165;
+	public static boolean vibrationEnabled;
 	// $FF: renamed from: U int
 	public int field_166;
 	// $FF: renamed from: V int
@@ -1151,7 +1151,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 		field_319 = new Image[2][];
 		field_358 = var1;
 		this.field_353 = new class_7();
-		field_165 = true;
+		vibrationEnabled = true;
 		((Canvas)this).setFullScreenMode(true);
 		this.method_96();
 		this.field_357 = new Thread(this);
@@ -2122,11 +2122,11 @@ public final class class_8 extends GameCanvas implements Runnable {
 					((Throwable)var8).printStackTrace();
 				}
 
-				strStartInd += strCharInd + 1;
-				strCharInd = 0;
+				strStartInd += strCharInd + 1; //Move to next raw string
+				strCharInd = 0; //Start at beginning of next raw string
 				strNum++;
 			} else {
-				strCharInd++;
+				strCharInd++; //Keep going through characters until the string terminator is found
 			}
 		}
 
@@ -2141,7 +2141,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 				var1 -= 5;
 			}
 
-			++this.field_266;
+			this.field_266++;
 			switch (var1) {
 				case 0:
 					if (this.field_379) {
@@ -2412,64 +2412,64 @@ public final class class_8 extends GameCanvas implements Runnable {
 		field_320[41].spritePalette = 0;
 		this.field_261 = true;
 		switch (this.field_262) {
-			case 0:
-				this.method_89();
-				return;
-			case 1:
-				this.method_85();
-				return;
-			case 2:
-				this.method_87();
-				return;
-			case 3:
-				this.method_88();
-				return;
-			case 5:
-				this.method_84();
-			case 4:
-			case 6:
-			default:
-				return;
-			case 7:
-				this.method_83();
+		case 0:
+			this.method_89();
+			return;
+		case 1:
+			this.method_85();
+			return;
+		case 2:
+			this.method_87();
+			return;
+		case 3:
+			this.method_88();
+			return;
+		case 5:
+			this.method_84();
+		case 4:
+		case 6:
+		default:
+			return;
+		case 7:
+			this.method_83();
 		}
 	}
 
 	// $FF: renamed from: q () void
 	private void method_83() {
 		switch (this.method_81()) {
-			case 0:
-				if (this.field_263 == 0) {
-					field_222 = 4;
-				}
+		case 0:
+			if (this.field_263 == 0) {
+				field_222 = 4;
+			}
 
-				this.method_63(this.field_263);
-				break;
+			this.method_63(this.field_263);
+			break;
+		case 1:
+			switch (this.field_223) {
 			case 1:
-				switch (this.field_223) {
-					case 1:
-						this.method_86();
-					case 2:
-					default:
-						break;
-					case 3:
-						field_222 = 15;
-						this.field_375 = true;
-						this.field_373 = true;
-						this.method_408();
-						break;
-					case 4:
-						this.method_95();
-						field_222 = 9;
-						this.field_265 = 8;
-						this.method_63(-1);
-						this.field_266 = 0;
-						break;
-					case 5:
-						field_222 = 3;
-						this.field_353.method_55();
-						field_358.notifyDestroyed();
-				}
+				this.method_86();
+			case 2:
+			default:
+				break;
+			case 3:
+				field_222 = 15;
+				this.field_375 = true;
+				this.field_373 = true;
+				this.method_408();
+				break;
+			case 4:
+				this.method_95();
+				field_222 = 9;
+				this.field_265 = 8;
+				this.method_63(-1);
+				this.field_266 = 0;
+				break;
+			case 5:
+				field_222 = 3;
+				this.field_353.method_55();
+				field_358.notifyDestroyed();
+			}
 		}
 
 		this.field_223 = -1;
@@ -2477,43 +2477,30 @@ public final class class_8 extends GameCanvas implements Runnable {
 
 	// $FF: renamed from: r () void
 	private void method_84() {
-		byte var10000;
-		byte var10001;
-		byte var10002;
 		switch (this.method_81()) {
-			case 0:
-				class_7.field_85 = !class_7.field_85;
-				byte var1;
-				if (class_7.field_85) {
-					var1 = 32;
-					this.method_433(0);
-				} else {
-					this.field_353.method_59();
-					this.field_353.method_59();
-					var1 = 33;
-				}
-
-				var10000 = 5;
-				var10001 = 0;
-				var10002 = var1;
-				break;
-			case 1:
-				field_165 = !field_165;
-				byte var2 = 51;
-				if (field_165) {
-					var2 = 50;
-					vibrate(200);
-				}
-
-				var10000 = 5;
-				var10001 = 1;
-				var10002 = var2;
-				break;
-			default:
-				return;
+		case 0:
+			class_7.soundEnabled = !class_7.soundEnabled;
+			if (class_7.soundEnabled) {
+				this.method_433(0);
+				method_432(5, 0, (short) 32);
+			} else {
+				this.field_353.method_59();
+				this.field_353.method_59();
+				method_432(5, 0, (short) 33);
+			}
+			break;
+		case 1:
+			vibrationEnabled = !vibrationEnabled;
+			if (vibrationEnabled) {
+				vibrate(200);
+				method_432(5, 1, (short) 50);
+			} else {
+				method_432(5, 1, (short) 51);
+			}
+			break;
+		default:
+			return;
 		}
-
-		method_432(var10000, var10001, var10002);
 	}
 
 	// $FF: renamed from: s () void
@@ -2643,11 +2630,11 @@ public final class class_8 extends GameCanvas implements Runnable {
 			byte var10000;
 			switch (this.method_81()) {
 				case 0:
-					class_7.field_85 = true;
+					class_7.soundEnabled = true;
 					var10000 = 32;
 					break;
 				case 1:
-					class_7.field_85 = false;
+					class_7.soundEnabled = false;
 					var10000 = 33;
 					break;
 				default:
@@ -4077,8 +4064,8 @@ public final class class_8 extends GameCanvas implements Runnable {
 				int var4 = field_320[41].field_26;
 				field_320[41].field_26 = 3;
 				String var6 = method_441(menuText[40] + "\n" + menuText[97], 220);
-				field_320[41].method_12(var6);
-				method_429(this.field_314, (240 - BitmapGfx.field_23 >> 1) - 3, (320 - BitmapGfx.field_24 >> 1) - 3, BitmapGfx.field_23 + 6, BitmapGfx.field_24 + 6, 7096587, 0);
+				field_320[41].updateDrawnTextSize(var6);
+				method_429(this.field_314, (240 - BitmapGfx.drawnTextWidth >> 1) - 3, (320 - BitmapGfx.drawnTextHeight >> 1) - 3, BitmapGfx.drawnTextWidth + 6, BitmapGfx.drawnTextHeight + 6, 7096587, 0);
 				field_320[41].method_14(this.field_314, var6, 120, 160, 3);
 				field_320[41].field_26 = var4;
 		}
@@ -4168,11 +4155,11 @@ public final class class_8 extends GameCanvas implements Runnable {
 				int var10 = field_320[41].field_26;
 				field_320[41].field_26 = 1;
 				String var3 = method_441(this.field_106 + "\n" + this.field_107, 220);
-				field_320[41].method_12(var3);
-				int var4 = (240 - BitmapGfx.field_23 >> 1) - 3;
-				int var5 = 250 - (BitmapGfx.field_24 >> 1) - 3;
-				int var6 = BitmapGfx.field_23 + 6;
-				int var7 = BitmapGfx.field_24 + 6;
+				field_320[41].updateDrawnTextSize(var3);
+				int var4 = (240 - BitmapGfx.drawnTextWidth >> 1) - 3;
+				int var5 = 250 - (BitmapGfx.drawnTextHeight >> 1) - 3;
+				int var6 = BitmapGfx.drawnTextWidth + 6;
+				int var7 = BitmapGfx.drawnTextHeight + 6;
 				this.field_314.setClip(var4, var5, var6, var7);
 				method_429(this.field_314, var4, var5, var6, var7, 7096587, 0);
 				field_320[41].method_14(this.field_314, var3, 120, 250, 3);
@@ -6023,8 +6010,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 			this.method_174();
 		}
 
-		int var1;
-		var1 = (var1 = 320 - (this.field_419 * 15 + 1 + 2)) + (!this.field_432 && this.field_262 == 0 ? 15 : 0);
+		int var1 = (var1 = 320 - (this.field_419 * 15 + 1 + 2)) + (!this.field_432 && this.field_262 == 0 ? 15 : 0);
 		int var2 = 320;
 		this.field_314.setClip(0, 0, 240, 320);
 		if (field_222 == 2 && field_429 && field_430) {
@@ -6045,34 +6031,19 @@ public final class class_8 extends GameCanvas implements Runnable {
 		}
 
 		if (field_222 == 7) {
-			Graphics var10000;
-			byte var10001;
-			int var10002;
-			short var10003;
-			short var10004;
 			if (this.field_427 != -1 && !field_429) {
 				int var16 = var1 + this.field_427 * 15;
 				this.field_314.setColor(0);
-				var10000 = this.field_314;
-				var10001 = 0;
-				var10002 = var16;
-				var10003 = 240;
-				var10004 = 16;
+				this.field_314.fillRect(0, var16, 240, 16);
 			} else {
 				this.field_314.setColor(0);
-				var10000 = this.field_314;
-				var10001 = 0;
-				var10002 = 0;
-				var10003 = 240;
-				var10004 = 320;
+				this.field_314.fillRect(0, 0, 240, 320);
 			}
-
-			var10000.fillRect(var10001, var10002, var10003, var10004);
 		}
 
 		long var17 = System.currentTimeMillis();
 		if (this.field_425 >= 0 && var17 - this.field_426 > 100L) {
-			++this.field_425;
+			this.field_425++;
 			this.field_426 = var17;
 		}
 
@@ -6086,67 +6057,40 @@ public final class class_8 extends GameCanvas implements Runnable {
 			this.method_173(var1, var2);
 		}
 
-		for(int var18 = 0; var18 < this.field_419; ++var18) {
-			if ((this.field_427 == -1 || var18 == this.field_427 || var18 == this.field_264 || field_429) && (this.field_262 != 0 || var18 != 1 || this.field_432)) {
+		for(int i = 0; i < this.field_419; i++) {
+			if ((this.field_427 == -1 || i == this.field_427 || i == this.field_264 || field_429) && (this.field_262 != 0 || i != 1 || this.field_432)) {
 				int var19;
-				int var7 = (var19 = var1 + var18 * 15) + 7;
-				if (this.field_262 == 0 && var18 > 1 && !this.field_432) {
+				int var7 = (var19 = var1 + i * 15) + 7;
+				if (this.field_262 == 0 && i > 1 && !this.field_432) {
 					var19 -= 15;
 					var7 -= 15;
 				}
 
 				byte var8 = 0;
-				if (var18 == 2 && this.field_262 == 0) {
+				if (i == 2 && this.field_262 == 0) {
 					var8 = 1;
 				}
 
-				label208: {
-					Graphics var24;
-					int var27;
-					int var29;
-					short var30;
-					byte var31;
-					label296: {
-						if (this.field_174 == 2 && var18 == 4 && this.field_262 == 1) {
-							var8 = 0;
-							if (var18 != this.field_264) {
-								this.field_314.setColor(13421772);
-								var24 = this.field_314;
-								var27 = 0;
-								var29 = var7 - 7 + 1;
-								var30 = 240;
-								var31 = 14;
-								break label296;
-							}
-
-							var24 = this.field_314;
-							var27 = 6710886;
-						} else {
-							if (var18 != this.field_264) {
-								break label208;
-							}
-
-							var24 = this.field_314;
-							var27 = 13540096;
-						}
-
-						var24.setColor(var27);
-						var24 = this.field_314;
-						var27 = 0;
-						var29 = var7 - 7;
-						var30 = 240;
-						var31 = 16;
+				if (this.field_174 == 2 && i == 4 && this.field_262 == 1) {
+					var8 = 0;
+					if (i != this.field_264) {
+						this.field_314.setColor(0xCCCCCC);
+						this.field_314.fillRect(0, var7 - 7 + 1, 240, 14);
+					} else {
+						this.field_314.setColor(0x666666);
+						this.field_314.fillRect(0, var7 - 7, 240, 16);
 					}
-
-					var24.fillRect(var27, var29, var30, var31);
+				} else if (i == this.field_264) {
+					this.field_314.setColor(0xCE9B00);
+					this.field_314.fillRect(0, var7 - 7, 240, 16);
 				}
 
 				int var11 = 0;
 				boolean var14 = false;
-				field_320[41].method_12(menuText[field_561[this.field_262][var18 * 2 + 1]]);
+				field_320[41].updateDrawnTextSize(menuText[field_561[this.field_262][i * 2 + 1]]);
 				int var9;
-				int var10 = var9 = BitmapGfx.field_23;
-				int var12 = var18 == 2 && this.field_262 == 0 ? 152 : 210;
+				int var10 = var9 = BitmapGfx.drawnTextWidth;
+				int var12 = i == 2 && this.field_262 == 0 ? 152 : 210;
 				if (var9 > var12) {
 					var14 = true;
 					var9 = var12;
@@ -6154,23 +6098,23 @@ public final class class_8 extends GameCanvas implements Runnable {
 
 				int var13 = 120 - var9 / 2;
 				if (var14) {
-					var11 = var18 == this.field_264 ? this.field_422 : 0;
+					var11 = i == this.field_264 ? this.field_422 : 0;
 					this.field_314.setClip(var13, var19, var9, 15);
 				}
 
 				field_320[41].spritePalette = var8;
-				field_320[41].method_13(this.field_314, menuText[field_561[this.field_262][var18 * 2 + 1]], 120 - var9 / 2 - var11, var7 + 1, 6);
+				field_320[41].method_13(this.field_314, menuText[field_561[this.field_262][i * 2 + 1]], 120 - var9 / 2 - var11, var7 + 1, 6);
 				if (var14) {
 					this.field_314.setClip(0, 0, 240, 320);
 				}
 
-				if (var18 == this.field_264) {
+				if (i == this.field_264) {
 					this.field_314.setColor(0xFFFFFF);
 					field_320[18].method_8(this.field_314, 2, 120 - var9 / 2 - 8, var7, 0, 0, 10);
 					field_320[18].method_8(this.field_314, 2, 120 + var9 / 2 + 8, var7, 0, 0, 6);
 				}
 
-				if (var18 == this.field_264 && var14 && this.field_418 % 2 == 0) {
+				if (i == this.field_264 && var14 && this.field_418 % 2 == 0) {
 					this.field_422 += this.field_421;
 					if (this.field_422 < -5 || this.field_422 + var12 - 5 > var10) {
 						this.field_421 = -this.field_421;
@@ -6194,7 +6138,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 
 		var25.field_424 = var28;
 		if (this.field_424 == 0 && this.field_423 + 1 < this.field_419) {
-			++this.field_423;
+			this.field_423++;
 		}
 
 		this.field_314.setClip(0, 0, 240, 320);
@@ -10160,7 +10104,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 	 * @param duration Vibration duration in milliseconds
 	 */
 	private static void vibrate(int duration) {
-		if (field_165) {
+		if (vibrationEnabled) {
 			field_358.field_576.vibrate(duration);
 		}
 
@@ -16214,18 +16158,19 @@ public final class class_8 extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: a (a, java.lang.String, int) int
-	public static final int method_361(BitmapGfx var0, String var1, int var2) {
-		int var3;
-		if (var2 != -1 && (var3 = var1.indexOf(10)) != -1) {
-			var1 = var1.substring(0, var3);
+	public static final int method_361(BitmapGfx gfx, String str, int var2) {
+		int var3 = str.indexOf('\n');
+		if (var2 != -1 && var3 != -1) {
+			str = str.substring(0, var3);
 		}
 
-		if ((var3 = var1.indexOf(125)) != -1) {
-			var1 = var1.substring(0, var3);
+		var3 = str.indexOf('}');
+		if (var3 != -1) {
+			str = str.substring(0, var3);
 		}
 
-		var0.method_12(var1);
-		return BitmapGfx.field_23;
+		gfx.updateDrawnTextSize(str);
+		return BitmapGfx.drawnTextWidth;
 	}
 
 	// $FF: renamed from: a (a) int
@@ -17950,8 +17895,8 @@ public final class class_8 extends GameCanvas implements Runnable {
 			field_512.append(var4);
 			field_512.append('/');
 			field_512.append(var5);
-			field_320[41].method_12(field_512.toString());
-			int var7 = BitmapGfx.field_23 + 6 + 14;
+			field_320[41].updateDrawnTextSize(field_512.toString());
+			int var7 = BitmapGfx.drawnTextWidth + 6 + 14;
 			int var9 = 37 + this.field_528 * 13 + 6;
 			int var10 = 73 + this.field_529 * 13 + 6;
 			int var11 = var9 - (var7 >> 1) + 0;
@@ -19410,9 +19355,9 @@ public final class class_8 extends GameCanvas implements Runnable {
 		if (field_567 > 0) {
 			int var2 = var1.field_26;
 			var1.field_26 = 3;
-			var1.method_12(this.field_569);
-			int var3 = BitmapGfx.field_24;
-			int var4 = BitmapGfx.field_23;
+			var1.updateDrawnTextSize(this.field_569);
+			int var3 = BitmapGfx.drawnTextHeight;
+			int var4 = BitmapGfx.drawnTextWidth;
 			if (this.field_570 == -1) {
 				this.field_570 = 240 - var4 >> 1;
 			}

@@ -22,7 +22,7 @@ public final class class_7 implements Runnable, PlayerListener {
    // $FF: renamed from: a javax.microedition.media.Player[]
    public static Player[] midiPlayers;
    // $FF: renamed from: a boolean
-   public static boolean field_85;
+   public static boolean soundEnabled;
    // $FF: renamed from: b boolean
    public static boolean field_86;
    // $FF: renamed from: c boolean
@@ -232,7 +232,7 @@ public final class class_7 implements Runnable, PlayerListener {
 
    // $FF: renamed from: b (int) void
    public final synchronized void method_58(int var1) {
-      if (field_85) {
+      if (soundEnabled) {
          if (field_78 != -1) {
             if (field_80 >= method_56(var1) && (field_80 != method_56(var1) || Math.abs(System.currentTimeMillis() - this.field_83) <= 50L)) {
                return;

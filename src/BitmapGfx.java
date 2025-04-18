@@ -50,9 +50,9 @@ public final class BitmapGfx {
 	// $FF: renamed from: a javax.microedition.lcdui.Image[][]
 	public Image[][] sprites;
 	// $FF: renamed from: c int
-	public static int field_23;
+	public static int drawnTextWidth;
 	// $FF: renamed from: d int
-	public static int field_24;
+	public static int drawnTextHeight;
 	// $FF: renamed from: h byte[]
 	public static byte[] field_25;
 	// $FF: renamed from: e int
@@ -528,76 +528,67 @@ public final class BitmapGfx {
 	}
 
 	// $FF: renamed from: a (java.lang.String) void
-	public final void method_12(String var1) {
-		field_23 = 0;
-		field_24 = this.spriteDims[1] & 0xFF;
-		int var2 = 0;
-		int var3 = field_27 >= 0 ? field_27 : 0;
-		int var4 = field_28 >= 0 ? field_28 : var1.length();
+	/**
+	 * Updates the dimensions of a drawn text string for the graphics file
+	 * @param str
+	 */
+	public final void updateDrawnTextSize(String str) {
+		drawnTextWidth = 0;
+		drawnTextHeight = this.spriteDims[1] & 0xFF;
+		int textPixelWidth = 0; //Width of the rendered text
+		int strStart = field_27 >= 0 ? field_27 : 0;
+		int strLen = field_28 >= 0 ? field_28 : str.length();
 
-		for(int i = var3; i < var4; i++) {
-			int var10;
-			int var11;
-			label69: {
-				char var6;
-				if ((var6 = var1.charAt(i)) > ' ') {
-					var10 = field_25[var6] & 0xFF;
-				} else {
-					if (var6 == ' ') {
-						var10 = var2;
-						var11 = this.spriteDims[0] & 0xFF;
-						break label69;
-					}
-
-					if (var6 == '\n') {
-						if (var2 > field_23) {
-							field_23 = var2;
-						}
-
-						var2 = 0;
-						field_24 += this.field_26 + (this.spriteDims[1] & 0xFF);
-						continue;
-					}
-
-					if (var6 == 1) {
-						i++;
-						continue;
-					}
-
-					if (var6 != 2) {
-						continue;
-					}
-
-					++i;
-					var10 = var1.charAt(i);
+		for(int i = strStart; i < strLen; i++) {
+			int charSubsprite;
+			char var6 = str.charAt(i);
+			if (var6 > ' ') {
+				charSubsprite = field_25[var6] & 0xFF;
+			} else {
+				if (var6 == ' ') {
+					textPixelWidth += (this.spriteDims[0] & 0xFF) + this.spriteDefs[1];
+					continue;
 				}
 
-				var6 = (char) var10; //NOTE: CAST ADDED
-				int var10002;
-				if (var10 >= this.method_5(0)) {
-					int var7 = var6 - this.method_5(0);
-					var10 = var2;
-					var11 = this.field_9[(var7 << 2) + 2] & 0xFF;
-					var10002 = this.field_9[var7 << 2] & 0xFF;
-				} else {
-					int var9 = (this.spriteDefs[var6 << 2] & 0xFF) << 1;
-					var10 = var2;
-					var11 = this.spriteDims[var9] & 0xFF;
-					var10002 = this.spriteDefs[(var6 << 2) + 1];
+				if (var6 == '\n') {
+					if (textPixelWidth > drawnTextWidth) {
+						drawnTextWidth = textPixelWidth;
+					}
+
+					textPixelWidth = 0;
+					drawnTextHeight += this.field_26 + (this.spriteDims[1] & 0xFF);
+					continue;
 				}
 
-				var11 -= var10002;
+				if (var6 == 1) {
+					i++;
+					continue;
+				}
+
+				if (var6 != 2) {
+					continue;
+				}
+
+				i++;
+				charSubsprite = str.charAt(i);
 			}
 
-			var2 = var10 + var11 + this.spriteDefs[1];
+			var6 = (char) charSubsprite; //NOTE: CAST ADDED
+			if (charSubsprite >= this.method_5(0)) {
+				int var7 = var6 - this.method_5(0);
+				textPixelWidth += ((this.field_9[(var7 << 2) + 2] & 0xFF) - (this.field_9[var7 << 2] & 0xFF)) + this.spriteDefs[1];
+			} else {
+				int charSprite = (this.spriteDefs[var6 << 2] & 0xFF) << 1; //Get sprite number of subsprite
+				textPixelWidth += ((this.spriteDims[charSprite] & 0xFF) - (this.spriteDefs[(var6 << 2) + 1])) + this.spriteDefs[1];
+			}
 		}
 
-		if (var2 > field_23) {
-			field_23 = var2;
+		if (textPixelWidth > drawnTextWidth) {
+			drawnTextWidth = textPixelWidth;
 		}
 
-		if (field_23 > 0) {
-			field_23 -= this.spriteDefs[1];
+		if (drawnTextWidth > 0) {
+			drawnTextWidth -= this.spriteDefs[1];
 		}
 
 	}
@@ -608,19 +599,19 @@ public final class BitmapGfx {
 		if ((var5 & 43) != 0) {
 			label79: {
 				label74: {
-					this.method_12(var2);
+					this.updateDrawnTextSize(var2);
 					int var10000;
 					int var10001;
 					if ((var5 & 8) != 0) {
 						var10000 = var3;
-						var10001 = field_23;
+						var10001 = drawnTextWidth;
 					} else {
 						if ((var5 & 1) == 0) {
 							break label74;
 						}
 
 						var10000 = var3;
-						var10001 = field_23 >> 1;
+						var10001 = drawnTextWidth >> 1;
 					}
 
 					var3 = var10000 - var10001;
@@ -630,14 +621,14 @@ public final class BitmapGfx {
 				int var20;
 				if ((var5 & 32) != 0) {
 					var17 = var4;
-					var20 = field_24;
+					var20 = drawnTextHeight;
 				} else {
 					if ((var5 & 2) == 0) {
 						break label79;
 					}
 
 					var17 = var4;
-					var20 = field_24 >> 1;
+					var20 = drawnTextHeight >> 1;
 				}
 
 				var4 = var17 - var20;

@@ -115,8 +115,8 @@ public final class class_5 {
             }
 
             String var2 = var10000[var10001];
-            field_60.method_12(var2);
-            int var3 = BitmapGfx.field_23 + 2;
+            field_60.updateDrawnTextSize(var2);
+            int var3 = BitmapGfx.drawnTextWidth + 2;
             int var4 = field_60.method_6(var2);
             int var6;
             if (var1 != 0) {
@@ -165,14 +165,14 @@ public final class class_5 {
          case 3:
             var1.drawImage(field_58[field_63], 120, 15, 17);
             field_60.method_14(var1, field_62[3], 120, 160, 3);
-            field_60.method_12(field_62[3]);
-            var10000 = 160 + (BitmapGfx.field_24 >> 1) + 4;
+            field_60.updateDrawnTextSize(field_62[3]);
+            var10000 = 160 + (BitmapGfx.drawnTextHeight >> 1) + 4;
             break;
          case 4:
             field_60.method_14(var1, "\n\u0001\u0002" + field_62[6], 120, 35, 17);
             field_60.method_14(var1, field_62[7], 120, 160, 3);
-            field_60.method_12(field_62[7]);
-            var10000 = 160 + (BitmapGfx.field_24 >> 1) + 4;
+            field_60.updateDrawnTextSize(field_62[7]);
+            var10000 = 160 + (BitmapGfx.drawnTextHeight >> 1) + 4;
             break;
          default:
             var1.drawImage(field_58[field_63], 120, 240, 33);
