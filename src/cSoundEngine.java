@@ -6,7 +6,7 @@ import javax.microedition.media.PlayerListener;
 import javax.microedition.media.control.VolumeControl;
 
 // $FF: renamed from: h
-public final class class_7 implements Runnable, PlayerListener {
+public final class cSoundEngine implements Runnable, PlayerListener {
    // $FF: renamed from: a int
    public static int field_78 = -1;
    // $FF: renamed from: b int
@@ -47,7 +47,7 @@ public final class class_7 implements Runnable, PlayerListener {
       }
 
       try {
-         byte[] midiFile = new byte[class_8.getShortFromBytes(this.sndFileMetadata, trackNum * 8 + 4)]; //Get size of song's MIDI
+         byte[] midiFile = new byte[cGame.getShortFromBytes(this.sndFileMetadata, trackNum * 8 + 4)]; //Get size of song's MIDI
          this.sndFileStream.read(midiFile);
          this.midiByteStream = new ByteArrayInputStream(midiFile);
          midiPlayers[trackNum] = Manager.createPlayer(this.midiByteStream, "audio/midi");

@@ -1,5 +1,5 @@
 // $FF: renamed from: f
-public interface class_0 {
+public interface Define {
    // $FF: renamed from: a int[]
    int[] itemPrices = new int[]{150, 400, 1000, 3000};
    // $FF: renamed from: b int[]

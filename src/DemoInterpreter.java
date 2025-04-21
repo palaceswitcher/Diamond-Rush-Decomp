@@ -3,7 +3,7 @@ import java.io.InputStream;
 import javax.microedition.lcdui.Graphics;
 
 // $FF: renamed from: c
-public final class class_3 {
+public final class DemoInterpreter {
    // $FF: renamed from: a long
    public static long field_38 = 1000L;
    // $FF: renamed from: a java.lang.String
@@ -11,7 +11,7 @@ public final class class_3 {
    // $FF: renamed from: b java.lang.String
    public static String field_40 = "/demo.f";
    // $FF: renamed from: a a[]
-   public static BitmapGfx[] field_41 = null;
+   public static ASprite[] field_41 = null;
    // $FF: renamed from: a byte[][]
    public byte[][] field_42 = (byte[][])null;
    // $FF: renamed from: a int
@@ -37,13 +37,13 @@ public final class class_3 {
    // $FF: renamed from: b boolean
    public boolean field_53 = false;
    // $FF: renamed from: a i
-   public class_8 field_54 = null;
+   public cGame field_54 = null;
    // $FF: renamed from: a short[]
    public final short[] field_55 = new short[16];
    // $FF: renamed from: h int
    public int field_56;
 
-   public class_3(class_8 var1) {
+   public DemoInterpreter(cGame var1) {
       this.field_54 = var1;
    }
 
@@ -54,11 +54,11 @@ public final class class_3 {
          switch (var13 = var2[var3 + 0]) {
             case 1:
                int var45 = this.field_46;
-               short var29 = (short)class_8.getShortFromBytes(var2, var3 + 2);
-               short var32 = (short)class_8.getShortFromBytes(var2, var3 + 4);
-               short var41 = (short)class_8.getShortFromBytes(var2, var3 + 6);
-               short var35 = (short)class_8.getShortFromBytes(var2, var3 + 8);
-               short var37 = (short)class_8.getShortFromBytes(var2, var3 + 10);
+               short var29 = (short)cGame.getShortFromBytes(var2, var3 + 2);
+               short var32 = (short)cGame.getShortFromBytes(var2, var3 + 4);
+               short var41 = (short)cGame.getShortFromBytes(var2, var3 + 6);
+               short var35 = (short)cGame.getShortFromBytes(var2, var3 + 8);
+               short var37 = (short)cGame.getShortFromBytes(var2, var3 + 10);
                if (var35 == 10000) {
                   var35 = (short)this.field_54.field_203;
                }
@@ -80,7 +80,7 @@ public final class class_3 {
                   this.field_54.field_204 = (short)((var32 * var45 + var37 * (var41 - var45)) / var41);
                   var19 = this.field_54.currentLevelWidth * 24 - 240;
                   var20 = this.field_54.currenLevelHeight * 24 - 320 + 80;
-                  class_8 var10000;
+                  cGame var10000;
                   int var10001;
                   if (this.field_54.field_203 > var19) {
                      var10000 = this.field_54;
@@ -98,7 +98,7 @@ public final class class_3 {
                }
 
                label91: {
-                  class_8 var50;
+                  cGame var50;
                   int var52;
                   if (this.field_54.field_204 > var20) {
                      var50 = this.field_54;
@@ -118,7 +118,7 @@ public final class class_3 {
                this.field_54.field_201 = this.field_54.field_203;
                this.field_54.field_202 = this.field_54.field_204;
                if (this.field_54.field_201 > var19) {
-                  class_8 var51 = this.field_54;
+                  cGame var51 = this.field_54;
                   var51.field_201 -= var19;
                }
 
@@ -132,47 +132,47 @@ public final class class_3 {
                }
                break;
             case 2:
-               class_8.field_320[41].field_26 = 2;
-               short var39 = (short)class_8.getShortFromBytes(var2, var3 + 6);
+               cGame.field_320[41].field_26 = 2;
+               short var39 = (short)cGame.getShortFromBytes(var2, var3 + 6);
                short var38;
-               if ((var38 = (short)class_8.getShortFromBytes(var2, var3 + 4)) == 10000) {
+               if ((var38 = (short)cGame.getShortFromBytes(var2, var3 + 4)) == 10000) {
                   var38 = -240;
                }
 
                int var23 = var2[var3 + 8] & 255;
                int var48 = var2[var3 + 9] & 255;
-               int var24 = var23 * class_8.method_362(class_8.field_320[41]) + 4 - 2;
-               class_8.method_429(var1, var38, var39, 226, var24, 73, 0);
+               int var24 = var23 * cGame.method_362(cGame.field_320[41]) + 4 - 2;
+               cGame.method_429(var1, var38, var39, 226, var24, 73, 0);
                String var49 = null;
 
                try {
-                  var49 = new String(var2, var3 + 11, (short)class_8.getShortFromBytes(var2, var3 + 2), "ISO-8859-1");
+                  var49 = new String(var2, var3 + 11, (short)cGame.getShortFromBytes(var2, var3 + 2), "ISO-8859-1");
                } catch (Exception var26) {
                }
 
                this.method_33(var49, 222);
                this.method_32(var1, var49, var38 + 2, var39 + 2, var48, var48 + var23);
-               if (class_8.field_227 / 2 % 4 < 2) {
-                  var1.drawImage(class_8.field_319[0][9], var38 + 226 - 10, var39 + var24 - 5, 17);
+               if (cGame.field_227 / 2 % 4 < 2) {
+                  var1.drawImage(cGame.field_319[0][9], var38 + 226 - 10, var39 + var24 - 5, 17);
                }
 
                var1.setClip(0, 0, 240, 320);
                break;
             case 4:
                int var44 = this.field_46;
-               short var34 = (short)class_8.getShortFromBytes(var2, var3 + 2);
-               short var36 = (short)class_8.getShortFromBytes(var2, var3 + 4);
-               short var28 = (short)class_8.getShortFromBytes(var2, var3 + 6);
-               short var31 = (short)class_8.getShortFromBytes(var2, var3 + 6);
-               short var40 = (short)class_8.getShortFromBytes(var2, var3 + 14);
+               short var34 = (short)cGame.getShortFromBytes(var2, var3 + 2);
+               short var36 = (short)cGame.getShortFromBytes(var2, var3 + 4);
+               short var28 = (short)cGame.getShortFromBytes(var2, var3 + 6);
+               short var31 = (short)cGame.getShortFromBytes(var2, var3 + 6);
+               short var40 = (short)cGame.getShortFromBytes(var2, var3 + 14);
                if (var44 > var40) {
                   var44 = var40;
                }
 
                short var8 = (short)((var28 * var44 + var34 * (var40 - var44)) / var40);
                short var9 = (short)((var31 * var44 + var36 * (var40 - var44)) / var40);
-               short var11 = (short)class_8.getShortFromBytes(var2, var3 + 10);
-               short var12 = (short)class_8.getShortFromBytes(var2, var3 + 12);
+               short var11 = (short)cGame.getShortFromBytes(var2, var3 + 10);
+               short var12 = (short)cGame.getShortFromBytes(var2, var3 + 12);
                field_41[var11].method_8(var1, var12, var8, var9, 0, 0, 0);
                return;
             case 12:
@@ -190,11 +190,11 @@ public final class class_3 {
                return;
             case 13:
                int var42 = this.field_46;
-               short var4 = (short)class_8.getShortFromBytes(var2, var3 + 2);
-               short var5 = (short)class_8.getShortFromBytes(var2, var3 + 4);
-               short var10 = (short)class_8.getShortFromBytes(var2, var3 + 6);
-               short var6 = (short)class_8.getShortFromBytes(var2, var3 + 8);
-               short var7 = (short)class_8.getShortFromBytes(var2, var3 + 10);
+               short var4 = (short)cGame.getShortFromBytes(var2, var3 + 2);
+               short var5 = (short)cGame.getShortFromBytes(var2, var3 + 4);
+               short var10 = (short)cGame.getShortFromBytes(var2, var3 + 6);
+               short var6 = (short)cGame.getShortFromBytes(var2, var3 + 8);
+               short var7 = (short)cGame.getShortFromBytes(var2, var3 + 10);
                if (var42 > var10) {
                   var42 = var10;
                }
@@ -216,21 +216,21 @@ public final class class_3 {
                }
                break;
             case 27:
-               class_8.field_320[41].field_26 = 2;
+               cGame.field_320[41].field_26 = 2;
                int var21 = var2[var3 + 6] & 255;
-               class_8.method_430(var1, 6, 229, 226, 35, 73, 1, class_8.method_361(class_8.field_320[41], class_8.menuText[70], 0) + 10, 15);
+               cGame.method_430(var1, 6, 229, 226, 35, 73, 1, cGame.method_361(cGame.field_320[41], cGame.menuText[70], 0) + 10, 15);
                String var22 = null;
 
                try {
-                  var22 = new String(var2, var3 + 8, (short)class_8.getShortFromBytes(var2, var3 + 2), "ISO-8859-1");
+                  var22 = new String(var2, var3 + 8, (short)cGame.getShortFromBytes(var2, var3 + 2), "ISO-8859-1");
                } catch (Exception var27) {
                }
 
                this.method_33(var22, 196);
                this.method_32(var1, var22, 22, 231, var21, var21 + 2);
-               class_8.field_320[41].method_13(var1, class_8.menuText[70], 19, 211, 20);
-               if (class_8.field_227 / 2 % 4 < 2) {
-                  var1.drawImage(class_8.field_319[0][9], 223, 220, 17);
+               cGame.field_320[41].method_13(var1, cGame.menuText[70], 19, 211, 20);
+               if (cGame.field_227 / 2 % 4 < 2) {
+                  var1.drawImage(cGame.field_319[0][9], 223, 220, 17);
                   return;
                }
          }
@@ -245,7 +245,7 @@ public final class class_3 {
             String var10 = null;
 
             try {
-               var10 = new String(var1, var2 + 11, (short)class_8.getShortFromBytes(var1, var2 + 2), "ISO-8859-1");
+               var10 = new String(var1, var2 + 11, (short)cGame.getShortFromBytes(var1, var2 + 2), "ISO-8859-1");
             } catch (Exception var9) {
             }
 
@@ -272,11 +272,11 @@ public final class class_3 {
             var1[var2 + 1] = 1;
             return;
          case 27:
-            if (!class_8.field_367) {
+            if (!cGame.field_367) {
                String var4 = null;
 
                try {
-                  var4 = new String(var1, var2 + 8, (short)class_8.getShortFromBytes(var1, var2 + 2), "ISO-8859-1");
+                  var4 = new String(var1, var2 + 8, (short)cGame.getShortFromBytes(var1, var2 + 2), "ISO-8859-1");
                } catch (Exception var8) {
                }
 
@@ -301,7 +301,7 @@ public final class class_3 {
                int var2 = 2 + var1 * 4;
 
                for(int var3 = 0; var3 < var1; ++var3) {
-                  int var4 = class_8.getIntFromBytes(this.field_45, 2 + var3 * 4);
+                  int var4 = cGame.getIntFromBytes(this.field_45, 2 + var3 * 4);
                   this.method_20(this.field_45, var2);
                   var2 += var4;
                }
@@ -327,7 +327,7 @@ public final class class_3 {
                var1.setColor(0);
                var1.fillRect(0, 0, 240, 42);
                var1.fillRect(0, 278, 240, 42);
-               class_8.field_320[41].method_13(var1, class_8.menuText[53], 5, 315, 36);
+               cGame.field_320[41].method_13(var1, cGame.menuText[53], 5, 315, 36);
          }
 
          if (this.field_45[0] == 0) {
@@ -335,7 +335,7 @@ public final class class_3 {
             int var3 = 2 + var2 * 4;
 
             for(int var4 = 0; var4 < var2; ++var4) {
-               int var5 = class_8.getIntFromBytes(this.field_45, 2 + var4 * 4);
+               int var5 = cGame.getIntFromBytes(this.field_45, 2 + var4 * 4);
                this.method_19(var1, this.field_45, var3);
                var3 += var5;
             }
@@ -403,7 +403,7 @@ public final class class_3 {
          int var4 = var2 + 2 + var3 * 4;
 
          for(int var5 = 0; var5 < var3; ++var5) {
-            int var6 = class_8.getIntFromBytes(var1, var2 + 2 + var5 * 4);
+            int var6 = cGame.getIntFromBytes(var1, var2 + 2 + var5 * 4);
             this.method_24(var1, var4);
             var4 += var6;
          }
@@ -422,7 +422,7 @@ public final class class_3 {
    // $FF: renamed from: b () byte[]
    public final byte[] method_26() {
       this.field_46 = 0;
-      class_3 var10000;
+      DemoInterpreter var10000;
       byte[] var10001;
       if (this.field_42 != null && this.field_43 < this.field_42.length) {
          var10000 = this;
@@ -443,7 +443,7 @@ public final class class_3 {
          int var2 = 2 + var1 * 4;
 
          for(int var3 = 0; var3 < var1; ++var3) {
-            int var4 = class_8.getIntFromBytes(this.field_45, 2 + var3 * 4);
+            int var4 = cGame.getIntFromBytes(this.field_45, 2 + var3 * 4);
             this.method_28(this.field_45, var2);
             var2 += var4;
          }
@@ -473,15 +473,15 @@ public final class class_3 {
 
       switch (var7) {
          case 1:
-            if ((short)class_8.getShortFromBytes(var1, var2 + 8) == 10000) {
+            if ((short)cGame.getShortFromBytes(var1, var2 + 8) == 10000) {
                method_34(var1, var2 + 8, (short)this.field_54.field_203);
             }
 
-            if ((short)class_8.getShortFromBytes(var1, var2 + 10) == 10000) {
+            if ((short)cGame.getShortFromBytes(var1, var2 + 10) == 10000) {
                method_34(var1, var2 + 10, (short)this.field_54.field_204);
             }
 
-            short var22 = (short)class_8.getShortFromBytes(var1, var2 + 6);
+            short var22 = (short)cGame.getShortFromBytes(var1, var2 + 6);
             if (this.field_46 > var22) {
                var1[var2 + 1] = 1;
                return;
@@ -489,7 +489,7 @@ public final class class_3 {
             break;
          case 2:
             short var17;
-            if ((var17 = (short)class_8.getShortFromBytes(var1, var2 + 4)) == 10000) {
+            if ((var17 = (short)cGame.getShortFromBytes(var1, var2 + 4)) == 10000) {
                var17 = -226;
             }
 
@@ -514,18 +514,18 @@ public final class class_3 {
          default:
             break;
          case 4:
-            short var21 = (short)class_8.getShortFromBytes(var1, var2 + 14);
+            short var21 = (short)cGame.getShortFromBytes(var1, var2 + 14);
             if (this.field_46 > var21) {
                var1[var2 + 1] = 1;
                return;
             }
             break;
          case 5:
-            class_8.method_348((short)class_8.getShortFromBytes(var1, var2 + 2), (short)class_8.getShortFromBytes(var1, var2 + 4), var1[var2 + 6], 0);
+            cGame.method_348((short)cGame.getShortFromBytes(var1, var2 + 2), (short)cGame.getShortFromBytes(var1, var2 + 4), var1[var2 + 6], 0);
             var1[var2 + 1] = 1;
             return;
          case 6:
-            if (this.field_46 > class_8.getIntFromBytes(var1, var2 + 2)) {
+            if (this.field_46 > cGame.getIntFromBytes(var1, var2 + 2)) {
                var1[var2 + 1] = 1;
                return;
             }
@@ -533,7 +533,7 @@ public final class class_3 {
          case 8:
             return;
          case 9:
-            class_8.method_348((short)class_8.getShortFromBytes(var1, var2 + 2), (short)class_8.getShortFromBytes(var1, var2 + 4), (byte)0, (short)class_8.getShortFromBytes(var1, var2 + 6));
+            cGame.method_348((short)cGame.getShortFromBytes(var1, var2 + 2), (short)cGame.getShortFromBytes(var1, var2 + 4), (byte)0, (short)cGame.getShortFromBytes(var1, var2 + 6));
             var1[var2 + 1] = 1;
             return;
          case 10:
@@ -549,13 +549,13 @@ public final class class_3 {
             this.field_54.method_285();
             return;
          case 11:
-            this.field_51 = (short)class_8.getShortFromBytes(var1, var2 + 4);
-            this.field_50 = (short)class_8.getShortFromBytes(var1, var2 + 2);
+            this.field_51 = (short)cGame.getShortFromBytes(var1, var2 + 4);
+            this.field_50 = (short)cGame.getShortFromBytes(var1, var2 + 2);
             var1[var2 + 1] = 1;
             return;
          case 12:
-            short var16 = (short)class_8.getShortFromBytes(var1, var2 + 2);
-            short var20 = (short)class_8.getShortFromBytes(var1, var2 + 4);
+            short var16 = (short)cGame.getShortFromBytes(var1, var2 + 2);
+            short var20 = (short)cGame.getShortFromBytes(var1, var2 + 4);
             this.field_48 = var16;
             this.field_49 = var20;
             if (this.field_46 > 5) {
@@ -565,15 +565,15 @@ public final class class_3 {
             }
             break;
          case 13:
-            if ((short)class_8.getShortFromBytes(var1, var2 + 8) == 10000) {
+            if ((short)cGame.getShortFromBytes(var1, var2 + 8) == 10000) {
                method_34(var1, var2 + 8, (short)this.field_48);
             }
 
-            if ((short)class_8.getShortFromBytes(var1, var2 + 10) == 10000) {
+            if ((short)cGame.getShortFromBytes(var1, var2 + 10) == 10000) {
                method_34(var1, var2 + 10, (short)this.field_49);
             }
 
-            short var5 = (short)class_8.getShortFromBytes(var1, var2 + 6);
+            short var5 = (short)cGame.getShortFromBytes(var1, var2 + 6);
             if (this.field_46 > var5) {
                var1[var2 + 1] = 1;
                return;
@@ -597,7 +597,7 @@ public final class class_3 {
             int var11 = var2 + (var7 == 18 ? 7 : 5);
             boolean var12 = var1[var11] != 0;
             if (var7 != 18) {
-               var10 = (short)class_8.getShortFromBytes(var1, var2 + 2);
+               var10 = (short)cGame.getShortFromBytes(var1, var2 + 2);
             }
 
             if (var12) {
@@ -622,18 +622,18 @@ public final class class_3 {
             var1[var8] = var9;
             return;
          case 25:
-            short var15 = (short)class_8.getShortFromBytes(var1, var2 + 2);
-            short var19 = (short)class_8.getShortFromBytes(var1, var2 + 4);
+            short var15 = (short)cGame.getShortFromBytes(var1, var2 + 2);
+            short var19 = (short)cGame.getShortFromBytes(var1, var2 + 4);
             byte var23 = var1[var2 + 6];
             byte var14 = var1[var2 + 7];
-            class_8.field_332[var15][var19] = var14 << 8 | var23;
+            cGame.field_332[var15][var19] = var14 << 8 | var23;
             var1[var2 + 1] = 1;
             return;
          case 26:
-            short var3 = (short)class_8.getShortFromBytes(var1, var2 + 2);
-            short var4 = (short)class_8.getShortFromBytes(var1, var2 + 4);
-            int var13 = class_8.getIntFromBytes(var1, var2 + 6);
-            class_8.field_333[var3][var4] = var13;
+            short var3 = (short)cGame.getShortFromBytes(var1, var2 + 2);
+            short var4 = (short)cGame.getShortFromBytes(var1, var2 + 4);
+            int var13 = cGame.getIntFromBytes(var1, var2 + 6);
+            cGame.field_333[var3][var4] = var13;
             var1[var2 + 1] = 1;
             return;
          case 27:
@@ -653,7 +653,7 @@ public final class class_3 {
          int var3 = 2 + var2 * 4;
 
          for(int var4 = 0; var4 < var2; ++var4) {
-            int var5 = class_8.getIntFromBytes(this.field_45, 2 + var4 * 4);
+            int var5 = cGame.getIntFromBytes(this.field_45, 2 + var4 * 4);
             if (!(var1 = var1 && this.field_45[var3 + 1] == 1)) {
                break;
             }
@@ -677,35 +677,35 @@ public final class class_3 {
       try {
          String var10002 = field_40;
          this.field_54.getClass();
-         ByteArrayInputStream var2 = new ByteArrayInputStream(class_8.loadPackedFile(var10002, 0));
+         ByteArrayInputStream var2 = new ByteArrayInputStream(cGame.loadPackedFile(var10002, 0));
          byte[] var3 = new byte[4];
          var2.read(var3, 0, 2);
          boolean var4 = false;
 
          do {
             var2.read(var3, 0, 2);
-            if ((short)class_8.getShortFromBytes(var3, 0) != var1) {
+            if ((short)cGame.getShortFromBytes(var3, 0) != var1) {
                var2.skip(2L);
                var2.read(var3, 0, 4);
-               int var40 = class_8.getIntFromBytes(var3, 0);
+               int var40 = cGame.getIntFromBytes(var3, 0);
                var2.skip((long)var40);
             } else {
                var2.read(var3, 0, 2);
-               short var6 = (short)class_8.getShortFromBytes(var3, 0);
+               short var6 = (short)cGame.getShortFromBytes(var3, 0);
                var2.read(var3, 0, 4);
-               var3 = new byte[class_8.getIntFromBytes(var3, 0)];
+               var3 = new byte[cGame.getIntFromBytes(var3, 0)];
                ((InputStream)var2).read(var3);
                var2.close();
                var2 = null;
                var4 = true;
                int var8 = 0;
-               short var9 = (short)class_8.getShortFromBytes(var3, 0);
+               short var9 = (short)cGame.getShortFromBytes(var3, 0);
                var8 += 2;
                if (var9 != 0) {
                   short[] var10 = new short[var9];
 
                   for(int var11 = 0; var11 < var9; ++var11) {
-                     var10[var11] = (short)class_8.getShortFromBytes(var3, var8);
+                     var10[var11] = (short)cGame.getShortFromBytes(var3, var8);
                      var8 += 2;
                   }
 
@@ -728,9 +728,9 @@ public final class class_3 {
                   InputStream var75 = this.getClass().getResourceAsStream(field_39);
                   byte[] var14 = new byte[4];
                   var75.read(var14, 0, 2);
-                  short var15 = (short)class_8.getShortFromBytes(var14, 0);
+                  short var15 = (short)cGame.getShortFromBytes(var14, 0);
                   if (field_41 == null) {
-                     field_41 = new BitmapGfx[var15];
+                     field_41 = new ASprite[var15];
                   }
 
                   for(int var16 = 0; var16 < var9; ++var16) {
@@ -739,19 +739,19 @@ public final class class_3 {
 
                      while(!var18) {
                         var75.read(var14, 0, 2);
-                        short var19 = (short)class_8.getShortFromBytes(var14, 0);
+                        short var19 = (short)cGame.getShortFromBytes(var14, 0);
                         if (var17 == var19) {
                            var18 = true;
                         }
 
                         var75.read(var14, 0, 4);
-                        int var20 = class_8.getIntFromBytes(var14, 0);
+                        int var20 = cGame.getIntFromBytes(var14, 0);
                         if (!var18 && field_41[var17] != null) {
                            var75.skip((long)var20);
                         } else {
                            var14 = new byte[var20];
                            var75.read(var14);
-                           field_41[var17] = new BitmapGfx();
+                           field_41[var17] = new ASprite();
                            field_41[var17].loadData(var14, 0);
                            field_41[var17].initSprites(0, 0, -1, -1);
                            field_41[var17].bitmapData = null;
@@ -791,11 +791,11 @@ public final class class_3 {
                            var112 = null;
                            break;
                         case 1:
-                           short var98 = (short)(class_8.getShortFromBytes(var3, var8) * 24);
+                           short var98 = (short)(cGame.getShortFromBytes(var3, var8) * 24);
                            var8 += 2;
-                           short var105 = (short)(class_8.getShortFromBytes(var3, var8) * 24);
+                           short var105 = (short)(cGame.getShortFromBytes(var3, var8) * 24);
                            var8 += 2;
-                           short var107 = (short)class_8.getShortFromBytes(var3, var8);
+                           short var107 = (short)cGame.getShortFromBytes(var3, var8);
                            var8 += 2;
                            method_34(var82 = new byte[12], 2, var98);
                            method_34(var82, 4, var105);
@@ -805,9 +805,9 @@ public final class class_3 {
                            break label96;
                         case 2:
                            short var36 = (short)(var3[var8++] & 255);
-                           short var104 = (short)class_8.getShortFromBytes(var3, var8);
+                           short var104 = (short)cGame.getShortFromBytes(var3, var8);
                            var8 += 2;
-                           short var109 = (short)class_8.getShortFromBytes(var3, var8);
+                           short var109 = (short)cGame.getShortFromBytes(var3, var8);
                            var8 += 2;
                            method_34(var82 = new byte[11 + var109], 2, var109);
                            method_34(var82, 4, (short)10000);
@@ -828,19 +828,19 @@ public final class class_3 {
                         default:
                            break label96;
                         case 4:
-                           short var26 = (short)class_8.getShortFromBytes(var3, var8);
+                           short var26 = (short)cGame.getShortFromBytes(var3, var8);
                            var8 += 2;
-                           short var27 = (short)class_8.getShortFromBytes(var3, var8);
+                           short var27 = (short)cGame.getShortFromBytes(var3, var8);
                            var8 += 2;
-                           short var28 = (short)class_8.getShortFromBytes(var3, var8);
+                           short var28 = (short)cGame.getShortFromBytes(var3, var8);
                            var8 += 2;
-                           short var29 = (short)class_8.getShortFromBytes(var3, var8);
+                           short var29 = (short)cGame.getShortFromBytes(var3, var8);
                            var8 += 2;
-                           short var30 = (short)class_8.getShortFromBytes(var3, var8);
+                           short var30 = (short)cGame.getShortFromBytes(var3, var8);
                            var8 += 2;
-                           short var91 = (short)class_8.getShortFromBytes(var3, var8);
+                           short var91 = (short)cGame.getShortFromBytes(var3, var8);
                            var8 += 2;
-                           short var106 = (short)class_8.getShortFromBytes(var3, var8);
+                           short var106 = (short)cGame.getShortFromBytes(var3, var8);
                            var8 += 2;
                            method_34(var82 = new byte[16], 2, var26);
                            method_34(var82, 4, var27);
@@ -851,9 +851,9 @@ public final class class_3 {
                            method_34(var82, 14, var106);
                            break label96;
                         case 5:
-                           short var97 = (short)class_8.getShortFromBytes(var3, var8);
+                           short var97 = (short)cGame.getShortFromBytes(var3, var8);
                            int var58 = var8 + 2;
-                           short var103 = (short)class_8.getShortFromBytes(var3, var58);
+                           short var103 = (short)cGame.getShortFromBytes(var3, var58);
                            var8 = var58 + 2;
                            short var108 = (short)(var3[var8++] & 255);
                            method_34(var82 = new byte[7], 2, var97);
@@ -861,7 +861,7 @@ public final class class_3 {
                            var82[6] = (byte)var108;
                            break label96;
                         case 6:
-                           int var31 = class_8.getIntFromBytes(var3, var8);
+                           int var31 = cGame.getIntFromBytes(var3, var8);
                            var8 += 4;
                            method_35(var82 = new byte[6], 2, var31);
                            break label96;
@@ -869,11 +869,11 @@ public final class class_3 {
                            var112 = new byte[2];
                            break;
                         case 9:
-                           short var96 = (short)class_8.getShortFromBytes(var3, var8);
+                           short var96 = (short)cGame.getShortFromBytes(var3, var8);
                            var8 += 2;
-                           short var102 = (short)class_8.getShortFromBytes(var3, var8);
+                           short var102 = (short)cGame.getShortFromBytes(var3, var8);
                            var8 += 2;
-                           short var37 = (short)class_8.getShortFromBytes(var3, var8);
+                           short var37 = (short)cGame.getShortFromBytes(var3, var8);
                            var8 += 2;
                            method_34(var82 = new byte[8], 2, var96);
                            method_34(var82, 4, var102);
@@ -884,27 +884,27 @@ public final class class_3 {
                            (var82 = new byte[3])[2] = (byte)var38;
                            break label96;
                         case 11:
-                           short var90 = (short)class_8.getShortFromBytes(var3, var8);
+                           short var90 = (short)cGame.getShortFromBytes(var3, var8);
                            var8 += 2;
-                           short var22 = (short)class_8.getShortFromBytes(var3, var8);
+                           short var22 = (short)cGame.getShortFromBytes(var3, var8);
                            var8 += 2;
                            method_34(var82 = new byte[6], 2, var90);
                            method_34(var82, 4, var22);
                            break label96;
                         case 12:
-                           short var95 = (short)class_8.getShortFromBytes(var3, var8);
+                           short var95 = (short)cGame.getShortFromBytes(var3, var8);
                            var8 += 2;
-                           short var101 = (short)class_8.getShortFromBytes(var3, var8);
+                           short var101 = (short)cGame.getShortFromBytes(var3, var8);
                            var8 += 2;
                            method_34(var82 = new byte[6], 2, var95);
                            method_34(var82, 4, var101);
                            break label96;
                         case 13:
-                           short var94 = (short)class_8.getShortFromBytes(var3, var8);
+                           short var94 = (short)cGame.getShortFromBytes(var3, var8);
                            var8 += 2;
-                           short var100 = (short)class_8.getShortFromBytes(var3, var8);
+                           short var100 = (short)cGame.getShortFromBytes(var3, var8);
                            var8 += 2;
-                           short var25 = (short)class_8.getShortFromBytes(var3, var8);
+                           short var25 = (short)cGame.getShortFromBytes(var3, var8);
                            var8 += 2;
                            method_34(var82 = new byte[12], 2, var94);
                            method_34(var82, 4, var100);
@@ -918,7 +918,7 @@ public final class class_3 {
                            break;
                         case 16:
                         case 17:
-                           short var21 = (short)class_8.getShortFromBytes(var3, var8);
+                           short var21 = (short)cGame.getShortFromBytes(var3, var8);
                            var8 += 2;
                            short var85 = (short)(var3[var8++] & 255);
                            method_34(var82 = new byte[6], 2, var21);
@@ -933,9 +933,9 @@ public final class class_3 {
                            var82[7] = 0;
                            break label96;
                         case 25:
-                           short var93 = (short)class_8.getShortFromBytes(var3, var8);
+                           short var93 = (short)cGame.getShortFromBytes(var3, var8);
                            int var45 = var8 + 2;
-                           short var99 = (short)class_8.getShortFromBytes(var3, var45);
+                           short var99 = (short)cGame.getShortFromBytes(var3, var45);
                            var8 = var45 + 2;
                            short var33 = (short)(var3[var8++] & 255);
                            short var34 = (short)(var3[var8++] & 255);
@@ -945,18 +945,18 @@ public final class class_3 {
                            var82[7] = (byte)var34;
                            break label96;
                         case 26:
-                           short var23 = (short)class_8.getShortFromBytes(var3, var8);
+                           short var23 = (short)cGame.getShortFromBytes(var3, var8);
                            var8 += 2;
-                           short var24 = (short)class_8.getShortFromBytes(var3, var8);
+                           short var24 = (short)cGame.getShortFromBytes(var3, var8);
                            var8 += 2;
-                           int var32 = class_8.getIntFromBytes(var3, var8);
+                           int var32 = cGame.getIntFromBytes(var3, var8);
                            var8 += 4;
                            method_34(var82 = new byte[10], 2, var23);
                            method_34(var82, 4, var24);
                            method_35(var82, 6, var32);
                            break label96;
                         case 27:
-                           short var35 = (short)class_8.getShortFromBytes(var3, var8);
+                           short var35 = (short)cGame.getShortFromBytes(var3, var8);
                            var8 += 2;
                            method_34(var82 = new byte[8 + var35], 2, var35);
                            method_34(var82, 4, (short)10000);
@@ -1016,19 +1016,19 @@ public final class class_3 {
 
    // $FF: renamed from: a (javax.microedition.lcdui.Graphics, java.lang.String, int, int, int, int) void
    private void method_32(Graphics var1, String var2, int var3, int var4, int var5, int var6) {
-      int var7 = class_8.field_320[41].field_26 + (class_8.field_320[41].spriteDims[1] & 255);
+      int var7 = cGame.field_320[41].field_26 + (cGame.field_320[41].spriteDims[1] & 255);
       if (var6 > this.field_56) {
          var6 = this.field_56;
       }
 
       for(int var8 = var5; var8 < var6; ++var8) {
-         BitmapGfx.field_27 = var8 > 0 ? this.field_55[var8 - 1] + 1 : 0;
-         BitmapGfx.field_28 = this.field_55[var8];
-         class_8.field_320[41].method_13(var1, var2, var3, var4 + (var8 - var5) * var7, 4);
+         ASprite.field_27 = var8 > 0 ? this.field_55[var8 - 1] + 1 : 0;
+         ASprite.field_28 = this.field_55[var8];
+         cGame.field_320[41].method_13(var1, var2, var3, var4 + (var8 - var5) * var7, 4);
       }
 
-      BitmapGfx.field_27 = -1;
-      BitmapGfx.field_28 = -1;
+      ASprite.field_27 = -1;
+      ASprite.field_28 = -1;
    }
 
    // $FF: renamed from: a (java.lang.String, int) void
@@ -1042,9 +1042,9 @@ public final class class_3 {
          label60: {
             char var7;
             if ((var7 = var1.charAt(var6)) > ' ') {
-               int var8 = BitmapGfx.field_25[var7] & 255;
-               int var12 = (class_8.field_320[41].spriteDefs[var8 << 2] & 255) << 1;
-               var4 += (class_8.field_320[41].spriteDims[var12] & 255) - class_8.field_320[41].spriteDefs[(var8 << 2) + 1] + class_8.field_320[41].spriteDefs[1];
+               int var8 = ASprite.field_25[var7] & 255;
+               int var12 = (cGame.field_320[41].spriteDefs[var8 << 2] & 255) << 1;
+               var4 += (cGame.field_320[41].spriteDims[var12] & 255) - cGame.field_320[41].spriteDefs[(var8 << 2) + 1] + cGame.field_320[41].spriteDefs[1];
             } else {
                if (var7 != ' ' || var6 + 1 >= var3 || var1.charAt(var6 + 1) != '?' && var1.charAt(var6 + 1) != '!' && var1.charAt(var6 + 1) != ':') {
                   if (var7 != ' ') {
@@ -1055,14 +1055,14 @@ public final class class_3 {
                      continue;
                   }
 
-                  var4 += (class_8.field_320[41].spriteDims[0] & 255) + class_8.field_320[41].spriteDefs[1];
+                  var4 += (cGame.field_320[41].spriteDims[0] & 255) + cGame.field_320[41].spriteDefs[1];
                   break label60;
                }
 
-               var4 += (class_8.field_320[41].spriteDims[0] & 255) + class_8.field_320[41].spriteDefs[1];
-               int var9 = BitmapGfx.field_25[var1.charAt(var6 + 1)] & 255;
-               int var10 = (class_8.field_320[41].spriteDefs[var9 << 2] & 255) << 1;
-               var4 += (class_8.field_320[41].spriteDims[var10] & 255) - class_8.field_320[41].spriteDefs[(var9 << 2) + 1] + class_8.field_320[41].spriteDefs[1];
+               var4 += (cGame.field_320[41].spriteDims[0] & 255) + cGame.field_320[41].spriteDefs[1];
+               int var9 = ASprite.field_25[var1.charAt(var6 + 1)] & 255;
+               int var10 = (cGame.field_320[41].spriteDefs[var9 << 2] & 255) << 1;
+               var4 += (cGame.field_320[41].spriteDims[var10] & 255) - cGame.field_320[41].spriteDefs[(var9 << 2) + 1] + cGame.field_320[41].spriteDefs[1];
             }
 
             if (var4 > var2) {

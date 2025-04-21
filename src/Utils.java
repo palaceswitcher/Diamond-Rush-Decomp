@@ -1,7 +1,7 @@
 import java.util.Random;
 
 // $FF: renamed from: d
-public final class class_4 {
+public final class Utils {
    // $FF: renamed from: a java.util.Random
    public static Random field_57 = new Random(System.currentTimeMillis());
 

@@ -9,7 +9,7 @@ import javax.microedition.lcdui.game.GameCanvas;
 import javax.microedition.rms.RecordStore;
 
 // $FF: renamed from: i
-public final class class_8 extends GameCanvas implements Runnable {
+public final class cGame extends GameCanvas implements Runnable {
 	private static final int SKEY_UP = 1;
 	private static final int SKEY_DOWN = 2;
 	private static final int SKEY_LEFT = 4;
@@ -31,7 +31,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 	private static final int SKEY_NUM8 = 262144;
 	private static final int SKEY_NUM9 = 524288;
 	// $FF: renamed from: a i
-	public static class_8 field_92;
+	public static cGame field_92;
 	// $FF: renamed from: a int
 	public int field_93 = 40;
 	// $FF: renamed from: b int
@@ -487,15 +487,15 @@ public final class class_8 extends GameCanvas implements Runnable {
 	// $FF: renamed from: b javax.microedition.lcdui.Image[][]
 	public static Image[][] field_319;
 	// $FF: renamed from: a a[]
-	public static BitmapGfx[] field_320;
+	public static ASprite[] field_320;
 	// $FF: renamed from: a a
-	public static BitmapGfx field_321;
+	public static ASprite field_321;
 	// $FF: renamed from: f byte[]
 	public static byte[] field_322;
 	// $FF: renamed from: a g[]
-	public static class_6[] field_323;
+	public static ASpriteInstance[] field_323;
 	// $FF: renamed from: b a
-	public static BitmapGfx field_324;
+	public static ASprite field_324;
 	// $FF: renamed from: g byte[]
 	public static byte[] field_325;
 	// $FF: renamed from: h byte[]
@@ -553,11 +553,11 @@ public final class class_8 extends GameCanvas implements Runnable {
 	// $FF: renamed from: o byte[]
 	public static byte[] field_352;
 	// $FF: renamed from: a h
-	public final class_7 field_353;
+	public final cSoundEngine field_353;
 	// $FF: renamed from: a c
-	public class_3 field_354;
+	public DemoInterpreter field_354;
 	// $FF: renamed from: a c[]
-	public static class_3[] field_355;
+	public static DemoInterpreter[] field_355;
 	// $FF: renamed from: p byte[]
 	public static byte[] field_356;
 	// $FF: renamed from: a java.lang.Thread
@@ -575,7 +575,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 	// $FF: renamed from: cs int
 	public int field_363;
 	// $FF: renamed from: c a
-	public static BitmapGfx field_364;
+	public static ASprite field_364;
 	// $FF: renamed from: ct int
 	public int field_365;
 	// $FF: renamed from: r byte
@@ -791,7 +791,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 	// $FF: renamed from: dr int
 	public static int field_471;
 	// $FF: renamed from: a e
-	public class_5 field_472;
+	public IGA field_472;
 	// $FF: renamed from: al boolean
 	public boolean field_473;
 	// $FF: renamed from: am boolean
@@ -845,7 +845,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 	// $FF: renamed from: dJ int
 	public int field_498;
 	// $FF: renamed from: d a
-	public static BitmapGfx field_499;
+	public static ASprite field_499;
 	// $FF: renamed from: e int[][]
 	public static int[][] field_500;
 	// $FF: renamed from: a long[]
@@ -995,9 +995,9 @@ public final class class_8 extends GameCanvas implements Runnable {
 	// $FF: renamed from: ew int
 	public int field_573;
 
-	public class_8(GloftDIRU var1) {
+	public cGame(GloftDIRU var1) {
 		super(false);
-		this.field_98 = class_0.itemPrices[this.field_97];
+		this.field_98 = Define.itemPrices[this.field_97];
 		this.field_99 = "";
 		this.field_100 = true;
 		this.field_101 = 0;
@@ -1144,13 +1144,13 @@ public final class class_8 extends GameCanvas implements Runnable {
 		this.field_208 = -1;
 		this.field_210 = -1;
 		this.field_212 = -1;
-		field_323 = new class_6[6];
-		field_320 = new BitmapGfx[61];
+		field_323 = new ASpriteInstance[6];
+		field_320 = new ASprite[61];
 		this.method_360();
 		field_318 = new Image[33][];
 		field_319 = new Image[2][];
 		field_358 = var1;
-		this.field_353 = new class_7();
+		this.field_353 = new cSoundEngine();
 		vibrationEnabled = true;
 		((Canvas)this).setFullScreenMode(true);
 		this.method_96();
@@ -1221,7 +1221,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 	private void method_62(byte var1) {
 		label14: {
 			this.field_239 = var1;
-			class_8 var10000;
+			cGame var10000;
 			byte var10001;
 			if (this.field_239 <= 0) {
 				var10000 = this;
@@ -1354,7 +1354,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 		this.method_217();
 		switch (field_222) {
 			case 0:
-				field_323[0] = new class_6(loadGfxFile("/ui.f", 0), 0, 0, (class_6)null);
+				field_323[0] = new ASpriteInstance(loadGfxFile("/ui.f", 0), 0, 0, (ASpriteInstance)null);
 				field_323[0].method_44(0);
 				field_222 = 6;
 				this.method_65();
@@ -1565,7 +1565,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 				}
 				break;
 			case 1:
-				class_8 var10000;
+				cGame var10000;
 				boolean var10001;
 				if (field_226 % 6 >= 3) {
 					this.field_146 += 1677721;
@@ -1621,16 +1621,16 @@ public final class class_8 extends GameCanvas implements Runnable {
 				break;
 			case 7:
 				if (System.currentTimeMillis() - this.field_228 >= 1000L) {
-					class_2.field_29 = new byte[12][13];
+					GemsRain.field_29 = new byte[12][13];
 					++this.field_145;
-					class_2.method_17(3);
+					GemsRain.method_17(3);
 					this.field_353.method_58(19);
 					this.method_65();
 					return;
 				}
 				break;
 			case 8:
-				class_2.method_16(3);
+				GemsRain.method_16(3);
 				this.field_557 = true;
 				if (System.currentTimeMillis() - this.field_228 >= 15000L) {
 					++this.field_145;
@@ -1640,7 +1640,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 				break;
 			case 9:
 				this.field_557 = true;
-				class_2.method_16(3);
+				GemsRain.method_16(3);
 				if (System.currentTimeMillis() - this.field_228 >= 12000L) {
 					++this.field_145;
 					this.method_65();
@@ -1662,13 +1662,13 @@ public final class class_8 extends GameCanvas implements Runnable {
 		this.field_372 = false;
 		method_94(field_320[17], true);
 		field_320[17] = null;
-		int var1 = class_5.field_58.length;
+		int var1 = IGA.field_58.length;
 
 		for(int var2 = 0; var2 < var1; ++var2) {
-			class_5.field_58[var2] = null;
+			IGA.field_58[var2] = null;
 		}
 
-		class_5.field_58 = null;
+		IGA.field_58 = null;
 		method_94(field_320[10], true);
 		field_320[10] = null;
 		method_94(field_320[46], true);
@@ -1713,7 +1713,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 				break;
 			case 4:
 				this.method_95();
-				class_5.field_58 = loadSpritesFromFile("/demoui.f", 0);
+				IGA.field_58 = loadSpritesFromFile("/demoui.f", 0);
 				if (field_320[10] == null) {
 					field_320[10] = loadGfxFile("/mmv.f", 0);
 				}
@@ -1759,12 +1759,12 @@ public final class class_8 extends GameCanvas implements Runnable {
 				break;
 			case 9:
 				try {
-					BitmapGfx var6 = loadGfxFileInit("/" + 0 + ".f", 3, 0);
+					ASprite var6 = loadGfxFileInit("/" + 0 + ".f", 3, 0);
 					field_318[8] = var6.sprites[0];
 					(var6 = loadGfxFileInit("/cm.f", 2, 0)).initSprites(0, 0, -1, -1);
 					var6.initSprites(1, 0, 0, -1);
 					field_320[59] = var6;
-					class_2.field_37 = var6.sprites[0].length;
+					GemsRain.field_37 = var6.sprites[0].length;
 					var6.bitmapData = null;
 					if (field_320[17] == null) {
 						field_320[17] = loadGfxFile("/ms.f", 0);
@@ -1799,7 +1799,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 						var10001 = 1;
 						var10002 = true;
 					} else {
-						if (getShortFromBytes(field_330, 6) >= class_0.worldPrices[1]) {
+						if (getShortFromBytes(field_330, 6) >= Define.worldPrices[1]) {
 							byte[] var8 = field_330;
 							var8[1] = (byte)(var8[1] | 1);
 							this.method_110();
@@ -1825,7 +1825,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 						var11 = 2;
 						var12 = true;
 					} else {
-						if (getShortFromBytes(field_330, 6) >= class_0.worldPrices[2]) {
+						if (getShortFromBytes(field_330, 6) >= Define.worldPrices[2]) {
 							byte[] var10 = field_330;
 							var10[1] = (byte)(var10[1] | 2);
 							this.method_110();
@@ -1842,8 +1842,8 @@ public final class class_8 extends GameCanvas implements Runnable {
 					var9[var11] = var12;
 				}
 
-				this.field_102 = class_0.field_3[this.field_101 << 1];
-				this.field_103 = class_0.field_3[(this.field_101 << 1) + 1];
+				this.field_102 = Define.field_3[this.field_101 << 1];
+				this.field_103 = Define.field_3[(this.field_101 << 1) + 1];
 				this.field_104 = this.field_102;
 				this.field_105 = this.field_103;
 				this.method_72();
@@ -1855,7 +1855,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 
 	// $FF: renamed from: l () void
 	private void method_72() {
-		class_8 var10000;
+		cGame var10000;
 		StringBuffer var10001;
 		String var10002;
 		if (this.field_101 == 3) {
@@ -1868,7 +1868,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 			var10002 = menuText[82];
 		} else {
 			var10000 = this;
-			var10001 = (new StringBuffer()).append(class_0.worldPrices[this.field_101]).append(" ");
+			var10001 = (new StringBuffer()).append(Define.worldPrices[this.field_101]).append(" ");
 			var10002 = menuText[114].toLowerCase();
 		}
 
@@ -1906,7 +1906,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 	// $FF: renamed from: b (int) boolean
 	private static boolean method_73(int var0) {
 		if (var0 != 0 && var0 != 3) {
-			return getShortFromBytes(field_330, 6) >= class_0.worldPrices[var0];
+			return getShortFromBytes(field_330, 6) >= Define.worldPrices[var0];
 		} else {
 			return true;
 		}
@@ -2048,11 +2048,11 @@ public final class class_8 extends GameCanvas implements Runnable {
 					}
 				default:
 					byte var3;
-					if ((var3 = class_0.field_4[this.field_108][this.field_101]) != -1) {
+					if ((var3 = Define.field_4[this.field_108][this.field_101]) != -1) {
 						this.field_101 = var3;
 						this.field_109 = true;
-						this.field_112 = class_0.field_3[this.field_101 * 2];
-						this.field_113 = class_0.field_3[this.field_101 * 2 + 1];
+						this.field_112 = Define.field_3[this.field_101 * 2];
+						this.field_113 = Define.field_3[this.field_101 * 2 + 1];
 					}
 			}
 
@@ -2181,7 +2181,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 				case 6:
 					label173: {
 						int var5;
-						class_8 var10000;
+						cGame var10000;
 						int var10001;
 						if ((var5 = method_103()) < 1) {
 							var10000 = this;
@@ -2240,13 +2240,13 @@ public final class class_8 extends GameCanvas implements Runnable {
 								var6 -= 8;
 								if (var6 >= 0 && var6 < 16) {
 									if (var6 < field_355.length) {
-										field_355[var6] = new class_3(this);
+										field_355[var6] = new DemoInterpreter(this);
 										field_355[var6].method_31(field_356[var6]);
 									}
 
 									if (var6 == 15 && field_355.length >= 16) {
 										for(int var14 = 16; var14 < field_355.length; ++var14) {
-											field_355[var14] = new class_3(this);
+											field_355[var14] = new DemoInterpreter(this);
 											field_355[var14].method_31(field_356[var14]);
 										}
 									}
@@ -2271,9 +2271,9 @@ public final class class_8 extends GameCanvas implements Runnable {
 													return;
 												}
 
-												BitmapGfx var13 = loadGfxFileInit("/mmv.f", 1, 0);
+												ASprite var13 = loadGfxFileInit("/mmv.f", 1, 0);
 												field_318[31] = var13.sprites[0];
-												field_323[5] = new class_6(loadGfxFile("/mm1.f", 0), 0, 0, (class_6)null);
+												field_323[5] = new ASpriteInstance(loadGfxFile("/mm1.f", 0), 0, 0, (ASpriteInstance)null);
 												field_323[5].method_44(0);
 												return;
 											case 4:
@@ -2282,7 +2282,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 												}
 
 												this.method_101(var6);
-												BitmapGfx var12 = loadGfxFileInit("/mmv.f", 3, 0);
+												ASprite var12 = loadGfxFileInit("/mmv.f", 3, 0);
 												field_318[32] = var12.sprites[0];
 												field_320[20] = loadGfxFileInit("/gen0.f", 7, 0);
 												if (var6 == 1) {
@@ -2292,10 +2292,10 @@ public final class class_8 extends GameCanvas implements Runnable {
 
 												return;
 											case 5:
-												BitmapGfx var3 = loadGfxFileInit("/mmv.f", 2, 0);
+												ASprite var3 = loadGfxFileInit("/mmv.f", 2, 0);
 												field_318[30] = var3.sprites[0];
 												field_320[20] = loadGfxFileInit("/gen0.f", 7, 0);
-												field_323[5] = new class_6(loadGfxFile("/b1.f", 0), 0, 0, (class_6)null);
+												field_323[5] = new ASpriteInstance(loadGfxFile("/b1.f", 0), 0, 0, (ASpriteInstance)null);
 												field_323[5].method_44(10);
 										}
 									} else {
@@ -2378,23 +2378,23 @@ public final class class_8 extends GameCanvas implements Runnable {
 				System.gc();
 			}
 
-			BitmapGfx var7;
-			(var7 = new BitmapGfx()).loadData(var6, 0);
+			ASprite var7;
+			(var7 = new ASprite()).loadData(var6, 0);
 			this.field_380 = method_79();
 			var7.initSprites(this.field_380, 0, -1, -1);
 			var7.spritePalette = this.field_380;
 			var7.bitmapData = null;
-			field_323[0] = new class_6(var7, 0, 0, (class_6)null);
+			field_323[0] = new ASpriteInstance(var7, 0, 0, (ASpriteInstance)null);
 			System.gc();
 			if (var1) {
 				var6 = new byte[getIntFromBytes(var4, 12)];
 				var2.read(var6);
 				var2.close();
 				System.gc();
-				(var7 = new BitmapGfx()).loadData(var6, 0);
+				(var7 = new ASprite()).loadData(var6, 0);
 				var7.initSprites(0, 0, -1, -1);
 				var7.bitmapData = null;
-				field_323[3] = new class_6(var7, 0, 0, (class_6)null);
+				field_323[3] = new ASpriteInstance(var7, 0, 0, (ASpriteInstance)null);
 				System.gc();
 			}
 
@@ -2479,8 +2479,8 @@ public final class class_8 extends GameCanvas implements Runnable {
 	private void method_84() {
 		switch (this.method_81()) {
 		case 0:
-			class_7.soundEnabled = !class_7.soundEnabled;
-			if (class_7.soundEnabled) {
+			cSoundEngine.soundEnabled = !cSoundEngine.soundEnabled;
+			if (cSoundEngine.soundEnabled) {
 				this.method_433(0);
 				setMenuTextIndex(5, 0, (short) 32); //Set sound text to on
 			} else {
@@ -2545,7 +2545,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 
 	// $FF: renamed from: t () void
 	private void method_86() {
-		class_8 var10000;
+		cGame var10000;
 		byte var10001;
 		if (this.field_329) {
 			var10000 = this;
@@ -2627,11 +2627,11 @@ public final class class_8 extends GameCanvas implements Runnable {
 		byte var1 = 0;
 		switch (this.method_81()) {
 		case 0:
-			class_7.soundEnabled = true;
+			cSoundEngine.soundEnabled = true;
 			var1 = 32;
 			break;
 		case 1:
-			class_7.soundEnabled = false;
+			cSoundEngine.soundEnabled = false;
 			var1 = 33;
 			break;
 		default:
@@ -2725,12 +2725,12 @@ public final class class_8 extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: a (c) void
-	private static void method_93(class_3 var0) {
+	private static void method_93(DemoInterpreter var0) {
 		if (var0 != null) {
-			if (class_3.field_41 != null) {
-				for(int var1 = 0; var1 < class_3.field_41.length; ++var1) {
-					method_94(class_3.field_41[var1], true);
-					class_3.field_41[var1] = null;
+			if (DemoInterpreter.field_41 != null) {
+				for(int var1 = 0; var1 < DemoInterpreter.field_41.length; ++var1) {
+					method_94(DemoInterpreter.field_41[var1], true);
+					DemoInterpreter.field_41[var1] = null;
 				}
 			}
 
@@ -2747,7 +2747,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: a (a, boolean) void
-	private static void method_94(BitmapGfx var0, boolean var1) {
+	private static void method_94(ASprite var0, boolean var1) {
 		if (var0 != null) {
 			var0.method_15(var1);
 		}
@@ -2873,11 +2873,11 @@ public final class class_8 extends GameCanvas implements Runnable {
 
 	// $FF: renamed from: e (int) void
 	private void method_97(int var1) throws Exception {
-		BitmapGfx var4;
+		ASprite var4;
 		label21: {
 			byte[] var3 = new byte[getIntFromBytes(field_347, var1 * 8 + 4)];
 			this.field_306.read(var3);
-			(var4 = new BitmapGfx()).loadData(var3, 0);
+			(var4 = new ASprite()).loadData(var3, 0);
 			var4.initSprites(0, 0, -1, -1);
 			Object var10000;
 			byte var10001;
@@ -2935,7 +2935,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 				this.field_306.read(field_347);
 			}
 
-			BitmapGfx var4;
+			ASprite var4;
 			label36: {
 				Object var10000;
 				byte var10001;
@@ -2943,7 +2943,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 				label35: {
 					byte[] var3 = new byte[getIntFromBytes(field_347, var1 * 8 + 4)];
 					this.field_306.read(var3);
-					(var4 = new BitmapGfx()).loadData(var3, 0);
+					(var4 = new ASprite()).loadData(var3, 0);
 					var4.initSprites(0, 0, -1, -1);
 					switch (var1) {
 						case 0:
@@ -3043,8 +3043,8 @@ public final class class_8 extends GameCanvas implements Runnable {
 
 			byte[] var4 = new byte[var3];
 			this.field_306.read(var4);
-			BitmapGfx var5;
-			(var5 = new BitmapGfx()).loadData(var4, 0);
+			ASprite var5;
+			(var5 = new ASprite()).loadData(var4, 0);
 			if ((var1 != 28 || this.field_458) && (var1 != 24 || this.field_460)) {
 				var5.initSprites(0, 0, -1, -1);
 			}
@@ -3103,7 +3103,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 						var6 = 12;
 						break label104;
 					case 10:
-						field_323[4] = new class_6(var5, 0, 0, (class_6)null);
+						field_323[4] = new ASpriteInstance(var5, 0, 0, (ASpriteInstance)null);
 						field_323[4].method_44(0);
 						break label104;
 					case 11:
@@ -3131,7 +3131,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 						}
 
 						if ((this.field_268 & 1) != 0) {
-							field_320[21] = new BitmapGfx();
+							field_320[21] = new ASprite();
 							field_320[21].loadData(var4, 0);
 							field_320[21].initSprites(1, 0, -1, -1);
 							field_320[21].spritePalette = 1;
@@ -3250,13 +3250,13 @@ public final class class_8 extends GameCanvas implements Runnable {
 
 			byte[] var3 = new byte[getIntFromBytes(field_347, var1 * 8 + 4)];
 			this.field_306.read(var3);
-			BitmapGfx var4;
-			(var4 = new BitmapGfx()).loadData(var3, 0);
+			ASprite var4;
+			(var4 = new ASprite()).loadData(var3, 0);
 			var4.initSprites(0, 0, -1, -1);
 			var4.bitmapData = null;
 			switch (var1) {
 				case 0:
-					field_323[5] = new class_6(var4, 0, 0, (class_6)null);
+					field_323[5] = new ASpriteInstance(var4, 0, 0, (ASpriteInstance)null);
 					break;
 				case 1:
 					field_320[40] = var4;
@@ -3280,18 +3280,18 @@ public final class class_8 extends GameCanvas implements Runnable {
 
 			byte[] var3 = new byte[getIntFromBytes(field_347, var1 * 8 + 4)];
 			this.field_306.read(var3);
-			BitmapGfx var4;
-			(var4 = new BitmapGfx()).loadData(var3, 0);
+			ASprite var4;
+			(var4 = new ASprite()).loadData(var3, 0);
 			var4.initSprites(0, 0, -1, -1);
 			var4.bitmapData = null;
 			switch (var1) {
 				case 0:
-					field_323[1] = new class_6(var4, 0, 0, (class_6)null);
+					field_323[1] = new ASpriteInstance(var4, 0, 0, (ASpriteInstance)null);
 					field_323[1].method_44(2);
 				default:
 					return;
 				case 1:
-					field_323[2] = new class_6(var4, 0, 0, (class_6)null);
+					field_323[2] = new ASpriteInstance(var4, 0, 0, (ASpriteInstance)null);
 					field_323[2].method_44(0);
 					break;
 				case 2:
@@ -4015,12 +4015,12 @@ public final class class_8 extends GameCanvas implements Runnable {
 	private void method_136() {
 		if (this.field_557) {
 			this.method_134(this.field_314, false, this.field_147, this.field_148);
-			field_320[17].method_8(this.field_314, 11, 120 + class_0.field_2[6] + this.field_147, 136 + class_0.field_2[7] + this.field_148, 0, 0, 0);
+			field_320[17].method_8(this.field_314, 11, 120 + Define.field_2[6] + this.field_147, 136 + Define.field_2[7] + this.field_148, 0, 0, 0);
 			int var1 = 0;
 
 			for(int var2 = 0; var2 < 3; ++var2) {
 				var1 = 52 + var2;
-				field_320[var1].method_8(this.field_314, 0, class_0.field_2[var2 << 1] + 120 - this.field_126 + this.field_147, class_0.field_2[(var2 << 1) + 1] + 136 - this.field_127 + this.field_148, 0, 0, 0);
+				field_320[var1].method_8(this.field_314, 0, Define.field_2[var2 << 1] + 120 - this.field_126 + this.field_147, Define.field_2[(var2 << 1) + 1] + 136 - this.field_127 + this.field_148, 0, 0, 0);
 			}
 		}
 
@@ -4032,7 +4032,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 
 					for(int var7 = 0; var7 < 3; ++var7) {
 						int var5 = 52 + var7;
-						field_320[var5].method_8(this.field_314, 0, class_0.field_2[var7 << 1] + 120 - this.field_126, class_0.field_2[(var7 << 1) + 1] + 136 - this.field_127, 0, 0, 0);
+						field_320[var5].method_8(this.field_314, 0, Define.field_2[var7 << 1] + 120 - this.field_126, Define.field_2[(var7 << 1) + 1] + 136 - this.field_127, 0, 0, 0);
 					}
 				}
 				break;
@@ -4049,16 +4049,16 @@ public final class class_8 extends GameCanvas implements Runnable {
 			case 7:
 				return;
 			case 8:
-				class_2.method_18(this.field_314);
+				GemsRain.method_18(this.field_314);
 				return;
 			case 9:
 			case 10:
-				class_2.method_18(this.field_314);
+				GemsRain.method_18(this.field_314);
 				int var4 = field_320[41].field_26;
 				field_320[41].field_26 = 3;
 				String var6 = method_441(menuText[40] + "\n" + menuText[97], 220);
 				field_320[41].updateDrawnTextSize(var6);
-				method_429(this.field_314, (240 - BitmapGfx.drawnTextWidth >> 1) - 3, (320 - BitmapGfx.drawnTextHeight >> 1) - 3, BitmapGfx.drawnTextWidth + 6, BitmapGfx.drawnTextHeight + 6, 7096587, 0);
+				method_429(this.field_314, (240 - ASprite.drawnTextWidth >> 1) - 3, (320 - ASprite.drawnTextHeight >> 1) - 3, ASprite.drawnTextWidth + 6, ASprite.drawnTextHeight + 6, 7096587, 0);
 				field_320[41].method_14(this.field_314, var6, 120, 160, 3);
 				field_320[41].field_26 = var4;
 		}
@@ -4073,7 +4073,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 		} else {
 			this.field_314.setClip(0, 0, 240, 320);
 			this.method_135(this.field_314, false);
-			field_320[17].method_8(this.field_314, 11, 120 + class_0.field_2[6], 136 + class_0.field_2[7], 0, 0, 0);
+			field_320[17].method_8(this.field_314, 11, 120 + Define.field_2[6], 136 + Define.field_2[7], 0, 0, 0);
 			this.method_176();
 			this.method_177();
 			field_320[41].method_13(this.field_314, menuText[27].toLowerCase(), 222, 311, 10);
@@ -4092,7 +4092,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 
 			this.field_314.setClip(0, 0, 240, 320);
 			if (this.field_130 < this.field_129) {
-				field_320[9].method_7(this.field_314, 5, this.field_130, class_0.field_2[this.field_118 << 1] + 120 - 12, class_0.field_2[(this.field_118 << 1) + 1] + 124, 0, 0, 0);
+				field_320[9].method_7(this.field_314, 5, this.field_130, Define.field_2[this.field_118 << 1] + 120 - 12, Define.field_2[(this.field_118 << 1) + 1] + 124, 0, 0, 0);
 				++this.field_130;
 			} else {
 				if (this.field_115 % this.field_114 >= this.field_114 >> 1) {
@@ -4122,7 +4122,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 			if (field_121[var2]) {
 				int var9 = 52 + var2;
 				if (this.field_123 != var2) {
-					field_320[var9].method_8(this.field_314, 0, class_0.field_2[var2 << 1] + 120 - this.field_126, class_0.field_2[(var2 << 1) + 1] + 136 - this.field_127, 0, 0, 0);
+					field_320[var9].method_8(this.field_314, 0, Define.field_2[var2 << 1] + 120 - this.field_126, Define.field_2[(var2 << 1) + 1] + 136 - this.field_127, 0, 0, 0);
 				}
 			}
 		}
@@ -4149,10 +4149,10 @@ public final class class_8 extends GameCanvas implements Runnable {
 				field_320[41].field_26 = 1;
 				String var3 = method_441(this.field_106 + "\n" + this.field_107, 220);
 				field_320[41].updateDrawnTextSize(var3);
-				int var4 = (240 - BitmapGfx.drawnTextWidth >> 1) - 3;
-				int var5 = 250 - (BitmapGfx.drawnTextHeight >> 1) - 3;
-				int var6 = BitmapGfx.drawnTextWidth + 6;
-				int var7 = BitmapGfx.drawnTextHeight + 6;
+				int var4 = (240 - ASprite.drawnTextWidth >> 1) - 3;
+				int var5 = 250 - (ASprite.drawnTextHeight >> 1) - 3;
+				int var6 = ASprite.drawnTextWidth + 6;
+				int var7 = ASprite.drawnTextHeight + 6;
 				this.field_314.setClip(var4, var5, var6, var7);
 				method_429(this.field_314, var4, var5, var6, var7, 7096587, 0);
 				field_320[41].method_14(this.field_314, var3, 120, 250, 3);
@@ -4171,8 +4171,8 @@ public final class class_8 extends GameCanvas implements Runnable {
 		int var6;
 		label49: {
 			var2 = 52 + var1;
-			var3 = class_0.field_2[var1 << 1] + 120;
-			int var5 = (var4 = class_0.field_2[(var1 << 1) + 1] + 136) - this.field_125;
+			var3 = Define.field_2[var1 << 1] + 120;
+			int var5 = (var4 = Define.field_2[(var1 << 1) + 1] + 136) - this.field_125;
 			var6 = var3 - this.field_124;
 			if (var5 < 0) {
 				this.field_125 -= 2;
@@ -4227,7 +4227,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 				++this.field_128;
 				return false;
 			} else if (this.field_130 < this.field_129) {
-				field_320[9].method_7(this.field_314, 5, this.field_130, class_0.field_2[var1 << 1] + 120 - 12, class_0.field_2[(var1 << 1) + 1] + 124, 0, 0, 0);
+				field_320[9].method_7(this.field_314, 5, this.field_130, Define.field_2[var1 << 1] + 120 - 12, Define.field_2[(var1 << 1) + 1] + 124, 0, 0, 0);
 				++this.field_130;
 				return false;
 			} else {
@@ -4243,7 +4243,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 	// $FF: renamed from: R () void
 	private void method_139() {
 		String var1 = null;
-		BitmapGfx var2;
+		ASprite var2;
 		(var2 = field_320[41]).field_26 = 15;
 		this.field_314.setColor(0);
 		this.field_314.fillRect(0, 0, 240, 320);
@@ -4314,7 +4314,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 
 	// $FF: renamed from: S () void
 	private void method_140() {
-		BitmapGfx var2;
+		ASprite var2;
 		(var2 = field_320[41]).field_26 = 2;
 		this.field_314.setColor(0);
 		this.field_314.fillRect(0, 0, 240, 320);
@@ -4360,9 +4360,9 @@ public final class class_8 extends GameCanvas implements Runnable {
 	private void method_143() {
 		this.field_314.setColor(0);
 		this.field_314.fillRect(0, 0, 240, 320);
-		BitmapGfx var1;
+		ASprite var1;
 		(var1 = field_320[41]).method_13(this.field_314, menuText[35], 120, 50, 17);
-		BitmapGfx var10000;
+		ASprite var10000;
 		Graphics var10001;
 		String var10002;
 		byte var10003;
@@ -4584,7 +4584,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 
 					if (this.field_284 > -1 && this.field_284 < 38) {
 						label150: {
-							class_8 var10000;
+							cGame var10000;
 							int var10001;
 							switch (this.field_284) {
 								case 4:
@@ -4642,7 +4642,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 					if (this.field_283 != -1 && !var5) {
 						label109: {
 							byte var13;
-							class_8 var17;
+							cGame var17;
 							int var18;
 							if ((var13 = (byte)(this.field_283 - 80)) >= 0) {
 								this.field_216 = 0;
@@ -4729,7 +4729,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 					if (this.field_284 > -1 && this.field_284 < 38) {
 						label193: {
 							label170: {
-								class_8 var10000;
+								cGame var10000;
 								switch (this.field_284) {
 									case 3:
 										int var4;
@@ -4846,7 +4846,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 						if ((byte)(this.field_283 - 80) < 0) {
 							label194: {
 								int var5 = field_333[this.field_281][this.field_282];
-								class_8 var7;
+								cGame var7;
 								switch (this.field_283) {
 									case 0:
 										if ((field_333[this.field_281][this.field_282] & Integer.MIN_VALUE) == 0) {
@@ -5124,12 +5124,12 @@ public final class class_8 extends GameCanvas implements Runnable {
 
 					var4 = field_159[var3 << 1] * 24 - this.field_201;
 					var5 = field_159[(var3 << 1) + 1] * 24 - this.field_202;
-					BitmapGfx var49;
+					ASprite var49;
 					Graphics var52;
 					byte var55;
 					int var57;
 					if (field_161[var3] < 0) {
-						BitmapGfx var35;
+						ASprite var35;
 						var49 = var35 = field_320[2];
 						var52 = var1;
 						var55 = 0;
@@ -5181,7 +5181,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 							label284: {
 								var10 = var24 * 24 - this.field_404;
 								var11 = var17 * 24 - this.field_405;
-								BitmapGfx var44;
+								ASprite var44;
 								Graphics var10001;
 								int var10002;
 								int var10003;
@@ -5195,7 +5195,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 									switch (var5) {
 										case 31:
 											int var13 = field_332[var37][var39] >> 8;
-											BitmapGfx var14 = field_320[15];
+											ASprite var14 = field_320[15];
 											int var15 = (field_226 >> 1) % (var14.field_11[var13] & 255);
 											var14.method_7(this.field_314, var13, var15, var10, var11, 0, 0, 0);
 											break;
@@ -5259,12 +5259,12 @@ public final class class_8 extends GameCanvas implements Runnable {
 
 					var4 = field_159[var3 << 1] * 24 - this.field_201;
 					var5 = field_159[(var3 << 1) + 1] * 24 - this.field_202;
-					BitmapGfx var46;
+					ASprite var46;
 					Graphics var50;
 					byte var53;
 					int var56;
 					if (field_161[var3] < 0) {
-						BitmapGfx var34;
+						ASprite var34;
 						var46 = var34 = field_320[2];
 						var50 = var1;
 						var53 = 0;
@@ -5302,7 +5302,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 			}
 
 			label212: {
-				class_8 var47;
+				cGame var47;
 				Graphics var51;
 				byte var54;
 				switch (this.field_174) {
@@ -5425,7 +5425,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 					--var19;
 					this.field_314.setColor(14153215);
 					this.field_314.drawLine(var14, var19, var17, var19);
-					BitmapGfx var10000;
+					ASprite var10000;
 					Graphics var10001;
 					byte var10002;
 					int var10003;
@@ -5468,7 +5468,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 			field_324 = field_320[32];
 			int var2 = var1 & 7;
 			boolean var3;
-			class_8 var10000;
+			cGame var10000;
 			int var10001;
 			if ((!(var3 = (var1 & 16) == 0) || var2 != 2) && (var3 || var2 != 4)) {
 				var10000 = this;
@@ -5506,7 +5506,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 	private void method_158() {
 		int var1 = field_333[this.field_281][this.field_282] & 7;
 		field_324 = field_320[29];
-		class_8 var3;
+		cGame var3;
 		int var5;
 		if ((field_333[this.field_281][this.field_282] & 8) == 0) {
 			label28: {
@@ -5569,7 +5569,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 	private void method_159() {
 		field_324 = field_320[29];
 		this.field_285 = field_333[this.field_281][this.field_282] & 31;
-		class_8 var10000;
+		cGame var10000;
 		int var10001;
 		if (this.field_285 != 8 && this.field_285 != 9) {
 			int var4 = (field_333[this.field_281][this.field_282] & 8160) >> 5;
@@ -5594,7 +5594,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 	private void method_160() {
 		this.field_285 = (field_333[this.field_281][this.field_282] & 56) >> 3;
 		field_324 = field_320[27];
-		class_8 var10000;
+		cGame var10000;
 		int var10001;
 		switch (this.field_285) {
 			case 1:
@@ -5681,7 +5681,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 									}
 								} else {
 									label102: {
-										BitmapGfx var19;
+										ASprite var19;
 										Graphics var10001;
 										int var10002;
 										int var10003;
@@ -5724,7 +5724,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 	// $FF: renamed from: ag () void
 	private void method_164() {
 		this.field_214 = 20;
-		class_8 var10000;
+		cGame var10000;
 		int var10001;
 		if (field_332[this.field_281][this.field_282] >> 8 >= this.field_207) {
 			var10000 = this;
@@ -5755,10 +5755,10 @@ public final class class_8 extends GameCanvas implements Runnable {
 	private void method_166() {
 		boolean var1 = false;
 		Graphics var2 = this.field_314;
-		BitmapGfx var3;
+		ASprite var3;
 		if ((var3 = field_320[0]) != null) {
 			var2.translate(120, 320);
-			BitmapGfx var10000;
+			ASprite var10000;
 			if (!this.field_170 && field_222 != 2) {
 				var1 = true;
 				var2.setClip(-120, -320, 240, 320);
@@ -5862,7 +5862,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 	private void method_167() {
 		field_324 = field_320[6];
 		this.field_285 = 0;
-		class_8 var10000;
+		cGame var10000;
 		int var10001;
 		if (this.field_310 == 0) {
 			var10000 = this;
@@ -5881,13 +5881,13 @@ public final class class_8 extends GameCanvas implements Runnable {
 	// $FF: renamed from: aj () void
 	private void method_168() {
 		int var1 = field_333[this.field_281][this.field_282] == 1 ? 1 : 0;
-		BitmapGfx var2;
+		ASprite var2;
 		(var2 = field_320[5]).method_7(this.field_314, var1, (field_226 >> 1) % var2.method_4(var1), this.field_271, this.field_272, 0, 0, 0);
 	}
 
 	// $FF: renamed from: b (byte) void
 	private void method_169(byte var1) {
-		class_6 var2 = field_323[4];
+		ASpriteInstance var2 = field_323[4];
 		if (var1 == 23) {
 			var2.field_68 = this.field_271;
 			var2.field_72 |= 1;
@@ -6082,7 +6082,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 				boolean var14 = false;
 				field_320[41].updateDrawnTextSize(menuText[field_561[this.currentMenu][i * 2 + 1]]);
 				int var9;
-				int var10 = var9 = BitmapGfx.drawnTextWidth;
+				int var10 = var9 = ASprite.drawnTextWidth;
 				int var12 = i == 2 && this.currentMenu == 0 ? 152 : 210;
 				if (var9 > var12) {
 					var14 = true;
@@ -6119,7 +6119,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 
 		this.field_427 = this.currentMenuSelection;
 		++this.field_418;
-		class_8 var25;
+		cGame var25;
 		int var28;
 		if (this.field_424 < 0) {
 			var25 = this;
@@ -6233,7 +6233,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 				field_320[10] = loadGfxFile("/mmv.f", 0);
 			}
 
-			BitmapGfx var1 = field_320[10];
+			ASprite var1 = field_320[10];
 			if (this.method_298(60, 3) || this.method_298(61, 3)) {
 				var1.method_8(this.field_314, 1, 1440 - this.field_201, 48 - this.field_202, 0, 0, 0);
 			}
@@ -6260,7 +6260,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 	// $FF: renamed from: ar () void
 	private void method_182() {
 		if (this.field_180 != -1) {
-			class_6 var1;
+			ASpriteInstance var1;
 			(var1 = field_323[5]).field_68 = this.field_185 - this.field_201;
 			var1.field_69 = 504 - this.field_202;
 			var1.method_45();
@@ -6291,7 +6291,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 
 		if (this.field_180 != 15) {
 			if (this.field_201 + 240 + 48 >= this.field_184 && this.field_202 + 320 + 48 >= 504) {
-				class_6 var3;
+				ASpriteInstance var3;
 				(var3 = field_323[5]).field_68 = this.field_184 - this.field_201;
 				var3.field_69 = 504 - this.field_202;
 				var3.method_45();
@@ -6311,7 +6311,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 	// $FF: renamed from: at () void
 	private void method_184() {
 		Graphics var1 = this.field_314;
-		class_6 var2 = field_323[5];
+		ASpriteInstance var2 = field_323[5];
 		if (this.field_180 == 7) {
 			int var3 = var2.field_68 + field_226 * this.field_181 % 48;
 			int var4 = var2.field_69;
@@ -6348,8 +6348,8 @@ public final class class_8 extends GameCanvas implements Runnable {
 	// $FF: renamed from: au () void
 	private void method_186() {
 		Graphics var1;
-		class_6 var2;
-		class_6 var3;
+		ASpriteInstance var2;
+		ASpriteInstance var3;
 		int var4;
 		label58: {
 			var1 = this.field_314;
@@ -6394,7 +6394,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 
 		label53: {
 			var2.field_68 = (10 + this.field_183 * (2 + (this.field_183 > 0 ? 1 : 0))) * 24 - this.field_201;
-			class_6 var8;
+			ASpriteInstance var8;
 			int var10001;
 			if (this.field_180 == 5) {
 				int var5 = var2.field_69;
@@ -6432,7 +6432,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 	// $FF: renamed from: av () void
 	private void method_187() {
 		int var1 = field_226;
-		class_6 var2 = field_323[2];
+		ASpriteInstance var2 = field_323[2];
 		if (this.field_202 + this.field_256 < 1008 && this.field_202 + this.field_256 > 592) {
 			var2.field_68 = 240 - this.field_201;
 			var2.field_69 = 1008 - this.field_202;
@@ -6457,7 +6457,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 		for(var8 = var6 + 240; var6 <= -24; var6 += 24) {
 		}
 
-		class_6 var9 = field_323[1];
+		ASpriteInstance var9 = field_323[1];
 		if ((this.field_176 >= 816 || var9.field_74 == 2) && this.field_176 > 816) {
 			for(int var10 = var5 + 20; var10 < 320; var10 += 24) {
 				for(int var11 = var6; var11 < var8; var11 += 24) {
@@ -6515,7 +6515,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 			int var3 = field_226;
 			int var4 = this.field_233 & 7;
 			int var5 = (this.field_233 & 16384) == 0 ? 0 : 3;
-			class_6 var6 = field_323[var5];
+			ASpriteInstance var6 = field_323[var5];
 			boolean var7 = this.method_210();
 			int var8 = (this.field_233 & 2048) == 0 ? this.field_291 : this.field_233 & 7;
 			if (this.field_100) {
@@ -6688,7 +6688,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 			this.field_278 = ((var4 & 448) >> 6) - 1;
 			if (this.field_278 >= 0 && this.field_278 < 5) {
 				this.field_277 = true;
-				class_8 var10000;
+				cGame var10000;
 				byte var10001;
 				switch (var4 & 7) {
 					case 2:
@@ -6725,7 +6725,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 		this.field_289 = var4 * field_325[var5 + 8];
 		field_324 = field_320[38];
 		int var6;
-		class_8 var10000;
+		cGame var10000;
 		int var10001;
 		if (((var6 = (var3 & 28672) >> 12) != 2 && var6 != 4 && var5 != 2 && var5 != 4 || field_334[var1 - 1][var2] < 0 || field_334[var1 + 1][var2] < 0) && (var6 != 1 && var6 != 3 && var5 != 1 && var5 != 3 || field_334[var1][var2 - 1] < 0 || field_334[var1][var2 + 1] < 0)) {
 			if (var5 != 1 && var5 != 3) {
@@ -6751,9 +6751,9 @@ public final class class_8 extends GameCanvas implements Runnable {
 
 	// $FF: renamed from: c (byte) void
 	private void method_194(byte var1) {
-		class_8 var7;
+		cGame var7;
 		int var9;
-		BitmapGfx var10002;
+		ASprite var10002;
 		int var10003;
 		label33: {
 			int var2 = field_333[this.field_281][this.field_282];
@@ -6817,7 +6817,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 			int var2 = this.field_282;
 			this.field_214 = 26;
 			this.field_215 = 0;
-			class_8 var10000;
+			cGame var10000;
 			int var10001;
 			if (method_344(var1, var2) && field_335[var1][var2] <= 12) {
 				var10000 = this;
@@ -6861,8 +6861,8 @@ public final class class_8 extends GameCanvas implements Runnable {
 		if (var1 != 14 && var1 != 33 || var2 > 11) {
 			this.field_216 = 3;
 			this.field_217 = 0 + this.field_292;
-			class_8 var10000;
-			BitmapGfx[] var10001;
+			cGame var10000;
+			ASprite[] var10001;
 			byte var10002;
 			if (var1 == 14) {
 				var10000 = this;
@@ -6892,7 +6892,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 		if ((var3 = (field_333[var1][var2] & 3840) >> 8) >= 4) {
 			this.field_216 = -1;
 		} else {
-			class_8 var10000;
+			cGame var10000;
 			int var10001;
 			if (var3 == 0) {
 				var10000 = this;
@@ -6958,7 +6958,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 		byte var3 = field_335[this.field_281][this.field_282];
 		int var1;
 		int var2;
-		class_8 var10000;
+		cGame var10000;
 		byte var10001;
 		if ((field_333[this.field_281][this.field_282] & 1) != 0) {
 			var1 = this.field_271;
@@ -6984,7 +6984,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 	private void method_199() {
 		int var1 = field_332[this.field_281][this.field_282] >> 8;
 		this.field_214 = this.field_284 == 9 ? 22 : 23;
-		class_8 var10000;
+		cGame var10000;
 		byte var10001;
 		if ((var1 & 512) != 0) {
 			var10000 = this;
@@ -7059,7 +7059,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 	private void method_202() {
 		if (field_334[this.field_281][this.field_282 + 1] != 16) {
 			int var1 = field_333[this.field_281][this.field_282];
-			BitmapGfx var2;
+			ASprite var2;
 			field_324 = var2 = field_320[1];
 			byte var3 = field_335[this.field_281][this.field_282];
 			int var4 = 36 - var3;
@@ -7112,7 +7112,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: a (a, int, int) int
-	private static int method_204(BitmapGfx var0, int var1, int var2) {
+	private static int method_204(ASprite var0, int var1, int var2) {
 		int var3 = 0;
 
 		for(int var4 = 0; var2 > 0; var3 = var4++) {
@@ -7123,7 +7123,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: b (a, int, int) int
-	private static int method_205(BitmapGfx var0, int var1, int var2) {
+	private static int method_205(ASprite var0, int var1, int var2) {
 		int var3 = 0;
 
 		for(int var4 = 0; var4 < var2; ++var4) {
@@ -7360,7 +7360,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 			field_320[11].method_8(this.field_314, var2 + var6 * var1, this.field_271 + 3, this.field_272 + var1 * (var5 - var6 * 24), 0, 0, 0);
 		}
 
-		BitmapGfx var7;
+		ASprite var7;
 		Graphics var10001;
 		int var10002;
 		int var10003;
@@ -7384,7 +7384,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 
 	// $FF: renamed from: aN () void
 	private void method_208() {
-		class_6 var1 = field_323[0];
+		ASpriteInstance var1 = field_323[0];
 		this.field_314.setColor(0);
 		this.field_314.fillRect(0, 0, 240, 320);
 		var1.field_69 = 136;
@@ -7395,7 +7395,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 			int var4;
 			if ((var4 = (field_226 - 30) * 4) > 29) {
 				var4 = 29;
-				BitmapGfx var10000;
+				ASprite var10000;
 				Graphics var10001;
 				byte var10002;
 				short var10003;
@@ -7605,7 +7605,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 			}
 
 			keysPressed = 0;
-			class_8 var2;
+			cGame var2;
 			String[] var3;
 			byte var10002;
 			if (canBuyItem(this.field_97) == 0) {
@@ -7614,7 +7614,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 				var3 = menuText;
 				var10002 = 81;
 			} else {
-				this.field_98 = class_0.itemPrices[this.field_97];
+				this.field_98 = Define.itemPrices[this.field_97];
 				this.field_556.delete(0, this.field_556.length());
 				this.field_556.append(this.field_98);
 				var2 = this;
@@ -7637,7 +7637,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 		if (field_330[8] >= 4 + item + 1) {
 			return 0; //Return if the item or an item better than it was already bought
 		} else {
-			return getShortFromBytes(field_330, 4) < class_0.itemPrices[item] ? -1 : 1;
+			return getShortFromBytes(field_330, 4) < Define.itemPrices[item] ? -1 : 1;
 		}
 	}
 
@@ -7652,7 +7652,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 				this.field_99 = menuText[81]; //Display text if the player already bought the item
 				return;
 			case 1:
-				this.collectedDiamonds = getShortFromBytes(field_330, 4) - class_0.itemPrices[this.field_97];
+				this.collectedDiamonds = getShortFromBytes(field_330, 4) - Define.itemPrices[this.field_97];
 				this.field_555 = null;
 				System.gc();
 				this.field_555 = menuText[110] + " " + this.collectedDiamonds + " " + menuText[109];
@@ -7929,7 +7929,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 			if (field_224 != 1) {
 				label79: {
 					this.field_390 <<= 1;
-					class_8 var10000;
+					cGame var10000;
 					byte var10001;
 					if (this.field_390 == 0) {
 						var10000 = this;
@@ -8650,7 +8650,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 			int var1 = field_332[this.field_230][this.field_231] & 255;
 			if (this.field_311 == 0 && var1 != 15 && var1 != 16) {
 				this.method_433(0);
-				class_8 var10000;
+				cGame var10000;
 				byte var10001;
 				if (this.field_310 <= 0) {
 					var10000 = this;
@@ -8937,7 +8937,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 		}
 
 		label423: {
-			class_8 var32;
+			cGame var32;
 			byte var36;
 			if (this.field_234 > 0) {
 				if (field_334[this.field_230][this.field_231] < 0) {
@@ -9280,7 +9280,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 		}
 
 		int var5 = (this.field_233 & 16384) == 0 ? 0 : 3;
-		class_6 var6 = field_323[var5];
+		ASpriteInstance var6 = field_323[var5];
 		if (this.method_298(var1, var2) && this.field_234 <= 0 && var6.field_74 != 40 && var6.field_74 != 48 && var6.field_74 != 47) {
 			this.method_61(0, 16, 0);
 		}
@@ -9315,7 +9315,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 	// $FF: renamed from: bg () void
 	private void method_242() {
 		 final int am = this.field_223;
-		 final BitmapGfx a = class_8.field_320[41];
+		 final ASprite a = cGame.field_320[41];
 		 final Graphics a2;
 		 (a2 = this.field_314).setColor(2496263);
 		 a2.fillRect(0, 0, 240, 320);
@@ -9323,81 +9323,81 @@ public final class class_8 extends GameCanvas implements Runnable {
 			  case 5: {
 					if (this.field_248 == 0) {
 						 if ((this.field_445 & 0x20) != 0x0) {
-							  a2.drawImage(class_8.field_318[5][0], 200, 237, 0);
-							  final BitmapGfx a3;
-							  if (am == 5 && class_8.field_226 < (a3 = class_8.field_320[9]).method_4(0) * 2) {
-									a3.method_7(a2, 0, class_8.field_226 * 2, 200, 237, 0, 0, 0);
+							  a2.drawImage(cGame.field_318[5][0], 200, 237, 0);
+							  final ASprite a3;
+							  if (am == 5 && cGame.field_226 < (a3 = cGame.field_320[9]).method_4(0) * 2) {
+									a3.method_7(a2, 0, cGame.field_226 * 2, 200, 237, 0, 0, 0);
 							  }
 						 }
-						 a2.drawImage(class_8.field_318[28][0], 180, 254, 0);
+						 a2.drawImage(cGame.field_318[28][0], 180, 254, 0);
 					}
 			  }
 			  case 4: {
 					int n;
-					if (am != 4 || (n = -100 + class_8.field_226 * 10) > 0) {
+					if (am != 4 || (n = -100 + cGame.field_226 * 10) > 0) {
 						 n = 0;
 					}
-					class_8.field_323[0].field_73.method_7(a2, 12, 0, 7 + n, 243, 0, 0, 0);
-					a.method_14(a2, class_8.menuText[44], 120, 243, 17);
+					cGame.field_323[0].field_73.method_7(a2, 12, 0, 7 + n, 243, 0, 0, 0);
+					a.method_14(a2, cGame.menuText[44], 120, 243, 17);
 					a.method_14(a2, String.valueOf(this.field_248), 120, 255, 17);
 					if (this.field_247 == 0) {
 						 if ((this.field_445 & 0x10) != 0x0) {
-							  a2.drawImage(class_8.field_318[5][0], 200, 179, 0);
-							  final BitmapGfx a4;
-							  if (am == 4 && class_8.field_226 < (a4 = class_8.field_320[9]).method_4(0) * 2) {
-									a4.method_7(a2, 0, class_8.field_226 >> 1, 200, 179, 0, 0, 0);
+							  a2.drawImage(cGame.field_318[5][0], 200, 179, 0);
+							  final ASprite a4;
+							  if (am == 4 && cGame.field_226 < (a4 = cGame.field_320[9]).method_4(0) * 2) {
+									a4.method_7(a2, 0, cGame.field_226 >> 1, 200, 179, 0, 0, 0);
 							  }
 						 }
-						 a2.drawImage(class_8.field_318[28][0], 180, 196, 0);
+						 a2.drawImage(cGame.field_318[28][0], 180, 196, 0);
 					}
 			  }
 			  case 3: {
 					int n2;
-					if (am != 3 || (n2 = -100 + class_8.field_226 * 10) > 0) {
+					if (am != 3 || (n2 = -100 + cGame.field_226 * 10) > 0) {
 						 n2 = 0;
 					}
-					class_8.field_323[0].field_73.method_7(a2, 10, 0, 7 + n2, 189, 0, 0, 0);
-					a.method_14(a2, class_8.menuText[43], 120, 185, 17);
+					cGame.field_323[0].field_73.method_7(a2, 10, 0, 7 + n2, 189, 0, 0, 0);
+					a.method_14(a2, cGame.menuText[43], 120, 185, 17);
 					a.method_14(a2, String.valueOf(this.field_247), 120, 197, 17);
 					if (this.collectedRedDiamonds == this.levelRedDiamondCount) {
 						 if ((this.field_445 & 0x8) != 0x0) {
-							  a2.drawImage(class_8.field_318[5][0], 200, 121, 0);
-							  final BitmapGfx a5;
-							  if (am == 3 && class_8.field_226 < (a5 = class_8.field_320[9]).method_4(0) * 2) {
-									a5.method_7(a2, 0, class_8.field_226 >> 1, 200, 121, 0, 0, 0);
+							  a2.drawImage(cGame.field_318[5][0], 200, 121, 0);
+							  final ASprite a5;
+							  if (am == 3 && cGame.field_226 < (a5 = cGame.field_320[9]).method_4(0) * 2) {
+									a5.method_7(a2, 0, cGame.field_226 >> 1, 200, 121, 0, 0, 0);
 							  }
 						 }
-						 a2.drawImage(class_8.field_318[28][0], 180, 138, 0);
+						 a2.drawImage(cGame.field_318[28][0], 180, 138, 0);
 					}
 			  }
 			  case 2: {
 					int n3;
-					if (am != 2 || (n3 = -100 + class_8.field_226 * 10) > 0) {
+					if (am != 2 || (n3 = -100 + cGame.field_226 * 10) > 0) {
 						 n3 = 0;
 					}
-					class_8.field_320[method_149(3)].method_8(a2, 0, 7 + n3, 127, 0, 0, 0);
-					a.method_14(a2, class_8.menuText[114], 120, 127, 17);
+					cGame.field_320[method_149(3)].method_8(a2, 0, 7 + n3, 127, 0, 0, 0);
+					a.method_14(a2, cGame.menuText[114], 120, 127, 17);
 					a.method_14(a2, this.collectedRedDiamonds + "/" + this.levelRedDiamondCount, 120, 139, 17);
 					if (this.collectedDiamonds == this.levelDiamondCount) {
 						 if ((this.field_445 & 0x4) != 0x0) {
-							  a2.drawImage(class_8.field_318[5][0], 200, 63, 0);
-							  final BitmapGfx a6;
-							  if (am == 2 && class_8.field_226 < (a6 = class_8.field_320[9]).method_4(0) >> 1) {
-									a6.method_7(a2, 0, class_8.field_226 * 2, 200, 63, 0, 0, 0);
+							  a2.drawImage(cGame.field_318[5][0], 200, 63, 0);
+							  final ASprite a6;
+							  if (am == 2 && cGame.field_226 < (a6 = cGame.field_320[9]).method_4(0) >> 1) {
+									a6.method_7(a2, 0, cGame.field_226 * 2, 200, 63, 0, 0, 0);
 							  }
 						 }
-						 a2.drawImage(class_8.field_318[28][0], 180, 80, 0);
+						 a2.drawImage(cGame.field_318[28][0], 180, 80, 0);
 					}
 			  }
 			  case 1: {
 					int n4;
-					if (am != 1 || (n4 = -100 + class_8.field_226 * 10) > 0) {
+					if (am != 1 || (n4 = -100 + cGame.field_226 * 10) > 0) {
 						 n4 = 0;
 					}
-					class_8.field_320[method_149(2)].method_8(a2, 0, 7 + n4, 69, 0, 0, 0);
-					a.method_14(a2, class_8.menuText[109], 120, 69, 17);
+					cGame.field_320[method_149(2)].method_8(a2, 0, 7 + n4, 69, 0, 0, 0);
+					a.method_14(a2, cGame.menuText[109], 120, 69, 17);
 					int az;
-					if (am != 1 || (az = class_8.field_226 >> 1) > this.collectedDiamonds) {
+					if (am != 1 || (az = cGame.field_226 >> 1) > this.collectedDiamonds) {
 						 az = this.collectedDiamonds;
 					}
 					a.method_14(a2, az + "/" + this.levelDiamondCount, 120, 81, 17);
@@ -9407,7 +9407,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 					int n5 = 0;
 					Label_0963: {
 						 if (am == 0) {
-							  n5 = (n6 = -100 + class_8.field_226 * 10) - 240;
+							  n5 = (n6 = -100 + cGame.field_226 * 10) - 240;
 							  if (n6 > 0) {
 									n6 = 0;
 							  }
@@ -9420,12 +9420,12 @@ public final class class_8 extends GameCanvas implements Runnable {
 						 }
 						 n5 = 0;
 					}
-					a.method_13(a2, class_8.menuText[class_8.field_563[this.currentWorld][this.currentLevel]], 120 + n6, 10, 17);
-					a.method_13(a2, class_8.menuText[41], 120 + n5, 25, 17);
+					a.method_13(a2, cGame.menuText[cGame.field_563[this.currentWorld][this.currentLevel]], 120 + n6, 10, 17);
+					a.method_13(a2, cGame.menuText[41], 120 + n5, 25, 17);
 					break;
 			  }
 		 }
-		 class_8.field_320[41].method_13(this.field_314, class_8.menuText[(this.field_223 == 5) ? 98 : 53], 5, 318, 36);
+		 cGame.field_320[41].method_13(this.field_314, cGame.menuText[(this.field_223 == 5) ? 98 : 53], 5, 318, 36);
 	}
 
 	// $FF: renamed from: a (byte[], int) int
@@ -9518,12 +9518,12 @@ public final class class_8 extends GameCanvas implements Runnable {
 			case 5:
 				field_443 = field_330[2];
 				this.field_143 = 0;
-				if ((field_443 & 8) == 0 && field_442 >= class_0.worldPrices[1]) {
+				if ((field_443 & 8) == 0 && field_442 >= Define.worldPrices[1]) {
 					this.field_143 = 1;
 					return;
 				}
 
-				if ((field_443 & 16) == 0 && field_442 >= class_0.worldPrices[2]) {
+				if ((field_443 & 16) == 0 && field_442 >= Define.worldPrices[2]) {
 					this.field_143 = 2;
 					return;
 				}
@@ -9542,7 +9542,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 			case 8:
 				int var2;
 				int var3;
-				for(var3 = var2 = (field_443 & 224) >> 5; var3 < 4 && field_441 >= class_0.itemPrices[var3]; ++var3) {
+				for(var3 = var2 = (field_443 & 224) >> 5; var3 < 4 && field_441 >= Define.itemPrices[var3]; ++var3) {
 				}
 
 				if (var2 < var3) {
@@ -9780,7 +9780,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 	// $FF: renamed from: bm () void
 	private void method_260() {
 		int var1 = (this.field_233 & 16384) == 0 ? 0 : 3;
-		class_6 var2 = field_323[var1];
+		ASpriteInstance var2 = field_323[var1];
 		int var3 = -1;
 		boolean var4 = true;
 		boolean var5 = false;
@@ -10052,7 +10052,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 			var3 = var15;
 		}
 
-		class_8 var16;
+		cGame var16;
 		int var10001;
 		if (var5) {
 			var16 = this;
@@ -10168,7 +10168,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 	// $FF: renamed from: bo () void
 	private void method_264() {
 		int var1;
-		class_8 var10000;
+		cGame var10000;
 		int var10001;
 		if ((var1 = field_226 % 89) < 15) {
 			var10000 = this;
@@ -10213,7 +10213,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 			var2 = -8;
 		}
 
-		class_8 var10000;
+		cGame var10000;
 		byte var10001;
 		if (var2 == 0) {
 			if (var1 < 0) {
@@ -10346,8 +10346,8 @@ public final class class_8 extends GameCanvas implements Runnable {
 
 	// $FF: renamed from: bs () void
 	private void method_269() {
-		class_6 var1 = field_323[5];
-		class_6 var10000;
+		ASpriteInstance var1 = field_323[5];
+		ASpriteInstance var10000;
 		if (this.field_180 == 12) {
 			if (this.field_181++ > 100) {
 				this.field_180 = 15;
@@ -10389,7 +10389,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 			}
 
 			if (!this.field_450 && (this.field_180 == 0 || this.field_180 == 1)) {
-				class_8 var9;
+				cGame var9;
 				int var10001;
 				if (this.field_180 == 0) {
 					this.field_451 = 36;
@@ -10536,7 +10536,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 						case 10:
 						case 11:
 							label352: {
-								class_8 var11;
+								cGame var11;
 								byte var13;
 								if (var3 > var5 && var5 < 504) {
 									var11 = this;
@@ -10589,7 +10589,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 							if ((field_333[var8][var7] & 7) == 3 && this.field_180 != 13) {
 								label346: {
 									--this.field_182;
-									class_8 var12;
+									cGame var12;
 									byte var14;
 									switch (this.field_180) {
 										case 0:
@@ -10651,7 +10651,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 	private void method_270() {
 		int var1 = this.method_274();
 		if (this.field_230 == var1 || this.field_230 == var1 + 1) {
-			class_6 var2;
+			ASpriteInstance var2;
 			int var3 = (var2 = field_323[5]).field_69 + -40;
 			int var4 = var2.field_69 + 256;
 			int var5 = (var2.field_73.field_12[var2.field_74] + var2.field_75) * 5;
@@ -10709,7 +10709,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 
 	// $FF: renamed from: h () int
 	private int method_275() {
-		class_6 var1;
+		ASpriteInstance var1;
 		int var2 = (var1 = field_323[5]).field_69 + -40;
 		int var3 = (var1.field_73.field_12[var1.field_74] + var1.field_75) * 5;
 		var3 = (var1.field_73.field_13[var3 + 3] << 0) * 1 / 1;
@@ -10759,10 +10759,10 @@ public final class class_8 extends GameCanvas implements Runnable {
 			this.field_434 = true;
 		}
 
-		class_6 var1 = field_323[5];
+		ASpriteInstance var1 = field_323[5];
 		++this.field_181;
 		byte var2 = -1;
-		class_6 var3 = field_323[4];
+		ASpriteInstance var3 = field_323[4];
 		byte var4 = -1;
 		int var5 = this.method_274();
 		if (field_334[this.field_136][2] == -1) {
@@ -10992,7 +10992,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 
 	// $FF: renamed from: by () void
 	private void method_282() {
-		class_6 var1 = field_323[5];
+		ASpriteInstance var1 = field_323[5];
 		int var2 = this.field_279;
 		int var3 = this.field_280;
 		int var4 = this.field_230 - 8;
@@ -11016,7 +11016,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 			this.method_281();
 		}
 
-		class_6 var10000;
+		ASpriteInstance var10000;
 		if (this.field_180 == 12) {
 			if (this.field_181++ > 100) {
 				this.field_180 = 15;
@@ -11046,7 +11046,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 			int var10 = this.field_231 * 24;
 			int var11 = this.field_184 + 24;
 			if (this.field_453 == 0L && this.field_239 != 0) {
-				this.field_453 = (long)(field_226 + class_4.method_36(340, 441));
+				this.field_453 = (long)(field_226 + Utils.method_36(340, 441));
 			}
 
 			int var12 = this.field_182 > 0 && field_226 % this.field_182 == 0 ? 2 : 1;
@@ -11174,7 +11174,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 						}
 
 						if (var1.field_75 == 5 && var1.field_76 == 0) {
-							class_8 var22;
+							cGame var22;
 							byte var10001;
 							if (this.field_180 != 13 && this.field_180 != 14) {
 								var22 = this;
@@ -11190,7 +11190,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 						if (var1.method_46()) {
 							if (this.field_180 == 13 || this.field_180 == 14) {
 								this.field_454 = (long)(field_226 + 40);
-								this.field_453 = (long)(field_226 + class_4.method_36(340, 441));
+								this.field_453 = (long)(field_226 + Utils.method_36(340, 441));
 							}
 
 							var17 = var14;
@@ -11301,7 +11301,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 							if ((field_333[var19][var13] & 7) == 3) {
 								label338: {
 									--this.field_182;
-									class_8 var24;
+									cGame var24;
 									byte var26;
 									switch (this.field_180) {
 										case 0:
@@ -11357,7 +11357,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 		}
 
 		label60: {
-			class_6 var10000;
+			ASpriteInstance var10000;
 			byte var10001;
 			if (this.field_177 == 3) {
 				if (field_323[2].field_74 != 0) {
@@ -11439,7 +11439,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 			int var2 = this.field_230 * 24 + this.field_232 * field_325[var1];
 			var4 = 24 * this.currentLevelWidth - 240;
 			var5 = 24 * this.currenLevelHeight - 240;
-			class_8 var10000;
+			cGame var10000;
 			int var10001;
 			if (var2 < this.field_203 + 96) {
 				this.field_203 = this.field_203 - 96 + var2 >> 1;
@@ -11484,7 +11484,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 		label45: {
 			this.field_201 = this.field_203;
 			this.field_202 = this.field_204;
-			class_8 var7;
+			cGame var7;
 			int var9;
 			if (this.field_201 < 0) {
 				var7 = this;
@@ -11501,8 +11501,8 @@ public final class class_8 extends GameCanvas implements Runnable {
 			var7.field_201 = var9;
 		}
 
-		class_8 var8;
-		class_8 var10;
+		cGame var8;
+		cGame var10;
 		int var10002;
 		if (this.field_202 < 0) {
 			var8 = this;
@@ -11608,9 +11608,9 @@ public final class class_8 extends GameCanvas implements Runnable {
 							break label328; //FIXME: COULD PROBABLY BE RESTRUCTURED NICER, SEE PROCYON OUTPUT
 						}
 
-						class_8 var38; //NOTE: ADDED AS DIRTY FIX FROM PROCYON OUTPUT
+						cGame var38; //NOTE: ADDED AS DIRTY FIX FROM PROCYON OUTPUT
 						label322: {
-					 	 class_8 var37;
+					 	 cGame var37;
 							label321: {
 								var16 = true;
 								switch (field_332[var13][var14] >> 8) {
@@ -11974,8 +11974,8 @@ public final class class_8 extends GameCanvas implements Runnable {
 	public final void method_291() {
 		this.field_457 = System.currentTimeMillis() - this.field_228;
 		this.field_455 = true;
-		System.out.println(class_7.method_60());
-		if ((field_222 == 30 || field_222 == 4) && class_7.method_60()) {
+		System.out.println(cSoundEngine.method_60());
+		if ((field_222 == 30 || field_222 == 4) && cSoundEngine.method_60()) {
 			this.field_456 = true;
 		}
 
@@ -12009,7 +12009,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 		}
 
 		this.field_228 = System.currentTimeMillis() - this.field_457;
-		class_8 var10000;
+		cGame var10000;
 		switch (field_222) {
 			case 0:
 			case 6:
@@ -12264,7 +12264,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 						default:
 							if (var10 >= 20 && var10 < 26) {
 								field_332[var8][var9] = var10;
-								class_8 var45;
+								cGame var45;
 								long var10001;
 								long var10002;
 								switch (this.currentWorld) {
@@ -12660,7 +12660,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 			field_173[var22] = 0;
 		}
 
-		field_355 = new class_3[var7];
+		field_355 = new DemoInterpreter[var7];
 		field_356 = new byte[var7];
 		int var23 = 0;
 		field_337 = new byte[(var5 + 1) * 2];
@@ -13102,7 +13102,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 			var4 = this.currenLevelHeight - 2;
 		}
 
-		class_8 var10000 = this;
+		cGame var10000 = this;
 		int var10001 = var4;
 
 		while(true) {
@@ -13129,7 +13129,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 							byte[] var11 = field_336[this.field_279];
 							var10001 = this.field_280;
 							var11[var10001] = (byte)(var11[var10001] - 6);
-							class_8 var12;
+							cGame var12;
 							switch ((byte)(field_332[this.field_279][this.field_280] & 255)) {
 								case 0:
 									if (this.field_354 == null && this.field_258 == -1 && this.method_298(this.field_279, this.field_280) && this.field_232 <= 6) {
@@ -13810,7 +13810,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: a (a, int) int
-	private static int method_313(BitmapGfx var0, int var1) {
+	private static int method_313(ASprite var0, int var1) {
 		int var2 = 0;
 		int var3 = var0.field_11[var1] & 255;
 
@@ -13991,7 +13991,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 		int var1 = this.field_279;
 		int var2 = this.field_280;
 		int var3 = field_333[var1][var2];
-		BitmapGfx var4 = field_320[7];
+		ASprite var4 = field_320[7];
 		++var3;
 		int var5 = method_313(var4, 0);
 		if (var3 >= var5) {
@@ -14227,7 +14227,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 				var1 = true;
 				this.method_65();
 				this.field_122 = true;
-				class_8 var10000;
+				cGame var10000;
 				byte var10001;
 				if (this.field_213 == 53) {
 					var10000 = this;
@@ -14273,7 +14273,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 			if ((var4 = field_332[var2][var3] & 255) != 14 && var4 != 33 || field_332[var2][var3] >> 8 != 255) {
 				label38: {
 					this.field_213 = var1;
-					class_8 var10000;
+					cGame var10000;
 					byte var10001;
 					switch (var1) {
 						case 2:
@@ -14651,7 +14651,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 			if (this.method_298(this.field_279, this.field_280) && (field_323[0].field_74 == 40 || field_323[0].field_74 == 48)) {
 				label23: {
 					field_334[this.field_279][this.field_280] = -1;
-					class_8 var10000;
+					cGame var10000;
 					byte var10001;
 					switch (var1) {
 						case 24:
@@ -15319,7 +15319,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 		int var5;
 		if ((var3 & 256) == 0 && (var4 == 9 && this.playerGoldKeys > 0 || var4 == 8 && this.playerSilverKeys > 0) && this.field_231 == var2 && (this.field_230 == var1 - 1 || this.field_230 == var1 + 1) && (var5 = field_323[0].field_74) != 18 && var5 != 17 && this.field_232 <= 6) {
 			this.field_197 = this.field_196 = 0;
-			class_8 var10000;
+			cGame var10000;
 			byte var10001;
 			if (this.field_230 == var1 - 1) {
 				this.field_233 = this.field_233 & -8 | 2;
@@ -15441,7 +15441,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 				if (this.method_298(var2, var3) && this.field_232 <= 0) {
 					this.field_233 &= -2049;
 					field_332[var2][var3] = 256 | var1;
-					class_8 var10000;
+					cGame var10000;
 					byte var10001;
 					if (Math.abs(this.field_449 - System.currentTimeMillis()) >= 5000L) {
 						var10000 = this;
@@ -16009,11 +16009,11 @@ public final class class_8 extends GameCanvas implements Runnable {
 	 * @param stop End palette (inclusive)
 	 * @return Initialized graphics
 	 */
-	private static BitmapGfx loadGfxFileInitRange(String path, int fileNum, int start, int stop) {
-		BitmapGfx gfx = null;
+	private static ASprite loadGfxFileInitRange(String path, int fileNum, int start, int stop) {
+		ASprite gfx = null;
 
 		try {
-			gfx = new BitmapGfx();
+			gfx = new ASprite();
 			byte[] fileData = loadPackedFile(path, fileNum);
 			gfx.loadData(fileData, 0); //Load graphical data from file
 
@@ -16037,7 +16037,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 	 * @param fileNum
 	 * @return Initialized graphics
 	 */
-	public static BitmapGfx loadGfxFile(String path, int fileNum) {
+	public static ASprite loadGfxFile(String path, int fileNum) {
 		return loadGfxFileInit(path, fileNum, 0);
 	}
 
@@ -16049,7 +16049,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 	 * @param palette
 	 * @return
 	 */
-	private static BitmapGfx loadGfxFileInit(String path, int fileNum, int palette) {
+	private static ASprite loadGfxFileInit(String path, int fileNum, int palette) {
 		return loadGfxFileInitRange(path, fileNum, palette, palette);
 	}
 
@@ -16073,10 +16073,10 @@ public final class class_8 extends GameCanvas implements Runnable {
 	 * @return
 	 */
 	private static Image[] loadSpritesFromFile(String path, int fileNum, int palette) {
-		BitmapGfx bitmapGfx = null;
+		ASprite bitmapGfx = null;
 
 		try {
-			bitmapGfx = new BitmapGfx();
+			bitmapGfx = new ASprite();
 			byte[] fileData = loadPackedFile(path, fileNum);
 			bitmapGfx.loadData(fileData, 0);
 			bitmapGfx.initSprites(palette, 0, -1, -1);
@@ -16136,12 +16136,12 @@ public final class class_8 extends GameCanvas implements Runnable {
 
 	// $FF: renamed from: ci () void
 	private void method_360() {
-		if (BitmapGfx.field_25 == null) {
+		if (ASprite.field_25 == null) {
 			InputStream var1 = this.getClass().getResourceAsStream("/mc");
-			BitmapGfx.field_25 = new byte[256];
+			ASprite.field_25 = new byte[256];
 
 			try {
-				var1.read(BitmapGfx.field_25);
+				var1.read(ASprite.field_25);
 				var1.close();
 				return;
 			} catch (Exception var3) {
@@ -16151,7 +16151,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: a (a, java.lang.String, int) int
-	public static final int method_361(BitmapGfx gfx, String str, int var2) {
+	public static final int method_361(ASprite gfx, String str, int var2) {
 		int var3 = str.indexOf('\n');
 		if (var2 != -1 && var3 != -1) {
 			str = str.substring(0, var3);
@@ -16163,37 +16163,37 @@ public final class class_8 extends GameCanvas implements Runnable {
 		}
 
 		gfx.updateDrawnTextSize(str);
-		return BitmapGfx.drawnTextWidth;
+		return ASprite.drawnTextWidth;
 	}
 
 	// $FF: renamed from: a (a) int
-	public static int method_362(BitmapGfx var0) {
+	public static int method_362(ASprite var0) {
 		return var0.field_26 + (var0.spriteDims[1] & 255);
 	}
 
 	// $FF: renamed from: b (int) void
 	public static void method_363(int var0) {
-		class_5.field_65 = var0;
+		IGA.field_65 = var0;
 	}
 
 	// $FF: renamed from: a (javax.microedition.lcdui.Graphics) boolean
 	private boolean method_364(Graphics var1) {
-		++class_5.field_64;
-		switch (class_5.field_65) {
+		++IGA.field_64;
+		switch (IGA.field_65) {
 			case 0:
 				this.method_95();
-				this.field_472 = new class_5();
+				this.field_472 = new IGA();
 				this.method_365();
 				this.field_353.method_59();
 				method_363(1);
 				this.field_473 = false;
 				break;
 			case 1:
-				class_5.method_38();
+				IGA.method_38();
 				field_430 = false;
 				break;
 			case 2:
-				class_5.method_43();
+				IGA.method_43();
 				this.method_95();
 				field_222 = 9;
 				this.field_265 = 8;
@@ -16659,7 +16659,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 
 	// $FF: renamed from: cq () void
 	private void method_384() {
-		class_8 var16;
+		cGame var16;
 		byte var10001;
 		byte var10002;
 		byte var10003;
@@ -16967,7 +16967,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 				}
 
 				var10 = var10000;
-				class_8 var16;
+				cGame var16;
 				int var10001;
 				int var10002;
 				byte var10003;
@@ -17100,7 +17100,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 				}
 			} else {
 				label90: {
-					class_8 var10000;
+					cGame var10000;
 					byte var10001;
 					int var10002;
 					int var10003;
@@ -17143,7 +17143,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 
 				if (var9 == -2) {
 					int var15 = field_333[var2][var3 + 1];
-					class_8 var16;
+					cGame var16;
 					byte var17;
 					byte var18;
 					byte var19;
@@ -17213,7 +17213,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 		}
 
 		this.method_376(var1, var4, (byte)43, (byte)2);
-		class_8 var10000;
+		cGame var10000;
 		int var10001;
 		int var10002;
 		byte var10003;
@@ -17435,7 +17435,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 			byte var10003;
 			byte var10004;
 			byte var10005;
-			class_8 var18 = null; //NOTE: ADDED AS DITY FIX FROM PROCYON OUTPUT
+			cGame var18 = null; //NOTE: ADDED AS DITY FIX FROM PROCYON OUTPUT
 			label30: { //FIXME: THIS MAY BE BETTER AS A WHILE LOOP, CHECK PROCYON OUTPUT
 		  	this.method_376(this.field_484, (byte)var5, (byte)45, (byte)2);
 				this.field_485 = var7;
@@ -17491,13 +17491,13 @@ public final class class_8 extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: b (a, int) int
-	private static int method_401(BitmapGfx var0, int var1) {
+	private static int method_401(ASprite var0, int var1) {
 		int var2 = (var1 << 2) + 3;
 		return var0.field_9[var2] & 255;
 	}
 
 	// $FF: renamed from: c (a, int) int
-	private static int method_402(BitmapGfx var0, int var1) {
+	private static int method_402(ASprite var0, int var1) {
 		int var2 = (var1 << 2) + 2;
 		return var0.field_9[var2] & 255;
 	}
@@ -17590,7 +17590,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: a (javax.microedition.lcdui.Graphics, a, java.lang.String, int, int, int, int, boolean) void
-	private static void method_405(Graphics var0, BitmapGfx var1, String var2, int var3, int var4, int var5, int var6, boolean var7) {
+	private static void method_405(Graphics var0, ASprite var1, String var2, int var3, int var4, int var5, int var6, boolean var7) {
 		var1.field_26 = var6;
 		if (var2.endsWith("\n")) {
 			var2 = var2.substring(0, var2.length() - 1);
@@ -17649,7 +17649,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: a (javax.microedition.lcdui.Graphics, byte[], a, int, int, int, a, int, int) int
-	private int method_406(Graphics var1, byte[] var2, BitmapGfx var3, int var4, int var5, int var6, BitmapGfx var7, int var8, int var9) {
+	private int method_406(Graphics var1, byte[] var2, ASprite var3, int var4, int var5, int var6, ASprite var7, int var8, int var9) {
 		int var10 = 0;
 		var6 -= var3.spriteDefs[2];
 		int var11 = var3.field_26 + (var3.spriteDims[1] & 255);
@@ -17708,7 +17708,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 							continue;
 						}
 
-						var10000 = BitmapGfx.field_25;
+						var10000 = ASprite.field_25;
 						var30 = var22;
 					} else {
 						if (var22 == 32) {
@@ -17854,7 +17854,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 	// $FF: renamed from: cw () void
 	private void method_413() {
 		int var3;
-		BitmapGfx var10000;
+		ASprite var10000;
 		Graphics var10001;
 		StringBuffer var10002;
 		int var10003;
@@ -17889,7 +17889,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 			field_512.append('/');
 			field_512.append(var5);
 			field_320[41].updateDrawnTextSize(field_512.toString());
-			int var7 = BitmapGfx.drawnTextWidth + 6 + 14;
+			int var7 = ASprite.drawnTextWidth + 6 + 14;
 			int var9 = 37 + this.field_528 * 13 + 6;
 			int var10 = 73 + this.field_529 * 13 + 6;
 			int var11 = var9 - (var7 >> 1) + 0;
@@ -17935,7 +17935,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 	private boolean method_416() {
 		boolean var1 = false;
 		int var2 = this.field_545 >> 1;
-		class_8 var10000;
+		cGame var10000;
 		int var10001;
 		if (this.field_547 < 0) {
 			var10000 = this;
@@ -18360,7 +18360,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 
 	// $FF: renamed from: w (int, int) void
 	private void method_420(int var1, int var2) {
-		class_8 var10000;
+		cGame var10000;
 		if (!this.field_551) {
 			int var5 = method_410(field_509[this.field_385][this.field_386], (byte)6, (byte)5);
 			if ((var2 != field_532 || var1 != var5) && (var1 != field_532 || var2 != var5)) {
@@ -18837,7 +18837,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 					field_320[23] = loadGfxFile("/ms.f", 1);
 					return;
 				case 6:
-					BitmapGfx[] var10000;
+					ASprite[] var10000;
 					byte var10001;
 					String var10002;
 					byte var10003;
@@ -18963,7 +18963,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 				long var3;
 				if ((var3 = field_509[var1][var2]) != 0L) {
 					int var5 = method_410(var3, (byte)6, (byte)5);
-					class_8 var10000;
+					cGame var10000;
 					int var10001;
 					int var10002;
 					byte var10003;
@@ -19088,7 +19088,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 
 			field_320[17].method_8(this.field_314, 14, 20, 43 + this.field_97 * 20 + 2, 0, 0, 0);
 			method_429(this.field_314, 10, 155, 220, 70, 0x41340D, 0);
-			BitmapGfx var10000;
+			ASprite var10000;
 			Graphics var10001;
 			String var10002;
 			byte var10003;
@@ -19201,7 +19201,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 				return;
 			case 2:
 				label87: {
-					class_8 var10000;
+					cGame var10000;
 					int var10001;
 					label86: {
 						byte var10002;
@@ -19292,7 +19292,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 			for(int var10 = this.field_559 >= 340 ? -(this.field_559 % 17) : 340 - this.field_559 - 17; var4 < field_565.length && var3 < 340; ++var4) {
 				if (field_565[var4] == 10) {
 					field_320[41].spritePalette = 0;
-					this.method_406(var1, field_565, field_320[41], var5, var4 - var5, var3 + var10, (BitmapGfx)null, 0, 234);
+					this.method_406(var1, field_565, field_320[41], var5, var4 - var5, var3 + var10, (ASprite)null, 0, 234);
 					var3 += 17;
 					var5 = var4 + 1;
 				}
@@ -19350,13 +19350,13 @@ public final class class_8 extends GameCanvas implements Runnable {
 
 	// $FF: renamed from: cK () void
 	private void method_440() {
-		BitmapGfx var1 = field_320[41];
+		ASprite var1 = field_320[41];
 		if (field_567 > 0) {
 			int var2 = var1.field_26;
 			var1.field_26 = 3;
 			var1.updateDrawnTextSize(this.field_569);
-			int var3 = BitmapGfx.drawnTextHeight;
-			int var4 = BitmapGfx.drawnTextWidth;
+			int var3 = ASprite.drawnTextHeight;
+			int var4 = ASprite.drawnTextWidth;
 			if (this.field_570 == -1) {
 				this.field_570 = 240 - var4 >> 1;
 			}
@@ -19374,7 +19374,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 
 	// $FF: renamed from: a (java.lang.String, int) java.lang.String
 	public static String method_441(String var0, int var1) {
-		BitmapGfx var2 = field_320[41];
+		ASprite var2 = field_320[41];
 		int var4 = 0;
 		int var6 = 0;
 		int var7 = 0;
@@ -19404,7 +19404,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 							continue;
 						}
 
-						var11 = BitmapGfx.field_25[var11] & 255;
+						var11 = ASprite.field_25[var11] & 255;
 						int var10002;
 						if (var11 >= var2.method_5(0)) {
 							int var12 = var11 - var2.method_5(0);
@@ -19447,7 +19447,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 			System.gc();
 		}
 
-		field_320[41] = new BitmapGfx();
+		field_320[41] = new ASprite();
 		byte[] var0 = loadPackedFile("/ui.f", 1);
 		field_320[41].loadData(var0, 0);
 		field_320[41].initSprites(0, 0, -1, -1);

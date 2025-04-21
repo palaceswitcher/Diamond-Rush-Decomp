@@ -2,7 +2,7 @@ import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 
 // $FF: renamed from: a
-public final class BitmapGfx {
+public final class ASprite {
 	private static final short ARGB8888 = (short) 0x8888;
 	private static final short ARGB4444 = 0x4444;
 	private static final short ARGB1555 = 0x5515;

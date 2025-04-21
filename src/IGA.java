@@ -2,13 +2,13 @@ import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 
 // $FF: renamed from: e
-public final class class_5 {
+public final class IGA {
    // $FF: renamed from: a javax.microedition.lcdui.Image[]
    public static Image[] field_58;
    // $FF: renamed from: a a
-   public static BitmapGfx field_59;
+   public static ASprite field_59;
    // $FF: renamed from: b a
-   public static BitmapGfx field_60;
+   public static ASprite field_60;
    // $FF: renamed from: a java.lang.String[]
    public static String[] field_61;
    // $FF: renamed from: b java.lang.String[]
@@ -24,7 +24,7 @@ public final class class_5 {
    // $FF: renamed from: d int
    public int field_67;
 
-   public class_5() {
+   public IGA() {
       field_58 = new Image[5];
       field_61 = new String[5];
    }
@@ -33,7 +33,7 @@ public final class class_5 {
    private static void method_37(String var0) {
       if (var0 != null) {
          try {
-            class_8.field_358.platformRequest(var0);
+            cGame.field_358.platformRequest(var0);
          } catch (Exception var2) {
          }
       }
@@ -41,21 +41,21 @@ public final class class_5 {
 
    // $FF: renamed from: a () void
    public static void method_38() {
-      field_60 = class_8.field_320[41];
+      field_60 = cGame.field_320[41];
       field_60.field_26 = 1;
-      field_59 = class_8.loadGfxFile("/tips.f", 0);
+      field_59 = cGame.loadGfxFile("/tips.f", 0);
       if (field_62 == null) {
          boolean var0 = false;
-         field_62 = class_8.loadStringsFromFile("/lang_IGA.f", 15);
-         field_62[7] = class_8.method_441(field_62[7], 170);
-         field_62[8] = class_8.method_441(field_62[8], 170);
-         field_62[9] = class_8.method_441(field_62[9], 170);
+         field_62 = cGame.loadStringsFromFile("/lang_IGA.f", 15);
+         field_62[7] = cGame.method_441(field_62[7], 170);
+         field_62[8] = cGame.method_441(field_62[8], 170);
+         field_62[9] = cGame.method_441(field_62[9], 170);
       }
 
       int var3 = 10;
 
       for(int var1 = 0; var3 <= 14; ++var1) {
-         field_61[var1] = class_8.field_358.getAppProperty(field_62[var3]);
+         field_61[var1] = cGame.field_358.getAppProperty(field_62[var3]);
          if (field_61[var1] != null && (field_61[var1].compareTo("no") == 0 || field_61[var1].compareTo("") == 0)) {
             field_61[var1] = null;
          }
@@ -71,12 +71,12 @@ public final class class_5 {
             field_58[var4] = Image.createImage("/ad" + (var4 + 1));
          }
 
-         class_8.field_323[0] = new class_6(class_8.loadGfxFile("/ui.f", 0), 0, 0, (class_6)null);
+         cGame.field_323[0] = new ASpriteInstance(cGame.loadGfxFile("/ui.f", 0), 0, 0, (ASpriteInstance)null);
       } catch (Exception var2) {
       }
 
       field_63 = 0;
-      class_8.method_363(3);
+      cGame.method_363(3);
    }
 
    // $FF: renamed from: a (int) void
@@ -116,7 +116,7 @@ public final class class_5 {
 
             String var2 = var10000[var10001];
             field_60.updateDrawnTextSize(var2);
-            int var3 = BitmapGfx.drawnTextWidth + 2;
+            int var3 = ASprite.drawnTextWidth + 2;
             int var4 = field_60.method_6(var2);
             int var6;
             if (var1 != 0) {
@@ -157,7 +157,7 @@ public final class class_5 {
       method_41(var1);
       int var2 = 0;
       if (field_63 != 3) {
-         class_8.field_323[0].field_73.method_8(var1, 11, 120, 15, 0, 0, 0);
+         cGame.field_323[0].field_73.method_8(var1, 11, 120, 15, 0, 0, 0);
       }
 
       int var10000;
@@ -166,13 +166,13 @@ public final class class_5 {
             var1.drawImage(field_58[field_63], 120, 15, 17);
             field_60.method_14(var1, field_62[3], 120, 160, 3);
             field_60.updateDrawnTextSize(field_62[3]);
-            var10000 = 160 + (BitmapGfx.drawnTextHeight >> 1) + 4;
+            var10000 = 160 + (ASprite.drawnTextHeight >> 1) + 4;
             break;
          case 4:
             field_60.method_14(var1, "\n\u0001\u0002" + field_62[6], 120, 35, 17);
             field_60.method_14(var1, field_62[7], 120, 160, 3);
             field_60.updateDrawnTextSize(field_62[7]);
-            var10000 = 160 + (BitmapGfx.drawnTextHeight >> 1) + 4;
+            var10000 = 160 + (ASprite.drawnTextHeight >> 1) + 4;
             break;
          default:
             var1.drawImage(field_58[field_63], 120, 240, 33);
@@ -181,32 +181,32 @@ public final class class_5 {
       }
 
       var2 = var10000;
-      class_8.field_92.method_176();
+      cGame.field_92.method_176();
       if (field_61[field_63] != null) {
-         class_8.field_92.method_177();
+         cGame.field_92.method_177();
       }
 
       method_40(var1, var2);
-      if (class_8.isKeyPressed(16388)) {
+      if (cGame.isKeyPressed(16388)) {
          method_39(-1);
-      } else if (class_8.isKeyPressed(65544)) {
+      } else if (cGame.isKeyPressed(65544)) {
          method_39(1);
-      } else if (class_8.isKeyPressed(32944)) {
+      } else if (cGame.isKeyPressed(32944)) {
          method_37(field_61[field_63]);
-      } else if (class_8.isKeyPressed(64)) {
-         class_8.field_92.method_63(0);
+      } else if (cGame.isKeyPressed(64)) {
+         cGame.field_92.method_63(0);
          field_65 = 2;
-         class_8.keysPressed = 0;
+         cGame.keysPressed = 0;
       }
 
-      field_59.method_7(var1, class_8.isKeyPressed(16388) ? 2 : 0, field_64 % field_59.method_4(0), 20 + this.field_67, 160, 0, 0, 0);
-      field_59.method_7(var1, class_8.isKeyPressed(65544) ? 3 : 1, field_64 % field_59.method_4(1), 220 - this.field_67, 160, 0, 0, 0);
+      field_59.method_7(var1, cGame.isKeyPressed(16388) ? 2 : 0, field_64 % field_59.method_4(0), 20 + this.field_67, 160, 0, 0, 0);
+      field_59.method_7(var1, cGame.isKeyPressed(65544) ? 3 : 1, field_64 % field_59.method_4(1), 220 - this.field_67, 160, 0, 0, 0);
       this.field_67 += this.field_66 ? -1 : 1;
       if (this.field_67 > 3 || this.field_67 < 1) {
          this.field_66 = !this.field_66;
       }
 
-      class_8.keysPressed = 0;
+      cGame.keysPressed = 0;
    }
 
    // $FF: renamed from: b () void

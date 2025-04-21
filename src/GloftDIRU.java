@@ -6,13 +6,13 @@ public final class GloftDIRU extends MIDlet {
    // $FF: renamed from: a byte[]
    public static byte[] field_574 = null;
    // $FF: renamed from: a i
-   public class_8 field_575;
+   public cGame field_575;
    // $FF: renamed from: a javax.microedition.lcdui.Display
    public Display field_576;
 
    public GloftDIRU() {
       field_574 = ((MIDlet)this).getAppProperty("MIDlet-Version").getBytes();
-      this.field_575 = new class_8(this);
+      this.field_575 = new cGame(this);
    }
 
    public final void startApp() throws MIDletStateChangeException {
@@ -35,7 +35,7 @@ public final class GloftDIRU extends MIDlet {
 
    // $FF: renamed from: a () void
    public final void method_443() {
-      class_8.method_289();
+      cGame.method_289();
       this.field_575.field_353.method_55();
       this.method_444();
 

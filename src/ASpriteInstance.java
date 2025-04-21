@@ -1,7 +1,7 @@
 import javax.microedition.lcdui.Graphics;
 
 // $FF: renamed from: g
-public final class class_6 {
+public final class ASpriteInstance {
    // $FF: renamed from: a int
    public int field_68;
    // $FF: renamed from: b int
@@ -13,7 +13,7 @@ public final class class_6 {
    // $FF: renamed from: e int
    public int field_72;
    // $FF: renamed from: a a
-   public BitmapGfx field_73;
+   public ASprite field_73;
    // $FF: renamed from: f int
    public int field_74;
    // $FF: renamed from: g int
@@ -21,12 +21,12 @@ public final class class_6 {
    // $FF: renamed from: h int
    public int field_76;
    // $FF: renamed from: a g
-   public class_6 field_77;
+   public ASpriteInstance field_77;
 
-   public class_6() {
+   public ASpriteInstance() {
    }
 
-   public class_6(BitmapGfx var1, int var2, int var3, class_6 var4) {
+   public ASpriteInstance(ASprite var1, int var2, int var3, ASpriteInstance var4) {
       this.field_68 = var2 << 0;
       this.field_69 = var3 << 0;
       this.field_73 = var1;
@@ -78,8 +78,8 @@ public final class class_6 {
          int var2 = this.field_68;
          int var3 = this.field_69;
 
-         class_6 var4;
-         for(class_6 var10000 = this; (var4 = var10000.field_77) != null; var10000 = var4) {
+         ASpriteInstance var4;
+         for(ASpriteInstance var10000 = this; (var4 = var10000.field_77) != null; var10000 = var4) {
             var2 += var4.field_68;
             var3 += var4.field_69;
          }

@@ -1,7 +1,7 @@
 import javax.microedition.lcdui.Graphics;
 
 // $FF: renamed from: b
-public final class class_2 {
+public final class GemsRain {
    // $FF: renamed from: a byte[][]
    public static byte[][] field_29;
    // $FF: renamed from: a byte
@@ -70,10 +70,10 @@ public final class class_2 {
       for(int var3 = 0; var3 < var0; ++var3) {
          int var5;
          do {
-            var5 = class_4.method_36(0, 12);
+            var5 = Utils.method_36(0, 12);
          } while(field_29[var5][0] != 0);
 
-         var2 = class_4.method_36(1, 3);
+         var2 = Utils.method_36(1, 3);
          field_29[var5][0] = (byte)var2;
       }
 
@@ -81,10 +81,10 @@ public final class class_2 {
          for(int var9 = 0; var9 < var0; ++var9) {
             int var6;
             do {
-               var6 = class_4.method_36(0, 12);
+               var6 = Utils.method_36(0, 12);
             } while(field_33[var6][0] != 0);
 
-            var2 = class_4.method_36(1, 3);
+            var2 = Utils.method_36(1, 3);
             field_33[var6][0] = (byte)var2;
          }
       }
@@ -95,11 +95,11 @@ public final class class_2 {
    public static void method_18(Graphics var0) {
       for(int var1 = 0; var1 < 12; ++var1) {
          for(int var2 = 0; var2 < 13; ++var2) {
-            BitmapGfx var10000;
+            ASprite var10000;
             Graphics var10001;
             int var10002;
             if (field_29[var1][var2] == 1) {
-               var10000 = class_8.field_320[class_8.method_149(2)];
+               var10000 = cGame.field_320[cGame.method_149(2)];
                var10001 = var0;
                var10002 = field_32;
             } else {
@@ -107,7 +107,7 @@ public final class class_2 {
                   continue;
                }
 
-               var10000 = class_8.field_320[class_8.method_149(2)];
+               var10000 = cGame.field_320[cGame.method_149(2)];
                var10001 = var0;
                var10002 = 0;
             }
@@ -120,7 +120,7 @@ public final class class_2 {
          for(int var3 = 0; var3 < 12; ++var3) {
             for(int var4 = 0; var4 < 13; ++var4) {
                if (field_33[var3][var4] == 1 || field_33[var3][var4] == 2) {
-                  class_8.field_320[class_8.method_149(2)].method_8(var0, 0, var3 * 24, (var4 - 1) * 24 + field_34, 0, 0, 0);
+                  cGame.field_320[cGame.method_149(2)].method_8(var0, 0, var3 * 24, (var4 - 1) * 24 + field_34, 0, 0, 0);
                }
             }
          }
