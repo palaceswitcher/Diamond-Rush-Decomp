@@ -307,9 +307,9 @@ public final class cGame extends GameCanvas implements Runnable {
 	// $FF: renamed from: t boolean
 	public boolean field_229;
 	// $FF: renamed from: aP int
-	public int field_230;
+	public int playerXPos;
 	// $FF: renamed from: aQ int
-	public int field_231;
+	public int playerYPos;
 	// $FF: renamed from: aR int
 	public int field_232;
 	// $FF: renamed from: aS int
@@ -1183,10 +1183,10 @@ public final class cGame extends GameCanvas implements Runnable {
 							case 16:
 								this.field_190 = this.field_191 = 0;
 								this.field_234 = 5;
-								field_334[this.field_230][this.field_231] = 9;
+								field_334[this.playerXPos][this.playerYPos] = 9;
 								this.field_233 = this.field_233 & -113 | 0;
-								field_333[this.field_230][this.field_231] = 138412032;
-								field_336[this.field_230][this.field_231] = 24;
+								field_333[this.playerXPos][this.playerYPos] = 138412032;
+								field_336[this.playerXPos][this.playerYPos] = 24;
 								return;
 							case 64:
 								this.method_211(1000);
@@ -1198,11 +1198,11 @@ public final class cGame extends GameCanvas implements Runnable {
 							byte var6 = (byte)var3;
 
 							do {
-								int var7 = this.field_230 - field_325[var6];
-								int var8 = this.field_231 - field_325[var6 + 8];
+								int var7 = this.playerXPos - field_325[var6];
+								int var8 = this.playerYPos - field_325[var6 + 8];
 								if (field_334[var7][var8] < 0 && (byte)(field_332[var7][var8] & 255) < 0) {
-									this.field_230 = var7;
-									this.field_231 = var8;
+									this.playerXPos = var7;
+									this.playerYPos = var8;
 									this.field_232 = 18;
 									this.field_196 = 0;
 									this.field_233 = this.field_233 & -8 | var6 | 2048;
@@ -2693,7 +2693,7 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: x () void
-	private void method_90() {
+	private void selectPreviousMenuItem() {
 		this.currentMenuSelection--;
 		if (this.currentMenuSelection < 0) {
 			this.currentMenuSelection = (field_561[this.currentMenu].length >> 1) - 1; //Wrap around menu
@@ -2702,7 +2702,7 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: y () void
-	private void method_91() {
+	private void selectNextMenuItem() {
 		this.currentMenuSelection = (this.currentMenuSelection + 1) % (field_561[this.currentMenu].length >> 1);
 	}
 
@@ -6239,7 +6239,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			}
 		}
 
-		if (this.field_230 > 55 && this.field_100) {
+		if (this.playerXPos > 55 && this.field_100) {
 			field_323[0].method_47(this.field_314);
 		}
 
@@ -6510,13 +6510,13 @@ public final class cGame extends GameCanvas implements Runnable {
 	// $FF: renamed from: az () void
 	private void method_191() {
 		if (!this.field_338) {
-			int var1 = this.field_230;
-			int var2 = this.field_231;
+			int var1 = this.playerXPos;
+			int var2 = this.playerYPos;
 			int var3 = field_226;
 			int var4 = this.field_233 & 7;
 			int var5 = (this.field_233 & 16384) == 0 ? 0 : 3;
 			ASpriteInstance var6 = field_323[var5];
-			boolean var7 = this.method_210();
+			boolean var7 = this.playerPosInBounds();
 			int var8 = (this.field_233 & 2048) == 0 ? this.field_291 : this.field_233 & 7;
 			if (this.field_100) {
 				this.field_269 = var1 * 24 + field_325[var8] * this.field_232 - this.field_201;
@@ -7205,7 +7205,7 @@ public final class cGame extends GameCanvas implements Runnable {
 
 			if (var16 >= var5) {
 				method_345(var1, var2);
-				int var10 = this.method_324(var1, var2, this.field_230, this.field_231, true);
+				int var10 = this.method_324(var1, var2, this.playerXPos, this.playerYPos, true);
 				boolean var11 = false;
 				switch (var4) {
 				case 0:
@@ -7450,19 +7450,20 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: b () boolean
-	private boolean method_210() {
-		return this.field_230 > 0 && this.field_230 < this.currentLevelWidth - 1 && this.field_231 > 0 && this.field_231 < this.currenLevelHeight - 1;
+	// Returns true if the player's position is within the bounds of the level
+	private boolean playerPosInBounds() {
+		return this.playerXPos > 0 && this.playerXPos < this.currentLevelWidth - 1 && this.playerYPos > 0 && this.playerYPos < this.currenLevelHeight - 1;
 	}
 
 	// $FF: renamed from: n (int) void
 	private void method_211(int var1) {
 		int var2 = field_323[0].field_74;
 		if (var2 != 19 && (this.field_233 & 16384) == 0 && (this.field_233 & 2048) == 0) {
-			if (this.method_210()) {
-				int var10000 = field_500 == null ? 0 : method_373(field_500[this.field_230][this.field_231], (byte)0, (byte)3, (byte)4);
-				int var3 = field_500 == null ? 0 : method_373(field_500[this.field_230][this.field_231], (byte)0, (byte)3, (byte)4);
+			if (this.playerPosInBounds()) {
+				int var10000 = field_500 == null ? 0 : method_373(field_500[this.playerXPos][this.playerYPos], (byte)0, (byte)3, (byte)4);
+				int var3 = field_500 == null ? 0 : method_373(field_500[this.playerXPos][this.playerYPos], (byte)0, (byte)3, (byte)4); //TODO VERIFY THIS IN BYTECODE
 				if (var10000 != 8 && var3 != 7) {
-					if (field_334[this.field_230][this.field_231 + 1] < 0 || field_334[this.field_230][this.field_231 + 1] == 14) {
+					if (field_334[this.playerXPos][this.playerYPos + 1] < 0 || field_334[this.playerXPos][this.playerYPos + 1] == 14) {
 						switch (var1) {
 							case 0:
 								var1 = 0;
@@ -7904,15 +7905,15 @@ public final class cGame extends GameCanvas implements Runnable {
 	private void method_222() {
 		if (this.currentWorld == 0 && this.currentLevel == 13) {
 			this.field_354 = null;
-			this.field_230 = 60;
-			this.field_231 = 3;
+			this.playerXPos = 60;
+			this.playerYPos = 3;
 		} else {
 			this.field_551 = isKeyPressed(SKEY_NUM9);
 			this.field_309 = !this.field_551;
 			this.field_248 = 0;
 			this.field_247 = 0;
 			this.field_238 = true;
-			this.field_230 = this.currentLevelWidth + 5 + 1;
+			this.playerXPos = this.currentLevelWidth + 5 + 1;
 		}
 	}
 
@@ -8145,12 +8146,12 @@ public final class cGame extends GameCanvas implements Runnable {
 					if (var1) {
 						this.field_234--;
 						if (this.field_234 == 0) {
-							if ((byte)(field_332[this.field_230][this.field_231] & 255) < 0) {
-								field_332[this.field_230][this.field_231] = 32;
+							if ((byte)(field_332[this.playerXPos][this.playerYPos] & 255) < 0) {
+								field_332[this.playerXPos][this.playerYPos] = 32;
 							}
 
-							if (field_334[this.field_230][this.field_231] == 9) {
-								field_334[this.field_230][this.field_231] = -1;
+							if (field_334[this.playerXPos][this.playerYPos] == 9) {
+								field_334[this.playerXPos][this.playerYPos] = -1;
 							}
 
 							this.field_241 = 40L;
@@ -8176,7 +8177,7 @@ public final class cGame extends GameCanvas implements Runnable {
 							this.field_208 = -1;
 							int var22;
 							if ((var22 = field_323[0].field_74) == 36 + (this.field_233 & 7) - 1) {
-								if ((field_332[this.field_230][this.field_231] & 255) == 4) {
+								if ((field_332[this.playerXPos][this.playerYPos] & 255) == 4) {
 									this.method_347();
 								} else {
 									this.method_433(2);
@@ -8191,7 +8192,7 @@ public final class cGame extends GameCanvas implements Runnable {
 								case 3:
 								case 34:
 								case 35:
-									if ((field_332[this.field_230][this.field_231] & 255) == 4) {
+									if ((field_332[this.playerXPos][this.playerYPos] & 255) == 4) {
 										this.method_347();
 									} else {
 										this.method_433(2);
@@ -8204,11 +8205,11 @@ public final class cGame extends GameCanvas implements Runnable {
 						}
 					} else {
 						keysPressed = 0;
-						if (this.field_293 == this.field_230 && this.field_294 == this.field_231 && (field_332[this.field_230][this.field_231] & 255) == 4) {
+						if (this.field_293 == this.playerXPos && this.field_294 == this.playerYPos && (field_332[this.playerXPos][this.playerYPos] & 255) == 4) {
 							this.method_433(9);
 							this.method_347();
 						} else {
-							int var21 = field_500 == null ? 0 : method_373(field_500[this.field_230][this.field_231], (byte)0, (byte)3, (byte)4);;
+							int var21 = field_500 == null ? 0 : method_373(field_500[this.playerXPos][this.playerYPos], (byte)0, (byte)3, (byte)4);;
 							if (var21 != 8 && var21 != 7) {
 								int var2 = this.field_233 & 7;
 								int var3 = -1;
@@ -8219,12 +8220,12 @@ public final class cGame extends GameCanvas implements Runnable {
 
 									for(int i = 0; i < 2; i++) {
 										int var8 = i == 0 ? 1 : -1;
-										if (var8 > 0 && this.field_230 < this.currentLevelWidth - 3 || var8 < 0 && this.field_230 > 3) {
+										if (var8 > 0 && this.playerXPos < this.currentLevelWidth - 3 || var8 < 0 && this.playerXPos > 3) {
 											for(int j = 1; j <= 3; j++) {
-												int var10 = this.field_230 + var8 * j;
-												byte var11 = field_334[var10][this.field_231];
-												if ((field_332[var10][this.field_231] & 255) != 7 || (field_332[var10][this.field_231] >> 8 & 240) != 0) {
-													if (var11 == 48 && (field_333[var10][this.field_231] & 8) != 0) {
+												int var10 = this.playerXPos + var8 * j;
+												byte var11 = field_334[var10][this.playerYPos];
+												if ((field_332[var10][this.playerYPos] & 255) != 7 || (field_332[var10][this.playerYPos] >> 8 & 240) != 0) {
+													if (var11 == 48 && (field_333[var10][this.playerYPos] & 8) != 0) {
 														continue;
 													}
 
@@ -8272,8 +8273,8 @@ public final class cGame extends GameCanvas implements Runnable {
 									int[] var13 = new int[]{0, 0, 0, 0, 3, 6, 12, 9, 1, 2, 4, 8};
 
 									for(int i = 0; i < var24.length; i++) {
-										int var15 = this.field_230 + var24[i];
-										int var16 = this.field_231 + var25[i];
+										int var15 = this.playerXPos + var24[i];
+										int var16 = this.playerYPos + var25[i];
 										if (var15 >= 0 && var15 < this.currentLevelWidth && var16 >= 0 && var16 < this.currenLevelHeight) {
 											int var17 = field_333[var15][var16] & 7;
 											boolean var18 = false;
@@ -8383,9 +8384,9 @@ public final class cGame extends GameCanvas implements Runnable {
 									this.field_233 = var30 | var4;
 								}
 
-								if (this.field_196 == 6 && (field_332[this.field_230][this.field_231] & 255) == 2 && field_332[this.field_230][this.field_231] >> 8 == 1) {
+								if (this.field_196 == 6 && (field_332[this.playerXPos][this.playerYPos] & 255) == 2 && field_332[this.playerXPos][this.playerYPos] >> 8 == 1) {
 									this.field_208 = -1;
-									this.method_287(this.field_230, this.field_231, (byte)2);
+									this.method_287(this.playerXPos, this.playerYPos, (byte)2);
 								}
 							}
 						}
@@ -8412,18 +8413,18 @@ public final class cGame extends GameCanvas implements Runnable {
 					return;
 				}
 
-				this.method_90();
+				this.selectPreviousMenuItem();
 				if (this.currentMenu == 0 && this.currentMenuSelection == 1 && !this.field_432) {
-					this.method_90();
+					this.selectPreviousMenuItem();
 				}
 			} else if (isKeyPressed(SKEY_NUM8|SKEY_DOWN)) {
 				if (System.currentTimeMillis() - this.field_431 < 300L) {
 					return;
 				}
 
-				this.method_91();
+				this.selectNextMenuItem();
 				if (this.currentMenu == 0 && this.currentMenuSelection == 1 && !this.field_432) {
-					this.method_91();
+					this.selectNextMenuItem();
 				}
 			} else if (isKeyPressed(SKEY_NUM5|SKEY_CENTER_ALT|SKEY_CENTER|SKEY_LSH)) {
 				if (this.field_425 < 0 || this.field_425 > 2) {
@@ -8549,7 +8550,7 @@ public final class cGame extends GameCanvas implements Runnable {
 					boolean var13 = false;
 					switch (var8) {
 						case 1:
-							if (var10 == this.field_230 - field_325[this.field_233 & 7] && var11 == this.field_231 - field_325[(this.field_233 & 7) + 8]) {
+							if (var10 == this.playerXPos - field_325[this.field_233 & 7] && var11 == this.playerYPos - field_325[(this.field_233 & 7) + 8]) {
 								var13 = true;
 							}
 							break;
@@ -8571,7 +8572,7 @@ public final class cGame extends GameCanvas implements Runnable {
 							}
 					}
 
-					if (var6 && var13 && (var10 != this.field_230 || var11 != this.field_231)) {
+					if (var6 && var13 && (var10 != this.playerXPos || var11 != this.playerYPos)) {
 						if (this.method_240(var10, var11)) {
 							this.field_233 |= 8192;
 						}
@@ -8647,7 +8648,7 @@ public final class cGame extends GameCanvas implements Runnable {
 	// $FF: renamed from: c () boolean
 	private boolean method_232() {
 		if (this.field_487 == 3) {
-			int var1 = field_332[this.field_230][this.field_231] & 255;
+			int var1 = field_332[this.playerXPos][this.playerYPos] & 255;
 			if (this.field_311 == 0 && var1 != 15 && var1 != 16) {
 				this.method_433(0);
 				cGame var10000;
@@ -8759,7 +8760,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			field_222 = 28;
 		}
 
-		boolean var1 = this.method_210();
+		boolean var1 = this.playerPosInBounds();
 		if (this.field_474) {
 			this.field_474 = false;
 			if (this.field_479 < this.field_480) {
@@ -8940,22 +8941,22 @@ public final class cGame extends GameCanvas implements Runnable {
 			cGame var32;
 			byte var36;
 			if (this.field_234 > 0) {
-				if (field_334[this.field_230][this.field_231] < 0) {
+				if (field_334[this.playerXPos][this.playerYPos] < 0) {
 					byte var39;
-					if (field_334[this.field_230][this.field_231 + 1] == 9 && (field_333[this.field_230][this.field_231 + 1] & 7) == 3) {
-						++this.field_231;
+					if (field_334[this.playerXPos][this.playerYPos + 1] == 9 && (field_333[this.playerXPos][this.playerYPos + 1] & 7) == 3) {
+						++this.playerYPos;
 						var32 = this;
 						var36 = (byte) (this.field_233 & -8);
 						var39 = 3;
-					} else if (field_334[this.field_230 - 1][this.field_231 + 1] == 9 && (field_333[this.field_230 - 1][this.field_231 + 1] & 7) == 3) {
-						++this.field_231;
-						--this.field_230;
+					} else if (field_334[this.playerXPos - 1][this.playerYPos + 1] == 9 && (field_333[this.playerXPos - 1][this.playerYPos + 1] & 7) == 3) {
+						++this.playerYPos;
+						--this.playerXPos;
 						var32 = this;
 						var36 = (byte) (this.field_233 & -8);
 						var39 = 3;
-					} else if (field_334[this.field_230 + 1][this.field_231 + 1] == 9 && (field_333[this.field_230 + 1][this.field_231 + 1] & 7) == 3) {
-						++this.field_231;
-						++this.field_230;
+					} else if (field_334[this.playerXPos + 1][this.playerYPos + 1] == 9 && (field_333[this.playerXPos + 1][this.playerYPos + 1] & 7) == 3) {
+						++this.playerYPos;
+						++this.playerXPos;
 						var32 = this;
 						var36 = (byte) (this.field_233 & -8);
 						var39 = 3;
@@ -8969,7 +8970,7 @@ public final class cGame extends GameCanvas implements Runnable {
 				}
 
 				var32 = this;
-				var36 = field_335[this.field_230][this.field_231];
+				var36 = field_335[this.playerXPos][this.playerYPos];
 			} else {
 				if ((this.field_197 == 0 || this.field_232 <= 0 && this.field_197 != 5) && !this.field_238 && (this.field_233 & 112) == 0 && this.field_210 == -1) {
 					this.field_197 = this.field_196;
@@ -8978,12 +8979,12 @@ public final class cGame extends GameCanvas implements Runnable {
 						this.field_197 = 2;
 						--this.field_195;
 						if (this.field_195 == 0) {
-							this.method_258(this.field_230 - 1, this.field_231);
+							this.method_258(this.playerXPos - 1, this.playerYPos);
 							this.field_196 = 0;
 							keysPressed = 0;
 						}
 					} else if (var1) {
-						method_345(this.field_230, this.field_231);
+						method_345(this.playerXPos, this.playerYPos);
 					}
 
 					label299:
@@ -9036,7 +9037,7 @@ public final class cGame extends GameCanvas implements Runnable {
 							if (field_323[0].field_74 != 40 && field_323[0].field_74 != 48) {
 								if ((this.field_233 & 4096) == 0) {
 									var13 = this.method_288(-field_325[this.field_197], -field_325[this.field_197 + 8], false);
-									var1 = this.method_210();
+									var1 = this.playerPosInBounds();
 									if (var13) {
 										this.field_93 = 40;
 										this.field_95 = false;
@@ -9070,29 +9071,29 @@ public final class cGame extends GameCanvas implements Runnable {
 						case 5:
 							this.field_232 = 0;
 							int var23 = this.field_233 & 7;
-							if (this.method_210()) {
+							if (this.playerPosInBounds()) {
 								this.method_211(13 + var23 - 1);
 							}
 							break;
 						case 6:
 							int var17 = (this.field_233 & 7) == 2 ? 1 : -1;
-							if (var1 && field_334[this.field_230 + var17][this.field_231] < 0) {
+							if (var1 && field_334[this.playerXPos + var17][this.playerYPos] < 0) {
 								this.method_211(var17 == -1 ? 22 : 20);
-								field_334[this.field_230 + var17][this.field_231] = 32;
-								field_335[this.field_230 + var17][this.field_231] = 18;
-								field_333[this.field_230 + var17][this.field_231] = 4 | (var17 > 0 ? 1 : 0);
-								field_336[this.field_230 + var17][this.field_231] = 30;
+								field_334[this.playerXPos + var17][this.playerYPos] = 32;
+								field_335[this.playerXPos + var17][this.playerYPos] = 18;
+								field_333[this.playerXPos + var17][this.playerYPos] = 4 | (var17 > 0 ? 1 : 0);
+								field_336[this.playerXPos + var17][this.playerYPos] = 30;
 								this.field_232 = 72;
 								this.field_196 = 0;
 							}
 					}
 
 					if (var1) {
-						byte var20 = field_334[this.field_230][this.field_231 - 1];
-						if (!var13 && this.field_197 != 5 && this.field_232 <= 0 && (var20 == 0 || var20 == 9 || var20 == 8 || var20 == 48) && (field_332[this.field_230][this.field_231] & 255) != 35) {
+						byte var20 = field_334[this.playerXPos][this.playerYPos - 1];
+						if (!var13 && this.field_197 != 5 && this.field_232 <= 0 && (var20 == 0 || var20 == 9 || var20 == 8 || var20 == 48) && (field_332[this.playerXPos][this.playerYPos] & 255) != 35) {
 							int var24 = 0;
 							if (field_500 != null) {
-								var24 = method_373(field_500[this.field_230][this.field_231], (byte)0, (byte)3, (byte)4);
+								var24 = method_373(field_500[this.playerXPos][this.playerYPos], (byte)0, (byte)3, (byte)4);
 							}
 
 							if (!this.field_155 || var24 == 0 && var24 != 3) {
@@ -9114,7 +9115,7 @@ public final class cGame extends GameCanvas implements Runnable {
 					if (var13) {
 						this.field_259 = false;
 					} else if (var1 && (field_226 & 31) == 0) {
-						boolean var21 = field_334[this.field_230][this.field_231 - 1] == 0;
+						boolean var21 = field_334[this.playerXPos][this.playerYPos - 1] == 0;
 
 						for(int var25 = 1; !var21 && var25 <= 4; ++var25) {
 							var21 |= this.method_288(field_325[var25], field_325[var25 + 8], true);
@@ -9142,9 +9143,9 @@ public final class cGame extends GameCanvas implements Runnable {
 
 					var32.field_197 = (byte)var36;
 					this.field_233 = this.field_233 & -8 | this.field_197;
-					this.field_230 += -field_325[this.field_197];
-					this.field_231 += -field_325[this.field_197 + 8];
-					var1 = this.method_210();
+					this.playerXPos += -field_325[this.field_197];
+					this.playerYPos += -field_325[this.field_197 + 8];
+					var1 = this.playerPosInBounds();
 					this.field_232 = 18;
 					if (field_323[0].field_74 != 4) {
 						this.method_211(4 + this.field_197 - 1);
@@ -9191,11 +9192,11 @@ public final class cGame extends GameCanvas implements Runnable {
 		}
 
 		if (this.field_197 != 0 && var1) {
-			this.field_169 = field_334[this.field_230][this.field_231 + 1] >= 0;
+			this.field_169 = field_334[this.playerXPos][this.playerYPos + 1] >= 0;
 		}
 
 		this.method_260();
-		if (this.field_238 && (this.field_230 < -5 || this.field_230 > this.currentLevelWidth + 5 || this.field_231 < -5 || this.field_231 > this.currenLevelHeight + 5)) {
+		if (this.field_238 && (this.playerXPos < -5 || this.playerXPos > this.currentLevelWidth + 5 || this.playerYPos < -5 || this.playerYPos > this.currenLevelHeight + 5)) {
 			this.method_92();
 			if (!this.field_551 && this.currentLevel < this.field_515) {
 				field_222 = 20;
@@ -9863,8 +9864,8 @@ public final class cGame extends GameCanvas implements Runnable {
 							var15 = this.method_261();
 							break label216;
 						case 11:
-							if (field_334[this.field_230][this.field_231 - 1] != -1) {
-								if (var6 && field_334[this.field_230][this.field_231 - 1] != -1) {
+							if (field_334[this.playerXPos][this.playerYPos - 1] != -1) {
+								if (var6 && field_334[this.playerXPos][this.playerYPos - 1] != -1) {
 									this.field_241 = 0L;
 									this.method_61(field_330[8], 32, 0);
 								}
@@ -9886,8 +9887,8 @@ public final class cGame extends GameCanvas implements Runnable {
 						case 29:
 							if (!var6) {
 								if ((this.field_233 & 8192) == 0 && var2.field_75 == 2 && var2.field_76 == 0) {
-									int var11 = this.field_230 - field_325[this.field_233 & 7];
-									int var14 = this.field_231 - field_325[(this.field_233 & 7) + 8];
+									int var11 = this.playerXPos - field_325[this.field_233 & 7];
+									int var14 = this.playerYPos - field_325[(this.field_233 & 7) + 8];
 									if (field_330[9] >= 8 && var2.field_75 == 2 && var2.field_76 == 0) {
 										this.method_254(var11, var14, -1);
 									}
@@ -9910,9 +9911,9 @@ public final class cGame extends GameCanvas implements Runnable {
 								var3 = 0 + (this.field_233 & 7) - 1;
 								this.field_232 = 0;
 							} else if (var2.field_75 > 0 && this.field_210 != -1) {
-								int var10 = (this.field_233 & 7) == 2 ? this.field_230 + 1 : this.field_230 - 1;
-								int var12 = field_332[var10][this.field_231] >> 8;
-								int var9 = field_332[var10][this.field_231] & 255;
+								int var10 = (this.field_233 & 7) == 2 ? this.playerXPos + 1 : this.playerXPos - 1;
+								int var12 = field_332[var10][this.playerYPos] >> 8;
+								int var9 = field_332[var10][this.playerYPos] & 255;
 								var12 |= 256;
 								if (var9 == 9) {
 									--this.playerGoldKeys;
@@ -9920,7 +9921,7 @@ public final class cGame extends GameCanvas implements Runnable {
 									--this.playerSilverKeys;
 								}
 
-								field_332[var10][this.field_231] = var12 << 8 | var9;
+								field_332[var10][this.playerYPos] = var12 << 8 | var9;
 								this.method_256(var12 & 255);
 								this.field_210 = this.field_212 = -1;
 							}
@@ -10027,9 +10028,9 @@ public final class cGame extends GameCanvas implements Runnable {
 							this.field_232 = 0;
 							this.field_196 = this.field_197 = 0;
 							if ((field_226 & 1) == 0) {
-								int var7 = this.field_230 - 2 + field_226 % 5;
-								int var8 = this.field_231 - 2 + field_226 % 3;
-								if (var7 == this.field_230 && (var8 == this.field_231 || var8 == this.field_231 - 1)) {
+								int var7 = this.playerXPos - 2 + field_226 % 5;
+								int var8 = this.playerYPos - 2 + field_226 % 3;
+								if (var7 == this.playerXPos && (var8 == this.playerYPos || var8 == this.playerYPos - 1)) {
 									var7 += (field_226 >> 1 & 1) == 0 ? 1 : -1;
 								}
 
@@ -10113,16 +10114,16 @@ public final class cGame extends GameCanvas implements Runnable {
 					int var2 = field_333[this.field_252][this.field_253];
 					int var3 = this.field_253 + ((var2 & 8) == 0 ? -1 : 1);
 					if (field_334[this.field_252 + var1][var3] >= 0) {
-						int var10000 = this.field_230;
+						int var10000 = this.playerXPos;
 
 						while(true) {
 							int var4 = var10000 - var1;
-							if (field_334[var4][this.field_231] != 32) {
+							if (field_334[var4][this.playerYPos] != 32) {
 								this.field_254 = 0;
 								return;
 							}
 
-							field_334[var4][this.field_231] = -1;
+							field_334[var4][this.playerYPos] = -1;
 							var10000 = var4;
 						}
 					}
@@ -10206,8 +10207,8 @@ public final class cGame extends GameCanvas implements Runnable {
 
 	// $FF: renamed from: bp () void
 	private void method_265() {
-		int var1 = field_337[this.field_207 << 1] - this.field_230;
-		int var2 = field_337[(this.field_207 << 1) + 1] - this.field_231;
+		int var1 = field_337[this.field_207 << 1] - this.playerXPos;
+		int var2 = field_337[(this.field_207 << 1) + 1] - this.playerYPos;
 		if (this.field_174 == 2 && this.field_207 == 2) {
 			var1 = 10;
 			var2 = -8;
@@ -10310,7 +10311,7 @@ public final class cGame extends GameCanvas implements Runnable {
 	// $FF: renamed from: br () void
 	private void method_267() {
 		if (this.method_298(61, 3) && this.field_232 == 6) {
-			this.method_254(this.field_230, this.field_231, 5);
+			this.method_254(this.playerXPos, this.playerYPos, 5);
 			this.field_100 = false;
 		}
 
@@ -10359,7 +10360,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			var10000 = var1;
 		} else {
 			if (this.field_180 == -1) {
-				if (this.field_230 * 24 >= 360) {
+				if (this.playerXPos * 24 >= 360) {
 					this.field_180 = 10;
 					var1.method_44(10);
 					return;
@@ -10373,8 +10374,8 @@ public final class cGame extends GameCanvas implements Runnable {
 			}
 
 			int var2 = -1;
-			int var3 = this.field_230 * 24 + 12;
-			int var4 = this.field_231 * 24;
+			int var3 = this.playerXPos * 24 + 12;
+			int var4 = this.playerYPos * 24;
 			int var5 = this.field_185 + 24;
 			if (this.field_180 == 13) {
 				var2 = 13;
@@ -10650,7 +10651,7 @@ public final class cGame extends GameCanvas implements Runnable {
 	// $FF: renamed from: bt () void
 	private void method_270() {
 		int var1 = this.method_274();
-		if (this.field_230 == var1 || this.field_230 == var1 + 1) {
+		if (this.playerXPos == var1 || this.playerXPos == var1 + 1) {
 			ASpriteInstance var2;
 			int var3 = (var2 = field_323[5]).field_69 + -40;
 			int var4 = var2.field_69 + 256;
@@ -10660,7 +10661,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			var4 -= var5;
 			int var6;
 			if ((var6 = field_323[0].field_69) > var3 && var6 < var4 && !this.field_140) {
-				this.method_61(1, 48, this.field_230 == var1 ? 4 : 2);
+				this.method_61(1, 48, this.playerXPos == var1 ? 4 : 2);
 			}
 		}
 
@@ -10741,7 +10742,7 @@ public final class cGame extends GameCanvas implements Runnable {
 	// $FF: renamed from: i () int
 	private int method_277() {
 		int var1;
-		int var2 = (var1 = this.field_230 - 10) / 3;
+		int var2 = (var1 = this.playerXPos - 10) / 3;
 		if (var1 == var2 * 3 + 2) {
 			var2 += field_226 % 50 / 25;
 		}
@@ -10775,7 +10776,7 @@ public final class cGame extends GameCanvas implements Runnable {
 
 		switch (this.field_180) {
 			case 0:
-				if (this.field_230 >= 10) {
+				if (this.playerXPos >= 10) {
 					this.field_180 = 6;
 					this.field_181 = 0;
 				}
@@ -10962,8 +10963,8 @@ public final class cGame extends GameCanvas implements Runnable {
 	// $FF: renamed from: bv () void
 	private void method_279() {
 		int var1 = this.method_274();
-		if (this.field_231 == 4 && this.field_230 >= var1 - 3 && this.field_230 <= var1 + 4) {
-			this.method_61(1, 64, this.field_230 == var1 ? 4 : 2);
+		if (this.playerYPos == 4 && this.playerXPos >= var1 - 3 && this.playerXPos <= var1 + 4) {
+			this.method_61(1, 64, this.playerXPos == var1 ? 4 : 2);
 			this.field_140 = true;
 		}
 
@@ -10995,10 +10996,10 @@ public final class cGame extends GameCanvas implements Runnable {
 		ASpriteInstance var1 = field_323[5];
 		int var2 = this.field_279;
 		int var3 = this.field_280;
-		int var4 = this.field_230 - 8;
-		int var5 = this.field_230 + 8;
-		int var6 = this.field_231 + 8;
-		int var7 = this.field_231 - 8;
+		int var4 = this.playerXPos - 8;
+		int var5 = this.playerXPos + 8;
+		int var6 = this.playerYPos + 8;
+		int var7 = this.playerYPos - 8;
 
 		for(int var8 = 15; var8 <= 22; ++var8) {
 			for(int var9 = 14; var9 <= 21; ++var9) {
@@ -11028,7 +11029,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			var10000 = var1;
 		} else {
 			if (this.field_180 == -1) {
-				if (this.field_230 * 24 >= 336) {
+				if (this.playerXPos * 24 >= 336) {
 					this.field_180 = 0;
 					var1.method_44(0);
 					return;
@@ -11042,8 +11043,8 @@ public final class cGame extends GameCanvas implements Runnable {
 			}
 
 			byte var17 = -1;
-			int var18 = this.field_230 * 24 + 12;
-			int var10 = this.field_231 * 24;
+			int var18 = this.playerXPos * 24 + 12;
+			int var10 = this.playerYPos * 24;
 			int var11 = this.field_184 + 24;
 			if (this.field_453 == 0L && this.field_239 != 0) {
 				this.field_453 = (long)(field_226 + Utils.method_36(340, 441));
@@ -11363,7 +11364,7 @@ public final class cGame extends GameCanvas implements Runnable {
 				if (field_323[2].field_74 != 0) {
 					if (field_323[2].field_74 == 1 && field_323[2].method_46()) {
 						field_323[2].method_44(2);
-						if (this.field_231 == this.currenLevelHeight - 4) {
+						if (this.playerYPos == this.currenLevelHeight - 4) {
 							this.field_176 = 817;
 						}
 					}
@@ -11400,7 +11401,7 @@ public final class cGame extends GameCanvas implements Runnable {
 					}
 				}
 
-				if (this.currenLevelHeight * 24 - this.field_176 <= this.field_231 * 24 + 18 && this.field_230 < 17) {
+				if (this.currenLevelHeight * 24 - this.field_176 <= this.playerYPos * 24 + 18 && this.playerXPos < 17) {
 					this.method_61(field_330[8], 64, 1);
 					return;
 				}
@@ -11413,9 +11414,9 @@ public final class cGame extends GameCanvas implements Runnable {
 
 	// $FF: renamed from: bA () void
 	private void method_284() {
-		if (field_332 != null && this.method_210() && (field_332[this.field_230][this.field_231] & 255) == 0) {
+		if (field_332 != null && this.playerPosInBounds() && (field_332[this.playerXPos][this.playerYPos] & 255) == 0) {
 			int var1;
-			if ((var1 = field_332[this.field_230][this.field_231] >> 8) == 13) {
+			if ((var1 = field_332[this.playerXPos][this.playerYPos] >> 8) == 13) {
 				this.field_186 = true;
 			} else if (var1 == 16) {
 				this.field_187 = true;
@@ -11436,7 +11437,7 @@ public final class cGame extends GameCanvas implements Runnable {
 		int var5;
 		label58: {
 			var1 = (this.field_233 & 4096) == 0 ? this.field_197 : 0;
-			int var2 = this.field_230 * 24 + this.field_232 * field_325[var1];
+			int var2 = this.playerXPos * 24 + this.field_232 * field_325[var1];
 			var4 = 24 * this.currentLevelWidth - 240;
 			var5 = 24 * this.currenLevelHeight - 240;
 			cGame var10000;
@@ -11467,7 +11468,7 @@ public final class cGame extends GameCanvas implements Runnable {
 		}
 
 		int var6;
-		if ((var6 = this.field_231 * 24 + this.field_232 * field_325[var1 + 8] + 40) < this.field_204 + 96) {
+		if ((var6 = this.playerYPos * 24 + this.field_232 * field_325[var1 + 8] + 40) < this.field_204 + 96) {
 			this.field_204 = this.field_204 - 96 + var6 >> 1;
 			if (this.field_204 < 0) {
 				this.field_204 = 0;
@@ -11560,8 +11561,8 @@ public final class cGame extends GameCanvas implements Runnable {
 	private boolean method_288(int var1, int var2, boolean var3) {
 		int var4 = 0; //NOTE: MODIFY TO MATCH PROCYON OUTPUT
 		int var5 = this.field_233;
-		int var6 = this.field_230;
-		int var7 = this.field_231;
+		int var6 = this.playerXPos;
+		int var7 = this.playerYPos;
 		byte var8 = this.field_197;
 		boolean var9 = this.field_238;
 		int var10 = this.field_242;
@@ -11941,8 +11942,8 @@ public final class cGame extends GameCanvas implements Runnable {
 
 		if (!var3) {
 			this.field_233 = var5;
-			this.field_230 = var6;
-			this.field_231 = var7;
+			this.playerXPos = var6;
+			this.playerYPos = var7;
 			this.field_197 = var8;
 			this.field_238 = var9;
 			this.field_242 = var10;
@@ -12641,12 +12642,12 @@ public final class cGame extends GameCanvas implements Runnable {
 						var58 = 48;
 						break;
 					case 79:
-						this.field_230 = 0;
-						this.field_231 = var9;
+						this.playerXPos = 0;
+						this.playerYPos = var9;
 						this.field_195 = var8;
 						field_334[var8][var9] = -1;
 						this.field_201 = this.field_203 = 0;
-						this.field_202 = this.field_204 = this.field_231 * 24 - 160;
+						this.field_202 = this.field_204 = this.playerYPos * 24 - 160;
 						continue;
 				}
 
@@ -12810,7 +12811,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			}
 		}
 
-		field_332[this.field_195 - 2][this.field_231] = -193 << 8 | 7;
+		field_332[this.field_195 - 2][this.playerYPos] = -193 << 8 | 7;
 		if ((this.field_327 & 4294967296L) != 0L || field_330[9] >= 8) {
 			this.field_327 |= 1099511627776L;
 			this.field_327 |= 2L;
@@ -12857,7 +12858,7 @@ public final class cGame extends GameCanvas implements Runnable {
 
 	// $FF: renamed from: d (int, int) boolean
 	private boolean method_298(int var1, int var2) {
-		return var1 == this.field_230 && var2 == this.field_231;
+		return var1 == this.playerXPos && var2 == this.playerYPos;
 	}
 
 	// $FF: renamed from: u (int) void
@@ -12973,8 +12974,8 @@ public final class cGame extends GameCanvas implements Runnable {
 					}
 				} else if (this.field_466 == 0) {
 					this.field_342 = 3;
-					this.field_339 = this.field_230 * 24 - 108;
-					this.field_340 = this.field_231 * 24 - 108;
+					this.field_339 = this.playerXPos * 24 - 108;
+					this.field_340 = this.playerYPos * 24 - 108;
 					this.field_341 = 5;
 					this.field_462 = menuText[field_343[field_345]];
 					field_320[41].method_6(this.field_462);
@@ -13076,10 +13077,10 @@ public final class cGame extends GameCanvas implements Runnable {
 
 	// $FF: renamed from: bF () void
 	private void method_304() {
-		int var2 = this.field_230 - 8;
-		int var3 = this.field_230 + 8;
-		int var4 = this.field_231 + 8;
-		int var5 = this.field_231 - 8;
+		int var2 = this.playerXPos - 8;
+		int var3 = this.playerXPos + 8;
+		int var4 = this.playerYPos + 8;
+		int var5 = this.playerYPos - 8;
 		int var6 = 0;
 		if (field_323[4] != null) {
 			int var7;
@@ -13677,7 +13678,7 @@ public final class cGame extends GameCanvas implements Runnable {
 
 				if (!this.method_298(var1 - 1, var2) && !this.method_298(var1 + 1, var2) && !this.method_298(var1, var2 - 1)) {
 					int var7 = this.field_233 & 7;
-					if (this.field_230 == var1 && this.field_232 == 6 && (var7 == 4 || var7 == 2) && this.field_231 < var2 && field_334[var1][var2 - 1] < 0 && var2 * 24 <= this.field_202 + 320 - 80) {
+					if (this.playerXPos == var1 && this.field_232 == 6 && (var7 == 4 || var7 == 2) && this.playerYPos < var2 && field_334[var1][var2 - 1] < 0 && var2 * 24 <= this.field_202 + 320 - 80) {
 						switch (var3) {
 							case 0:
 							case 2:
@@ -13692,7 +13693,7 @@ public final class cGame extends GameCanvas implements Runnable {
 							default:
 								break;
 						}
-					} else if (this.field_231 != var2 || this.field_232 != 6 || var7 != 1 && var7 != 3 || var3 < 0 || var3 > 3 || (this.field_230 >= var1 || field_334[var1 - 1][var2] >= 0 || var1 * 24 >= this.field_201 + 240) && (this.field_230 <= var1 || field_334[var1 + 1][var2] >= 0 || (var1 + 1) * 24 <= this.field_201)) {
+					} else if (this.playerYPos != var2 || this.field_232 != 6 || var7 != 1 && var7 != 3 || var3 < 0 || var3 > 3 || (this.playerXPos >= var1 || field_334[var1 - 1][var2] >= 0 || var1 * 24 >= this.field_201 + 240) && (this.playerXPos <= var1 || field_334[var1 + 1][var2] >= 0 || (var1 + 1) * 24 <= this.field_201)) {
 						var4++;
 						switch (var3) {
 							case 4:
@@ -13731,42 +13732,42 @@ public final class cGame extends GameCanvas implements Runnable {
 							label269: {
 								var4 = 0;
 								int var16;
-								switch (this.method_324(var1, var2, this.field_230, this.field_231, false)) {
+								switch (this.method_324(var1, var2, this.playerXPos, this.playerYPos, false)) {
 									case 1:
-										if (this.field_230 == var1 && var3 != 6 && var3 != 7 && var2 * 24 <= this.field_202 + 320 - 80) {
+										if (this.playerXPos == var1 && var3 != 6 && var3 != 7 && var2 * 24 <= this.field_202 + 320 - 80) {
 											var3 = var3 == 2 ? 6 : 7;
 											break label269;
 										}
 
-										var3 = this.field_230 < var1 ? 2 : 3;
+										var3 = this.playerXPos < var1 ? 2 : 3;
 										break label269;
 									case 2:
-										var16 = this.field_231 == var2 && var3 != 5 && (var1 + 1) * 24 > this.field_201 ? 5 : 1;
+										var16 = this.playerYPos == var2 && var3 != 5 && (var1 + 1) * 24 > this.field_201 ? 5 : 1;
 										break;
 									case 3:
 									default:
-										var16 = this.field_230 < var1 ? 0 : 1;
+										var16 = this.playerXPos < var1 ? 0 : 1;
 										break;
 									case 4:
-										var16 = this.field_231 == var2 && var3 != 4 && var1 * 24 < this.field_201 + 240 ? 4 : 0;
+										var16 = this.playerYPos == var2 && var3 != 4 && var1 * 24 < this.field_201 + 240 ? 4 : 0;
 								}
 
 								var3 = var16;
 							}
 						}
 					} else {
-						var3 = this.field_230 < var1 ? 4 : 5;
+						var3 = this.playerXPos < var1 ? 4 : 5;
 						var4 = 0;
 					}
 				} else {
 					label215: {
 						byte var14;
-						if (this.field_231 == var2 - 1) {
+						if (this.playerYPos == var2 - 1) {
 							var14 = 17;
-						} else if (this.field_230 == var1 - 1) {
+						} else if (this.playerXPos == var1 - 1) {
 							var14 = 16;
 						} else {
-							if (this.field_230 != var1 + 1) {
+							if (this.playerXPos != var1 + 1) {
 								break label215;
 							}
 
@@ -13800,7 +13801,7 @@ public final class cGame extends GameCanvas implements Runnable {
 					return;
 				}
 
-				if (method_350(var1, var2, 3, field_335[var1][var2], this.field_230, this.field_231, this.field_233 & 7, this.field_232)) {
+				if (method_350(var1, var2, 3, field_335[var1][var2], this.playerXPos, this.playerYPos, this.field_233 & 7, this.field_232)) {
 					this.method_61(1, 48, field_333[var1][var2] & 7);
 					return;
 				}
@@ -13831,7 +13832,7 @@ public final class cGame extends GameCanvas implements Runnable {
 		byte var10002;
 		switch ((field_333[var1][var2] & 56) >> 3) {
 			case 0:
-				if ((this.field_230 != var1 || (var2 + 1) * 24 <= this.field_202 || this.field_174 == 3) && (this.field_174 != 3 || this.field_454 == 0L || (long)field_226 < this.field_454 + (long)(21 - var1))) {
+				if ((this.playerXPos != var1 || (var2 + 1) * 24 <= this.field_202 || this.field_174 == 3) && (this.field_174 != 3 || this.field_454 == 0L || (long)field_226 < this.field_454 + (long)(21 - var1))) {
 					return;
 				}
 
@@ -13839,8 +13840,8 @@ public final class cGame extends GameCanvas implements Runnable {
 
 				while(true) {
 					byte var7 = field_334[var1][var6];
-					if (this.field_231 == var6 || var7 >= 80 || var7 == 30 || var7 == 34 || var7 == 35 || var7 == 0) {
-						if (this.field_231 == var6 || this.field_174 == 3) {
+					if (this.playerYPos == var6 || var7 >= 80 || var7 == 30 || var7 == 34 || var7 == 35 || var7 == 0) {
+						if (this.playerYPos == var6 || this.field_174 == 3) {
 							field_333[var1][var2] = field_333[var1][var2] & -57 | 8;
 							field_335[var1][var2] = 10;
 							return;
@@ -14078,7 +14079,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			keysPressed = 0;
 			this.field_196 = 0;
 			field_345 = field_332[this.field_279][this.field_280] >> 8;
-			this.method_258(this.field_230 + field_325[this.field_233 & 7], this.field_231);
+			this.method_258(this.playerXPos + field_325[this.field_233 & 7], this.playerYPos);
 			if (field_345 >= 0 && field_345 < field_344.length) {
 				this.method_433(1);
 				this.field_342 = 1;
@@ -14098,10 +14099,10 @@ public final class cGame extends GameCanvas implements Runnable {
 		int var4 = this.field_280;
 		int var5 = var1 == 23 ? -1 : 1;
 		field_336[var3][var4] = 24;
-		if (this.field_231 == var4) {
+		if (this.playerYPos == var4) {
 			for(int var6 = 0; var6 <= var2; ++var6) {
 				int var7 = var3 + var6 * var5;
-				if (this.field_230 == var7) {
+				if (this.playerXPos == var7) {
 					this.method_61(1, 64, 0);
 				}
 			}
@@ -14169,10 +14170,10 @@ public final class cGame extends GameCanvas implements Runnable {
 				break;
 			case 6:
 				this.playerLifeCount++;
-				field_351[this.field_230][this.field_231] = -1;
-				field_349[this.field_230][field_231] |= 256;
+				field_351[this.playerXPos][this.playerYPos] = -1;
+				field_349[this.playerXPos][playerYPos] |= 256;
 				var2 = 0;
-				this.method_127(this.currentWorld, this.currentLevel, this.field_230, this.field_231);
+				this.method_127(this.currentWorld, this.currentLevel, this.playerXPos, this.playerYPos);
 				break;
 			case 7:
 				this.method_62((byte)127);
@@ -14222,7 +14223,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			case 51:
 			case 52:
 			case 53:
-				this.method_127(this.currentWorld, this.currentLevel, this.field_230, this.field_231);
+				this.method_127(this.currentWorld, this.currentLevel, this.playerXPos, this.playerYPos);
 				var2 = 0;
 				var1 = true;
 				this.method_65();
@@ -14251,12 +14252,12 @@ public final class cGame extends GameCanvas implements Runnable {
 		}
 
 		if (var2 != -1) {
-			this.method_254(this.field_230, this.field_231 - 1, var2);
+			this.method_254(this.playerXPos, this.playerYPos - 1, var2);
 		}
 
 		if (var3) {
-			field_173[this.field_171 << 1] = (byte)this.field_230;
-			field_173[(this.field_171 << 1) + 1] = (byte)this.field_231;
+			field_173[this.field_171 << 1] = (byte)this.playerXPos;
+			field_173[(this.field_171 << 1) + 1] = (byte)this.playerYPos;
 			this.field_171++;
 		}
 
@@ -14466,7 +14467,7 @@ public final class cGame extends GameCanvas implements Runnable {
 						method_345(var2, var3);
 						if (var9) {
 							var5 = 18;
-							int var18 = this.method_324(var2, var3, this.field_230, this.field_231, true);
+							int var18 = this.method_324(var2, var3, this.playerXPos, this.playerYPos, true);
 							var4 = var4 & -8 | var18;
 							var10 = var18;
 							var6 = -field_325[var18];
@@ -14593,7 +14594,7 @@ public final class cGame extends GameCanvas implements Runnable {
 				var19[var20] = var10002;
 			}
 
-			if ((var4 & 248) == 0 && (field_323[0].field_74 < 13 || field_323[0].field_74 > 16) && method_350(var2, var3, var10, field_335[var2][var3], this.field_230, this.field_231, (this.field_233 & 4096) == 0 ? this.field_197 : 0, this.field_232)) {
+			if ((var4 & 248) == 0 && (field_323[0].field_74 < 13 || field_323[0].field_74 > 16) && method_350(var2, var3, var10, field_335[var2][var3], this.playerXPos, this.playerYPos, (this.field_233 & 4096) == 0 ? this.field_197 : 0, this.field_232)) {
 				this.method_61(1, 48, var10);
 				if (var9) {
 					var4 &= -3841;
@@ -14956,7 +14957,7 @@ public final class cGame extends GameCanvas implements Runnable {
 						case 49:
 							this.method_433(12);
 							this.field_251 = 0;
-							this.field_254 = this.field_230 - (var1 + var4) + var10;
+							this.field_254 = this.playerXPos - (var1 + var4) + var10;
 							this.field_252 = var1 + var4;
 							this.field_253 = var2;
 							if (this.field_250 == -1) {
@@ -15024,8 +15025,8 @@ public final class cGame extends GameCanvas implements Runnable {
 
 			if (var7) {
 				for(int var12 = 1; var12 <= 3; ++var12) {
-					if (field_334[this.field_230 + var4 * var12][this.field_231] == 32) {
-						field_334[this.field_230 + var4 * var12][this.field_231] = -1;
+					if (field_334[this.playerXPos + var4 * var12][this.playerYPos] == 32) {
+						field_334[this.playerXPos + var4 * var12][this.playerYPos] = -1;
 					}
 				}
 			}
@@ -15317,11 +15318,11 @@ public final class cGame extends GameCanvas implements Runnable {
 		int var3 = field_332[var1][var2] >> 8;
 		int var4 = field_332[var1][var2] & 255;
 		int var5;
-		if ((var3 & 256) == 0 && (var4 == 9 && this.playerGoldKeys > 0 || var4 == 8 && this.playerSilverKeys > 0) && this.field_231 == var2 && (this.field_230 == var1 - 1 || this.field_230 == var1 + 1) && (var5 = field_323[0].field_74) != 18 && var5 != 17 && this.field_232 <= 6) {
+		if ((var3 & 256) == 0 && (var4 == 9 && this.playerGoldKeys > 0 || var4 == 8 && this.playerSilverKeys > 0) && this.playerYPos == var2 && (this.playerXPos == var1 - 1 || this.playerXPos == var1 + 1) && (var5 = field_323[0].field_74) != 18 && var5 != 17 && this.field_232 <= 6) {
 			this.field_197 = this.field_196 = 0;
 			cGame var10000;
 			byte var10001;
-			if (this.field_230 == var1 - 1) {
+			if (this.playerXPos == var1 - 1) {
 				this.field_233 = this.field_233 & -8 | 2;
 				var10000 = this;
 				var10001 = 18;
@@ -15385,7 +15386,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			label37:
 			switch (var3) {
 				case -1:
-					if (Math.abs(this.field_230 - var1) < 4 && Math.abs(this.field_231 - var2) < 4) {
+					if (Math.abs(this.playerXPos - var1) < 4 && Math.abs(this.playerYPos - var2) < 4) {
 						var3 = 3;
 					}
 				case 0:
@@ -15518,8 +15519,8 @@ public final class cGame extends GameCanvas implements Runnable {
 		this.field_300 = this.field_207;
 		this.field_298 = this.collectedDiamonds;
 		this.field_299 = this.collectedRedDiamonds;
-		this.field_293 = this.field_230;
-		this.field_294 = this.field_231;
+		this.field_293 = this.playerXPos;
+		this.field_294 = this.playerYPos;
 		this.field_295 = this.playerGoldKeys;
 		this.field_296 = this.playerSilverKeys;
 		this.field_297 = this.field_195;
@@ -15575,8 +15576,8 @@ public final class cGame extends GameCanvas implements Runnable {
 		field_323[0].method_44(2);
 		this.field_233 = 2;
 		this.field_255 = 0;
-		this.field_230 = this.field_293;
-		this.field_231 = this.field_294;
+		this.playerXPos = this.field_293;
+		this.playerYPos = this.field_294;
 		this.playerGoldKeys = this.field_295;
 		this.playerSilverKeys = this.field_296;
 		this.field_171 = this.field_172;
@@ -15707,7 +15708,7 @@ public final class cGame extends GameCanvas implements Runnable {
 
 		int var8 = var10000;
 		byte var12 = (this.field_233 & 4096) == 0 ? this.field_197 : 0;
-		boolean var13 = method_350(var1, var2, var11, var3, this.field_230, this.field_231, var12, this.field_232);
+		boolean var13 = method_350(var1, var2, var11, var3, this.playerXPos, this.playerYPos, var12, this.field_232);
 		if (var5 == 1 && var13) {
 			this.method_352(var1, var2);
 		} else {
@@ -15721,8 +15722,8 @@ public final class cGame extends GameCanvas implements Runnable {
 							field_332[var1][var8] = 32;
 						}
 
-						this.field_230 = var1;
-						this.field_231 = var8;
+						this.playerXPos = var1;
+						this.playerYPos = var8;
 						field_334[var1][var8] = -1;
 						this.field_232 = 0;
 						this.field_234 = 0;

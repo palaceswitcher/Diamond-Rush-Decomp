@@ -2,3 +2,4 @@ bin
 build
 config
 deployed
+/.mtj.tmp/

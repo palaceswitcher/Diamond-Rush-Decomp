@@ -182,8 +182,8 @@ public final class DemoInterpreter {
                   var43 = 5;
                }
 
-               int var15 = this.field_54.field_230 * 24;
-               int var16 = this.field_54.field_231 * 24;
+               int var15 = this.field_54.playerXPos * 24;
+               int var16 = this.field_54.playerYPos * 24;
                int var46 = this.field_48;
                int var47 = this.field_49;
                var1.fillRect(((var15 - this.field_54.field_201) * (5 - var43) + var46 * var43) / 5, ((var16 - this.field_54.field_202) * (5 - var43) + var47 * var43) / 5, 102 * var43 / 5, 38 * var43 / 5);
