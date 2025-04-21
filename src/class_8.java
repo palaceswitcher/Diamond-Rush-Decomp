@@ -371,11 +371,11 @@ public final class class_8 extends GameCanvas implements Runnable {
 	// $FF: renamed from: x boolean
 	public boolean field_261;
 	// $FF: renamed from: bo int
-	public int field_262;
+	public int currentMenu;
 	// $FF: renamed from: bp int
 	public int field_263;
 	// $FF: renamed from: bq int
-	public int field_264;
+	public int currentMenuSelection;
 	// $FF: renamed from: br int
 	public int field_265;
 	// $FF: renamed from: bs int
@@ -1243,10 +1243,10 @@ public final class class_8 extends GameCanvas implements Runnable {
 
 	// $FF: renamed from: a (int) void
 	public final void method_63(int var1) {
-		this.field_263 = this.field_262;
+		this.field_263 = this.currentMenu;
 		this.field_261 = false;
-		this.field_264 = 0;
-		this.field_262 = var1;
+		this.currentMenuSelection = 0;
+		this.currentMenu = var1;
 		this.field_418 = 0;
 		if (var1 >= 0) {
 			this.method_172();
@@ -1451,7 +1451,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 					if (var1 == 8) {
 						if (this.field_371) {
 							field_222 = 4;
-							if (this.field_262 == -1) {
+							if (this.currentMenu == -1) {
 								this.field_223 = 0;
 								this.method_63(0);
 							} else {
@@ -2404,14 +2404,14 @@ public final class class_8 extends GameCanvas implements Runnable {
 
 	// $FF: renamed from: b () int
 	private int method_81() {
-		return field_561[this.field_262][this.field_264 << 1];
+		return field_561[this.currentMenu][this.currentMenuSelection << 1];
 	}
 
 	// $FF: renamed from: p () void
 	private void method_82() {
 		field_320[41].spritePalette = 0;
 		this.field_261 = true;
-		switch (this.field_262) {
+		switch (this.currentMenu) {
 		case 0:
 			this.method_89();
 			return;
@@ -2482,20 +2482,20 @@ public final class class_8 extends GameCanvas implements Runnable {
 			class_7.soundEnabled = !class_7.soundEnabled;
 			if (class_7.soundEnabled) {
 				this.method_433(0);
-				method_432(5, 0, (short) 32);
+				setMenuTextIndex(5, 0, (short) 32); //Set sound text to on
 			} else {
 				this.field_353.method_59();
 				this.field_353.method_59();
-				method_432(5, 0, (short) 33);
+				setMenuTextIndex(5, 0, (short) 33); //Set sound text to off
 			}
 			break;
 		case 1:
 			vibrationEnabled = !vibrationEnabled;
 			if (vibrationEnabled) {
 				vibrate(200);
-				method_432(5, 1, (short) 50);
+				setMenuTextIndex(5, 1, (short) 50); //Set vibrate text to on
 			} else {
-				method_432(5, 1, (short) 51);
+				setMenuTextIndex(5, 1, (short) 51); //Set vibrate text to off
 			}
 			break;
 		default:
@@ -2624,28 +2624,21 @@ public final class class_8 extends GameCanvas implements Runnable {
 
 	// $FF: renamed from: v () void
 	private void method_88() {
-		byte var1;
-		label13: {
-			var1 = 0;
-			byte var10000;
-			switch (this.method_81()) {
-				case 0:
-					class_7.soundEnabled = true;
-					var10000 = 32;
-					break;
-				case 1:
-					class_7.soundEnabled = false;
-					var10000 = 33;
-					break;
-				default:
-					break label13;
-			}
-
-			var1 = var10000;
+		byte var1 = 0;
+		switch (this.method_81()) {
+		case 0:
+			class_7.soundEnabled = true;
+			var1 = 32;
+			break;
+		case 1:
+			class_7.soundEnabled = false;
+			var1 = 33;
+			break;
+		default:
 		}
 
 		this.field_223 = 0;
-		method_432(5, 0, var1);
+		setMenuTextIndex(5, 0, var1);
 	}
 
 	// $FF: renamed from: w () void
@@ -2701,16 +2694,16 @@ public final class class_8 extends GameCanvas implements Runnable {
 
 	// $FF: renamed from: x () void
 	private void method_90() {
-		--this.field_264;
-		if (this.field_264 < 0) {
-			this.field_264 = (field_561[this.field_262].length >> 1) - 1;
+		this.currentMenuSelection--;
+		if (this.currentMenuSelection < 0) {
+			this.currentMenuSelection = (field_561[this.currentMenu].length >> 1) - 1; //Wrap around menu
 		}
 
 	}
 
 	// $FF: renamed from: y () void
 	private void method_91() {
-		this.field_264 = (this.field_264 + 1) % (field_561[this.field_262].length >> 1);
+		this.currentMenuSelection = (this.currentMenuSelection + 1) % (field_561[this.currentMenu].length >> 1);
 	}
 
 	// $FF: renamed from: z () void
@@ -5961,12 +5954,12 @@ public final class class_8 extends GameCanvas implements Runnable {
 
 	// $FF: renamed from: al () void
 	private void method_172() {
-		this.field_419 = field_561[this.field_262].length >> 1;
+		this.field_419 = field_561[this.currentMenu].length >> 1;
 		this.field_420 = 0;
 
 		for(int var1 = 0; var1 < this.field_419; ++var1) {
-			int var2 = method_361(field_320[41], menuText[field_561[this.field_262][var1 * 2 + 1]], 0);
-			if ((this.field_262 != 0 || var1 != 3) && var2 > this.field_420) {
+			int var2 = method_361(field_320[41], menuText[field_561[this.currentMenu][var1 * 2 + 1]], 0);
+			if ((this.currentMenu != 0 || var1 != 3) && var2 > this.field_420) {
 				this.field_420 = var2;
 			}
 		}
@@ -6010,7 +6003,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 			this.method_174();
 		}
 
-		int var1 = (var1 = 320 - (this.field_419 * 15 + 1 + 2)) + (!this.field_432 && this.field_262 == 0 ? 15 : 0);
+		int var1 = (var1 = 320 - (this.field_419 * 15 + 1 + 2)) + (!this.field_432 && this.currentMenu == 0 ? 15 : 0);
 		int var2 = 320;
 		this.field_314.setClip(0, 0, 240, 320);
 		if (field_222 == 2 && field_429 && field_430) {
@@ -6026,7 +6019,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 			var2 = 320 - var3;
 		}
 
-		if (this.field_262 == 7) {
+		if (this.currentMenu == 7) {
 			field_320[41].method_13(this.field_314, menuText[this.field_223 == 5 ? 102 : 113], 120, var1 - 20, 17);
 		}
 
@@ -6048,49 +6041,49 @@ public final class class_8 extends GameCanvas implements Runnable {
 		}
 
 		if (this.field_427 != -1 && !field_429) {
-			int var5 = this.field_262 == 0 && this.field_427 > 1 && !this.field_432 ? 15 : 0;
+			int var5 = this.currentMenu == 0 && this.field_427 > 1 && !this.field_432 ? 15 : 0;
 			int var6 = var1 + this.field_427 * 15 - var5;
 			this.field_314.setClip(0, var6, 240, 16);
 		}
 
-		if (this.field_427 != this.field_264 || field_429) {
+		if (this.field_427 != this.currentMenuSelection || field_429) {
 			this.method_173(var1, var2);
 		}
 
 		for(int i = 0; i < this.field_419; i++) {
-			if ((this.field_427 == -1 || i == this.field_427 || i == this.field_264 || field_429) && (this.field_262 != 0 || i != 1 || this.field_432)) {
+			if ((this.field_427 == -1 || i == this.field_427 || i == this.currentMenuSelection || field_429) && (this.currentMenu != 0 || i != 1 || this.field_432)) {
 				int var19;
 				int var7 = (var19 = var1 + i * 15) + 7;
-				if (this.field_262 == 0 && i > 1 && !this.field_432) {
+				if (this.currentMenu == 0 && i > 1 && !this.field_432) {
 					var19 -= 15;
 					var7 -= 15;
 				}
 
 				byte var8 = 0;
-				if (i == 2 && this.field_262 == 0) {
+				if (i == 2 && this.currentMenu == 0) {
 					var8 = 1;
 				}
 
-				if (this.field_174 == 2 && i == 4 && this.field_262 == 1) {
+				if (this.field_174 == 2 && i == 4 && this.currentMenu == 1) {
 					var8 = 0;
-					if (i != this.field_264) {
+					if (i != this.currentMenuSelection) {
 						this.field_314.setColor(0xCCCCCC);
 						this.field_314.fillRect(0, var7 - 7 + 1, 240, 14);
 					} else {
 						this.field_314.setColor(0x666666);
 						this.field_314.fillRect(0, var7 - 7, 240, 16);
 					}
-				} else if (i == this.field_264) {
+				} else if (i == this.currentMenuSelection) {
 					this.field_314.setColor(0xCE9B00);
 					this.field_314.fillRect(0, var7 - 7, 240, 16);
 				}
 
 				int var11 = 0;
 				boolean var14 = false;
-				field_320[41].updateDrawnTextSize(menuText[field_561[this.field_262][i * 2 + 1]]);
+				field_320[41].updateDrawnTextSize(menuText[field_561[this.currentMenu][i * 2 + 1]]);
 				int var9;
 				int var10 = var9 = BitmapGfx.drawnTextWidth;
-				int var12 = i == 2 && this.field_262 == 0 ? 152 : 210;
+				int var12 = i == 2 && this.currentMenu == 0 ? 152 : 210;
 				if (var9 > var12) {
 					var14 = true;
 					var9 = var12;
@@ -6098,23 +6091,23 @@ public final class class_8 extends GameCanvas implements Runnable {
 
 				int var13 = 120 - var9 / 2;
 				if (var14) {
-					var11 = i == this.field_264 ? this.field_422 : 0;
+					var11 = i == this.currentMenuSelection ? this.field_422 : 0;
 					this.field_314.setClip(var13, var19, var9, 15);
 				}
 
 				field_320[41].spritePalette = var8;
-				field_320[41].method_13(this.field_314, menuText[field_561[this.field_262][i * 2 + 1]], 120 - var9 / 2 - var11, var7 + 1, 6);
+				field_320[41].method_13(this.field_314, menuText[field_561[this.currentMenu][i * 2 + 1]], 120 - var9 / 2 - var11, var7 + 1, 6);
 				if (var14) {
 					this.field_314.setClip(0, 0, 240, 320);
 				}
 
-				if (i == this.field_264) {
+				if (i == this.currentMenuSelection) {
 					this.field_314.setColor(0xFFFFFF);
 					field_320[18].method_8(this.field_314, 2, 120 - var9 / 2 - 8, var7, 0, 0, 10);
 					field_320[18].method_8(this.field_314, 2, 120 + var9 / 2 + 8, var7, 0, 0, 6);
 				}
 
-				if (i == this.field_264 && var14 && this.field_418 % 2 == 0) {
+				if (i == this.currentMenuSelection && var14 && this.field_418 % 2 == 0) {
 					this.field_422 += this.field_421;
 					if (this.field_422 < -5 || this.field_422 + var12 - 5 > var10) {
 						this.field_421 = -this.field_421;
@@ -6124,7 +6117,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 			}
 		}
 
-		this.field_427 = this.field_264;
+		this.field_427 = this.currentMenuSelection;
 		++this.field_418;
 		class_8 var25;
 		int var28;
@@ -6142,10 +6135,10 @@ public final class class_8 extends GameCanvas implements Runnable {
 		}
 
 		this.field_314.setClip(0, 0, 240, 320);
-		if (this.field_262 == 0 && this.field_473) {
+		if (this.currentMenu == 0 && this.field_473) {
 			if (this.field_418 % 20 >= 10) {
 				field_320[18].method_8(this.field_314, 1, 1, var1 + 30 + 7 - (this.field_432 ? 0 : 15), 0, 0, 6);
-			} else if (this.field_264 != 2) {
+			} else if (this.currentMenuSelection != 2) {
 				if (field_428 == null) {
 					int var20 = var1 + 30 + 1 - (this.field_432 ? 0 : 15);
 					field_428 = Image.createImage(28, 14);
@@ -6163,7 +6156,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 			}
 		}
 
-		if (this.field_262 != 0 && this.field_262 != 3 && this.field_262 != 1 && this.field_262 != 7) {
+		if (this.currentMenu != 0 && this.currentMenu != 3 && this.currentMenu != 1 && this.currentMenu != 7) {
 			this.method_176();
 		}
 
@@ -7777,7 +7770,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 			case 30:
 				if (isKeyPressed(SKEY_NUM5|SKEY_CENTER)) {
 					field_222 = 4;
-					if (this.field_262 == -1) {
+					if (this.currentMenu == -1) {
 						this.field_223 = 0;
 						this.method_63(0);
 					} else {
@@ -7832,13 +7825,13 @@ public final class class_8 extends GameCanvas implements Runnable {
 	// $FF: renamed from: aS () void
 	private void method_219() {
 		if (isKeyPressed(SKEY_RSH)) {
-			if (this.field_262 == 0) {
+			if (this.currentMenu == 0) {
 				field_222 = 4;
 				this.method_63(0);
 				this.field_353.method_58(19);
 			}
 
-			if (this.field_262 == 1) {
+			if (this.currentMenu == 1) {
 				field_222 = 2;
 				field_429 = true;
 				this.field_170 = true;
@@ -8420,7 +8413,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 				}
 
 				this.method_90();
-				if (this.field_262 == 0 && this.field_264 == 1 && !this.field_432) {
+				if (this.currentMenu == 0 && this.currentMenuSelection == 1 && !this.field_432) {
 					this.method_90();
 				}
 			} else if (isKeyPressed(SKEY_NUM8|SKEY_DOWN)) {
@@ -8429,7 +8422,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 				}
 
 				this.method_91();
-				if (this.field_262 == 0 && this.field_264 == 1 && !this.field_432) {
+				if (this.currentMenu == 0 && this.currentMenuSelection == 1 && !this.field_432) {
 					this.method_91();
 				}
 			} else if (isKeyPressed(SKEY_NUM5|SKEY_CENTER_ALT|SKEY_CENTER|SKEY_LSH)) {
@@ -8447,7 +8440,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 
 	// $FF: renamed from: bc () void
 	private void method_229() {
-		switch (this.field_262) {
+		switch (this.currentMenu) {
 			case -1:
 				return;
 			case 0:
@@ -12011,8 +12004,8 @@ public final class class_8 extends GameCanvas implements Runnable {
 		this.noKeysPressed = true;
 		keysPressed = 0;
 		this.field_425 = -1;
-		if (this.field_262 == 7) {
-			this.field_264 = 0;
+		if (this.currentMenu == 7) {
+			this.currentMenuSelection = 0;
 		}
 
 		this.field_228 = System.currentTimeMillis() - this.field_457;
@@ -12058,8 +12051,8 @@ public final class class_8 extends GameCanvas implements Runnable {
 			case 2:
 				field_513 = null;
 				this.field_170 = true;
-				if (this.field_262 == 1) {
-					this.field_264 = 0;
+				if (this.currentMenu == 1) {
+					this.currentMenuSelection = 0;
 					return;
 				}
 
@@ -12084,7 +12077,7 @@ public final class class_8 extends GameCanvas implements Runnable {
 				this.field_388 = true;
 				return;
 			case 7:
-				this.field_264 = 1;
+				this.currentMenuSelection = 1;
 				return;
 			case 8:
 				return;
@@ -19154,10 +19147,16 @@ public final class class_8 extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: a (int, int, short) void
-	private static void method_432(int var0, int var1, short var2) {
-		for(int var3 = 0; var3 < field_561[var0].length; var3 += 2) {
-			if (var1 == field_561[var0][var3]) {
-				field_561[var0][var3 + 1] = var2;
+	/**
+	 * Sets the text index for a particular menu (represented as an array of paired bytes)
+	 * @param menu Menu number
+	 * @param targetNum The ID of the index being modified (represented as the first byte in the pair)
+	 * @param index The new text index
+	 */
+	private static void setMenuTextIndex(int menu, int targetNum, short index) {
+		for(int i = 0; i < field_561[menu].length; i += 2) {
+			if (targetNum == field_561[menu][i]) {
+				field_561[menu][i + 1] = index;
 				return;
 			}
 		}
