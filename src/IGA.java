@@ -194,7 +194,7 @@ public final class IGA {
       } else if (cGame.isKeyPressed(32944)) {
          method_37(field_61[field_63]);
       } else if (cGame.isKeyPressed(64)) {
-         cGame.field_92.method_63(0);
+         cGame.field_92.openSubmenu(0);
          field_65 = 2;
          cGame.keysPressed = 0;
       }
