@@ -1794,9 +1794,6 @@ public final class cGame extends GameCanvas implements Runnable {
 					this.field_101 = 1;
 				}
 
-				boolean[] var9;
-				byte var11;
-				boolean var12;
 				if ((var2 & 2) != 0) {
 					field_119[2] = true;
 				} else if (getShortFromBytes(field_330, 6) < Define.worldPrices[2]) {
