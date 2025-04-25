@@ -1219,23 +1219,12 @@ public final class cGame extends GameCanvas implements Runnable {
 
 	// $FF: renamed from: a (byte) void
 	private void method_62(byte var1) {
-		label14: {
-			this.field_239 = var1;
-			cGame var10000;
-			byte var10001;
-			if (this.field_239 <= 0) {
-				var10000 = this;
-				var10001 = 0;
-			} else {
-				if (this.field_239 <= field_330[8]) {
-					break label14;
-				}
+		this.field_239 = var1;
 
-				var10000 = this;
-				var10001 = field_330[8];
-			}
-
-			var10000.field_239 = var10001;
+		if (this.field_239 <= 0) {
+			this.field_239 = 0;
+		} else if (this.field_239 > field_330[8]) {
+			this.field_239 = field_330[8];
 		}
 
 		this.method_96();
@@ -1792,59 +1781,29 @@ public final class cGame extends GameCanvas implements Runnable {
 				}
 			}
 
-			label88: {
 				this.field_124 = 10;
 				this.field_125 = 10;
-				boolean[] var10000;
-				byte var10001;
-				boolean var10002;
 				if (((var2 = field_330[1]) & 1) != 0) {
-					var10000 = field_119;
-					var10001 = 1;
-					var10002 = true;
+					field_119[1] = true;
+				} else if (getShortFromBytes(field_330, 6) < Define.worldPrices[1]) {
+				    field_119[1] = false;
 				} else {
-					if (getShortFromBytes(field_330, 6) >= Define.worldPrices[1]) {
-						byte[] var8 = field_330;
-						var8[1] = (byte)(var8[1] | 1);
-						this.method_110();
-						this.field_118 = 1;
-						this.field_101 = 1;
-						break label88;
-					}
-
-					var10000 = field_119;
-					var10001 = 1;
-					var10002 = false;
+					field_330[1] |= 1;
+					this.method_110();
+					this.field_118 = 1;
+					this.field_101 = 1;
 				}
 
-				var10000[var10001] = var10002;
-			}
-
-			label82: {
-				boolean[] var9;
-				byte var11;
-				boolean var12;
 				if ((var2 & 2) != 0) {
-					var9 = field_119;
-					var11 = 2;
-					var12 = true;
+					field_119[2] = true;
+				} else if (getShortFromBytes(field_330, 6) < Define.worldPrices[2]) {
+				    field_119[2] = false;
 				} else {
-					if (getShortFromBytes(field_330, 6) >= Define.worldPrices[2]) {
-						byte[] var10 = field_330;
-						var10[1] = (byte)(var10[1] | 2);
-						this.method_110();
-						this.field_118 = 2;
-						this.field_101 = 2;
-						break label82;
-					}
-
-					var9 = field_119;
-					var11 = 2;
-					var12 = false;
+					field_330[1] |= 2;
+					this.method_110();
+					this.field_118 = 2;
+					this.field_101 = 2;
 				}
-
-				var9[var11] = var12;
-			}
 
 			this.field_102 = Define.field_3[this.field_101 << 1];
 			this.field_103 = Define.field_3[(this.field_101 << 1) + 1];
@@ -1921,34 +1880,19 @@ public final class cGame extends GameCanvas implements Runnable {
 		if (this.field_143 > 0 || this.field_144 > 0) {
 			StringBuffer var1 = new StringBuffer();
 			if (this.field_143 > 0) {
-				label30: {
-					var1.append(menuText[92]).append("\n");
-					byte[] var2;
-					byte var10001;
-					byte var10002;
-					byte var10003;
-					switch (this.field_143) {
+				var1.append(menuText[92]).append("\n");
+				switch (this.field_143) {
 					case 1:
 						var1.append(menuText[29]);
-						var2 = field_330;
-						var10001 = 2;
-						var10002 = var2[2];
-						var10003 = 8;
+						field_330[2] |= 8;
 						break;
 					case 2:
 						var1.append(menuText[30]);
-						byte[] var10000 = field_330;
-						var10000[2] = (byte)(var10000[2] | 8);
-						var2 = field_330;
-						var10001 = 2;
-						var10002 = var2[2];
-						var10003 = 16;
+						field_330[2] |= 8;
+						field_330[2] |= 16;
 						break;
 					default:
-						break label30;
-					}
-
-					var2[var10001] = (byte)(var10002 | var10003);
+						break;
 				}
 
 				this.method_110();
@@ -2181,26 +2125,16 @@ public final class cGame extends GameCanvas implements Runnable {
 					this.method_407();
 				}
 
-				return;
-			case 6:
-				label173: {
-					int var5;
-					cGame var10000;
-					int var10001;
-					if ((var5 = method_103()) < 1) {
-						var10000 = this;
-						var10001 = var5;
-					} else {
-						if ((this.field_167 + 8) % 8 >= 1) {
-							break label173;
+					return;
+				case 6:
+					{
+						int var5;
+						if ((var5 = method_103()) < 1) {
+							this.field_167 = var5;
+						} else if ((this.field_167 + 8) % 8 < 1) {
+							this.field_167 = 1;
 						}
-
-						var10000 = this;
-						var10001 = 1;
 					}
-
-					var10000.field_167 = var10001;
-				}
 
 				method_403(this.field_167 % 8);
 				return;
@@ -2878,49 +2812,32 @@ public final class cGame extends GameCanvas implements Runnable {
 	// $FF: renamed from: e (int) void
 	private void method_97(int var1) throws Exception {
 		ASprite var4;
-		label21: {
-			byte[] var3 = new byte[getIntFromBytes(field_347, var1 * 8 + 4)];
-			this.field_306.read(var3);
-			(var4 = new ASprite()).loadData(var3, 0);
-			var4.initSprites(0, 0, -1, -1);
-			Object var10000;
-			byte var10001;
-			Object var10002;
-			switch (var1) {
+		byte[] var3 = new byte[getIntFromBytes(field_347, var1 * 8 + 4)];
+		this.field_306.read(var3);
+		(var4 = new ASprite()).loadData(var3, 0);
+		var4.initSprites(0, 0, -1, -1);
+		switch (var1) {
 			case 0:
 				if ((this.field_328 & 1L) == 0L) {
-					break label21;
+					break;
 				}
-
-				var10000 = field_320;
-				var10001 = 60;
-				var10002 = var4;
+				field_320[60] = var4;
 				break;
 			case 1:
 				if ((this.field_328 & 2L) == 0L) {
-					break label21;
+					break;
 				}
-
-				var10000 = field_320;
-				var10001 = 16;
-				var10002 = var4;
+				field_320[16] = var4;
 				break;
 			case 2:
 				field_318[0] = null;
-				var10000 = field_320;
-				var10001 = 42;
-				var10002 = var4;
+				field_320[42] = var4;
 				break;
 			case 3:
-				var10000 = field_318;
-				var10001 = 8;
-				var10002 = var4.sprites[0];
+				field_318[8] = var4.sprites[0];
 				break;
 			default:
-				break label21;
-			}
-
-			((Object[])var10000)[var10001] = var10002;
+				break;
 		}
 
 		var4.bitmapData = null;
