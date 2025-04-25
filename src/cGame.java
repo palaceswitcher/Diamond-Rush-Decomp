@@ -5431,60 +5431,44 @@ public final class cGame extends GameCanvas implements Runnable {
 		cGame var3;
 		int var5;
 		if ((field_333[this.processedTileX][this.processedTileY] & 8) == 0) {
-			label28: {
-				switch (var1) {
-				case 1:
-					var3 = this;
-					var5 = 2;
-					break;
-				case 2:
-					var3 = this;
-					var5 = 1;
-					break;
-				case 3:
-				default:
-					break label28;
-				case 4:
-					var3 = this;
-					var5 = 0;
-				}
-
-				var3.field_286 = var5;
+			switch (var1) {
+			case 1:
+				this.field_286 = 2;
+				break;
+			case 2:
+				this.field_286 = 1;
+				break;
+			case 3:
+			default:
+				break;
+			case 4:
+				this.field_286 = 0;
 			}
+
 
 			this.field_288 = field_335[this.processedTileX][this.processedTileY] * field_325[var1];
-			var3 = this;
-			var5 = field_335[this.processedTileX][this.processedTileY] * field_325[8 + var1];
+			this.field_289 = field_335[this.processedTileX][this.processedTileY] * field_325[8 + var1];
 		} else {
-			label22: {
-				switch (var1) {
-				case 1:
-					var3 = this;
-					var5 = 14;
-					break;
-				case 2:
-					var3 = this;
-					var5 = 13;
-					break;
-				case 3:
-				default:
-					break label22;
-				case 4:
-					var3 = this;
-					var5 = 12;
-				}
-
-				var3.field_285 = var5;
+			switch (var1) {
+			case 1:
+				this.field_285 = 14;
+				break;
+			case 2:
+				this.field_285 = 13;
+				break;
+			case 3:
+			default:
+				break;
+			case 4:
+				this.field_285 = 12;
 			}
+
 
 			this.field_286 = method_204(field_324, this.field_285, field_335[this.processedTileX][this.processedTileY]);
 			int var2 = (field_324.field_12[this.field_285] + this.field_286) * 5;
 			this.field_288 = field_324.field_13[var2 + 2];
-			var3 = this;
-			var5 = field_324.field_13[var2 + 3];
+			this.field_289 = field_324.field_13[var2 + 3];
 		}
-
-		var3.field_289 = var5;
 	}
 
 	// $FF: renamed from: ad () void
@@ -5516,23 +5500,17 @@ public final class cGame extends GameCanvas implements Runnable {
 	private void method_160() {
 		this.field_285 = (field_333[this.processedTileX][this.processedTileY] & 56) >> 3;
 		field_324 = field_320[27];
-		cGame var10000;
-		int var10001;
 		switch (this.field_285) {
 		case 1:
-			var10000 = this;
-			var10001 = (field_335[this.processedTileX][this.processedTileY] >> 1) % field_320[27].method_4(1);
+			this.field_286 = (field_335[this.processedTileX][this.processedTileY] >> 1) % field_320[27].method_4(1);
 			break;
 		case 3:
 			this.field_286 = 0;
 			this.field_289 = -field_335[this.processedTileX][this.processedTileY];
 			return;
 		default:
-			var10000 = this;
-			var10001 = field_335[this.processedTileX][this.processedTileY];
+			this.field_286 = field_335[this.processedTileX][this.processedTileY];
 		}
-
-		var10000.field_286 = var10001;
 	}
 
 	// $FF: renamed from: af () void
@@ -5554,7 +5532,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			int var7 = 0;
 			if (this.field_156 < 10) {
 				var7 = field_320[0].sprites[0][0].getWidth() >> 1;
-				++var7;
+				var7++;
 			}
 
 			method_209(this.field_314, var1 + 19 - var7, var2 + 13, this.field_156, field_320[0].sprites[0], 0);
@@ -5566,75 +5544,48 @@ public final class cGame extends GameCanvas implements Runnable {
 	private void method_163(int var1, int var2) {
 		Graphics var3 = this.field_314;
 
-		for(int var4 = 0; var4 < 12; ++var4) {
-			for(int var5 = 0; var5 < 12; ++var5) {
-				int var7 = var5 + this.field_201 / 24;
-				int var8 = var4 + this.field_202 / 24;
+		for(int i = 0; i < 12; i++) {
+			for(int j = 0; j < 12; j++) {
+				int var7 = j + this.field_201 / 24;
+				int var8 = i + this.field_202 / 24;
 				if (var7 >= 0 && var7 < this.currentLevelWidth && var8 >= 0 && var8 < this.currenLevelHeight) {
 					int var6 = field_500[var7][var8];
-					int var10 = var5 * 24 - var1;
-					int var11 = var4 * 24 - var2;
+					int var10 = j * 24 - var1;
+					int var11 = i * 24 - var2;
 					byte var12 = 0;
 					if (var6 > 0) {
-						byte var10000 = 0;
-
-						while(true) {
-							byte var13 = var10000;
-							if (var10000 > 2) {
-								break;
-							}
-
-							if (method_373(var6, var13, (byte)0, (byte)3) != 0) {
-								if ((var12 = (byte)(method_373(var6, var13, (byte)7, (byte)2) << 3)) > 0) {
-									byte var18;
-									var12 = method_375(method_373(var6, var13, (byte)0, (byte)3), (byte)45, (byte)2) <= 1 ? (var18 = (byte)(var12 - 24)) : (byte)(24 - var12);
+						for (byte k = 0; k > 2; k++) {
+							if (method_373(var6, k, (byte)0, (byte)3) != 0) {
+								if ((var12 = (byte)(method_373(var6, k, (byte)7, (byte)2) << 3)) > 0) {
+									var12 = (byte) (method_375(method_373(var6, k, (byte)0, (byte)3), (byte)45, (byte)2) <= 1 ? var12 - (byte)24 : (byte)(24 - var12));
 									this.method_152();
-									var3.clipRect(var10, var11 + (var13 << 3), 24, 8);
+									var3.clipRect(var10, var11 + (k << 3), 24, 8);
 								}
 
-								int var14;
-								int var15;
-								int var16 = ((var15 = (var14 = this.method_396(var7, var8, var6, var13)) >> 1) == 7 ? frameCounter >> 3 : frameCounter) & 1;
+								int var14 = this.method_396(var7, var8, var6, k) >> 1;
+								int var15 = var14 == 7 ? frameCounter >> 3 : frameCounter;
+								int var16 = var15 & 1;
 								if (var15 == 15) {
-									field_499.method_8(var3, var14 + this.field_393, var10 + var12 - 8, var11 + (var13 << 3) + 8, 36, 0, 0);
-									++this.field_393;
+									field_499.method_8(var3, var14 + this.field_393, var10 + var12 - 8, var11 + (k << 3) + 8, 36, 0, 0);
+									this.field_393++;
 									if (this.field_393 > 2) {
 										this.field_393 = 0;
 									}
 								} else {
-									label102: {
-										ASprite var19;
-										Graphics var10001;
-										int var10002;
-										int var10003;
-										int var10004;
-										if (var15 != 14 && var15 != 11) {
-											if (var15 == 8 && var13 == 0 && field_500[var7][var8 - 1] > 0) {
-												field_499.method_8(var3, 33, var10 + var12, var11, 20, 0, 0);
-												var13 = 3;
-												break label102;
-											}
-
-											var19 = field_499;
-											var10001 = var3;
-											var10002 = var14 + var16;
-											var10003 = var10 + var12;
-											var10004 = var11 + (var13 << 3);
+									if (var15 != 14 && var15 != 11) {
+										if (var15 == 8 && k == 0 && field_500[var7][var8 - 1] > 0) {
+											field_499.method_8(var3, 33, var10 + var12, var11, 20, 0, 0);
+											k = 3;
 										} else {
-											var19 = field_499;
-											var10001 = var3;
-											var10002 = var14 + var16;
-											var10003 = var10 + var12;
-											var10004 = var11;
+											field_499.method_8(var3, var14 + var16, var10 + var12, var11 + (k << 3), 20, 0, 0);
 										}
-
-										var19.method_8(var10001, var10002, var10003, var10004, 20, 0, 0);
-										this.method_152();
+									} else {
+										field_499.method_8(var3, var14 + var16, var10 + var12, var11, 20, 0, 0);
 									}
+									this.method_152();
 								}
 							}
 
-							var10000 = (byte)(var13 + 1);
 						}
 					}
 				}
@@ -6019,18 +5970,13 @@ public final class cGame extends GameCanvas implements Runnable {
 		}
 
 		this.field_427 = this.currentMenuSelection;
-		++this.field_418;
-		cGame var25;
-		int var28;
+		this.field_418++;
 		if (this.field_424 < 0) {
-			var25 = this;
-			var28 = 3;
+			this.field_424 = 3;
 		} else {
-			var25 = this;
-			var28 = this.field_424 - 1;
+			this.field_424 -= 1;
 		}
 
-		var25.field_424 = var28;
 		if (this.field_424 == 0 && this.field_423 + 1 < this.field_419) {
 			this.field_423++;
 		}
@@ -6048,8 +5994,8 @@ public final class cGame extends GameCanvas implements Runnable {
 					this.method_142(var21, false);
 					var21.translate(1, var20);
 
-					for(int var22 = 0; var22 < 14; ++var22) {
-						field_320[18].method_8(var21, 4, (var20 + var22 + 1) % 2, var22, 0, 0, 0);
+					for(int i = 0; i < 14; i++) {
+						field_320[18].method_8(var21, 4, (var20 + i + 1) % 2, i, 0, 0, 0);
 					}
 				}
 
@@ -6089,17 +6035,17 @@ public final class cGame extends GameCanvas implements Runnable {
 
 	// $FF: renamed from: ao () void
 	private void method_178() {
-		Graphics var1;
-		(var1 = this.field_314).setColor(0);
+		Graphics var1 = this.field_314;
+		var1.setColor(0x000000);
 		var1.fillRect(0, 0, 240, 320);
-		int var2;
-		if ((var2 = (this.field_266 + 1) * 230 / this.field_265) > 230) {
+		int var2 = (this.field_266 + 1) * 230 / this.field_265;
+		if (var2 > 230) {
 			var2 = 230;
 		}
 
-		var1.setColor(13540096);
+		var1.setColor(0xCE9B00);
 		this.field_314.fillRect(5, 310, var2, 6);
-		var1.setColor(16554500);
+		var1.setColor(0xFC9A04);
 		this.field_314.drawRoundRect(4, 309, 231, 6, 2, 2);
 		field_320[41].spritePalette = 0;
 		field_320[41].method_13(this.field_314, menuText[37], 120, 293, 1);
@@ -6192,8 +6138,8 @@ public final class cGame extends GameCanvas implements Runnable {
 
 		if (this.field_180 != 15) {
 			if (this.field_201 + 240 + 48 >= this.field_184 && this.field_202 + 320 + 48 >= 504) {
-				ASpriteInstance var3;
-				(var3 = field_323[5]).field_68 = this.field_184 - this.field_201;
+				ASpriteInstance var3 = field_323[5];
+				var3.field_68 = this.field_184 - this.field_201;
 				var3.field_69 = 504 - this.field_202;
 				var3.method_45();
 				var3.method_47(this.field_314);
@@ -6237,10 +6183,10 @@ public final class cGame extends GameCanvas implements Runnable {
 		if (this.field_182 > 0) {
 			var1.setColor(0);
 			var1.fillRect(var4, 5, var3, 12);
-			var1.setColor(3913615);
+			var1.setColor(0x3BB78F);
 
-			for(int var5 = 0; var5 < this.field_182; ++var5) {
-				var1.fillRect(var4 + 2 + var5 * 14, 7, 12, 8);
+			for(int i = 0; i < this.field_182; i++) {
+				var1.fillRect(var4 + 2 + i * 14, 7, 12, 8);
 			}
 		}
 
@@ -6248,70 +6194,52 @@ public final class cGame extends GameCanvas implements Runnable {
 
 	// $FF: renamed from: au () void
 	private void method_186() {
-		Graphics var1;
-		ASpriteInstance var2;
-		ASpriteInstance var3;
+		Graphics var1 = this.field_314;
+		ASpriteInstance var2 = field_323[5];
+		ASpriteInstance var3 = field_323[4];
 		int var4;
-		label58: {
-			var1 = this.field_314;
-			var2 = field_323[5];
-			var3 = field_323[4];
-			int var10000;
-			switch (this.field_180) {
-			case 1:
-				var10000 = this.field_181 * 1;
-				break;
-			case 2:
-			case 7:
-				var10000 = 40;
-				break;
-			case 3:
-				var10000 = 40;
-				break;
-			case 4:
-				var10000 = 40 - (this.field_181 * 2 << 1);
-				break;
-			case 5:
-				var4 = 15 + this.field_181 * 18;
-				this.field_434 = false;
-				break label58;
-			case 6:
-			case 8:
-			default:
-				var10000 = -1000;
-				break;
-			case 9:
-				var10000 = 15 + this.field_181 * 18;
-				break;
-			case 10:
-				var10000 = 15 + this.field_181 * 18;
-				break;
-			case 11:
-				var10000 = 15 + this.field_181 * 18;
-			}
-
-			var4 = var10000;
+		switch (this.field_180) {
+		case 1:
+			var4 = this.field_181 * 1;
+			break;
+		case 2:
+		case 7:
+			var4 = 40;
+			break;
+		case 3:
+			var4 = 40;
+			break;
+		case 4:
+			var4 = 40 - (this.field_181 * 2 << 1);
+			break;
+		case 5:
+			var4 = 15 + this.field_181 * 18;
+			this.field_434 = false;
+			break;
+		case 6:
+		case 8:
+		default:
+			var4 = -1000;
+			break;
+		case 9:
+			var4 = 15 + this.field_181 * 18;
+			break;
+		case 10:
+			var4 = 15 + this.field_181 * 18;
+			break;
+		case 11:
+			var4 = 15 + this.field_181 * 18;
 		}
 
-		label53: {
-			var2.field_68 = (10 + this.field_183 * (2 + (this.field_183 > 0 ? 1 : 0))) * 24 - this.field_201;
-			ASpriteInstance var8;
-			int var10001;
-			if (this.field_180 == 5) {
-				int var5 = var2.field_69;
-				var2.field_69 = 256 - this.field_202 - this.field_142 - 15;
-				if (this.method_275() != 3) {
-					break label53;
-				}
-
-				var8 = var2;
-				var10001 = var5;
-			} else {
-				var8 = var2;
-				var10001 = 256 - var4 - this.field_202;
+		var2.field_68 = (10 + this.field_183 * (2 + (this.field_183 > 0 ? 1 : 0))) * 24 - this.field_201;
+		if (this.field_180 == 5) {
+			int var5 = var2.field_69;
+			var2.field_69 = 256 - this.field_202 - this.field_142 - 15;
+			if (this.method_275() == 3) {
+				var2.field_69 = var5;
 			}
-
-			var8.field_69 = var10001;
+		} else {
+			var2.field_69 = 256 - var4 - this.field_202;
 		}
 
 		var2.method_47(var1);
@@ -6321,9 +6249,9 @@ public final class cGame extends GameCanvas implements Runnable {
 			var3.method_47(var1);
 		}
 
-		for(int var7 = 0; var7 < 3; ++var7) {
-			int var6;
-			if ((var6 = (var7 * (2 + (var7 > 0 ? 1 : 0)) + 10) * 24 - this.field_201) < 240 && var6 > -48 && this.field_202 > -80) {
+		for(int i = 0; i < 3; i++) {
+			int var6 = (i * (2 + (i > 0 ? 1 : 0)) + 10) * 24 - this.field_201;
+			if (var6 < 240 && var6 > -48 && this.field_202 > -80) {
 				field_320[40].method_8(var1, 1, var6, 216 - this.field_202, 0, 0, 0);
 			}
 		}
@@ -6360,9 +6288,9 @@ public final class cGame extends GameCanvas implements Runnable {
 
 		ASpriteInstance var9 = field_323[1];
 		if ((this.field_176 >= 816 || var9.field_74 == 2) && this.field_176 > 816) {
-			for(int var10 = var5 + 20; var10 < 320; var10 += 24) {
-				for(int var11 = var6; var11 < var8; var11 += 24) {
-					var9.field_73.method_7(this.field_314, 1, ((var1 >> 1) + var11 + var10) % 2, var11, var10, 0, 0, 0);
+			for(int i = var5 + 20; i < 320; i += 24) {
+				for(int j = var6; j < var8; j += 24) {
+					var9.field_73.method_7(this.field_314, 1, ((var1 >> 1) + j + i) % 2, j, i, 0, 0, 0);
 				}
 			}
 		}
@@ -6565,8 +6493,8 @@ public final class cGame extends GameCanvas implements Runnable {
 		}
 
 		if (var7 || field_500 != null && field_500[var1][var3] != 0 && method_344(var1, var3)) {
-			int var22;
-			int var23 = (var22 = (frameCounter >> 1) + var1) % 4;
+			int var22 = (frameCounter >> 1) + var1;
+			int var23 = var22 % 4;
 			if ((var22 / 4 & 1) == 1) {
 				var23 = 4 - var23;
 			}
@@ -6589,23 +6517,17 @@ public final class cGame extends GameCanvas implements Runnable {
 			this.field_278 = ((var4 & 448) >> 6) - 1;
 			if (this.field_278 >= 0 && this.field_278 < 5) {
 				this.field_277 = true;
-				cGame var10000;
-				byte var10001;
 				switch (var4 & 7) {
 				case 2:
-					var10000 = this;
-					var10001 = -24;
+					this.field_273 = -24;
 					break;
 				case 4:
-					var10000 = this;
-					var10001 = 24;
+					this.field_273 = 24;
 					break;
 				default:
-					var10000 = this;
-					var10001 = 0;
+					this.field_273 = 0;
 				}
 
-				var10000.field_273 = var10001;
 				this.field_274 = 13;
 				this.field_275 = this.processedTileX;
 				this.field_276 = this.processedTileY - 1;
