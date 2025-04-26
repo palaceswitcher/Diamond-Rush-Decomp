@@ -1781,29 +1781,29 @@ public final class cGame extends GameCanvas implements Runnable {
 				}
 			}
 
-				this.field_124 = 10;
-				this.field_125 = 10;
-				if (((var2 = field_330[1]) & 1) != 0) {
-					field_119[1] = true;
-				} else if (getShortFromBytes(field_330, 6) < Define.worldPrices[1]) {
-				    field_119[1] = false;
-				} else {
-					field_330[1] |= 1;
-					this.method_110();
-					this.field_118 = 1;
-					this.field_101 = 1;
-				}
+			this.field_124 = 10;
+			this.field_125 = 10;
+			if (((var2 = field_330[1]) & 1) != 0) {
+				field_119[1] = true;
+			} else if (getShortFromBytes(field_330, 6) < Define.worldPrices[1]) {
+				field_119[1] = false;
+			} else {
+				field_330[1] |= 1;
+				this.method_110();
+				this.field_118 = 1;
+				this.field_101 = 1;
+			}
 
-				if ((var2 & 2) != 0) {
-					field_119[2] = true;
-				} else if (getShortFromBytes(field_330, 6) < Define.worldPrices[2]) {
-				    field_119[2] = false;
-				} else {
-					field_330[1] |= 2;
-					this.method_110();
-					this.field_118 = 2;
-					this.field_101 = 2;
-				}
+			if ((var2 & 2) != 0) {
+				field_119[2] = true;
+			} else if (getShortFromBytes(field_330, 6) < Define.worldPrices[2]) {
+				field_119[2] = false;
+			} else {
+				field_330[1] |= 2;
+				this.method_110();
+				this.field_118 = 2;
+				this.field_101 = 2;
+			}
 
 			this.field_102 = Define.field_3[this.field_101 << 1];
 			this.field_103 = Define.field_3[(this.field_101 << 1) + 1];
@@ -1869,17 +1869,17 @@ public final class cGame extends GameCanvas implements Runnable {
 			if (this.field_143 > 0) {
 				var1.append(menuText[92]).append("\n");
 				switch (this.field_143) {
-					case 1:
-						var1.append(menuText[29]);
-						field_330[2] |= 8;
-						break;
-					case 2:
-						var1.append(menuText[30]);
-						field_330[2] |= 8;
-						field_330[2] |= 16;
-						break;
-					default:
-						break;
+				case 1:
+					var1.append(menuText[29]);
+					field_330[2] |= 8;
+					break;
+				case 2:
+					var1.append(menuText[30]);
+					field_330[2] |= 8;
+					field_330[2] |= 16;
+					break;
+				default:
+					break;
 				}
 
 				this.method_110();
@@ -2112,19 +2112,19 @@ public final class cGame extends GameCanvas implements Runnable {
 					this.method_407();
 				}
 
-					return;
-				case 6:
-					{
-						int var5;
-						if ((var5 = method_103()) < 1) {
-							this.field_167 = var5;
-						} else if ((this.field_167 + 8) % 8 < 1) {
-							this.field_167 = 1;
-						}
-					}
-
-				method_403(this.field_167 % 8);
 				return;
+			case 6:
+			{
+				int var5;
+				if ((var5 = method_103()) < 1) {
+					this.field_167 = var5;
+				} else if ((this.field_167 + 8) % 8 < 1) {
+					this.field_167 = 1;
+				}
+			}
+
+			method_403(this.field_167 % 8);
+			return;
 			case 7:
 				this.method_107();
 				return;
@@ -2794,27 +2794,27 @@ public final class cGame extends GameCanvas implements Runnable {
 		(var4 = new ASprite()).loadData(var3, 0);
 		var4.initSprites(0, 0, -1, -1);
 		switch (var1) {
-			case 0:
-				if ((this.field_328 & 1L) == 0L) {
-					break;
-				}
-				field_320[60] = var4;
+		case 0:
+			if ((this.field_328 & 1L) == 0L) {
 				break;
-			case 1:
-				if ((this.field_328 & 2L) == 0L) {
-					break;
-				}
-				field_320[16] = var4;
+			}
+			field_320[60] = var4;
+			break;
+		case 1:
+			if ((this.field_328 & 2L) == 0L) {
 				break;
-			case 2:
-				field_318[0] = null;
-				field_320[42] = var4;
-				break;
-			case 3:
-				field_318[8] = var4.sprites[0];
-				break;
-			default:
-				break;
+			}
+			field_320[16] = var4;
+			break;
+		case 2:
+			field_318[0] = null;
+			field_320[42] = var4;
+			break;
+		case 3:
+			field_318[8] = var4.sprites[0];
+			break;
+		default:
+			break;
 		}
 
 		var4.bitmapData = null;
@@ -6845,9 +6845,9 @@ public final class cGame extends GameCanvas implements Runnable {
 		}
 
 		int var16 = (field_333[var1][var2] & 2088960) >> 13;
-		++var16;
+		var16++;
 		field_333[var1][var2] = field_333[var1][var2] & -2088961 | var16 << 13;
-		field_335[var1][var2] = (var4 >= 4 && var4 <= 9) ? 12 : 0;
+		field_335[var1][var2] = (byte) ((var4 >= 4 && var4 <= 9) ? 12 : 0);
 
 		if (var16 > var5 >> 1) {
 			if (!var6) {
@@ -7034,8 +7034,8 @@ public final class cGame extends GameCanvas implements Runnable {
 			var5 = this.field_220;
 		}
 
-		for(int var6 = 0; var6 < var4; ++var6) {
-			field_320[11].method_8(this.field_314, var2 + var6 * var1, this.field_271 + 3, this.field_272 + var1 * (var5 - var6 * 24), 0, 0, 0);
+		for(int i = 0; i < var4; i++) {
+			field_320[11].method_8(this.field_314, var2 + i * var1, this.field_271 + 3, this.field_272 + var1 * (var5 - i * 24), 0, 0, 0);
 		}
 
 		if (var1 == 1) {
@@ -7692,14 +7692,14 @@ public final class cGame extends GameCanvas implements Runnable {
 		}
 
 		switch (this.field_437) {
-			case 0:
-				var1 = 115;
-				break;
-			case 1:
-				var1 = 8;
-				break;
-			default:
-				break;
+		case 0:
+			var1 = 115;
+			break;
+		case 1:
+			var1 = 8;
+			break;
+		default:
+			break;
 		}
 
 		if (var2 >= var1) {
@@ -7794,7 +7794,6 @@ public final class cGame extends GameCanvas implements Runnable {
 						this.field_196 = 2;
 					} else if (!isKeyPressed(SKEY_NUM5|SKEY_CENTER)) {
 						if (isKeyPressed(SKEY_STAR)) {
-							renderDialog(this.field_314, field_320[41], "Dead!", 80, 50, 17, 20, false);
 							this.field_208 = -1;
 							int var22;
 							if ((var22 = field_323[0].field_74) == 36 + (this.field_233 & 7) - 1) {
@@ -17106,7 +17105,7 @@ public final class cGame extends GameCanvas implements Runnable {
 	 * Bit 1 = Offset position by half of text height<br>
 	 * Bit 0 = Offset position by half of text width
 	 * @param var6
-	 * @param firstLineOnly
+	 * @param firstLineOnly Unknown
 	 */
 	private static void renderDialog(Graphics var0, ASprite fSprite, String text, int x, int y, int flags, int var6, boolean firstLineOnly) {
 		fSprite.field_26 = var6;
