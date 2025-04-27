@@ -30,7 +30,7 @@ public final class ASprite {
 	// $FF: renamed from: b short[]
 	public short[] field_12;
 	// $FF: renamed from: f byte[]
-	public byte[] field_13;
+	public byte[] animFrameData;
 	// $FF: renamed from: a int[][]
 	public int[][] field_14;
 	// $FF: renamed from: b int[][]
@@ -71,29 +71,29 @@ public final class ASprite {
 	public final void loadData(byte[] data, int index) {
 		try {
 			System.gc();
-			++index;
-			++index;
+			index++;
+			index++;
 			boolean var3 = false;
-			++index;
-			++index;
-			++index;
-			++index;
-			short spriteDimCount; //Amount of image dimensions present
-			if ((spriteDimCount = (short)((data[index++] & 0xFF) + ((data[index++] & 0xFF) << 8))) > 0) {
+			index++;
+			index++;
+			index++;
+			index++;
+			short spriteDimCount = (short)((data[index++] & 0xFF) + ((data[index++] & 0xFF) << 8)); //Amount of image dimensions present
+			if (spriteDimCount > 0) {
 				this.spriteDims = new byte[spriteDimCount << 1];
 				System.arraycopy(data, index, this.spriteDims, 0, this.spriteDims.length);
 				index += this.spriteDims.length;
 			}
 
-			short spriteDefCount;
-			if ((spriteDefCount = (short)((data[index++] & 0xFF) + ((data[index++] & 0xFF) << 8))) > 0) {
+			short spriteDefCount = (short)((data[index++] & 0xFF) + ((data[index++] & 0xFF) << 8));
+			if (spriteDefCount > 0) {
 				this.spriteDefs = new byte[spriteDefCount << 2];
 				System.arraycopy(data, index, this.spriteDefs, 0, this.spriteDefs.length);
 				index += this.spriteDefs.length;
 			}
 
-			short var7;
-			if ((var7 = (short)((data[index++] & 0xFF) + ((data[index++] & 0xFF) << 8))) > 0) {
+			short var7 = (short)((data[index++] & 0xFF) + ((data[index++] & 0xFF) << 8));
+			if (var7 > 0) {
 				this.field_7 = new byte[var7];
 				this.field_8 = new short[var7];
 
@@ -111,21 +111,21 @@ public final class ASprite {
 				}
 			}
 
-			short var54;
-			if ((var54 = (short)((data[index++] & 0xFF) + ((data[index++] & 0xFF) << 8))) > 0) {
-				this.field_13 = new byte[var54 * 5];
-				System.arraycopy(data, index, this.field_13, 0, this.field_13.length);
-				index += this.field_13.length;
+			short var54 = (short)((data[index++] & 0xFF) + ((data[index++] & 0xFF) << 8));
+			if (var54 > 0) {
+				this.animFrameData = new byte[var54 * 5];
+				System.arraycopy(data, index, this.animFrameData, 0, this.animFrameData.length);
+				index += this.animFrameData.length;
 			}
 
-			short var55;
-			if ((var55 = (short)((data[index++] & 0xFF) + ((data[index++] & 0xFF) << 8))) > 0) {
+			short var55 = (short)((data[index++] & 0xFF) + ((data[index++] & 0xFF) << 8));
+			if (var55 > 0) {
 				this.field_11 = new byte[var55];
 				this.field_12 = new short[var55];
 
 				for(int i = 0; i < var55; i++) {
 					this.field_11[i] = data[index++];
-					++index;
+					index++;
 					this.field_12[i] = (short)((data[index++] & 0xFF) + ((data[index++] & 0xFF) << 8));
 				}
 			}
@@ -305,7 +305,7 @@ public final class ASprite {
 
 	// $FF: renamed from: a (int, int) int
 	public final int method_3(int var1, int var2) {
-		return this.field_13[(this.field_12[var1] + var2) * 5 + 1] & 0xFF;
+		return this.animFrameData[(this.field_12[var1] + var2) * 5 + 1] & 0xFF;
 	}
 
 	// $FF: renamed from: a (int) int
@@ -334,13 +334,13 @@ public final class ASprite {
 	// $FF: renamed from: a (javax.microedition.lcdui.Graphics, int, int, int, int, int, int, int) void
 	public final void method_7(Graphics var1, int var2, int var3, int var4, int var5, int var6, int var7, int var8) {
 		int var9 = (this.field_12[var2] + var3) * 5;
-		int var10 = this.field_13[var9] & 0xFF;
+		int var10 = this.animFrameData[var9] & 0xFF;
 		if ((var6 & 32) != 0) {
-			var7 = (var6 & 1) != 0 ? var7 + this.field_13[var9 + 2] : var7 - this.field_13[var9 + 2];
-			var8 = (var6 & 2) != 0 ? var8 + this.field_13[var9 + 3] : var8 - this.field_13[var9 + 3];
+			var7 = (var6 & 1) != 0 ? var7 + this.animFrameData[var9 + 2] : var7 - this.animFrameData[var9 + 2];
+			var8 = (var6 & 2) != 0 ? var8 + this.animFrameData[var9 + 3] : var8 - this.animFrameData[var9 + 3];
 		}
 
-		this.method_8(var1, var10, var4 - var7, var5 - var8, var6 ^ this.field_13[var9 + 4] & 15, var7, var8);
+		this.method_8(var1, var10, var4 - var7, var5 - var8, var6 ^ this.animFrameData[var9 + 4] & 15, var7, var8);
 	}
 
 	// $FF: renamed from: a (javax.microedition.lcdui.Graphics, int, int, int, int, int, int) void
@@ -752,7 +752,7 @@ public final class ASprite {
 		this.spriteDefs = null;
 		this.field_11 = null;
 		this.field_12 = null;
-		this.field_13 = null;
+		this.animFrameData = null;
 		if (this.field_14 != null) {
 			for(int i = 0; i < this.field_14.length; i++) {
 				this.field_14[i] = null;

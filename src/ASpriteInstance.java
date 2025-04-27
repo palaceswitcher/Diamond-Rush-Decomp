@@ -48,12 +48,12 @@ public final class ASpriteInstance {
    // $FF: renamed from: a () void
    public final void method_45() {
       int var1 = (this.field_73.field_12[this.field_74] + this.field_75) * 5;
-      this.field_70 = (this.field_73.field_13[var1 + 2] << 0) * 1 / 1;
+      this.field_70 = (this.field_73.animFrameData[var1 + 2] << 0) * 1 / 1;
       if ((this.field_72 & 1) != 0) {
          this.field_70 = -this.field_70;
       }
 
-      this.field_71 = (this.field_73.field_13[var1 + 3] << 0) * 1 / 1;
+      this.field_71 = (this.field_73.animFrameData[var1 + 3] << 0) * 1 / 1;
       if ((this.field_72 & 2) != 0) {
          this.field_71 = -this.field_71;
       }

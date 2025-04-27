@@ -79,7 +79,7 @@ public final class DemoInterpreter {
                   this.field_54.field_203 = (short)((var29 * var45 + var35 * (var41 - var45)) / var41);
                   this.field_54.field_204 = (short)((var32 * var45 + var37 * (var41 - var45)) / var41);
                   var19 = this.field_54.currentLevelWidth * 24 - 240;
-                  var20 = this.field_54.currenLevelHeight * 24 - 320 + 80;
+                  var20 = this.field_54.currentLevelHeight * 24 - 320 + 80;
                   cGame var10000;
                   int var10001;
                   if (this.field_54.field_203 > var19) {
