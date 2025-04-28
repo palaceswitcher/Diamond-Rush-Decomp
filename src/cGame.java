@@ -5925,17 +5925,17 @@ public final class cGame extends GameCanvas implements Runnable {
 		Graphics var1 = this.field_314;
 		var1.setColor(0x000000);
 		var1.fillRect(0, 0, 240, 320);
-		int var2 = (this.field_266 + 1) * 230 / this.field_265;
-		if (var2 > 230) {
-			var2 = 230;
+		int barWidth = (this.field_266 + 1) * 230 / this.field_265;
+		if (barWidth > 230) {
+			barWidth = 230;
 		}
 
 		var1.setColor(0xCE9B00); //Progress bar fill color
-		this.field_314.fillRect(5, 310, var2, 6);
+		this.field_314.fillRect(5, 310, barWidth, 6);
 		var1.setColor(0xFC9A04); //Progress bar border color
 		this.field_314.drawRoundRect(4, 309, 231, 6, 2, 2); //Progress bar box
 		field_320[41].spritePalette = 0;
-		field_320[41].method_13(this.field_314, menuText[37], 120, 293, 1);
+		field_320[41].method_13(this.field_314, menuText[37], 120, 293, 1); //Draw loading text (menuText[37])
 	}
 
 	// $FF: renamed from: ap () void

@@ -393,50 +393,17 @@ public final class ASprite {
 
 			spriteBoxWidth = var9.getWidth();
 			spriteBoxHeight = var9.getHeight();
-			Graphics var10000;
-			Image var10001;
-			byte var10002;
-			byte var10003;
-			int var10004;
-			int var10005;
-			byte spriteTransform;
 			if ((var5 & 1) != 0) {
 				if ((var5 & 2) != 0) {
-					var10000 = var1;
-					var10001 = var9;
-					var10002 = 0;
-					var10003 = 0;
-					var10004 = spriteBoxWidth;
-					var10005 = spriteBoxHeight;
-					spriteTransform = 3;
+					var1.drawRegion(var9, 0, 0, spriteBoxWidth, spriteBoxHeight, 3, spriteBoxX, spriteBoxY, 0);
 				} else {
-					var10000 = var1;
-					var10001 = var9;
-					var10002 = 0;
-					var10003 = 0;
-					var10004 = spriteBoxWidth;
-					var10005 = spriteBoxHeight;
-					spriteTransform = 2;
+					var1.drawRegion(var9, 0, 0, spriteBoxWidth, spriteBoxHeight, 2, spriteBoxX, spriteBoxY, 0);
 				}
 			} else if ((var5 & 2) != 0) {
-				var10000 = var1;
-				var10001 = var9;
-				var10002 = 0;
-				var10003 = 0;
-				var10004 = spriteBoxWidth;
-				var10005 = spriteBoxHeight;
-				spriteTransform = 1;
+				var1.drawRegion(var9, 0, 0, spriteBoxWidth, spriteBoxHeight, 1, spriteBoxX, spriteBoxY, 0);
 			} else {
-				var10000 = var1;
-				var10001 = var9;
-				var10002 = 0;
-				var10003 = 0;
-				var10004 = spriteBoxWidth;
-				var10005 = spriteBoxHeight;
-				spriteTransform = 0;
+				var1.drawRegion(var9, 0, 0, spriteBoxWidth, spriteBoxHeight, 0, spriteBoxX, spriteBoxY, 0);
 			}
-
-			var10000.drawRegion(var10001, var10002, var10003, var10004, var10005, spriteTransform, spriteBoxX, spriteBoxY, 0);
 		}
 	}
 
@@ -460,7 +427,7 @@ public final class ASprite {
 						while(argbBitmapInd < spritePixelCount) {
 							var5[argbBitmapInd++] = palette[var7[var8] >> 4 & 0xF];
 							var5[argbBitmapInd++] = palette[var7[var8] & 0xF];
-							++var8;
+							var8++;
 						}
 					} else if (this.bitDepth == UNC_2BPP) {
 						while(argbBitmapInd < spritePixelCount) {
@@ -468,7 +435,7 @@ public final class ASprite {
 							var5[argbBitmapInd++] = palette[var7[var8] >> 4 & 3];
 							var5[argbBitmapInd++] = palette[var7[var8] >> 2 & 3];
 							var5[argbBitmapInd++] = palette[var7[var8] & 3];
-							++var8;
+							var8++;
 						}
 					} else if (this.bitDepth == UNC_1BPP) {
 						while(argbBitmapInd < spritePixelCount) {
@@ -480,7 +447,7 @@ public final class ASprite {
 							var5[argbBitmapInd++] = palette[var7[var8] >> 2 & 1];
 							var5[argbBitmapInd++] = palette[var7[var8] >> 1 & 1];
 							var5[argbBitmapInd++] = palette[var7[var8] & 1];
-							++var8;
+							var8++;
 						}
 					} else if (this.bitDepth == UNC_8BPP) {
 						while(argbBitmapInd < spritePixelCount) {
@@ -594,107 +561,76 @@ public final class ASprite {
 	}
 
 	// $FF: renamed from: a (javax.microedition.lcdui.Graphics, java.lang.String, int, int, int) void
-	public final void method_13(Graphics var1, String var2, int var3, int var4, int var5) {
-		var4 -= this.spriteDefs[2];
-		if ((var5 & 43) != 0) {
-			label79: {
-				label74: {
-					this.updateDrawnTextSize(var2);
-					int var10000;
-					int var10001;
-					if ((var5 & 8) != 0) {
-						var10000 = var3;
-						var10001 = drawnTextWidth;
-					} else {
-						if ((var5 & 1) == 0) {
-							break label74;
-						}
-
-						var10000 = var3;
-						var10001 = drawnTextWidth >> 1;
-					}
-
-					var3 = var10000 - var10001;
+	/**
+	 * Draws text to the screen with font sprites
+	 * @param var1
+	 * @param text Text string
+	 * @param x
+	 * @param y
+	 * @param alignFlags Text alignment flags<br>
+	 * - Bit 5 = Up align<br>
+	 * - Bit 3 = Left align<br>
+	 * - Bit 1 = Vertically centered<br>
+	 * - Bit 0 = Horizontal centered
+	 */
+	public final void method_13(Graphics var1, String text, int x, int y, int alignFlags) {
+		y -= this.spriteDefs[2];
+		if ((alignFlags & 43) != 0) {
+			this.updateDrawnTextSize(text);
+			if ((alignFlags & 8) != 0) {
+				x -= drawnTextWidth;
+			} else {
+				if ((alignFlags & 1) != 0) {
+					x -= drawnTextWidth >> 1;
 				}
+			}
 
-				int var17;
-				int var20;
-				if ((var5 & 32) != 0) {
-					var17 = var4;
-					var20 = drawnTextHeight;
-				} else {
-					if ((var5 & 2) == 0) {
-						break label79;
-					}
-
-					var17 = var4;
-					var20 = drawnTextHeight >> 1;
-				}
-
-				var4 = var17 - var20;
+			if ((alignFlags & 32) != 0) {
+				y -= drawnTextHeight;
+			} else if ((alignFlags & 2) != 0) {
+				y -= drawnTextHeight >> 1;
 			}
 		}
 
-		int var6 = var3;
-		int var7 = var4;
+		int var6 = x;
+		int var7 = y;
 		int var8 = this.spritePalette;
 		int var9 = field_27 >= 0 ? field_27 : 0;
-		int var10 = field_28 >= 0 ? field_28 : var2.length();
+		int stringLength = field_28 >= 0 ? field_28 : text.length();
 
-		for(int var11 = var9; var11 < var10; ++var11) {
+		for(int i = var9; i < stringLength; i++) {
 			int var19;
-			int var22;
-			label81: {
-				char var12;
-				if ((var12 = var2.charAt(var11)) > 32) {
-					var19 = field_25[var12] & 0xFF;
-				} else {
-					if (var12 == 32) {
-						var19 = var6;
-						var22 = this.spriteDims[0] & 0xFF;
-						break label81;
-					}
-
-					if (var12 == 10) {
-						var6 = var3;
-						var7 += this.field_26 + (this.spriteDims[1] & 0xFF);
-						continue;
-					}
-
-					if (var12 == 1) {
-						++var11;
-						this.spritePalette = var2.charAt(var11);
-						continue;
-					}
-
-					if (var12 != 2) {
-						continue;
-					}
-
-					++var11;
-					var19 = var2.charAt(var11);
-				}
-
-				var12 = (char) var19; //NOTE: ADDED CAST
-				int var10002;
-				if (var19 >= this.method_5(0)) {
-					int var13 = var12 - this.method_5(0);
-					this.method_8(var1, var13, var6, var7, 0, 0, 0);
-					var19 = var6;
-					var22 = this.field_9[(var13 << 2) + 2] & 0xFF;
-					var10002 = this.field_9[var13 << 2] & 0xFF;
-				} else {
-					int var16 = (this.spriteDefs[var12 << 2] & 0xFF) << 1;
-					this.method_9(var1, 0, var12, var6, var7, 0);
-					var19 = var6;
-					var22 = this.spriteDims[var16] & 0xFF;
-					var10002 = this.spriteDefs[(var12 << 2) + 1];
-				}
-
-				var22 -= var10002;
+			char ch = text.charAt(i);
+			if (ch > ' ') {
+				var19 = field_25[ch] & 0xFF;
+			} else if (ch == ' ') {
+				var6 += (this.spriteDims[0] & 0xFF) + this.spriteDefs[1];
+				continue;
+			} else if (ch == '\n') {
+				var6 = x;
+				var7 += this.field_26 + (this.spriteDims[1] & 0xFF);
+				continue;
+			} else if (ch == '\1') {
+				i++;
+				this.spritePalette = text.charAt(i);
+				continue;
+			} else if (ch == '\2') {
+				i++;
+				var19 = text.charAt(i);
+			} else {
+				continue;
 			}
 
-			var6 = var19 + var22 + this.spriteDefs[1];
+			ch = (char) var19; //NOTE: ADDED CAST
+			if (var19 >= this.method_5(0)) {
+				int var13 = ch - this.method_5(0);
+				this.method_8(var1, var13, var6, var7, 0, 0, 0);
+				var6 += ((this.field_9[(var13 << 2) + 2] & 0xFF) - (this.field_9[var13 << 2] & 0xFF)) + this.spriteDefs[1];
+			} else {
+				int var16 = (this.spriteDefs[ch << 2] & 0xFF) << 1;
+				this.method_9(var1, 0, ch, var6, var7, 0);
+				var6 += ((this.spriteDims[var16] & 0xFF) - this.spriteDefs[(ch << 2) + 1]) + this.spriteDefs[1];
+			}
 		}
 
 		this.spritePalette = var8;
