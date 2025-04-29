@@ -2,132 +2,139 @@ import javax.microedition.lcdui.Graphics;
 
 // $FF: renamed from: g
 public final class ASpriteInstance {
-   // $FF: renamed from: a int
-   public int field_68;
-   // $FF: renamed from: b int
-   public int field_69;
-   // $FF: renamed from: c int
-   public int field_70;
-   // $FF: renamed from: d int
-   public int field_71;
-   // $FF: renamed from: e int
-   public int field_72;
-   // $FF: renamed from: a a
-   public ASprite field_73;
-   // $FF: renamed from: f int
-   public int field_74;
-   // $FF: renamed from: g int
-   public int field_75;
-   // $FF: renamed from: h int
-   public int field_76;
-   // $FF: renamed from: a g
-   public ASpriteInstance field_77;
+	// $FF: renamed from: a int
+	public int _posX;
+	// $FF: renamed from: b int
+	public int _posY;
+	// $FF: renamed from: c int
+	public int _pos_ox;
+	// $FF: renamed from: d int
+	public int _pos_oy;
+	// $FF: renamed from: e int
+	public int _flags;
+	// $FF: renamed from: a a
+	public ASprite _sprite;
+	// $FF: renamed from: f int
+	public int _nCrtAnim;
+	// $FF: renamed from: g int
+	public int _nCrtAFrame;
+	// $FF: renamed from: h int
+	public int _nCrtTime;
+	// $FF: renamed from: a g
+	public ASpriteInstance _parent;
 
-   public ASpriteInstance() {
-   }
+	public ASpriteInstance() {
+	}
 
-   public ASpriteInstance(ASprite var1, int var2, int var3, ASpriteInstance var4) {
-      this.field_68 = var2 << 0;
-      this.field_69 = var3 << 0;
-      this.field_73 = var1;
-      this.field_77 = var4;
-   }
+	public ASpriteInstance(ASprite spr, int posX, int posY, ASpriteInstance parent) {
+		this._posX = posX << 0;
+		this._posY = posY << 0;
+		this._sprite = spr;
+		this._parent = parent;
+	}
 
-   // $FF: renamed from: a (int) void
-   public final void method_44(int var1) {
-      if (var1 != this.field_74) {
-         this.field_74 = var1;
-         this.field_75 = 0;
-         this.field_76 = 0;
-         this.field_70 = 0;
-         this.field_71 = 0;
-      }
+	// $FF: renamed from: a (int) void
+	public final void SetAnim(int id) {
+		if (id != this._nCrtAnim) {
+			this._nCrtAnim = id;
+			this._nCrtAFrame = 0;
+			this._nCrtTime = 0;
 
-   }
+			this._pos_ox = 0;
+			this._pos_oy = 0;
+		}
 
-   // $FF: renamed from: a () void
-   public final void method_45() {
-      int var1 = (this.field_73.field_12[this.field_74] + this.field_75) * 5;
-      this.field_70 = (this.field_73.animFrameData[var1 + 2] << 0) * 1 / 1;
-      if ((this.field_72 & 1) != 0) {
-         this.field_70 = -this.field_70;
-      }
+	}
 
-      this.field_71 = (this.field_73.animFrameData[var1 + 3] << 0) * 1 / 1;
-      if ((this.field_72 & 2) != 0) {
-         this.field_71 = -this.field_71;
-      }
+	// $FF: renamed from: a () void
+	public final void ApplyAnimOff() {
+		int off = (this._sprite._anims_af_start[this._nCrtAnim] + this._nCrtAFrame) * 5;
 
-      this.field_68 += this.field_70;
-      this.field_69 += this.field_71;
-   }
+		this._pos_ox = (this._sprite._aframes[off + 2] << 0) * 1 / 1;
+		if ((this._flags & ASprite.FLAG_FLIP_X) != 0) {
+			this._pos_ox = -this._pos_ox;
+		}
 
-   // $FF: renamed from: a () boolean
-   public final boolean method_46() {
-      if (this.field_75 != this.field_73.method_4(this.field_74) - 1) {
-         return false;
-      } else {
-         int var1;
-         return (var1 = this.field_73.method_3(this.field_74, this.field_75)) == 0 || this.field_76 == var1 - 1;
-      }
-   }
+		this._pos_oy = (this._sprite._aframes[off + 3] << 0) * 1 / 1;
+		if ((this._flags & ASprite.FLAG_FLIP_Y) != 0) {
+			this._pos_oy = -this._pos_oy;
+		}
 
-   // $FF: renamed from: a (javax.microedition.lcdui.Graphics) void
-   public final void method_47(Graphics var1) {
-      if (this.field_73 != null) {
-         int var2 = this.field_68;
-         int var3 = this.field_69;
+		this._posX += this._pos_ox;
+		this._posY += this._pos_oy;
+	}
 
-         ASpriteInstance var4;
-         for(ASpriteInstance var10000 = this; (var4 = var10000.field_77) != null; var10000 = var4) {
-            var2 += var4.field_68;
-            var3 += var4.field_69;
-         }
+	// $FF: renamed from: a () boolean
+	public final boolean IsAnimEnded() {
+		if (this._nCrtAFrame != this._sprite.GetAFrames(this._nCrtAnim) - 1)
+			return false;
 
-         var2 = method_49(var2) + 0;
-         var3 = method_50(var3) + 0;
-         if (this.field_76 >= 0) {
-            this.field_73.method_7(var1, this.field_74, this.field_75, var2, var3, this.field_72, 0, 0);
-         } else if (this.field_74 >= 0) {
-            this.field_73.method_10(var1, this.field_74, var2, var3, this.field_72);
-         } else {
-            if (this.field_75 >= 0) {
-               this.field_73.method_8(var1, this.field_75, var2, var3, this.field_72, 0, 0);
-            }
+		int time = this._sprite.GetAFrameTime(this._nCrtAnim, this._nCrtAFrame);
 
-         }
-      }
-   }
+		return ((time == 0) || (this._nCrtTime == time - 1));
+	}
 
-   // $FF: renamed from: b () void
-   public final void method_48() {
-      if (this.field_73 != null) {
-         if (this.field_76 >= 0) {
-            int var1;
-            if ((var1 = this.field_73.method_3(this.field_74, this.field_75)) != 0) {
-               ++this.field_76;
-               if (var1 <= this.field_76) {
-                  this.field_76 = 0;
-                  ++this.field_75;
-                  if (this.field_75 >= this.field_73.method_4(this.field_74)) {
-                     this.field_75 = 0;
-                     this.field_70 = 0;
-                     this.field_71 = 0;
-                  }
+	// $FF: renamed from: a (javax.microedition.lcdui.Graphics) void
+	public final void PaintSprite(Graphics g) {
+		if (this._sprite == null)
+			return;
 
-               }
-            }
-         }
-      }
-   }
+		int posX = this._posX;
+		int posY = this._posY;
 
-   // $FF: renamed from: a (int) int
-   private static int method_49(int var0) {
-      return (var0 >> 0) * 1 / 1;
-   }
+		for (ASpriteInstance o = this._parent; o != null; o = o._parent)
+		{
+			posX += o._posX;
+			posY += o._posY;
+		}
 
-   // $FF: renamed from: b (int) int
-   private static int method_50(int var0) {
-      return (var0 >> 0) * 1 / 1;
-   }
+		posX = ZOOM_IN_FIXED_X(posX) + 0;
+		posY = ZOOM_IN_FIXED_Y(posY) + 0;
+		if (this._nCrtTime >= 0) {
+			this._sprite.PaintAFrame(g, this._nCrtAnim, this._nCrtAFrame, posX, posY, this._flags, 0, 0);
+		} else if (this._nCrtAnim >= 0) {
+			this._sprite.PaintModule(g, this._nCrtAnim, posX, posY, this._flags);
+		} else if (this._nCrtAFrame >= 0) {
+			this._sprite.PaintFrame(g, this._nCrtAFrame, posX, posY, this._flags, 0, 0);
+		}
+	}
+
+	// $FF: renamed from: b () void
+	public final void UpdateSpriteAnim() {
+		if (this._sprite == null)
+			return;
+
+		if (this._nCrtTime < 0)
+			return;
+
+		int time = this._sprite.GetAFrameTime(this._nCrtAnim, this._nCrtAFrame);
+
+		if (time == 0)
+			return;
+
+		++this._nCrtTime;
+
+		if (time > this._nCrtTime)
+			return;
+
+		this._nCrtTime = 0;
+
+		++this._nCrtAFrame;
+
+		if (this._nCrtAFrame >= this._sprite.GetAFrames(this._nCrtAnim)) {
+			this._nCrtAFrame = 0;
+			this._pos_ox = 0;
+			this._pos_oy = 0;
+		}
+	}
+
+	// $FF: renamed from: a (int) int
+	private static int ZOOM_IN_FIXED_X(int x) {
+		return (x >> 0) * 1 / 1;
+	}
+
+	// $FF: renamed from: b (int) int
+	private static int ZOOM_IN_FIXED_Y(int y) {
+		return (y >> 0) * 1 / 1;
+	}
 }

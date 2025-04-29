@@ -112,7 +112,7 @@ public final class GemsRain {
                var10002 = 0;
             }
 
-            var10000.method_8(var10001, var10002, var1 * 24, (var2 - 1) * 24 + field_30, 0, 0, 0);
+            var10000.PaintFrame(var10001, var10002, var1 * 24, (var2 - 1) * 24 + field_30, 0, 0, 0);
          }
       }
 
@@ -120,7 +120,7 @@ public final class GemsRain {
          for(int var3 = 0; var3 < 12; ++var3) {
             for(int var4 = 0; var4 < 13; ++var4) {
                if (field_33[var3][var4] == 1 || field_33[var3][var4] == 2) {
-                  cGame.field_320[cGame.method_149(2)].method_8(var0, 0, var3 * 24, (var4 - 1) * 24 + field_34, 0, 0, 0);
+                  cGame.field_320[cGame.method_149(2)].PaintFrame(var0, 0, var3 * 24, (var4 - 1) * 24 + field_34, 0, 0, 0);
                }
             }
          }

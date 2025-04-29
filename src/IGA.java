@@ -42,7 +42,7 @@ public final class IGA {
    // $FF: renamed from: a () void
    public static void method_38() {
       field_60 = cGame.field_320[41];
-      field_60.field_26 = 1;
+      field_60._nLineSpacing = 1;
       field_59 = cGame.loadGfxFile("/tips.f", 0);
       if (field_62 == null) {
          boolean var0 = false;
@@ -115,9 +115,9 @@ public final class IGA {
             }
 
             String var2 = var10000[var10001];
-            field_60.updateDrawnTextSize(var2);
-            int var3 = ASprite.drawnTextWidth + 2;
-            int var4 = field_60.method_6(var2);
+            field_60.UpdateStringSize(var2);
+            int var3 = ASprite._text_w + 2;
+            int var4 = field_60.GetStringHeight(var2);
             int var6;
             if (var1 != 0) {
                var6 = 320 + var1 >> 1;
@@ -131,7 +131,7 @@ public final class IGA {
             var0.setClip(0, 0, 240, 320);
             var0.setColor(16711680);
             var0.fillRect(120 - (var3 >> 1) - 4, var5 - 4, var3 + 8, var4 + 8);
-            field_60.method_14(var0, var2, 120, var5, 1);
+            field_60.DrawPage(var0, var2, 120, var5, 1);
          }
       }
    }
@@ -157,26 +157,26 @@ public final class IGA {
       method_41(var1);
       int var2 = 0;
       if (field_63 != 3) {
-         cGame.field_323[0].field_73.method_8(var1, 11, 120, 15, 0, 0, 0);
+         cGame.field_323[0]._sprite.PaintFrame(var1, 11, 120, 15, 0, 0, 0);
       }
 
       int var10000;
       switch (field_63) {
          case 3:
             var1.drawImage(field_58[field_63], 120, 15, 17);
-            field_60.method_14(var1, field_62[3], 120, 160, 3);
-            field_60.updateDrawnTextSize(field_62[3]);
-            var10000 = 160 + (ASprite.drawnTextHeight >> 1) + 4;
+            field_60.DrawPage(var1, field_62[3], 120, 160, 3);
+            field_60.UpdateStringSize(field_62[3]);
+            var10000 = 160 + (ASprite._text_h >> 1) + 4;
             break;
          case 4:
-            field_60.method_14(var1, "\n\u0001\u0002" + field_62[6], 120, 35, 17);
-            field_60.method_14(var1, field_62[7], 120, 160, 3);
-            field_60.updateDrawnTextSize(field_62[7]);
-            var10000 = 160 + (ASprite.drawnTextHeight >> 1) + 4;
+            field_60.DrawPage(var1, "\n\u0001\u0002" + field_62[6], 120, 35, 17);
+            field_60.DrawPage(var1, field_62[7], 120, 160, 3);
+            field_60.UpdateStringSize(field_62[7]);
+            var10000 = 160 + (ASprite._text_h >> 1) + 4;
             break;
          default:
             var1.drawImage(field_58[field_63], 120, 240, 33);
-            field_60.method_14(var1, field_62[field_63], 120, 242, 17);
+            field_60.DrawPage(var1, field_62[field_63], 120, 242, 17);
             var10000 = 0;
       }
 
@@ -199,8 +199,8 @@ public final class IGA {
          cGame.keysPressed = 0;
       }
 
-      field_59.method_7(var1, cGame.isKeyPressed(16388) ? 2 : 0, field_64 % field_59.method_4(0), 20 + this.field_67, 160, 0, 0, 0);
-      field_59.method_7(var1, cGame.isKeyPressed(65544) ? 3 : 1, field_64 % field_59.method_4(1), 220 - this.field_67, 160, 0, 0, 0);
+      field_59.PaintAFrame(var1, cGame.isKeyPressed(16388) ? 2 : 0, field_64 % field_59.GetAFrames(0), 20 + this.field_67, 160, 0, 0, 0);
+      field_59.PaintAFrame(var1, cGame.isKeyPressed(65544) ? 3 : 1, field_64 % field_59.GetAFrames(1), 220 - this.field_67, 160, 0, 0, 0);
       this.field_67 += this.field_66 ? -1 : 1;
       if (this.field_67 > 3 || this.field_67 < 1) {
          this.field_66 = !this.field_66;
