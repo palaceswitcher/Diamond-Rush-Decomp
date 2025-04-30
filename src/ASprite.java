@@ -374,8 +374,8 @@ public final class ASprite {
 		int offset = (this._anims_af_start[anim] + aframe) * 5;
 		int frame = this._aframes[offset] & 0xFF;
 		if ((flags & FLAG_OFFSET_AF) != 0) {
-			offsetX = (flags & FLAG_FLIP_X) != 0 ? offsetX + this._aframes[aframeIndex + 2] : offsetX - this._aframes[aframeIndex + 2];
-			offsetY = (flags & FLAG_FLIP_Y) != 0 ? offsetY + this._aframes[aframeIndex + 3] : offsetY - this._aframes[aframeIndex + 3];
+			offsetX = (flags & FLAG_FLIP_X) != 0 ? offsetX + this._aframes[offset + 2] : offsetX - this._aframes[offset + 2];
+			offsetY = (flags & FLAG_FLIP_Y) != 0 ? offsetY + this._aframes[offset + 3] : offsetY - this._aframes[offset + 3];
 		}
 
 		this.PaintFrame(g, frame, posX - offsetX, posY - offsetY, (flags ^ this._aframes[offset + 4]) & 0xF, offsetX, offsetY);
