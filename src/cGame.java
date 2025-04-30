@@ -49,11 +49,11 @@ public final class cGame extends GameCanvas implements Runnable {
 	// $FF: renamed from: c boolean
 	public boolean field_100;
 	// $FF: renamed from: e int
-	public int field_101;
+	public int crtSelectSealItem;
 	// $FF: renamed from: f int
-	public int field_102;
+	public int crtSealArrowOffsetX;
 	// $FF: renamed from: g int
-	public int field_103;
+	public int crtSealArrowOffsetY;
 	// $FF: renamed from: h int
 	public int field_104;
 	// $FF: renamed from: i int
@@ -61,19 +61,19 @@ public final class cGame extends GameCanvas implements Runnable {
 	// $FF: renamed from: b java.lang.String
 	public String field_106;
 	// $FF: renamed from: c java.lang.String
-	public String field_107;
+	public String crtSealItemName;
 	// $FF: renamed from: j int
-	public int field_108;
+	public int sealArrowMoveDirection;
 	// $FF: renamed from: d boolean
-	public boolean field_109;
+	public boolean isCrtSelectSealItemNeedUpdate;
 	// $FF: renamed from: e boolean
 	public boolean field_110;
 	// $FF: renamed from: a byte
 	public byte field_111;
 	// $FF: renamed from: k int
-	public int field_112;
+	public int sealArrowOffsetX;
 	// $FF: renamed from: l int
-	public int field_113;
+	public int sealArrowOffsetY;
 	// $FF: renamed from: m int
 	public int field_114;
 	// $FF: renamed from: n int
@@ -763,9 +763,9 @@ public final class cGame extends GameCanvas implements Runnable {
 	// $FF: renamed from: m long
 	public long field_457;
 	// $FF: renamed from: ag boolean
-	public boolean field_458;
+	public boolean hasLockedGoldenGateInLevel;
 	// $FF: renamed from: ah boolean
-	public boolean field_459;
+	public boolean hasLockedSilverGateInLevel;
 	// $FF: renamed from: ai boolean
 	public boolean field_460;
 	// $FF: renamed from: aj boolean
@@ -1000,19 +1000,19 @@ public final class cGame extends GameCanvas implements Runnable {
 		this.field_98 = Define.itemPrices[this.field_97];
 		this.field_99 = "";
 		this.field_100 = true;
-		this.field_101 = 0;
-		this.field_102 = 0;
-		this.field_103 = 0;
-		this.field_104 = this.field_102;
-		this.field_105 = this.field_103;
+		this.crtSelectSealItem = 0;
+		this.crtSealArrowOffsetX = 0;
+		this.crtSealArrowOffsetY = 0;
+		this.field_104 = this.crtSealArrowOffsetX;
+		this.field_105 = this.crtSealArrowOffsetY;
 		this.field_106 = "";
-		this.field_107 = "";
-		this.field_108 = -1;
-		this.field_109 = false;
+		this.crtSealItemName = "";
+		this.sealArrowMoveDirection = -1;
+		this.isCrtSelectSealItemNeedUpdate = false;
 		this.field_110 = true;
 		this.field_111 = 0;
-		this.field_112 = 0;
-		this.field_113 = 0;
+		this.sealArrowOffsetX = 0;
+		this.sealArrowOffsetY = 0;
 		this.field_114 = 0;
 		this.field_115 = 0;
 		this.field_116 = 0;
@@ -1653,7 +1653,7 @@ public final class cGame extends GameCanvas implements Runnable {
 	// $FF: renamed from: k () void
 	private void method_70() {
 		this.field_372 = false;
-		method_94(field_320[17], true);
+		freeSpriteCache(field_320[17], true);
 		field_320[17] = null;
 		int var1 = IGA.field_58.length;
 
@@ -1662,16 +1662,16 @@ public final class cGame extends GameCanvas implements Runnable {
 		}
 
 		IGA.field_58 = null;
-		method_94(field_320[10], true);
+		freeSpriteCache(field_320[10], true);
 		field_320[10] = null;
-		method_94(field_320[46], true);
+		freeSpriteCache(field_320[46], true);
 		field_320[46] = null;
-		method_94(field_320[55], true);
+		freeSpriteCache(field_320[55], true);
 		field_320[55] = null;
 		field_318[8] = null;
-		method_94(field_320[59], true);
+		freeSpriteCache(field_320[59], true);
 		field_318[3] = null;
-		method_94(field_320[17], true);
+		freeSpriteCache(field_320[17], true);
 		field_320[17] = null;
 		System.gc();
 	}
@@ -1757,7 +1757,7 @@ public final class cGame extends GameCanvas implements Runnable {
 				(var6 = loadGfxFileInit("/cm.f", 2, 0)).BuildCacheImages(0, 0, -1, -1);
 				var6.BuildCacheImages(1, 0, 0, -1);
 				field_320[59] = var6;
-				GemsRain.field_37 = var6._modules_image[0].length;
+				GemsRain.frames = var6._modules_image[0].length;
 				var6._modules_data = null;
 				if (field_320[17] == null) {
 					field_320[17] = loadGfxFile("/ms.f", 0);
@@ -1791,7 +1791,7 @@ public final class cGame extends GameCanvas implements Runnable {
 				field_330[1] |= 1;
 				this.method_110();
 				this.field_118 = 1;
-				this.field_101 = 1;
+				this.crtSelectSealItem = 1;
 			}
 
 			if ((var2 & 2) != 0) {
@@ -1802,14 +1802,14 @@ public final class cGame extends GameCanvas implements Runnable {
 				field_330[1] |= 2;
 				this.method_110();
 				this.field_118 = 2;
-				this.field_101 = 2;
+				this.crtSelectSealItem = 2;
 			}
 
-			this.field_102 = Define.field_3[this.field_101 << 1];
-			this.field_103 = Define.field_3[(this.field_101 << 1) + 1];
-			this.field_104 = this.field_102;
-			this.field_105 = this.field_103;
-			this.method_72();
+			this.crtSealArrowOffsetX = Define.sealArrowPosOffset[this.crtSelectSealItem << 1];
+			this.crtSealArrowOffsetY = Define.sealArrowPosOffset[(this.crtSelectSealItem << 1) + 1];
+			this.field_104 = this.crtSealArrowOffsetX;
+			this.field_105 = this.crtSealArrowOffsetY;
+			this.updateCrtSealItemName();
 			this.field_110 = true;
 			this.field_557 = true;
 		}
@@ -1817,38 +1817,38 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: l () void
-	private void method_72() {
+	private void updateCrtSealItemName() {
 		cGame var10000;
 		StringBuffer var10001;
 		String var10002;
-		if (this.field_101 == 3) {
+		if (this.crtSelectSealItem == 3) {
 			var10000 = this;
 			var10001 = new StringBuffer();
 			var10002 = menuText[82];
-		} else if (method_73(this.field_101)) {
+		} else if (method_73(this.crtSelectSealItem)) {
 			var10000 = this;
 			var10001 = new StringBuffer();
 			var10002 = menuText[82];
 		} else {
 			var10000 = this;
-			var10001 = (new StringBuffer()).append(Define.worldPrices[this.field_101]).append(" ");
+			var10001 = (new StringBuffer()).append(Define.worldPrices[this.crtSelectSealItem]).append(" ");
 			var10002 = menuText[114].toLowerCase();
 		}
 
 		var10000.field_106 = var10001.append(var10002).append(" ").append(menuText[79]).toString();
 
-		switch (this.field_101) {
+		switch (this.crtSelectSealItem) {
 		case 0:
-			this.field_107 = menuText[28];
+			this.crtSealItemName = menuText[28];
 			break;
 		case 1:
-			this.field_107 = menuText[29];
+			this.crtSealItemName = menuText[29];
 			break;
 		case 2:
-			this.field_107 = menuText[30];
+			this.crtSealItemName = menuText[30];
 			break;
 		case 3:
-			this.field_107 = menuText[31];
+			this.crtSealItemName = menuText[31];
 			break;
 		}
 	}
@@ -1905,33 +1905,33 @@ public final class cGame extends GameCanvas implements Runnable {
 	// $FF: renamed from: n () void
 	private void method_75() {
 		if (!this.field_229) {
-			this.field_104 = this.field_102;
-			this.field_105 = this.field_103;
+			this.field_104 = this.crtSealArrowOffsetX;
+			this.field_105 = this.crtSealArrowOffsetY;
 		}
 
-		if (this.field_109) {
+		if (this.isCrtSelectSealItemNeedUpdate) {
 			keysPressed = 0;
-			int var1 = this.field_112 - this.field_102;
-			int var2 = this.field_113 - this.field_103;
-			this.field_102 += var1 / (8 - this.field_111);
-			this.field_103 += var2 / (8 - this.field_111);
+			int var1 = this.sealArrowOffsetX - this.crtSealArrowOffsetX;
+			int var2 = this.sealArrowOffsetY - this.crtSealArrowOffsetY;
+			this.crtSealArrowOffsetX += var1 / (8 - this.field_111);
+			this.crtSealArrowOffsetY += var2 / (8 - this.field_111);
 			++this.field_111;
 			if (this.field_111 == 8) {
-				this.field_102 = this.field_112;
-				this.field_103 = this.field_113;
-				this.field_109 = false;
+				this.crtSealArrowOffsetX = this.sealArrowOffsetX;
+				this.crtSealArrowOffsetY = this.sealArrowOffsetY;
+				this.isCrtSelectSealItemNeedUpdate = false;
 				this.field_111 = 0;
 				this.field_110 = true;
-				this.method_72();
+				this.updateCrtSealItemName();
 				return;
 			}
 		} else {
 			label33:
-				switch (this.field_108) {
+				switch (this.sealArrowMoveDirection) {
 				case -1:
 					break;
 				case 4:
-					switch (this.field_101) {
+					switch (this.crtSelectSealItem) {
 					case 0:
 						this.field_372 = true;
 						this.field_373 = true;
@@ -1943,7 +1943,7 @@ public final class cGame extends GameCanvas implements Runnable {
 						this.method_408();
 						break label33;
 					case 1:
-						if (method_73(this.field_101)) {
+						if (method_73(this.crtSelectSealItem)) {
 							this.field_372 = true;
 							this.field_373 = true;
 							this.field_353.method_59();
@@ -1960,7 +1960,7 @@ public final class cGame extends GameCanvas implements Runnable {
 						}
 						break label33;
 					case 2:
-						if (method_73(this.field_101)) {
+						if (method_73(this.crtSelectSealItem)) {
 							this.field_372 = true;
 							this.field_373 = true;
 							this.field_353.method_59();
@@ -1983,15 +1983,15 @@ public final class cGame extends GameCanvas implements Runnable {
 					}
 				default:
 					byte var3;
-					if ((var3 = Define.field_4[this.field_108][this.field_101]) != -1) {
-						this.field_101 = var3;
-						this.field_109 = true;
-						this.field_112 = Define.field_3[this.field_101 * 2];
-						this.field_113 = Define.field_3[this.field_101 * 2 + 1];
+					if ((var3 = Define.sealMoveDirection[this.sealArrowMoveDirection][this.crtSelectSealItem]) != -1) {
+						this.crtSelectSealItem = var3;
+						this.isCrtSelectSealItemNeedUpdate = true;
+						this.sealArrowOffsetX = Define.sealArrowPosOffset[this.crtSelectSealItem * 2];
+						this.sealArrowOffsetY = Define.sealArrowPosOffset[this.crtSelectSealItem * 2 + 1];
 					}
 				}
 
-			this.field_108 = -1;
+			this.sealArrowMoveDirection = -1;
 		}
 
 	}
@@ -2135,26 +2135,32 @@ public final class cGame extends GameCanvas implements Runnable {
 			case 9:
 				this.method_296();
 				return;
-			case 10:
+			case 10: // Get current world block sprite
 				String var2 = "/" + this.currentWorld + ".f";
 				this.field_306 = this.getClass().getResourceAsStream(var2);
+				// Get how many sprites in packed data file
 				this.field_304 = this.field_306.read();
+				// Load data length and data offset in packed data file
 				field_347 = new byte[this.field_304 << 3];
-				this.field_306.read(field_347); //Load file index for world's data??
+				this.field_306.read(field_347);
 				return;
 			default:
-				int var6;
-				if ((var6 = var1 - 10 - 1) < 4) {
-					this.method_97(var6);
+				int var6 = var1 - 10 - 1;
+				if (var6 < 4) {
+					// Load sprite in 0.f, 1.f or 2.f
+					this.loadCrtWorldBlockSprite(var6);
 					this.field_267 = 0;
 				} else {
 					var6 -= 4;
 					if (var6 >= 0 && var6 < 43) {
-						this.method_100(var6);
+						// Load needed sprite in gen*.f
+						this.loadGenSprite(var6);
 					} else {
 						var6 -= 43;
 						if (var6 >= 0 && var6 < 8) {
-							this.method_98(var6);
+							this.loadCmSprite(var6);
+							// Already load all needed sprites in cm.f
+							// close file stream
 							if (var6 == 7) {
 								this.field_306.close();
 								this.field_306 = null;
@@ -2262,7 +2268,7 @@ public final class cGame extends GameCanvas implements Runnable {
 										this.method_96();
 										return;
 									case 6:
-										method_94(field_321, true);
+										freeSpriteCache(field_321, true);
 										field_321 = null;
 										System.gc();
 										return;
@@ -2634,8 +2640,8 @@ public final class cGame extends GameCanvas implements Runnable {
 		}
 
 		field_355 = null;
-		method_94(field_320[42], true);
-		method_94(field_320[43], true);
+		freeSpriteCache(field_320[42], true);
+		freeSpriteCache(field_320[43], true);
 		System.gc();
 	}
 
@@ -2644,7 +2650,7 @@ public final class cGame extends GameCanvas implements Runnable {
 		if (var0 != null) {
 			if (DemoInterpreter.field_41 != null) {
 				for (int var1 = 0; var1 < DemoInterpreter.field_41.length; ++var1) {
-					method_94(DemoInterpreter.field_41[var1], true);
+					freeSpriteCache(DemoInterpreter.field_41[var1], true);
 					DemoInterpreter.field_41[var1] = null;
 				}
 			}
@@ -2662,9 +2668,12 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: a (a, boolean) void
-	private static void method_94(ASprite var0, boolean var1) {
-		if (var0 != null) {
-			var0.FreeCacheData(var1);
+	// Free cache data in sprite
+	// @param spr Sprite need to free
+	// @param freeCacheImage Free module image cache
+	private static void freeSpriteCache(ASprite spr, boolean freeCacheImage) {
+		if (spr != null) {
+			spr.FreeCacheData(freeCacheImage);
 		}
 	}
 
@@ -2718,12 +2727,12 @@ public final class cGame extends GameCanvas implements Runnable {
 			}
 		}
 
-		method_94(field_499, true);
+		freeSpriteCache(field_499, true);
 		System.gc();
 		if (field_320 != null) {
 			for (int var5 = 0; var5 < 61; ++var5) {
 				if (var5 != 41 && var5 != 0 && var5 != 9 && var5 != 18) {
-					method_94(field_320[var5], true);
+					freeSpriteCache(field_320[var5], true);
 					field_320[var5] = null;
 				}
 			}
@@ -2732,7 +2741,7 @@ public final class cGame extends GameCanvas implements Runnable {
 		if (field_323 != null) {
 			for (int var6 = 0; var6 < 6; ++var6) {
 				if (field_323[var6] != null) {
-					method_94(field_323[var6]._sprite, true);
+					freeSpriteCache(field_323[var6]._sprite, true);
 					field_323[var6]._sprite = null;
 					field_323[var6] = null;
 				}
@@ -2787,43 +2796,55 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: e (int) void
-	private void method_97(int var1) throws Exception {
+	// Load block sprite of current world (sprites in 0.f, 1.f or 2.f)
+	// @param sprIndex Sprite index in packed data file
+	//
+	// @note You can visit this link to see sprites in file
+	//       https://kubikaugustyn.github.io/diamondRush/browser/all_files_new/
+	private void loadCrtWorldBlockSprite(int sprIndex) throws Exception {
 		ASprite var4;
-		byte[] var3 = new byte[getIntFromBytes(field_347, var1 * 8 + 4)];
+		byte[] var3 = new byte[getIntFromBytes(field_347, sprIndex * 8 + 4)];
 		this.field_306.read(var3);
-		(var4 = new ASprite()).Load(var3, 0);
+		var4 = new ASprite();
+		var4.Load(var3, 0);
 		var4.BuildCacheImages(0, 0, -1, -1);
-		switch (var1) {
+		switch (sprIndex) {
 		case 0:
+			// Boulder sprite
 			if ((this.field_328 & 1L) == 0L) {
 				break;
 			}
 			field_320[60] = var4;
 			break;
 		case 1:
+			// Grass sprite
 			if ((this.field_328 & 2L) == 0L) {
 				break;
 			}
 			field_320[16] = var4;
 			break;
 		case 2:
+			// Blocks sprite
 			field_318[0] = null;
 			field_320[42] = var4;
 			break;
 		case 3:
+			// Background sprite
 			field_318[8] = var4._modules_image[0];
 			break;
 		default:
 			break;
 		}
-
+		// We already decode all the module data, so release it
 		var4._modules_data = null;
 	}
 
 	// $FF: renamed from: f (int) void
-	private void method_98(int var1) {
+	// Load sprite from cm.f
+	// @param index Index of sprite to load
+	private void loadCmSprite(int index) {
 		try {
-			if (var1 == 0) {
+			if (index == 0) {
 				this.field_306.close();
 				this.field_306 = null;
 				System.gc();
@@ -2834,67 +2855,49 @@ public final class cGame extends GameCanvas implements Runnable {
 			}
 
 			ASprite var4;
-			label36: {
-				Object var10000;
-				byte var10001;
-				Object var10002;
-				label35: {
-					byte[] var3 = new byte[getIntFromBytes(field_347, var1 * 8 + 4)];
-					this.field_306.read(var3);
-					(var4 = new ASprite()).Load(var3, 0);
-					var4.BuildCacheImages(0, 0, -1, -1);
-					switch (var1) {
-					case 0:
-						var10000 = field_318;
-						var10001 = 11;
-						break;
-					case 1:
-						switch (this.currentWorld) {
-						case 1:
-						case 2:
-							if (this.currentWorld != 0) {
-								var4.BuildCacheImages(this.currentWorld, 0, -1, -1);
-								var4.DeleteCacheImages(0);
-								var4._crt_pal = this.currentWorld;
-							}
-						default:
-							var10000 = field_320;
-							var10001 = 56;
-							var10002 = var4;
-							break label35;
-						}
-					case 2:
-						var4.BuildCacheImages(1, 0, 0, -1);
-						var10000 = field_320;
-						var10001 = 59;
-						var10002 = var4;
-						break label35;
-					case 3:
-						field_320[13] = var4;
-						this.method_99();
-						break label36;
-					case 4:
-						var10000 = field_318;
-						var10001 = 5;
-						break;
-					case 5:
-						var10000 = field_318;
-						var10001 = 18;
-						break;
-					case 6:
-						field_320[43] = var4;
-						var10000 = field_318;
-						var10001 = 20;
-						var10002 = null;
-						break label35;
-					default:
-						break label36;
+			byte[] var3 = new byte[getIntFromBytes(field_347, index * 8 + 4)];
+			this.field_306.read(var3);
+			var4 = new ASprite();
+			var4.Load(var3, 0);
+			var4.BuildCacheImages(0, 0, -1, -1);
+			switch (index) {
+			case 0:
+				field_318[11] = var4._modules_image[0];
+				break;
+			case 1:
+				switch (this.currentWorld) {
+				case 1:
+				case 2:
+					if (this.currentWorld != 0) {
+						var4.BuildCacheImages(this.currentWorld, 0, -1, -1);
+						var4.DeleteCacheImages(0);
+						var4._crt_pal = this.currentWorld;
 					}
-
-					var10002 = var4._modules_image[0];
+				default:
+					field_320[56] = var4;
+					break;
 				}
-
-				((Object[])var10000)[var10001] = var10002;
+			case 2:
+				var4.BuildCacheImages(1, 0, 0, -1);
+				field_320[59] = var4;
+				break;
+			case 3:
+				field_320[13] = var4;
+				this.method_99();
+				break;
+			case 4:
+				field_318[5] = var4._modules_image[0];
+				break;
+			case 5:
+				field_318[18] = var4._modules_image[0];
+				break;
+			case 6:
+				field_320[43] = var4;
+				field_318[20] = null;
+				break;
+			// case 7:
+			default:
+				break;
 			}
 
 			var4._modules_data = null;
@@ -2913,9 +2916,14 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: g (int) void
-	private void method_100(int var1) {
+	// Load sprite in gen*.f
+	// @param sprIndex Sprite will load
+	//
+	// @note Sprite not load when it no have a
+	//       load flag in field_267
+	private void loadGenSprite(int sprIndex) {
 		try {
-			if (var1 % 10 == 0) {
+			if (sprIndex % 10 == 0) {
 				this.field_306.close();
 				this.field_306 = null;
 				StringBuffer var2 = (new StringBuffer("/gen")).append(this.field_267).append(".f");
@@ -2927,23 +2935,27 @@ public final class cGame extends GameCanvas implements Runnable {
 				++this.field_267;
 			}
 
-			int var9 = var1 - (this.field_267 - 1) * 10;
-			int var3 = getIntFromBytes(field_347, var9 * 8 + 4);
-			if ((this.field_327 & 1L << var1) == 0L) {
-				this.field_305 += var3;
+			int var9 = sprIndex - (this.field_267 - 1) * 10;
+			int sprDataSize = getIntFromBytes(field_347, var9 * 8 + 4);
+			if ((this.field_327 & 1L << sprIndex) == 0L) {
+				// store the bytes count for skip the
+				// data before the sprite will load
+				this.field_305 += sprDataSize;
 				return;
 			}
 
+			// skip the data offset we previously stored
 			if (this.field_305 != 0) {
 				this.field_306.skip((long)this.field_305);
 				this.field_305 = 0;
 			}
 
-			byte[] var4 = new byte[var3];
+			// load sprite to specific pos
+			byte[] var4 = new byte[sprDataSize];
 			this.field_306.read(var4);
-			ASprite var5;
-			(var5 = new ASprite()).Load(var4, 0);
-			if ((var1 != 28 || this.field_458) && (var1 != 24 || this.field_460)) {
+			ASprite var5 = new ASprite();
+			var5.Load(var4, 0);
+			if ((sprIndex != 28 || this.hasLockedGoldenGateInLevel) && (sprIndex != 24 || this.field_460)) {
 				var5.BuildCacheImages(0, 0, -1, -1);
 			}
 
@@ -2953,7 +2965,7 @@ public final class cGame extends GameCanvas implements Runnable {
 				var6 = -1;
 				var7 = -1;
 				byte var10000;
-				switch (var1) {
+				switch (sprIndex) {
 				case 0:
 					var6 = 33;
 					break label104;
@@ -2961,11 +2973,13 @@ public final class cGame extends GameCanvas implements Runnable {
 					var6 = 34;
 					break label104;
 				case 2:
-					if (this.field_458) {
+					if (this.hasLockedGoldenGateInLevel) {
+						// gold key
 						field_318[24] = var5._modules_image[0];
 					}
 
-					if (this.field_459) {
+					if (this.hasLockedSilverGateInLevel) {
+						// silver key
 						var5.BuildCacheImages(1, 0, -1, -1);
 						field_318[25] = var5._modules_image[1];
 					}
@@ -3068,7 +3082,7 @@ public final class cGame extends GameCanvas implements Runnable {
 					var10000 = 19;
 					break;
 				case 28:
-					if (this.field_459) {
+					if (this.hasLockedSilverGateInLevel) {
 						var5.BuildCacheImages(1, 0, -1, -1);
 					}
 
@@ -3831,7 +3845,7 @@ public final class cGame extends GameCanvas implements Runnable {
 				this.method_136();
 				break;
 			case 30:
-				this.method_142(this.field_314, true);
+				this.drawSplash(this.field_314, true);
 				if (frameCounter % 20 >= 10) {
 					field_320[41].DrawString(this.field_314, menuText[82], 120, 250, 17);
 				}
@@ -3842,9 +3856,9 @@ public final class cGame extends GameCanvas implements Runnable {
 					this.field_314.setColor(0);
 					this.field_314.fillRect(0, 0, 240, 320);
 					field_320[41]._nLineSpacing = 5;
-					field_320[41].DrawPage(this.field_314, method_441(menuText[this.field_383 ? 69 : 68], 220), 120, 160, 3);
-					this.method_177();
-					this.method_176();
+					field_320[41].DrawPage(this.field_314, getWrapText(menuText[this.field_383 ? 69 : 68], 220), 120, 160, 3);
+					this.drawBackButton();
+					this.drawOKButton();
 				}
 				break;
 			case 33:
@@ -3866,9 +3880,9 @@ public final class cGame extends GameCanvas implements Runnable {
 			this.field_314.setClip(0, 0, 240, 320);
 			this.field_314.fillRect(0, 0, 240, 320);
 			field_320[41]._nLineSpacing = 3;
-			String var1 = method_441(menuText[4] + "\n\n" + menuText[103] + "\n" + menuText[104] + "\n" + menuText[105] + "\n\n" + menuText[106] + "\n\n" + menuText[107] + "\n\n" + menuText[108], 235);
+			String var1 = getWrapText(menuText[4] + "\n\n" + menuText[103] + "\n" + menuText[104] + "\n" + menuText[105] + "\n\n" + menuText[106] + "\n\n" + menuText[107] + "\n\n" + menuText[108], 235);
 			field_320[41].DrawPage(this.field_314, var1, 120, 10, 17);
-			this.method_176();
+			this.drawOKButton();
 			this.field_557 = false;
 		}
 
@@ -3912,12 +3926,12 @@ public final class cGame extends GameCanvas implements Runnable {
 	private void method_136() {
 		if (this.field_557) {
 			this.method_134(this.field_314, false, this.field_147, this.field_148);
-			field_320[17].PaintFrame(this.field_314, 11, 120 + Define.field_2[6] + this.field_147, 136 + Define.field_2[7] + this.field_148, 0, 0, 0);
+			field_320[17].PaintFrame(this.field_314, 11, 120 + Define.sealItemPosOffset[6] + this.field_147, 136 + Define.sealItemPosOffset[7] + this.field_148, 0, 0, 0);
 			int var1 = 0;
 
 			for (int var2 = 0; var2 < 3; ++var2) {
 				var1 = 52 + var2;
-				field_320[var1].PaintFrame(this.field_314, 0, Define.field_2[var2 << 1] + 120 - this.field_126 + this.field_147, Define.field_2[(var2 << 1) + 1] + 136 - this.field_127 + this.field_148, 0, 0, 0);
+				field_320[var1].PaintFrame(this.field_314, 0, Define.sealItemPosOffset[var2 << 1] + 120 - this.field_126 + this.field_147, Define.sealItemPosOffset[(var2 << 1) + 1] + 136 - this.field_127 + this.field_148, 0, 0, 0);
 			}
 		}
 
@@ -3929,7 +3943,7 @@ public final class cGame extends GameCanvas implements Runnable {
 
 				for (int var7 = 0; var7 < 3; ++var7) {
 					int var5 = 52 + var7;
-					field_320[var5].PaintFrame(this.field_314, 0, Define.field_2[var7 << 1] + 120 - this.field_126, Define.field_2[(var7 << 1) + 1] + 136 - this.field_127, 0, 0, 0);
+					field_320[var5].PaintFrame(this.field_314, 0, Define.sealItemPosOffset[var7 << 1] + 120 - this.field_126, Define.sealItemPosOffset[(var7 << 1) + 1] + 136 - this.field_127, 0, 0, 0);
 				}
 			}
 			break;
@@ -3953,7 +3967,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			GemsRain.method_18(this.field_314);
 			int var4 = field_320[41]._nLineSpacing;
 			field_320[41]._nLineSpacing = 3;
-			String var6 = method_441(menuText[40] + "\n" + menuText[97], 220);
+			String var6 = getWrapText(menuText[40] + "\n" + menuText[97], 220);
 			field_320[41].UpdateStringSize(var6);
 			method_429(this.field_314, (240 - ASprite._text_w >> 1) - 3, (320 - ASprite._text_h >> 1) - 3, ASprite._text_w + 6, ASprite._text_h + 6, 7096587, 0);
 			field_320[41].DrawPage(this.field_314, var6, 120, 160, 3);
@@ -3970,9 +3984,9 @@ public final class cGame extends GameCanvas implements Runnable {
 		} else {
 			this.field_314.setClip(0, 0, 240, 320);
 			this.method_135(this.field_314, false);
-			field_320[17].PaintFrame(this.field_314, 11, 120 + Define.field_2[6], 136 + Define.field_2[7], 0, 0, 0);
-			this.method_176();
-			this.method_177();
+			field_320[17].PaintFrame(this.field_314, 11, 120 + Define.sealItemPosOffset[6], 136 + Define.sealItemPosOffset[7], 0, 0, 0);
+			this.drawOKButton();
+			this.drawBackButton();
 			field_320[41].DrawString(this.field_314, menuText[27].toLowerCase(), 222, 311, 10);
 			this.field_557 = false;
 		}
@@ -3989,7 +4003,7 @@ public final class cGame extends GameCanvas implements Runnable {
 
 			this.field_314.setClip(0, 0, 240, 320);
 			if (this.field_130 < this.field_129) {
-				field_320[9].PaintAFrame(this.field_314, 5, this.field_130, Define.field_2[this.field_118 << 1] + 120 - 12, Define.field_2[(this.field_118 << 1) + 1] + 124, 0, 0, 0);
+				field_320[9].PaintAFrame(this.field_314, 5, this.field_130, Define.sealItemPosOffset[this.field_118 << 1] + 120 - 12, Define.sealItemPosOffset[(this.field_118 << 1) + 1] + 124, 0, 0, 0);
 				++this.field_130;
 			} else {
 				if (this.field_115 % this.field_114 >= this.field_114 >> 1) {
@@ -4002,7 +4016,7 @@ public final class cGame extends GameCanvas implements Runnable {
 					this.field_120 = 0;
 					this.field_118 = 0;
 					this.field_130 = 0;
-					this.method_72();
+					this.updateCrtSealItemName();
 					this.field_110 = true;
 					this.field_557 = false;
 				}
@@ -4019,7 +4033,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			if (field_121[var2]) {
 				int var9 = 52 + var2;
 				if (this.field_123 != var2) {
-					field_320[var9].PaintFrame(this.field_314, 0, Define.field_2[var2 << 1] + 120 - this.field_126, Define.field_2[(var2 << 1) + 1] + 136 - this.field_127, 0, 0, 0);
+					field_320[var9].PaintFrame(this.field_314, 0, Define.sealItemPosOffset[var2 << 1] + 120 - this.field_126, Define.sealItemPosOffset[(var2 << 1) + 1] + 136 - this.field_127, 0, 0, 0);
 				}
 			}
 		}
@@ -4038,13 +4052,13 @@ public final class cGame extends GameCanvas implements Runnable {
 
 		} else {
 			this.field_115 %= this.field_114;
-			this.field_314.setClip(this.field_102 + 120, 136 + this.field_103, 14, 22);
-			field_320[55].PaintAFrame(this.field_314, 0, this.field_115, 120 + this.field_102, 136 + this.field_103, 0, 0, 0);
+			this.field_314.setClip(this.crtSealArrowOffsetX + 120, 136 + this.crtSealArrowOffsetY, 14, 22);
+			field_320[55].PaintAFrame(this.field_314, 0, this.field_115, 120 + this.crtSealArrowOffsetX, 136 + this.crtSealArrowOffsetY, 0, 0, 0);
 			this.field_115++;
 			if (this.field_110) {
-				int var10 = field_320[41]._nLineSpacing;
+				int oldLineSpacing = field_320[41]._nLineSpacing;
 				field_320[41]._nLineSpacing = 1;
-				String var3 = method_441(this.field_106 + "\n" + this.field_107, 220);
+				String var3 = getWrapText(this.field_106 + "\n" + this.crtSealItemName, 220);
 				field_320[41].UpdateStringSize(var3);
 				int var4 = (240 - ASprite._text_w >> 1) - 3;
 				int var5 = 250 - (ASprite._text_h >> 1) - 3;
@@ -4053,7 +4067,7 @@ public final class cGame extends GameCanvas implements Runnable {
 				this.field_314.setClip(var4, var5, var6, var7);
 				method_429(this.field_314, var4, var5, var6, var7, 7096587, 0);
 				field_320[41].DrawPage(this.field_314, var3, 120, 250, 3);
-				field_320[41]._nLineSpacing = var10;
+				field_320[41]._nLineSpacing = oldLineSpacing;
 				this.field_110 = false;
 			}
 
@@ -4068,8 +4082,8 @@ public final class cGame extends GameCanvas implements Runnable {
 		int var6;
 		label49: {
 			var2 = 52 + var1;
-			var3 = Define.field_2[var1 << 1] + 120;
-			int var5 = (var4 = Define.field_2[(var1 << 1) + 1] + 136) - this.field_125;
+			var3 = Define.sealItemPosOffset[var1 << 1] + 120;
+			int var5 = (var4 = Define.sealItemPosOffset[(var1 << 1) + 1] + 136) - this.field_125;
 			var6 = var3 - this.field_124;
 			if (var5 < 0) {
 				this.field_125 -= 2;
@@ -4124,7 +4138,7 @@ public final class cGame extends GameCanvas implements Runnable {
 				++this.field_128;
 				return false;
 			} else if (this.field_130 < this.field_129) {
-				field_320[9].PaintAFrame(this.field_314, 5, this.field_130, Define.field_2[var1 << 1] + 120 - 12, Define.field_2[(var1 << 1) + 1] + 124, 0, 0, 0);
+				field_320[9].PaintAFrame(this.field_314, 5, this.field_130, Define.sealItemPosOffset[var1 << 1] + 120 - 12, Define.sealItemPosOffset[(var1 << 1) + 1] + 124, 0, 0, 0);
 				++this.field_130;
 				return false;
 			} else {
@@ -4205,8 +4219,8 @@ public final class cGame extends GameCanvas implements Runnable {
 
 		var1 = var9.append(var10001).toString();
 		var2.DrawString(this.field_314, var1, 110, 290, 17);
-		this.method_176();
-		this.method_177();
+		this.drawOKButton();
+		this.drawBackButton();
 	}
 
 	// $FF: renamed from: S () void
@@ -4234,8 +4248,8 @@ public final class cGame extends GameCanvas implements Runnable {
 		var2.DrawString(this.field_314, var1, 40, 308, 20);
 		var2.DrawString(this.field_314, "" + this.field_438[this.field_437], 120, 308, 20);
 		var2.DrawPage(this.field_314, "Use up, down, left and right to navigate", 10, 280, 20);
-		this.method_176();
-		this.method_177();
+		this.drawOKButton();
+		this.drawBackButton();
 	}
 
 	// $FF: renamed from: T () void
@@ -4244,11 +4258,12 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: b (javax.microedition.lcdui.Graphics, boolean) void
-	private void method_142(Graphics var1, boolean var2) {
-		var1.drawImage(field_316, 0, 0, 20);
-		var1.drawImage(field_315, 0, 0, 20);
-		if (var2) {
-			var1.drawImage(field_317, 120, 319, 33);
+	// Draw splash image in main menu
+	private void drawSplash(Graphics g, boolean showCopyright) {
+		g.drawImage(field_316, 0, 0, Graphics.TOP|Graphics.LEFT);
+		g.drawImage(field_315, 0, 0, Graphics.TOP|Graphics.LEFT);
+		if (showCopyright) {
+			g.drawImage(field_317, 120, 319, Graphics.BOTTOM|Graphics.HCENTER);
 		}
 
 	}
@@ -5697,7 +5712,7 @@ public final class cGame extends GameCanvas implements Runnable {
 		this.field_420 = 0;
 
 		for (int var1 = 0; var1 < this.field_419; ++var1) {
-			int var2 = method_361(field_320[41], menuText[menuData[this.currentMenu][var1 * 2 + 1]], 0);
+			int var2 = GetStringWidth(field_320[41], menuText[menuData[this.currentMenu][var1 * 2 + 1]], 0);
 			if ((this.currentMenu != 0 || var1 != 3) && var2 > this.field_420) {
 				this.field_420 = var2;
 			}
@@ -5710,7 +5725,7 @@ public final class cGame extends GameCanvas implements Runnable {
 	// $FF: renamed from: e (int, int) void
 	private void method_173(int var1, int var2) {
 		if (field_222 == 4) {
-			this.method_142(this.field_314, false);
+			this.drawSplash(this.field_314, false);
 
 			for (int var3 = var1 - 1; var3 < var2 - 2; ++var3) {
 				field_320[18].PaintFrame(this.field_314, 4, var3 % 2, var3, 0, 0, 0);
@@ -5878,7 +5893,7 @@ public final class cGame extends GameCanvas implements Runnable {
 					field_428 = Image.createImage(28, 14);
 					Graphics var21;
 					(var21 = field_428.getGraphics()).translate(-1, -var20);
-					this.method_142(var21, false);
+					this.drawSplash(var21, false);
 					var21.translate(1, var20);
 
 					for (int i = 0; i < 14; i++) {
@@ -5891,10 +5906,10 @@ public final class cGame extends GameCanvas implements Runnable {
 		}
 
 		if (this.currentMenu != 0 && this.currentMenu != 3 && this.currentMenu != 1 && this.currentMenu != 7) {
-			this.method_176();
+			this.drawOKButton();
 		}
 
-		this.method_177();
+		this.drawBackButton();
 		field_429 = false;
 		if (this.field_425 == 2) {
 			if (field_222 == 2) {
@@ -5911,12 +5926,12 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: a () void
-	public final void method_176() {
+	public final void drawOKButton() {
 		field_320[18].PaintFrame(this.field_314, 0, 223, 308, 0, 0, 0);
 	}
 
 	// $FF: renamed from: b () void
-	public final void method_177() {
+	public final void drawBackButton() {
 		field_320[18].PaintFrame(this.field_314, 3, 2, 308, 0, 0, 0);
 	}
 
@@ -7269,7 +7284,6 @@ public final class cGame extends GameCanvas implements Runnable {
 			this.field_99 = menuText[81];
 			this.field_435 = true;
 			this.method_437(menuText[91], -1, -1, 5000, 0x41340D, 0);
-		default:
 		}
 	}
 
@@ -7472,11 +7486,14 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: aU () void
+	// Handle seal menu logic
 	private void method_221() {
 		if (this.field_123 == -1 && this.field_118 == 0) {
+			// Enter store or level select page
 			if (isKeyPressed(SKEY_NUM5|SKEY_CENTER_ALT|SKEY_CENTER|SKEY_LSH)) {
-				this.field_108 = 4;
+				this.sealArrowMoveDirection = 4;
 			} else {
+				// Back to main menu
 				if (isKeyPressed(SKEY_RSH)) {
 					this.method_95();
 					field_222 = 9;
@@ -7485,14 +7502,15 @@ public final class cGame extends GameCanvas implements Runnable {
 					this.field_266 = 0;
 				}
 
+				// Set direction for seal's arrow move
 				if (isKeyPressed(SKEY_NUM2|SKEY_UP)) {
-					this.field_108 = 0;
+					this.sealArrowMoveDirection = 0;
 				} else if (isKeyPressed(SKEY_NUM8|SKEY_DOWN)) {
-					this.field_108 = 2;
+					this.sealArrowMoveDirection = 2;
 				} else if (isKeyPressed(SKEY_NUM4|SKEY_LEFT)) {
-					this.field_108 = 3;
+					this.sealArrowMoveDirection = 3;
 				} else if (isKeyPressed(SKEY_NUM6|SKEY_RIGHT)){
-					this.field_108 = 1;
+					this.sealArrowMoveDirection = 1;
 				}
 			}
 
@@ -7621,7 +7639,7 @@ public final class cGame extends GameCanvas implements Runnable {
 		int var2 = 0;
 		if (isKeyPressed(SKEY_NUM5|SKEY_CENTER_ALT|SKEY_RSH|SKEY_LSH|SKEY_CENTER)) {
 			this.method_224();
-			method_94(field_321, true);
+			freeSpriteCache(field_321, true);
 			field_321 = null;
 		}
 
@@ -10485,7 +10503,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			int var10 = this.playerYPos * 24;
 			int var11 = this.field_184 + 24;
 			if (this.field_453 == 0L && this.field_239 != 0) {
-				this.field_453 = (long)(frameCounter + Utils.method_36(340, 441));
+				this.field_453 = (long)(frameCounter + Utils.getRandomInt(340, 441));
 			}
 
 			int var12 = this.field_182 > 0 && frameCounter % this.field_182 == 0 ? 2 : 1;
@@ -10623,7 +10641,7 @@ public final class cGame extends GameCanvas implements Runnable {
 					if (var1.IsAnimEnded()) {
 						if (this.field_180 == 13 || this.field_180 == 14) {
 							this.field_454 = (long)(frameCounter + 40);
-							this.field_453 = (long)(frameCounter + Utils.method_36(340, 441));
+							this.field_453 = (long)(frameCounter + Utils.getRandomInt(340, 441));
 						}
 
 						var17 = var14;
@@ -11588,8 +11606,8 @@ public final class cGame extends GameCanvas implements Runnable {
 		this.field_268 = 0;
 		int var5 = 0;
 		int var6 = 0;
-		this.field_458 = false;
-		this.field_459 = false;
+		this.hasLockedGoldenGateInLevel = false;
+		this.hasLockedSilverGateInLevel = false;
 		this.field_460 = false;
 		this.field_193 = 0;
 		int var7 = 0;
@@ -11649,10 +11667,10 @@ public final class cGame extends GameCanvas implements Runnable {
 							field_332[var8][var9] = var11 << 8 | var10;
 							break;
 						case 8:
-							this.field_459 = true;
+							this.hasLockedSilverGateInLevel = true;
 						case 9:
 							if ((var10 & 255) != 8) {
-								this.field_458 = true;
+								this.hasLockedGoldenGateInLevel = true;
 							}
 
 							this.field_327 |= 268435456L;
@@ -15471,7 +15489,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			byte[] fileData = loadPackedFile(path, fileNum);
 			bitmapGfx.Load(fileData, 0);
 			bitmapGfx.BuildCacheImages(palette, 0, -1, -1);
-			method_94(bitmapGfx, false);
+			freeSpriteCache(bitmapGfx, false);
 			System.gc();
 		} catch (Exception var5) {
 		}
@@ -15542,18 +15560,18 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: a (a, java.lang.String, int) int
-	public static final int method_361(ASprite gfx, String str, int firstLineOnly) {
-		int var3 = str.indexOf('\n');
-		if (firstLineOnly != -1 && var3 != -1) {
-			str = str.substring(0, var3);
+	public static final int GetStringWidth(ASprite fontSpr, String str, int firstLineOnly) {
+		int nStrLen = str.indexOf('\n');
+		if (firstLineOnly != -1 && nStrLen != -1) {
+			str = str.substring(0, nStrLen);
 		}
 
-		var3 = str.indexOf('}');
-		if (var3 != -1) {
-			str = str.substring(0, var3);
+		nStrLen = str.indexOf('}');
+		if (nStrLen != -1) {
+			str = str.substring(0, nStrLen);
 		}
 
-		gfx.UpdateStringSize(str);
+		fontSpr.UpdateStringSize(str);
 		return ASprite._text_w;
 	}
 
@@ -16989,51 +17007,47 @@ public final class cGame extends GameCanvas implements Runnable {
 	// $FF: renamed from: a (javax.microedition.lcdui.Graphics, a, java.lang.String, int, int, int, int, boolean) void
 	/**
 	 * Shows a dialog on-screen
-	 * @param var0
-	 * @param fSprite Font sprite
+	 * @param g Graphic context
+	 * @param fontSpr Font sprite
 	 * @param text Dialog string
 	 * @param x X position
 	 * @param y Y position
-	 * @param flags Rendering flags.<br>
-	 * Bit 5 = Offset position by text height <br>
-	 * Bit 3 = Offset position by text width<br>
-	 * Bit 1 = Offset position by half of text height<br>
-	 * Bit 0 = Offset position by half of text width
-	 * @param var6
+	 * @param anchor The anchor flags to be used for drawing
+	 * @param lineSpacing Set line space
 	 * @param firstLineOnly Unknown
 	 */
-	private static void renderDialog(Graphics var0, ASprite fSprite, String text, int x, int y, int flags, int var6, boolean firstLineOnly) {
-		fSprite._nLineSpacing = var6;
+	private static void renderDialog(Graphics g, ASprite fontSpr, String text, int x, int y, int anchor, int lineSpacing, boolean firstLineOnly) {
+		fontSpr._nLineSpacing = lineSpacing;
 		if (text.endsWith("\n")) {
 			text = text.substring(0, text.length() - 1);
 		}
 
 		int textWidth; //Pixel width of rendered text
 		int textHeight; //Pixel height of rendered text
-		int var10;
-		int var11;
-		text = method_441(text, 230);
-		textWidth = method_361(fSprite, text, firstLineOnly ? -1 : 0);
-		textHeight = fSprite.GetStringHeight(text);
-		var10 = x;
-		var11 = y;
-		if ((flags & 32) != 0) {
-			var11 = y - textHeight;
-		} else if ((flags & 2) != 0) {
-			var11 = y - (textHeight >> 1);
+		int borderX;
+		int borderY;
+		text = getWrapText(text, 230);
+		textWidth = GetStringWidth(fontSpr, text, firstLineOnly ? -1 : 0);
+		textHeight = fontSpr.GetStringHeight(text);
+		borderX = x;
+		borderY = y;
+		if ((anchor & Graphics.BOTTOM) != 0) {
+			borderY = y - textHeight;
+		} else if ((anchor & Graphics.VCENTER) != 0) {
+			borderY = y - (textHeight >> 1);
 		}
 
-		if ((flags & 8) != 0) {
-			var10 = x - textWidth;
-		} else if ((flags & 1) != 0) {
-			var10 = x - (textWidth >> 1);
+		if ((anchor & Graphics.RIGHT) != 0) {
+			borderX = x - textWidth;
+		} else if ((anchor & Graphics.HCENTER) != 0) {
+			borderX = x - (textWidth >> 1);
 		}
 
-		var0.setColor(0x0C2F39); //Dialog background color
-		var0.fillRoundRect(var10 - 5, var11 - 5, textWidth + 10, textHeight + 10, 10, 10);
-		var0.setColor(0xCE9B00); //Dialog border color
-		var0.drawRoundRect(var10 - 5, var11 - 5, textWidth + 10, textHeight + 10, 10, 10);
-		fSprite.DrawPage(var0, text, x, y, flags);
+		g.setColor(0x0C2F39); //Dialog background color
+		g.fillRoundRect(borderX - 5, borderY - 5, textWidth + 10, textHeight + 10, 10, 10);
+		g.setColor(0xCE9B00); //Dialog border color
+		g.drawRoundRect(borderX - 5, borderY - 5, textWidth + 10, textHeight + 10, 10, 10);
+		fontSpr.DrawPage(g, text, x, y, anchor);
 	}
 
 	// $FF: renamed from: a (javax.microedition.lcdui.Graphics, byte[], a, int, int, int, a, int, int) int
@@ -17157,15 +17171,15 @@ public final class cGame extends GameCanvas implements Runnable {
 	// $FF: renamed from: cs () void
 	private void method_407() {
 		this.field_373 = false;
-		method_94(field_320[23], true);
+		freeSpriteCache(field_320[23], true);
 		field_320[23] = null;
-		method_94(field_320[24], true);
+		freeSpriteCache(field_320[24], true);
 		field_320[24] = null;
-		method_94(field_320[25], true);
+		freeSpriteCache(field_320[25], true);
 		field_320[25] = null;
-		method_94(field_320[26], true);
+		freeSpriteCache(field_320[26], true);
 		field_320[26] = null;
-		method_94(field_320[17], true);
+		freeSpriteCache(field_320[17], true);
 		field_320[17] = null;
 		this.field_544 = null;
 		field_513 = null;
@@ -17930,8 +17944,8 @@ public final class cGame extends GameCanvas implements Runnable {
 		this.field_314.fillRoundRect(2, 282, 236, 22, 8, 8);
 		this.field_314.setColor(var3);
 		this.field_314.drawRoundRect(2, 282, 236, 22, 8, 8);
-		this.method_176();
-		this.method_177();
+		this.drawOKButton();
+		this.drawBackButton();
 		field_320[41].DrawString(this.field_314, menuText[96], 222, 311, 10);
 		if (field_320[17] != null) {
 			field_320[17].PaintFrame(this.field_314, 12, 11, 284, 0, 0, 0);
@@ -18438,7 +18452,7 @@ public final class cGame extends GameCanvas implements Runnable {
 				field_320[41].DrawString(this.field_314, menuText[72], 120, 0, 17);
 				method_429(this.field_314, 10, 35, 220, 90, 0x41340D, 0);
 				if (this.field_98 != -1) {
-					field_320[41].DrawPage(this.field_314, method_441(this.field_99, 200), 120, 280, 17);
+					field_320[41].DrawPage(this.field_314, getWrapText(this.field_99, 200), 120, 280, 17);
 				}
 
 				if (this.field_435) {
@@ -18447,8 +18461,8 @@ public final class cGame extends GameCanvas implements Runnable {
 				}
 
 				field_320[41].DrawPage(this.field_314, this.field_555, 120, 260, 17);
-				this.method_176();
-				this.method_177();
+				this.drawOKButton();
+				this.drawBackButton();
 				this.field_557 = false;
 			}
 
@@ -18656,7 +18670,7 @@ public final class cGame extends GameCanvas implements Runnable {
 				var2 += var8 + 1;
 			}
 
-			this.method_176();
+			this.drawOKButton();
 		}
 	}
 
@@ -18678,7 +18692,7 @@ public final class cGame extends GameCanvas implements Runnable {
 		field_567 = var4;
 		this.field_570 = var2;
 		this.field_571 = var3;
-		this.field_569 = method_441(var1, 220);
+		this.field_569 = getWrapText(var1, 220);
 		this.field_572 = var5;
 		this.field_573 = var6;
 	}
@@ -18722,59 +18736,73 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: a (java.lang.String, int) java.lang.String
-	public static String method_441(String var0, int var1) {
-		ASprite var2 = field_320[41];
-		int var4 = 0;
-		int var6 = 0;
-		int var7 = 0;
-		int var8 = 0;
-		StringBuffer var9 = new StringBuffer(var0);
+	// Create a string with word wrap
+	// @param s String will modify
+	// @param maxTextW Maximum width of a line of text
+	public static String getWrapText(String s, int maxTextW) {
+		ASprite fontSpr = field_320[41];
+		int crtLineW = 0;
+		int crtSpacePos = 0;
+		int oldLineW = 0;
+		int oldSpacePos = 0;
+		StringBuffer strBuf = new StringBuffer(s);
 
-		for (int i = 0; i <= var9.length(); i++) {
-			int var11 = 10;
-			if (i < var9.length()) {
-				var11 = var9.charAt(i) & 255;
+		for (int i = 0; i <= strBuf.length(); i++) {
+			int c = '\n';
+			if (i < strBuf.length()) {
+				c = strBuf.charAt(i) & 255;
 			}
 
-			if (var4 > var1 && var6 != var8) {
-				var4 = var7;
-				var9.setCharAt(var6, '\n');
-				i = var6 - 1;
-				var8 = var6;
+			// Check if the current width exceeds the maximum text width
+			// If so, replace the nearest whitespace with line feed (LF)
+			// to implement word wrap (it doesn't work if no new whitespace
+			// find in text)
+			if (crtLineW > maxTextW && crtSpacePos != oldSpacePos) {
+				crtLineW = oldLineW;
+				// replace current whitespace with line feed (LF)
+				strBuf.setCharAt(crtSpacePos, '\n');
+				// restore char pos
+				i = crtSpacePos - 1;
+				oldSpacePos = crtSpacePos;
 			} else {
-				if (var11 == 10) {
-					var4 = 0;
+				if (c == '\n') {
+					crtLineW = 0;
 				} else {
-					int var16;
-					if (var11 > 32) {
-						if (var11 == 64) {
-							var4 += 14;
+					int charW;
+					if (c > ' ') {
+						if (c == 64) { /* ascii 64 '@' ? */
+							crtLineW += 14;
 							continue;
 						}
 
-						var11 = ASprite._pMapChar[var11] & 255;
-						if (var11 >= var2.GetFModules(0)) {
-							int var12 = var11 - var2.GetFModules(0);
-							var16 = var2._frames_rc[(var12 << 2) + 2] & 255;
-							var16 -= var2._frames_rc[var12 << 2] & 255;
-							var4 += var16 + var2._fmodules[1];
+						c = ASprite._pMapChar[c] & 255;
+						if (c >= fontSpr.GetFModules(0)) {
+							int fmoduleIndex = c - fontSpr.GetFModules(0);
+							// frame rect width
+							charW = fontSpr._frames_rc[(fmoduleIndex << 2) + 2] & 255;
+							// frame rect x offset
+							charW -= fontSpr._frames_rc[fmoduleIndex << 2] & 255;
 						} else {
-							int var14 = (var2._fmodules[var11 << 2] & 255) << 1;
-							var16 = var2._modules[var14] & 255;
-							var16 -= var2._fmodules[(var11 << 2) + 1];
-							var4 += var16 + var2._fmodules[1];
+							// module index
+							int moduleIndex = (fontSpr._fmodules[c << 2] & 255) << 1;
+							// module width
+							charW = fontSpr._modules[moduleIndex] & 255;
+							// fmodule x offset
+							charW -= fontSpr._fmodules[(c << 2) + 1];
 						}
-					} else if (var11 == 32) {
-						var6 = i;
-						var7 = var4;
-						var16 = var2._modules[0] & 255;
-						var4 += var16 + var2._fmodules[1];
+					} else if (c == ' ') {
+						crtSpacePos = i;
+						oldLineW = crtLineW;
+						// whitespace width
+						charW = fontSpr._modules[0] & 255;
 					}
+					// whitespace x offset as character spacing
+					crtLineW += charW + fontSpr._fmodules[1];
 				}
 			}
 		}
 
-		return var9.toString();
+		return strBuf.toString();
 	}
 
 	// $FF: renamed from: cL () void

@@ -9,7 +9,7 @@ public final class GemsRain {
    // $FF: renamed from: b byte
    public static byte field_31 = 4;
    // $FF: renamed from: a int
-   public static int field_32 = 0;
+   public static int curFrame = 0;
    // $FF: renamed from: b byte[][]
    public static byte[][] field_33;
    // $FF: renamed from: c byte
@@ -19,7 +19,7 @@ public final class GemsRain {
    // $FF: renamed from: a boolean
    public static boolean field_36 = false;
    // $FF: renamed from: b int
-   public static int field_37 = 0;
+   public static int frames = 0;
 
    // $FF: renamed from: a (int) void
    public static void method_16(int var0) {
@@ -70,10 +70,10 @@ public final class GemsRain {
       for(int var3 = 0; var3 < var0; ++var3) {
          int var5;
          do {
-            var5 = Utils.method_36(0, 12);
+            var5 = Utils.getRandomInt(0, 12);
          } while(field_29[var5][0] != 0);
 
-         var2 = Utils.method_36(1, 3);
+         var2 = Utils.getRandomInt(1, 3);
          field_29[var5][0] = (byte)var2;
       }
 
@@ -81,10 +81,10 @@ public final class GemsRain {
          for(int var9 = 0; var9 < var0; ++var9) {
             int var6;
             do {
-               var6 = Utils.method_36(0, 12);
+               var6 = Utils.getRandomInt(0, 12);
             } while(field_33[var6][0] != 0);
 
-            var2 = Utils.method_36(1, 3);
+            var2 = Utils.getRandomInt(1, 3);
             field_33[var6][0] = (byte)var2;
          }
       }
@@ -92,27 +92,14 @@ public final class GemsRain {
    }
 
    // $FF: renamed from: a (javax.microedition.lcdui.Graphics) void
-   public static void method_18(Graphics var0) {
+   public static void method_18(Graphics g) {
       for(int var1 = 0; var1 < 12; ++var1) {
          for(int var2 = 0; var2 < 13; ++var2) {
-            ASprite var10000;
-            Graphics var10001;
-            int var10002;
             if (field_29[var1][var2] == 1) {
-               var10000 = cGame.field_320[cGame.method_149(2)];
-               var10001 = var0;
-               var10002 = field_32;
-            } else {
-               if (field_29[var1][var2] != 2) {
-                  continue;
-               }
-
-               var10000 = cGame.field_320[cGame.method_149(2)];
-               var10001 = var0;
-               var10002 = 0;
+               cGame.field_320[cGame.method_149(2)].PaintFrame(g, curFrame, var1 * 24, (var2 - 1) * 24 + field_30, 0, 0, 0);
+            } else if (field_29[var1][var2] == 2) {
+               cGame.field_320[cGame.method_149(2)].PaintFrame(g, 0, var1 * 24, (var2 - 1) * 24 + field_30, 0, 0, 0);
             }
-
-            var10000.PaintFrame(var10001, var10002, var1 * 24, (var2 - 1) * 24 + field_30, 0, 0, 0);
          }
       }
 
@@ -120,12 +107,12 @@ public final class GemsRain {
          for(int var3 = 0; var3 < 12; ++var3) {
             for(int var4 = 0; var4 < 13; ++var4) {
                if (field_33[var3][var4] == 1 || field_33[var3][var4] == 2) {
-                  cGame.field_320[cGame.method_149(2)].PaintFrame(var0, 0, var3 * 24, (var4 - 1) * 24 + field_34, 0, 0, 0);
+                  cGame.field_320[cGame.method_149(2)].PaintFrame(g, 0, var3 * 24, (var4 - 1) * 24 + field_34, 0, 0, 0);
                }
             }
          }
       }
 
-      field_32 = (field_32 + 1) % field_37;
+      curFrame = (curFrame + 1) % frames;
    }
 }
