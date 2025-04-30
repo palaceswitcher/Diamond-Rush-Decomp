@@ -218,7 +218,7 @@ public final class DemoInterpreter {
             case 27:
                cGame.field_320[41]._nLineSpacing = 2;
                int var21 = var2[var3 + 6] & 255;
-               cGame.method_430(var1, 6, 229, 226, 35, 73, 1, cGame.method_361(cGame.field_320[41], cGame.menuText[70], 0) + 10, 15);
+               cGame.method_430(var1, 6, 229, 226, 35, 73, 1, cGame.getStringWidth(cGame.field_320[41], cGame.menuText[70], 0) + 10, 15);
                String var22 = null;
 
                try {

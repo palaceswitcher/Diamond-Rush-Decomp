@@ -10,26 +10,26 @@ import javax.microedition.rms.RecordStore;
 
 // $FF: renamed from: i
 public final class cGame extends GameCanvas implements Runnable {
-	private static final int SKEY_UP = 1;
-	private static final int SKEY_DOWN = 2;
-	private static final int SKEY_LEFT = 4;
-	private static final int SKEY_RIGHT = 8;
-	private static final int SKEY_CENTER = 16;
-	private static final int SKEY_LSH = 32;
-	private static final int SKEY_RSH = 64;
-	private static final int SKEY_CENTER_ALT = 128; //Center key for Motorola devices
-	private static final int SKEY_STAR = 256;
-	private static final int SKEY_POUND = 512;
-	private static final int SKEY_NUM0 = 1024;
-	private static final int SKEY_NUM1 = 2048;
-	private static final int SKEY_NUM2 = 4096;
-	private static final int SKEY_NUM3 = 8192;
-	private static final int SKEY_NUM4 = 16384;
-	private static final int SKEY_NUM5 = 32768;
-	private static final int SKEY_NUM6 = 65536;
-	private static final int SKEY_NUM7 = 131072;
-	private static final int SKEY_NUM8 = 262144;
-	private static final int SKEY_NUM9 = 524288;
+	public static final int SKEY_UP = 1;
+	public static final int SKEY_DOWN = 2;
+	public static final int SKEY_LEFT = 4;
+	public static final int SKEY_RIGHT = 8;
+	public static final int SKEY_CENTER = 16;
+	public static final int SKEY_LSH = 32;
+	public static final int SKEY_RSH = 64;
+	public static final int SKEY_CENTER_ALT = 128; //Center key for Motorola devices
+	public static final int SKEY_STAR = 256;
+	public static final int SKEY_POUND = 512;
+	public static final int SKEY_NUM0 = 1024;
+	public static final int SKEY_NUM1 = 2048;
+	public static final int SKEY_NUM2 = 4096;
+	public static final int SKEY_NUM3 = 8192;
+	public static final int SKEY_NUM4 = 16384;
+	public static final int SKEY_NUM5 = 32768;
+	public static final int SKEY_NUM6 = 65536;
+	public static final int SKEY_NUM7 = 131072;
+	public static final int SKEY_NUM8 = 262144;
+	public static final int SKEY_NUM9 = 524288;
 	// $FF: renamed from: a i
 	public static cGame field_92;
 	// $FF: renamed from: a int
@@ -5712,7 +5712,7 @@ public final class cGame extends GameCanvas implements Runnable {
 		this.field_420 = 0;
 
 		for (int var1 = 0; var1 < this.field_419; ++var1) {
-			int var2 = GetStringWidth(field_320[41], menuText[menuData[this.currentMenu][var1 * 2 + 1]], 0);
+			int var2 = getStringWidth(field_320[41], menuText[menuData[this.currentMenu][var1 * 2 + 1]], 0);
 			if ((this.currentMenu != 0 || var1 != 3) && var2 > this.field_420) {
 				this.field_420 = var2;
 			}
@@ -15560,7 +15560,7 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: a (a, java.lang.String, int) int
-	public static final int GetStringWidth(ASprite fontSpr, String str, int firstLineOnly) {
+	public static final int getStringWidth(ASprite fontSpr, String str, int firstLineOnly) {
 		int nStrLen = str.indexOf('\n');
 		if (firstLineOnly != -1 && nStrLen != -1) {
 			str = str.substring(0, nStrLen);
@@ -17027,7 +17027,7 @@ public final class cGame extends GameCanvas implements Runnable {
 		int borderX;
 		int borderY;
 		text = getWrapText(text, 230);
-		textWidth = GetStringWidth(fontSpr, text, firstLineOnly ? -1 : 0);
+		textWidth = getStringWidth(fontSpr, text, firstLineOnly ? -1 : 0);
 		textHeight = fontSpr.GetStringHeight(text);
 		borderX = x;
 		borderY = y;
@@ -18768,7 +18768,7 @@ public final class cGame extends GameCanvas implements Runnable {
 				if (c == '\n') {
 					crtLineW = 0;
 				} else {
-					int charW;
+					int charW = 0;
 					if (c > ' ') {
 						if (c == 64) { /* ascii 64 '@' ? */
 							crtLineW += 14;
