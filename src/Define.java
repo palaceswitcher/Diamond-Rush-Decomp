@@ -9,5 +9,9 @@ public interface Define {
 	// $FF: renamed from: d int[]
 	int[] sealArrowPosOffset = new int[]{-33, -54, 14, -54, -8, -8, 22, 2};
 	// $FF: renamed from: a byte[][]
-	byte[][] sealMoveDirection = new byte[][]{{-1, -1, 0, -1}, {1, -1, 3, -1}, {2, 2, -1, -1}, {-1, 0, -1, 2}};
+	byte[][] sealMoveDirection = new byte[][]{
+		{-1, -1, 0, -1},
+		{1, -1, 3, -1},
+		{2, 2, -1, -1},
+		{-1, 0, -1, 2}};
 }
