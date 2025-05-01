@@ -179,9 +179,9 @@ public final class IGA {
 				var2 = 0;
 		}
 
-		cGame.field_92.drawOKButton();
+		cGame.field_92.drawBackButton();
 		if (field_61[field_63] != null) {
-			cGame.field_92.drawBackButton();
+			cGame.field_92.drawOKButton();
 		}
 
 		method_40(var1, var2);
