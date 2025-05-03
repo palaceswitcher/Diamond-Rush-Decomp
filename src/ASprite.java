@@ -223,15 +223,15 @@ public final class ASprite {
 	}
 
 	// $FF: renamed from: a (int, int, int, int) void
-	//------------------------------------------------------------------------------
-	// Build Cache Images for this sprite
-	// @param pal palette to be initialized
-	// @param m1 first module
-	// @param m2 last module (-1 . to end)
-	// @param pal_copy mapping to another palette (-1 . build)
-	//
-	// @note GC is called twice internally here.
-	//------------------------------------------------------------------------------
+	/**
+	 * Build Cache Images for this sprite
+	 * @param pal palette to be initialized
+	 * @param m1 first module
+	 * @param m2 last module (-1 . to end)
+	 * @param pal_copy mapping to another palette (-1 . build)
+	 *
+	 * @note GC is called twice internally here.
+	 */
 	public final void BuildCacheImages(int pal, int m1, int m2, int pal_copy) {
 		if (this._modules != null) {
 			if (m2 == -1) {

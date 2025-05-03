@@ -2202,7 +2202,7 @@ public final class cGame extends GameCanvas implements Runnable {
 											return;
 										}
 
-										this.method_101(var6);
+										this.loadWorld1BossSprite(var6);
 										ASprite var12 = loadGfxFileInit("/mmv.f", 3, 0);
 										field_318[32] = var12._modules_image[0];
 										field_320[20] = loadGfxFileInit("/gen0.f", 7, 0);
@@ -2224,7 +2224,7 @@ public final class cGame extends GameCanvas implements Runnable {
 									switch (var6) {
 									case 0:
 										field_347 = null;
-										this.method_80(field_320[12] != null || field_318[6] != null || field_320[58] != null || this.field_174 == 1 || this.field_174 == 4 || this.field_174 == 5);
+										this.loadPlayerSprite(field_320[12] != null || field_318[6] != null || field_320[58] != null || this.field_174 == 1 || this.field_174 == 4 || this.field_174 == 5);
 										return;
 									case 1:
 										this.field_327 = 0L;
@@ -2286,37 +2286,43 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: a (boolean) void
-	private void method_80(boolean var1) {
+	/**
+	 * Loads player sprite data from o.f
+	 * @param loadBurntSprite Whether to load the burnt player sprite data too
+	 */
+	private void loadPlayerSprite(boolean loadBurntSprite) {
 		try {
-			InputStream var2;
-			byte[] var4 = new byte[(var2 = this.getClass().getResourceAsStream("/o.f")).read() << 3];
-			var2.read(var4);
-			byte[] var6 = new byte[getIntFromBytes(var4, 4)];
-			var2.read(var6);
-			if (!var1) {
+			InputStream var2 = this.getClass().getResourceAsStream("/o.f");
+			byte[] subfileMetadata = new byte[var2.read() << 3];
+			var2.read(subfileMetadata); // Read indexes and sizes for each subfile
+			byte[] playerSpriteData = new byte[getI32FromBytes(subfileMetadata, 4)]; //Load non-burned sprite
+			var2.read(playerSpriteData);
+			if (!loadBurntSprite) {
 				var2.close();
 				var2 = null;
-				System.gc();
+				System.gc(); // Free up buffers if the non-burnt sprites are being loaded
 			}
 
-			ASprite var7 = new ASprite();
-			var7.Load(var6, 0);
+			ASprite playerSprite = new ASprite();
+			playerSprite.Load(playerSpriteData, 0);
 			this.field_380 = method_79();
-			var7.BuildCacheImages(this.field_380, 0, -1, -1);
-			var7._crt_pal = this.field_380;
-			var7._modules_data = null;
-			field_323[0] = new ASpriteInstance(var7, 0, 0, (ASpriteInstance)null);
+			playerSprite.BuildCacheImages(this.field_380, 0, -1, -1); // Cache sprite images
+			playerSprite._crt_pal = this.field_380;
+			playerSprite._modules_data = null;
+			field_323[0] = new ASpriteInstance(playerSprite, 0, 0, (ASpriteInstance)null); // Load sprite instance for player sprite
 			System.gc();
-			if (var1) {
-				var6 = new byte[getIntFromBytes(var4, 12)];
-				var2.read(var6);
+			
+			// Load burnt sprites
+			if (loadBurntSprite) {
+				playerSpriteData = new byte[getI32FromBytes(subfileMetadata, 12)];
+				var2.read(playerSpriteData); // Load burned file sprite instead
 				var2.close();
-				System.gc();
-				var7 = new ASprite();
-				var7.Load(var6, 0);
-				var7.BuildCacheImages(0, 0, -1, -1);
-				var7._modules_data = null;
-				field_323[3] = new ASpriteInstance(var7, 0, 0, (ASpriteInstance)null);
+				System.gc(); // Free up buffers
+				playerSprite = new ASprite();
+				playerSprite.Load(playerSpriteData, 0); // Load sprite data from subfile
+				playerSprite.BuildCacheImages(0, 0, -1, -1); // Cache images for burnt sprites
+				playerSprite._modules_data = null;
+				field_323[3] = new ASpriteInstance(playerSprite, 0, 0, (ASpriteInstance)null);
 				System.gc();
 			}
 
@@ -2796,7 +2802,7 @@ public final class cGame extends GameCanvas implements Runnable {
 	 */
 	private void loadCrtWorldBlockSprite(int sprIndex) throws Exception {
 		ASprite var4;
-		byte[] var3 = new byte[getIntFromBytes(field_347, sprIndex * 8 + 4)];
+		byte[] var3 = new byte[getI32FromBytes(field_347, sprIndex * 8 + 4)];
 		this.field_306.read(var3);
 		var4 = new ASprite();
 		var4.Load(var3, 0);
@@ -2833,12 +2839,12 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: f (int) void
-	/** Load sprite from cm.f
-	 * @param index Index of sprite to 
+	/** Load sprite from cm.f file
+	 * @param spriteNum Sprite to load from the asset pack
 	 */
-	private void loadCmSprite(int index) {
+	private void loadCmSprite(int spriteNum) {
 		try {
-			if (index == 0) {
+			if (spriteNum == 0) {
 				this.field_306.close();
 				this.field_306 = null;
 				System.gc();
@@ -2849,12 +2855,12 @@ public final class cGame extends GameCanvas implements Runnable {
 			}
 
 			ASprite var4;
-			byte[] var3 = new byte[getIntFromBytes(field_347, index * 8 + 4)];
+			byte[] var3 = new byte[getI32FromBytes(field_347, spriteNum * 8 + 4)];
 			this.field_306.read(var3);
 			var4 = new ASprite();
 			var4.Load(var3, 0);
 			var4.BuildCacheImages(0, 0, -1, -1);
-			switch (index) {
+			switch (spriteNum) {
 			case 0:
 				field_318[11] = var4._modules_image[0];
 				break;
@@ -2914,7 +2920,7 @@ public final class cGame extends GameCanvas implements Runnable {
 	 * Load sprite in gen*.f
 	 * @param sprIndex Sprite will load
 	 *
-	 * @note Sprites don't load when there's no load load flag in field_267
+	 * @note Sprites don't load when there's no load flag in field_267
 	 */
 	private void loadGenSprite(int sprIndex) {
 		try {
@@ -2932,21 +2938,20 @@ public final class cGame extends GameCanvas implements Runnable {
 			}
 
 			int var9 = sprIndex - (this.field_267 - 1) * 10;
-			int sprDataSize = getIntFromBytes(field_347, var9 * 8 + 4);
+			int sprDataSize = getI32FromBytes(field_347, var9 * 8 + 4);
 			if ((this.field_327 & 1L << sprIndex) == 0L) {
-				// store the bytes count for skip the
-				// data before the sprite will load
+				// Store the amount of bytes to skip before loading the sprite data
 				this.field_305 += sprDataSize;
 				return;
 			}
 
-			// skip the data offset we previously stored
+			// Skip the data offset we previously stored
 			if (this.field_305 != 0) {
 				this.field_306.skip((long)this.field_305);
 				this.field_305 = 0;
 			}
 
-			// load sprite to specific pos
+			// Load sprite to specific pos
 			byte[] var4 = new byte[sprDataSize];
 			this.field_306.read(var4);
 			ASprite var5 = new ASprite();
@@ -2957,179 +2962,174 @@ public final class cGame extends GameCanvas implements Runnable {
 
 			byte var6;
 			byte var7;
-			label104: {
-				var6 = -1;
-				var7 = -1;
-				byte var10000;
-				switch (sprIndex) {
-				case 0:
-					var6 = 33;
-					break label104;
-				case 1:
-					var6 = 34;
-					break label104;
-				case 2:
-					if (this.hasLockedGoldenGateInLevel) {
-						// gold key
-						field_318[24] = var5._modules_image[0];
-					}
-
-					if (this.hasLockedSilverGateInLevel) {
-						// silver key
-						var5.BuildCacheImages(1, 0, -1, -1);
-						field_318[25] = var5._modules_image[1];
-					}
-					break label104;
-				case 3:
-					var6 = 7;
-					break label104;
-				case 4:
-				case 21:
-					if (this.currentWorld != 2) {
-						var6 = 3;
-					}
-					break label104;
-				case 5:
-					var6 = 58;
-					break label104;
-				case 6:
-					var10000 = 21;
-					break;
-				case 7:
-					if (this.currentWorld == 2) {
-						var5._modules_image = (Image[][])null;
-						var5.BuildCacheImages(1, 0, -1, -1);
-						var5._crt_pal = 1;
-					}
-
-					var6 = 20;
-					break label104;
-				case 8:
-					var6 = 5;
-					break label104;
-				case 9:
-					var6 = 12;
-					break label104;
-				case 10:
-					field_323[4] = new ASpriteInstance(var5, 0, 0, (ASpriteInstance)null);
-					field_323[4].SetAnim(0);
-					break label104;
-				case 11:
-					var6 = 11;
-					break label104;
-				case 12:
-					var10000 = 10;
-					break;
-				case 13:
-					var6 = 1;
-					break label104;
-				case 14:
-					var10000 = 6;
-					break;
-				case 15:
-				case 17:
-					if ((this.field_268 & 2) != 0) {
-						if (this.currentWorld == 2) {
-							var5._modules_image = (Image[][])null;
-							var5.BuildCacheImages(2, 0, -1, -1);
-							var5._crt_pal = 2;
-						}
-
-						var6 = 4;
-					}
-
-					if ((this.field_268 & 1) != 0) {
-						field_320[21] = new ASprite();
-						field_320[21].Load(var4, 0);
-						field_320[21].BuildCacheImages(1, 0, -1, -1);
-						field_320[21]._crt_pal = 1;
-						field_320[21]._modules_data = null;
-					}
-					break label104;
-				case 16:
-				case 18:
-					var6 = 37;
-					break label104;
-				case 19:
-					var10000 = 7;
-					break;
-				case 20:
-					var10000 = 13;
-					break;
-				case 22:
-					var6 = 8;
-					break label104;
-				case 23:
-					var6 = 30;
-					break label104;
-				case 24:
-					field_318[15] = null;
-					var5.BuildCacheImages(1, 0, -1, -1);
-					var6 = 57;
-					field_318[14] = null;
-					break label104;
-				case 25:
-					var10000 = 17;
-					break;
-				case 26:
-					field_499 = var5;
-					break label104;
-				case 27:
-					var10000 = 19;
-					break;
-				case 28:
-					if (this.hasLockedSilverGateInLevel) {
-						var5.BuildCacheImages(1, 0, -1, -1);
-					}
-
-					var6 = 45;
-					break label104;
-				case 29:
-					var10000 = 26;
-					break;
-				case 30:
-					var6 = 15;
-					break label104;
-				case 31:
-					var10000 = 29;
-					break;
-				case 32:
-					var6 = 32;
-					break label104;
-				case 33:
-					var6 = 22;
-					break label104;
-				case 34:
-					var6 = 27;
-					break label104;
-				case 35:
-					var6 = 28;
-					break label104;
-				case 36:
-					var6 = 35;
-					break label104;
-				case 37:
-					var6 = 29;
-					break label104;
-				case 38:
-					var6 = 36;
-					break label104;
-				case 39:
-					var6 = 6;
-					break label104;
-				case 40:
-					var6 = 2;
-					break label104;
-				case 41:
-					var6 = 38;
-					break label104;
-				case 42:
-					var6 = 39;
-				default:
-					break label104;
+			var6 = -1;
+			var7 = -1;
+			switch (sprIndex) {
+			case 0:
+				var6 = 33;
+				break;
+			case 1:
+				var6 = 34;
+				break;
+			case 2:
+				if (this.hasLockedGoldenGateInLevel) {
+					// Ggld key
+					field_318[24] = var5._modules_image[0];
 				}
 
-				var7 = var10000;
+				if (this.hasLockedSilverGateInLevel) {
+					// Silver key
+					var5.BuildCacheImages(1, 0, -1, -1);
+					field_318[25] = var5._modules_image[1];
+				}
+				break;
+			case 3:
+				var6 = 7;
+				break;
+			case 4:
+			case 21:
+				if (this.currentWorld != 2) {
+					var6 = 3;
+				}
+				break;
+			case 5:
+				var6 = 58;
+				break;
+			case 6:
+				var7 = 21;
+				break;
+			case 7:
+				if (this.currentWorld == 2) {
+					var5._modules_image = (Image[][])null;
+					var5.BuildCacheImages(1, 0, -1, -1);
+					var5._crt_pal = 1;
+				}
+
+				var6 = 20;
+				break;
+			case 8:
+				var6 = 5;
+				break;
+			case 9:
+				var6 = 12;
+				break;
+			case 10:
+				field_323[4] = new ASpriteInstance(var5, 0, 0, (ASpriteInstance)null);
+				field_323[4].SetAnim(0);
+				break;
+			case 11:
+				var6 = 11;
+				break;
+			case 12:
+				var7 = 10;
+				break;
+			case 13:
+				var6 = 1;
+				break;
+			case 14:
+				var7 = 6;
+				break;
+			case 15:
+			case 17:
+				if ((this.field_268 & 2) != 0) {
+					if (this.currentWorld == 2) {
+						var5._modules_image = (Image[][])null;
+						var5.BuildCacheImages(2, 0, -1, -1);
+						var5._crt_pal = 2;
+					}
+
+					var6 = 4;
+				}
+
+				if ((this.field_268 & 1) != 0) {
+					field_320[21] = new ASprite();
+					field_320[21].Load(var4, 0);
+					field_320[21].BuildCacheImages(1, 0, -1, -1);
+					field_320[21]._crt_pal = 1;
+					field_320[21]._modules_data = null;
+				}
+				break;
+			case 16:
+			case 18:
+				var6 = 37;
+				break;
+			case 19:
+				var7 = 7;
+				break;
+			case 20:
+				var7 = 13;
+				break;
+			case 22:
+				var6 = 8;
+				break;
+			case 23:
+				var6 = 30;
+				break;
+			case 24:
+				field_318[15] = null;
+				var5.BuildCacheImages(1, 0, -1, -1);
+				var6 = 57;
+				field_318[14] = null;
+				break;
+			case 25:
+				var7 = 17;
+				break;
+			case 26:
+				field_499 = var5;
+				break;
+			case 27:
+				var7 = 19;
+				break;
+			case 28:
+				if (this.hasLockedSilverGateInLevel) {
+					var5.BuildCacheImages(1, 0, -1, -1);
+				}
+
+				var6 = 45;
+				break;
+			case 29:
+				var7 = 26;
+				break;
+			case 30:
+				var6 = 15;
+				break;
+			case 31:
+				var7 = 29;
+				break;
+			case 32:
+				var6 = 32;
+				break;
+			case 33:
+				var6 = 22;
+				break;
+			case 34:
+				var6 = 27;
+				break;
+			case 35:
+				var6 = 28;
+				break;
+			case 36:
+				var6 = 35;
+				break;
+			case 37:
+				var6 = 29;
+				break;
+			case 38:
+				var6 = 36;
+				break;
+			case 39:
+				var6 = 6;
+				break;
+			case 40:
+				var6 = 2;
+				break;
+			case 41:
+				var6 = 38;
+				break;
+			case 42:
+				var6 = 39;
+			default:
+				break;
 			}
 
 			if (var6 != -1) {
@@ -3147,27 +3147,31 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: h (int) void
-	private void method_101(int var1) {
+	/**
+	 * Loads one of two packed sprite files for the World 1 boss
+	 * @param spriteNum Sprite to load from the asset pack
+	 */
+	private void loadWorld1BossSprite(int spriteNum) {
 		try {
-			if (var1 == 0) {
+			if (spriteNum == 0) {
 				this.field_306 = this.getClass().getResourceAsStream("/b0.f");
-				this.field_304 = this.field_306.read();
+				this.field_304 = this.field_306.read(); // Get number of subfiles
 				field_347 = new byte[this.field_304 * 8];
-				this.field_306.read(field_347);
+				this.field_306.read(field_347); // Offset and size pairs for each subfile
 			}
 
-			byte[] var3 = new byte[getIntFromBytes(field_347, var1 * 8 + 4)];
-			this.field_306.read(var3);
-			ASprite var4;
-			(var4 = new ASprite()).Load(var3, 0);
-			var4.BuildCacheImages(0, 0, -1, -1);
-			var4._modules_data = null;
-			switch (var1) {
+			byte[] subFileData = new byte[getI32FromBytes(field_347, spriteNum * 8 + 4)]; //Allocate space for size of subfile
+			this.field_306.read(subFileData); //Read subfile data
+			ASprite sprite = new ASprite();
+			sprite.Load(subFileData, 0); //Load sprite from subfile
+			sprite.BuildCacheImages(0, 0, -1, -1); //Cache images from sprite
+			sprite._modules_data = null;
+			switch (spriteNum) {
 			case 0:
-				field_323[5] = new ASpriteInstance(var4, 0, 0, (ASpriteInstance)null);
+				field_323[5] = new ASpriteInstance(sprite, 0, 0, (ASpriteInstance)null); //Load sprite instance if the first fiels
 				break;
 			case 1:
-				field_320[40] = var4;
+				field_320[40] = sprite;
 			default:
 				return;
 			}
@@ -3186,7 +3190,7 @@ public final class cGame extends GameCanvas implements Runnable {
 				this.field_306.read(field_347);
 			}
 
-			byte[] var3 = new byte[getIntFromBytes(field_347, var1 * 8 + 4)];
+			byte[] var3 = new byte[getI32FromBytes(field_347, var1 * 8 + 4)];
 			this.field_306.read(var3);
 			ASprite var4;
 			(var4 = new ASprite()).Load(var3, 0);
@@ -8952,7 +8956,7 @@ public final class cGame extends GameCanvas implements Runnable {
 	 * @param index The index of the integer in the byte array.
 	 * @return An integer from an index in a byte array.
 	 */
-	public static int getIntFromBytes(byte[] arr, int index) {
+	public static int getI32FromBytes(byte[] arr, int index) {
 		return arr[index] & 255 | (arr[index + 1] & 255) << 8 | (arr[index + 2] & 255) << 16 | (arr[index + 3] & 255) << 24; //Get int from four bytes
 	}
 
@@ -11608,8 +11612,8 @@ public final class cGame extends GameCanvas implements Runnable {
 		this.field_193 = 0;
 		int var7 = 0;
 
-		for (int var8 = 0; var8 < this.crtLevelWidth; ++var8) {
-			for (int var9 = 0; var9 < this.crtLevelHeight; ++var9) {
+		for (int var8 = 0; var8 < this.crtLevelWidth; var8++) {
+			for (int var9 = 0; var9 < this.crtLevelHeight; var9++) {
 				field_335[var8][var9] = 0;
 				field_336[var8][var9] = 0;
 				int var10 = field_332[var8][var9];
@@ -11695,25 +11699,17 @@ public final class cGame extends GameCanvas implements Runnable {
 						default:
 							if (var10 >= 20 && var10 < 26) {
 								field_332[var8][var9] = var10;
-								cGame var45;
-								long var10001;
-								long var10002;
 								switch (this.currentWorld) {
 								case 0:
-									var45 = this;
-									var10001 = this.field_327;
-									var10002 = 16L;
+									this.field_327 = this.field_327 | 16L;
 									break;
 								case 1:
-									var45 = this;
-									var10001 = this.field_327;
-									var10002 = 2097152L;
+									this.field_327 = this.field_327 | 2097152L;
 									break;
 								default:
 									break label377;
 								}
 
-								var45.field_327 = var10001 | var10002;
 							} else if (var10 < 80 && var10 > -1) {
 								field_332[var8][var9] = -1;
 							}
@@ -11732,8 +11728,7 @@ public final class cGame extends GameCanvas implements Runnable {
 									this.levelDiamondCount += 10;
 								} else {
 									field_334[var8][var9] = -1;
-									int[] var10000 = field_332[var8];
-									var10000[var9] |= 256;
+									field_332[var8][var9] |= 256;
 								}
 							}
 							break;
@@ -15527,8 +15522,8 @@ public final class cGame extends GameCanvas implements Runnable {
 		try {
 			fileArr = new byte[fileStream.read() << 3];
 			fileStream.read(fileArr);
-			int fileOffset = getIntFromBytes(fileArr, fileNum << 3);
-			int fileSize = getIntFromBytes(fileArr, (fileNum << 3) + 4);
+			int fileOffset = getI32FromBytes(fileArr, fileNum << 3);
+			int fileSize = getI32FromBytes(fileArr, (fileNum << 3) + 4);
 			fileStream.skip((long)fileOffset);
 			fileArr = new byte[fileSize];
 			fileStream.read(fileArr);

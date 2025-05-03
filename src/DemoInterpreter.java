@@ -301,7 +301,7 @@ public final class DemoInterpreter {
                int var2 = 2 + var1 * 4;
 
                for(int var3 = 0; var3 < var1; ++var3) {
-                  int var4 = cGame.getIntFromBytes(this.field_45, 2 + var3 * 4);
+                  int var4 = cGame.getI32FromBytes(this.field_45, 2 + var3 * 4);
                   this.method_20(this.field_45, var2);
                   var2 += var4;
                }
@@ -335,7 +335,7 @@ public final class DemoInterpreter {
             int var3 = 2 + var2 * 4;
 
             for(int var4 = 0; var4 < var2; ++var4) {
-               int var5 = cGame.getIntFromBytes(this.field_45, 2 + var4 * 4);
+               int var5 = cGame.getI32FromBytes(this.field_45, 2 + var4 * 4);
                this.method_19(var1, this.field_45, var3);
                var3 += var5;
             }
@@ -403,7 +403,7 @@ public final class DemoInterpreter {
          int var4 = var2 + 2 + var3 * 4;
 
          for(int var5 = 0; var5 < var3; ++var5) {
-            int var6 = cGame.getIntFromBytes(var1, var2 + 2 + var5 * 4);
+            int var6 = cGame.getI32FromBytes(var1, var2 + 2 + var5 * 4);
             this.method_24(var1, var4);
             var4 += var6;
          }
@@ -443,7 +443,7 @@ public final class DemoInterpreter {
          int var2 = 2 + var1 * 4;
 
          for(int var3 = 0; var3 < var1; ++var3) {
-            int var4 = cGame.getIntFromBytes(this.field_45, 2 + var3 * 4);
+            int var4 = cGame.getI32FromBytes(this.field_45, 2 + var3 * 4);
             this.method_28(this.field_45, var2);
             var2 += var4;
          }
@@ -525,7 +525,7 @@ public final class DemoInterpreter {
             var1[var2 + 1] = 1;
             return;
          case 6:
-            if (this.field_46 > cGame.getIntFromBytes(var1, var2 + 2)) {
+            if (this.field_46 > cGame.getI32FromBytes(var1, var2 + 2)) {
                var1[var2 + 1] = 1;
                return;
             }
@@ -632,7 +632,7 @@ public final class DemoInterpreter {
          case 26:
             short var3 = (short)cGame.getShortFromBytes(var1, var2 + 2);
             short var4 = (short)cGame.getShortFromBytes(var1, var2 + 4);
-            int var13 = cGame.getIntFromBytes(var1, var2 + 6);
+            int var13 = cGame.getI32FromBytes(var1, var2 + 6);
             cGame.field_333[var3][var4] = var13;
             var1[var2 + 1] = 1;
             return;
@@ -653,7 +653,7 @@ public final class DemoInterpreter {
          int var3 = 2 + var2 * 4;
 
          for(int var4 = 0; var4 < var2; ++var4) {
-            int var5 = cGame.getIntFromBytes(this.field_45, 2 + var4 * 4);
+            int var5 = cGame.getI32FromBytes(this.field_45, 2 + var4 * 4);
             if (!(var1 = var1 && this.field_45[var3 + 1] == 1)) {
                break;
             }
@@ -687,13 +687,13 @@ public final class DemoInterpreter {
             if ((short)cGame.getShortFromBytes(var3, 0) != var1) {
                var2.skip(2L);
                var2.read(var3, 0, 4);
-               int var40 = cGame.getIntFromBytes(var3, 0);
+               int var40 = cGame.getI32FromBytes(var3, 0);
                var2.skip((long)var40);
             } else {
                var2.read(var3, 0, 2);
                short var6 = (short)cGame.getShortFromBytes(var3, 0);
                var2.read(var3, 0, 4);
-               var3 = new byte[cGame.getIntFromBytes(var3, 0)];
+               var3 = new byte[cGame.getI32FromBytes(var3, 0)];
                ((InputStream)var2).read(var3);
                var2.close();
                var2 = null;
@@ -745,7 +745,7 @@ public final class DemoInterpreter {
                         }
 
                         var75.read(var14, 0, 4);
-                        int var20 = cGame.getIntFromBytes(var14, 0);
+                        int var20 = cGame.getI32FromBytes(var14, 0);
                         if (!var18 && field_41[var17] != null) {
                            var75.skip((long)var20);
                         } else {
@@ -861,7 +861,7 @@ public final class DemoInterpreter {
                            var82[6] = (byte)var108;
                            break label96;
                         case 6:
-                           int var31 = cGame.getIntFromBytes(var3, var8);
+                           int var31 = cGame.getI32FromBytes(var3, var8);
                            var8 += 4;
                            method_35(var82 = new byte[6], 2, var31);
                            break label96;
@@ -949,7 +949,7 @@ public final class DemoInterpreter {
                            var8 += 2;
                            short var24 = (short)cGame.getShortFromBytes(var3, var8);
                            var8 += 2;
-                           int var32 = cGame.getIntFromBytes(var3, var8);
+                           int var32 = cGame.getI32FromBytes(var3, var8);
                            var8 += 4;
                            method_34(var82 = new byte[10], 2, var23);
                            method_34(var82, 4, var24);
