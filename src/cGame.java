@@ -725,9 +725,9 @@ public final class cGame extends GameCanvas implements Runnable {
 	// $FF: renamed from: a int[]
 	public int[] field_438;
 	// $FF: renamed from: s byte
-	public static byte field_439;
+	public static byte crtCheatKeyCodeIndex;
 	// $FF: renamed from: b int[]
-	public static final int[] field_440;
+	public static final int[] cheatPageKeyCode;
 	// $FF: renamed from: dg int
 	public static int field_441;
 	// $FF: renamed from: dh int
@@ -3828,7 +3828,7 @@ public final class cGame extends GameCanvas implements Runnable {
 				this.method_435();
 				break;
 			case 24:
-				this.method_139();
+				this.drawCheatPage();
 				break;
 			case 27:
 				this.method_137();
@@ -3853,8 +3853,8 @@ public final class cGame extends GameCanvas implements Runnable {
 					this.field_314.fillRect(0, 0, 240, 320);
 					field_320[41]._nLineSpacing = 5;
 					field_320[41].DrawPage(this.field_314, getWrapText(menuText[this.field_383 ? 69 : 68], 220), 120, 160, 3);
-					this.drawBackButton();
 					this.drawOKButton();
+					this.drawBackButton();
 				}
 				break;
 			case 33:
@@ -3878,7 +3878,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			field_320[41]._nLineSpacing = 3;
 			String var1 = getWrapText(menuText[4] + "\n\n" + menuText[103] + "\n" + menuText[104] + "\n" + menuText[105] + "\n\n" + menuText[106] + "\n\n" + menuText[107] + "\n\n" + menuText[108], 235);
 			field_320[41].DrawPage(this.field_314, var1, 120, 10, 17);
-			this.drawOKButton();
+			this.drawBackButton();
 			this.field_557 = false;
 		}
 
@@ -3981,8 +3981,8 @@ public final class cGame extends GameCanvas implements Runnable {
 			this.field_314.setClip(0, 0, 240, 320);
 			this.method_135(this.field_314, false);
 			field_320[17].PaintFrame(this.field_314, 11, 120 + Define.sealItemPosOffset[6], 136 + Define.sealItemPosOffset[7], 0, 0, 0);
-			this.drawOKButton();
 			this.drawBackButton();
+			this.drawOKButton();
 			field_320[41].DrawString(this.field_314, menuText[27].toLowerCase(), 222, 311, 10);
 			this.field_557 = false;
 		}
@@ -4148,10 +4148,10 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: R () void
-	private void method_139() {
+	private void drawCheatPage() {
 		String var1 = null;
-		ASprite var2;
-		(var2 = field_320[41])._nLineSpacing = 15;
+		ASprite var2 = field_320[41];
+		var2._nLineSpacing = 15;
 		this.field_314.setColor(0);
 		this.field_314.fillRect(0, 0, 240, 320);
 
@@ -4215,8 +4215,8 @@ public final class cGame extends GameCanvas implements Runnable {
 
 		var1 = var9.append(var10001).toString();
 		var2.DrawString(this.field_314, var1, 110, 290, 17);
-		this.drawOKButton();
 		this.drawBackButton();
+		this.drawOKButton();
 	}
 
 	// $FF: renamed from: S () void
@@ -4244,8 +4244,8 @@ public final class cGame extends GameCanvas implements Runnable {
 		var2.DrawString(this.field_314, var1, 40, 308, 20);
 		var2.DrawString(this.field_314, "" + this.field_438[this.field_437], 120, 308, 20);
 		var2.DrawPage(this.field_314, "Use up, down, left and right to navigate", 10, 280, 20);
-		this.drawOKButton();
 		this.drawBackButton();
+		this.drawOKButton();
 	}
 
 	// $FF: renamed from: T () void
@@ -5902,10 +5902,10 @@ public final class cGame extends GameCanvas implements Runnable {
 		}
 
 		if (this.currentMenu != 0 && this.currentMenu != 3 && this.currentMenu != 1 && this.currentMenu != 7) {
-			this.drawOKButton();
+			this.drawBackButton();
 		}
 
-		this.drawBackButton();
+		this.drawOKButton();
 		field_429 = false;
 		if (this.field_425 == 2) {
 			if (field_222 == 2) {
@@ -5922,12 +5922,12 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: a () void
-	public final void drawOKButton() {
+	public final void drawBackButton() {
 		field_320[18].PaintFrame(this.field_314, 0, 223, 308, 0, 0, 0);
 	}
 
 	// $FF: renamed from: b () void
-	public final void drawBackButton() {
+	public final void drawOKButton() {
 		field_320[18].PaintFrame(this.field_314, 3, 2, 308, 0, 0, 0);
 	}
 
@@ -7321,7 +7321,7 @@ public final class cGame extends GameCanvas implements Runnable {
 				}
 
 				field_224 = field_222;
-				this.method_220();
+				this.checkCheatKeyCodeIsPressed();
 				this.method_227();
 				break;
 			case 2:
@@ -7379,7 +7379,7 @@ public final class cGame extends GameCanvas implements Runnable {
 				break;
 			case 27:
 				field_224 = field_222;
-				this.method_220();
+				this.checkCheatKeyCodeIsPressed();
 				this.method_221();
 				break;
 			case 30:
@@ -7457,11 +7457,11 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: aT () void
-	private void method_220() {
-		if (field_439 < field_440.length && isKeyPressed(field_440[field_439])) {
+	private void checkCheatKeyCodeIsPressed() {
+		if (crtCheatKeyCodeIndex < cheatPageKeyCode.length && isKeyPressed(cheatPageKeyCode[crtCheatKeyCodeIndex])) {
 			keysPressed = 0;
-			++field_439;
-			if (field_439 == field_440.length) {
+			++crtCheatKeyCodeIndex;
+			if (crtCheatKeyCodeIndex == cheatPageKeyCode.length) {
 				keysPressed = 0;
 				field_222 = 24;
 				this.field_389 = field_330[8];
@@ -7471,11 +7471,11 @@ public final class cGame extends GameCanvas implements Runnable {
 				return;
 			}
 		} else {
-			if (isKeyPressed(field_440[0])) {
+			if (isKeyPressed(cheatPageKeyCode[0])) {
 				keysPressed = 0;
-				field_439 = 1;
+				crtCheatKeyCodeIndex = 1;
 			} else {
-				field_439 = 0;
+				crtCheatKeyCodeIndex = 0;
 			}
 		}
 
@@ -11592,9 +11592,9 @@ public final class cGame extends GameCanvas implements Runnable {
 
 	// $FF: renamed from: bD () void
 	private void method_296() {
-		Hashtable var1 = new Hashtable();
-		Hashtable var2 = new Hashtable();
-		Hashtable var3 = new Hashtable();
+		Hashtable<Integer, Integer> var1 = new Hashtable<Integer, Integer>();
+		Hashtable<Integer, Integer> var2 = new Hashtable<Integer, Integer>();
+		Hashtable<Integer, Integer> var3 = new Hashtable<Integer, Integer>();
 		this.field_171 = 0;
 		this.field_172 = 0;
 		int var4 = 0;
@@ -17940,8 +17940,8 @@ public final class cGame extends GameCanvas implements Runnable {
 		this.field_314.fillRoundRect(2, 282, 236, 22, 8, 8);
 		this.field_314.setColor(var3);
 		this.field_314.drawRoundRect(2, 282, 236, 22, 8, 8);
-		this.drawOKButton();
 		this.drawBackButton();
+		this.drawOKButton();
 		field_320[41].DrawString(this.field_314, menuText[96], 222, 311, 10);
 		if (field_320[17] != null) {
 			field_320[17].PaintFrame(this.field_314, 12, 11, 284, 0, 0, 0);
@@ -18457,8 +18457,8 @@ public final class cGame extends GameCanvas implements Runnable {
 				}
 
 				field_320[41].DrawPage(this.field_314, this.field_555, 120, 260, 17);
-				this.drawOKButton();
 				this.drawBackButton();
+				this.drawOKButton();
 				this.field_557 = false;
 			}
 
@@ -18666,7 +18666,7 @@ public final class cGame extends GameCanvas implements Runnable {
 				var2 += var8 + 1;
 			}
 
-			this.drawOKButton();
+			this.drawBackButton();
 		}
 	}
 
@@ -18841,8 +18841,8 @@ public final class cGame extends GameCanvas implements Runnable {
 		field_428 = null;
 		field_429 = false;
 		field_430 = true;
-		field_439 = 0;
-		field_440 = new int[]{512, 16384, 131072, 131072, 4096};
+		crtCheatKeyCodeIndex = 0;
+		cheatPageKeyCode = new int[]{SKEY_POUND, SKEY_NUM4, SKEY_NUM7, SKEY_NUM7, SKEY_NUM2};
 		field_441 = 0;
 		field_442 = 0;
 		field_443 = 0;
