@@ -11592,9 +11592,9 @@ public final class cGame extends GameCanvas implements Runnable {
 
 	// $FF: renamed from: bD () void
 	private void method_296() {
-		Hashtable<Integer, Integer> var1 = new Hashtable<Integer, Integer>();
-		Hashtable<Integer, Integer> var2 = new Hashtable<Integer, Integer>();
-		Hashtable<Integer, Integer> var3 = new Hashtable<Integer, Integer>();
+		Hashtable var1 = new Hashtable();
+		Hashtable var2 = new Hashtable();
+		Hashtable var3 = new Hashtable();
 		this.field_171 = 0;
 		this.field_172 = 0;
 		int var4 = 0;
@@ -11619,7 +11619,7 @@ public final class cGame extends GameCanvas implements Runnable {
 					label377:
 						switch (var10 & 255) {
 						case 0:
-							++var7;
+							var7++;
 							field_332[var8][var9] = var11 << 8 | var10 & 255;
 							break;
 						case 2:
@@ -11639,7 +11639,7 @@ public final class cGame extends GameCanvas implements Runnable {
 							}
 							break;
 						case 4:
-							++var5;
+							var5++;
 							this.field_327 |= 16L;
 							field_332[var8][var9] = var11 << 8 | var10 & 255;
 							break;
@@ -11648,8 +11648,8 @@ public final class cGame extends GameCanvas implements Runnable {
 							break;
 						case 6:
 							Integer var34 = new Integer(var11);
-							Integer var40;
-							var40 = (var40 = (Integer)var1.get(var34)) == null ? new Integer(1) : new Integer(var40.intValue() + 1);
+							Integer var40 = (Integer)var1.get(var34);
+							var40 = var40 == null ? new Integer(1) : new Integer(var40.intValue() + 1);
 							var1.put(var34, var40);
 							this.field_327 |= 536870912L;
 							field_332[var8][var9] = var11 << 8 | 6;
@@ -11671,8 +11671,8 @@ public final class cGame extends GameCanvas implements Runnable {
 
 							this.field_327 |= 268435456L;
 							Integer var33 = new Integer(var11);
-							Integer var38;
-							var38 = (var38 = (Integer)var1.get(var33)) == null ? new Integer(1) : new Integer(var38.intValue() + 1);
+							Integer var38 = (Integer)var1.get(var33);
+							var38 = var38 == null ? new Integer(1) : new Integer(var38.intValue() + 1);
 							var1.put(var33, var38);
 							field_332[var8][var9] = var11 << 8 | var10;
 							break;
