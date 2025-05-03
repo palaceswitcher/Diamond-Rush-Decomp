@@ -1163,8 +1163,8 @@ public final class cGame extends GameCanvas implements Runnable {
 		this.field_210 = -1;
 		this.field_213 = -1;
 		this.field_212 = -1;
-		int var5;
-		if ((var5 = field_323[(this.field_233 & 16384) == 0 ? 0 : 3]._nCrtAnim) != 40) {
+		int var5 = field_323[(this.field_233 & 16384) == 0 ? 0 : 3]._nCrtAnim;
+		if (var5 != 40) {
 			if (var5 != 48) {
 				if (var5 != 47) {
 					if (this.field_241 <= 0L && this.field_240 == 0 && this.field_254 == 0 && this.field_197 != 6 && (this.field_233 & 112) == 0 || this.field_234 > 0) {
@@ -1558,20 +1558,15 @@ public final class cGame extends GameCanvas implements Runnable {
 			}
 			break;
 		case 1:
-			cGame var10000;
-			boolean var10001;
 			if (frameCounter % 6 >= 3) {
 				this.field_146 += 1677721;
-				var10000 = this;
-				var10001 = false;
+				this.field_557 = false;
 			} else {
-				var10000 = this;
-				var10001 = true;
+				this.field_557 = true;
 			}
 
-			var10000.field_557 = var10001;
 			if (System.currentTimeMillis() - this.field_228 >= 5000L) {
-				++this.field_145;
+				this.field_145++;
 				this.field_557 = true;
 				this.method_65();
 				return;
@@ -1583,31 +1578,31 @@ public final class cGame extends GameCanvas implements Runnable {
 				this.field_147 = 0;
 				this.field_148 = 0;
 				this.method_65();
-				++this.field_145;
+				this.field_145++;
 				return;
 			}
 			break;
 		case 3:
 			if (System.currentTimeMillis() - this.field_228 >= 1000L) {
-				++this.field_145;
+				this.field_145++;
 				return;
 			}
 			break;
 		case 4:
 			if (System.currentTimeMillis() - this.field_228 >= 1000L) {
-				++this.field_145;
+				this.field_145++;
 				return;
 			}
 			break;
 		case 5:
 			if (System.currentTimeMillis() - this.field_228 >= 1000L) {
-				++this.field_145;
+				this.field_145++;
 				return;
 			}
 			break;
 		case 6:
 			if (System.currentTimeMillis() - this.field_228 >= 1000L) {
-				++this.field_145;
+				this.field_145++;
 				this.method_65();
 				return;
 			}
@@ -1615,7 +1610,7 @@ public final class cGame extends GameCanvas implements Runnable {
 		case 7:
 			if (System.currentTimeMillis() - this.field_228 >= 1000L) {
 				GemsRain.field_29 = new byte[12][13];
-				++this.field_145;
+				this.field_145++;
 				GemsRain.method_17(3);
 				this.field_353.method_58(19);
 				this.method_65();
@@ -1626,7 +1621,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			GemsRain.method_16(3);
 			this.field_557 = true;
 			if (System.currentTimeMillis() - this.field_228 >= 15000L) {
-				++this.field_145;
+				this.field_145++;
 				this.method_65();
 				return;
 			}
@@ -1635,7 +1630,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			this.field_557 = true;
 			GemsRain.method_16(3);
 			if (System.currentTimeMillis() - this.field_228 >= 12000L) {
-				++this.field_145;
+				this.field_145++;
 				this.method_65();
 				return;
 			}
@@ -1819,10 +1814,10 @@ public final class cGame extends GameCanvas implements Runnable {
 
 	// $FF: renamed from: l () void
 	private void updateCrtSealItemName() {
-		StringBuffer var10001;
+		StringBuffer var10001; //Keeping this for now because it's less readable otherwise
 		if (this.crtSelectSealItem == 3) {
 			var10001 = new StringBuffer();
-			this.field_106 = var10001.append(menuText[82]).append(" ").append(menuText[79]).toString();
+			this.field_106 = new StringBuffer().append(menuText[82]).append(" ").append(menuText[79]).toString();
 		} else if (method_73(this.crtSelectSealItem)) {
 			var10001 = new StringBuffer();
 			this.field_106 = var10001.append(menuText[82]).append(" ").append(menuText[79]).toString();
@@ -2235,7 +2230,7 @@ public final class cGame extends GameCanvas implements Runnable {
 										this.field_327 = 0L;
 										this.field_328 = 0L;
 										this.field_268 = 0;
-										++this.field_167;
+										this.field_167++;
 										method_104(this.field_167 < 3 ? this.field_167 : 3);
 										this.method_110();
 										return;
@@ -2304,8 +2299,8 @@ public final class cGame extends GameCanvas implements Runnable {
 				System.gc();
 			}
 
-			ASprite var7;
-			(var7 = new ASprite()).Load(var6, 0);
+			ASprite var7 = new ASprite();
+			var7.Load(var6, 0);
 			this.field_380 = method_79();
 			var7.BuildCacheImages(this.field_380, 0, -1, -1);
 			var7._crt_pal = this.field_380;
@@ -2317,7 +2312,8 @@ public final class cGame extends GameCanvas implements Runnable {
 				var2.read(var6);
 				var2.close();
 				System.gc();
-				(var7 = new ASprite()).Load(var6, 0);
+				var7 = new ASprite();
+				var7.Load(var6, 0);
 				var7.BuildCacheImages(0, 0, -1, -1);
 				var7._modules_data = null;
 				field_323[3] = new ASpriteInstance(var7, 0, 0, (ASpriteInstance)null);
