@@ -489,7 +489,7 @@ public final class cGame extends GameCanvas implements Runnable {
 	// $FF: renamed from: a a[]
 	public static ASprite[] field_320;
 	// $FF: renamed from: a a
-	public static ASprite field_321;
+	public static ASprite tipSprite;
 	// $FF: renamed from: f byte[]
 	public static byte[] field_322;
 	// $FF: renamed from: a g[]
@@ -1710,8 +1710,8 @@ public final class cGame extends GameCanvas implements Runnable {
 				field_320[46] = loadGfxFile("/mmv.f", 5);
 			}
 
-			this.field_116 = 240 - method_402(field_320[10], 0) >> 1;
-			this.field_117 = 320 - method_401(field_320[10], 0) - 48 >> 1;
+			this.field_116 = 240 - getFrameWidthFromSprite(field_320[10], 0) >> 1;
+			this.field_117 = 320 - getFrameHeightFromSprite(field_320[10], 0) - 48 >> 1;
 			return;
 		case 5:
 			if (field_320[55] == null) {
@@ -1730,8 +1730,8 @@ public final class cGame extends GameCanvas implements Runnable {
 				field_320[54] = loadGfxFile("/mmv.f", 1);
 			}
 
-			this.field_126 = method_402(field_320[54], 0) >> 1;
-			this.field_127 = method_401(field_320[54], 0) >> 1;
+			this.field_126 = getFrameWidthFromSprite(field_320[54], 0) >> 1;
+			this.field_127 = getFrameHeightFromSprite(field_320[54], 0) >> 1;
 			return;
 		case 7:
 			if (field_320[53] == null) {
@@ -2202,7 +2202,7 @@ public final class cGame extends GameCanvas implements Runnable {
 											return;
 										}
 
-										this.loadWorld1BossSprite(var6);
+										this.loadAngkorBossSprite(var6);
 										ASprite var12 = loadGfxFileInit("/mmv.f", 3, 0);
 										field_318[32] = var12._modules_image[0];
 										field_320[20] = loadGfxFileInit("/gen0.f", 7, 0);
@@ -2258,8 +2258,8 @@ public final class cGame extends GameCanvas implements Runnable {
 										this.method_96();
 										return;
 									case 6:
-										freeSpriteCache(field_321, true);
-										field_321 = null;
+										freeSpriteCache(tipSprite, true);
+										tipSprite = null;
 										System.gc();
 										return;
 									case 7:
@@ -2973,7 +2973,7 @@ public final class cGame extends GameCanvas implements Runnable {
 				break;
 			case 2:
 				if (this.hasLockedGoldenGateInLevel) {
-					// Ggld key
+					// Gold key
 					field_318[24] = var5._modules_image[0];
 				}
 
@@ -3148,10 +3148,10 @@ public final class cGame extends GameCanvas implements Runnable {
 
 	// $FF: renamed from: h (int) void
 	/**
-	 * Loads one of two packed sprite files for the World 1 boss
+	 * Loads one of two packed sprite files for the Angkor Wat boss
 	 * @param spriteNum Sprite to load from the asset pack
 	 */
-	private void loadWorld1BossSprite(int spriteNum) {
+	private void loadAngkorBossSprite(int spriteNum) {
 		try {
 			if (spriteNum == 0) {
 				this.field_306 = this.getClass().getResourceAsStream("/b0.f");
@@ -3786,7 +3786,7 @@ public final class cGame extends GameCanvas implements Runnable {
 				}
 
 				if (field_322 != null && this.field_388) {
-					this.method_404();
+					this.drawGameTip();
 				}
 				break;
 			case 6:
@@ -4238,7 +4238,7 @@ public final class cGame extends GameCanvas implements Runnable {
 		case 1:
 			var1 = "Tips";
 			method_403(this.field_438[1]);
-			this.method_404();
+			this.drawGameTip();
 			break;
 		default:
 			var1 = "";
@@ -7639,8 +7639,8 @@ public final class cGame extends GameCanvas implements Runnable {
 		int var2 = 0;
 		if (isKeyPressed(SKEY_NUM5|SKEY_CENTER_ALT|SKEY_RSH|SKEY_LSH|SKEY_CENTER)) {
 			this.method_224();
-			freeSpriteCache(field_321, true);
-			field_321 = null;
+			freeSpriteCache(tipSprite, true);
+			tipSprite = null;
 		}
 
 		if (isKeyPressed(SKEY_NUM2|SKEY_UP)) {
@@ -16897,28 +16897,44 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: b (a, int) int
-	private static int method_401(ASprite var0, int var1) {
-		int var2 = (var1 << 2) + 3;
-		return var0._frames_rc[var2] & 255;
+	/**
+	 * Get frame rect height from sprite
+	 * @param sprite Sprite to get frame rect height
+	 * @param frameIndex Get frame rect height from the specified index
+	 * @return Frame rect height from the specified index
+	 */
+	private static int getFrameHeightFromSprite(ASprite sprite, int frameIndex) {
+		int offset = (frameIndex << 2) + 3;
+		return sprite._frames_rc[offset] & 255;
 	}
 
 	// $FF: renamed from: c (a, int) int
-	private static int method_402(ASprite var0, int var1) {
-		int var2 = (var1 << 2) + 2;
-		return var0._frames_rc[var2] & 255;
+	/**
+	 * Get frame rect width from sprite
+	 * @param sprite Sprite to get frame rect width
+	 * @param frameIndex Get frame rect width from the specified index
+	 * @return Frame rect width from the specified index
+	 */
+	private static int getFrameWidthFromSprite(ASprite sprite, int frameIndex) {
+		int offset = (frameIndex << 2) + 2;
+		return sprite._frames_rc[offset] & 255;
 	}
 
 	// $FF: renamed from: A (int) void
-	private static void method_403(int var0) {
+	/**
+	 * Load tip resources (sprite and text)
+	 * @param tipIndex The tip of specified index will load
+	 */
+	private static void method_403(int tipIndex) {
 		try {
-			field_321 = var0 <= 4 ? loadGfxFile("/tips.f", var0) : null;
-			ByteArrayInputStream var1;
-			int var2 = (var1 = new ByteArrayInputStream(loadPackedFile("/tipst.f", 0))).read();
-			var0 %= var2;
+			tipSprite = tipIndex <= 4 ? loadGfxFile("/tips.f", tipIndex) : null;
+			ByteArrayInputStream var1 = new ByteArrayInputStream(loadPackedFile("/tipst.f", 0));
+			int var2 = var1.read(); //Get count of tip text
+			tipIndex %= var2;
 			byte[] var3 = new byte[(var2 + 1) * 2];
 			var1.read(var3);
-			int var4 = getShortFromBytes(var3, var0 << 1);
-			int var5 = getShortFromBytes(var3, var0 + 1 << 1);
+			int var4 = getShortFromBytes(var3, tipIndex << 1);
+			int var5 = getShortFromBytes(var3, tipIndex + 1 << 1);
 			var1.skip((long)var4);
 			field_322 = new byte[var5 - var4];
 			var1.read(field_322);
@@ -16928,7 +16944,7 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: cr () void
-	private void method_404() {
+	private void drawGameTip() {
 		field_320[41]._nLineSpacing = 5;
 		int var22 = 0;
 		++var22;
@@ -16969,21 +16985,21 @@ public final class cGame extends GameCanvas implements Runnable {
 						var22 = var19 + var12;
 						var4 -= 3;
 						var10000 = var4;
-						var27 = this.method_406(var3, field_322, field_320[41], var11, var10, var5 ? -1 : var4, field_321, n7, 192); //NOTE: CHANGED TO MATCH PROCYON OUTPUT
+						var27 = this.method_406(var3, field_322, field_320[41], var11, var10, var5 ? -1 : var4, tipSprite, n7, 192); //NOTE: CHANGED TO MATCH PROCYON OUTPUT
 					} else {
 						int var21 = var22 + 2;
 						var22 = var21 + 2;
 						int var25 = field_322[var22++] & 255;
-						if (field_321 == null) {
+						if (tipSprite == null) {
 							break label35;
 						}
 
 						if (!var5) {
-							field_321.PaintFrame(var3, var25, (240 - field_321._frames_rc[(var25 << 2) + 2] & 255) >> 1, var4, 0, 0, 0);
+							tipSprite.PaintFrame(var3, var25, (240 - tipSprite._frames_rc[(var25 << 2) + 2] & 255) >> 1, var4, 0, 0, 0);
 						}
 
 						var10000 = var4;
-						var27 = field_321._frames_rc[(var25 << 2) + 3] & 255;
+						var27 = tipSprite._frames_rc[(var25 << 2) + 3] & 255;
 					}
 
 					var4 = var10000 + var27;
@@ -17091,9 +17107,9 @@ public final class cGame extends GameCanvas implements Runnable {
 								var7.PaintFrame(var1, var2[var10 + var8], var12, var13, 0, 0, 0);
 							}
 
-							var12 += method_402(var7, var2[var10 + var8]);
+							var12 += getFrameWidthFromSprite(var7, var2[var10 + var8]);
 							int var23;
-							if ((var23 = method_401(var7, var2[var10 + var8])) > var11) {
+							if ((var23 = getFrameHeightFromSprite(var7, var2[var10 + var8])) > var11) {
 								var11 = var23;
 							}
 
@@ -18247,8 +18263,8 @@ public final class cGame extends GameCanvas implements Runnable {
 					field_320[54] = loadGfxFile("/mmv.f", 1);
 				}
 
-				this.field_126 = method_402(field_320[54], 0) >> 1;
-				this.field_127 = method_401(field_320[54], 0) >> 1;
+				this.field_126 = getFrameWidthFromSprite(field_320[54], 0) >> 1;
+				this.field_127 = getFrameHeightFromSprite(field_320[54], 0) >> 1;
 				return;
 			case 8:
 				if (field_320[53] == null) {
