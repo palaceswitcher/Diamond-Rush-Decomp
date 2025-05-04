@@ -4444,7 +4444,7 @@ public final class cGame extends GameCanvas implements Runnable {
 
 	// $FF: renamed from: a (int, int, int, int, boolean) void
 	private void method_150(int var1, int var2, int var3, int var4, boolean var5) {
-		Object var6 = null;
+		Object var6 = null; // This is in the bytecode, keep it
 		int var9 = 0;
 		int var10 = 0;
 		Graphics var14 = field_395;
@@ -5353,7 +5353,6 @@ public final class cGame extends GameCanvas implements Runnable {
 				this.field_286 = 0;
 			}
 
-
 			this.field_288 = field_335[this.processedTileX][this.processedTileY] * field_325[var1];
 			this.field_289 = field_335[this.processedTileX][this.processedTileY] * field_325[8 + var1];
 		} else {
@@ -5370,7 +5369,6 @@ public final class cGame extends GameCanvas implements Runnable {
 			case 4:
 				this.field_285 = 12;
 			}
-
 
 			this.field_286 = method_204(field_324, this.field_285, field_335[this.processedTileX][this.processedTileY]);
 			int var2 = (field_324._anims_af_start[this.field_285] + this.field_286) * 5;
@@ -10241,7 +10239,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			}
 			break;
 		case 1:
-			boolean var14 = false; // This exists in bytecode, keep it
+			boolean var14 = false; // This is in the bytecode, keep it
 			if (this.field_181 > 40) {
 				this.field_180 = 2;
 				this.field_181 = 0;
@@ -10253,7 +10251,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			}
 			break;
 		case 2:
-			boolean var13 = false; // This exists in bytecode, keep it
+			boolean var13 = false; // This is in the bytecode, keep it // This exists in bytecode, keep it
 			if (this.method_273(var5, 8)) {
 				this.field_182--;
 				this.field_139 = this.field_180;
@@ -10280,7 +10278,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			}
 			break;
 		case 3:
-			boolean var12 = false; // This exists in bytecode, keep it
+			boolean var12 = false; // This is in the bytecode, keep it
 			if (this.field_181 > 40) {
 				if (this.field_182 > 0) {
 					if (this.field_139 == 10) {
@@ -15058,7 +15056,6 @@ public final class cGame extends GameCanvas implements Runnable {
 		byte var6;
 		byte var7;
 		int var8;
-		int var10000;
 		if (var10 && field_500[var1][var2] != 3) {
 			var6 = -1;
 			var7 = 1;
@@ -16149,7 +16146,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			this.method_376(var1, (byte)1, (byte)47, (byte)2);
 			--var3;
 			this.method_376(var1, (byte)var3, (byte)20, (byte)6);
-			boolean var20 = false;
+			boolean var20 = false; // This is in the bytecode, keep it
 			if ((byte)(field_334[var2][var3] - 80) < 0 && field_334[var2][var3] != 10 && field_334[var2][var3] != 37 && field_334[var2][var3] != 34 && field_334[var2][var3] != 35) {
 				while((byte)(field_334[var2 + 1][var3] - 80) < 0 && field_334[var2 + 1][var3] != 10 && field_334[var2 + 1][var3] != 37 && field_334[var2 + 1][var3] != 34 && field_334[var2 + 1][var3] != 35) {
 					var2++;
@@ -18482,7 +18479,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			return;
 		case 2:
 			if (isKeyPressed(SKEY_NUM2|SKEY_UP)) {
-				boolean var2 = false;
+				boolean var2 = false; // This is in the bytecode, keep it
 				if (this.field_559 >= 240) {
 					this.field_559 -= 3;
 					if (this.field_559 < 240) {
@@ -18546,7 +18543,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			int var3 = -17;
 			int var4 = this.field_560;
 			int var5 = this.field_560;
-			boolean var7 = false;
+			boolean var7 = false; // This is in the bytecode, keep it
 
 			for (int var10 = this.field_559 >= 340 ? -(this.field_559 % 17) : 340 - this.field_559 - 17; var4 < field_565.length && var3 < 340; ++var4) {
 				if (field_565[var4] == 10) {
