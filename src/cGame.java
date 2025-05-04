@@ -4444,7 +4444,7 @@ public final class cGame extends GameCanvas implements Runnable {
 
 	// $FF: renamed from: a (int, int, int, int, boolean) void
 	private void method_150(int var1, int var2, int var3, int var4, boolean var5) {
-		Object var6 = null;
+		Object var6 = null; // This is in the bytecode, keep it
 		int var9 = 0;
 		int var10 = 0;
 		Graphics var14 = field_395;
@@ -5338,8 +5338,6 @@ public final class cGame extends GameCanvas implements Runnable {
 	private void method_158() {
 		int var1 = field_333[this.processedTileX][this.processedTileY] & 7;
 		field_324 = field_320[29];
-		cGame var3;
-		int var5;
 		if ((field_333[this.processedTileX][this.processedTileY] & 8) == 0) {
 			switch (var1) {
 			case 1:
@@ -5354,7 +5352,6 @@ public final class cGame extends GameCanvas implements Runnable {
 			case 4:
 				this.field_286 = 0;
 			}
-
 
 			this.field_288 = field_335[this.processedTileX][this.processedTileY] * field_325[var1];
 			this.field_289 = field_335[this.processedTileX][this.processedTileY] * field_325[8 + var1];
@@ -5372,7 +5369,6 @@ public final class cGame extends GameCanvas implements Runnable {
 			case 4:
 				this.field_285 = 12;
 			}
-
 
 			this.field_286 = method_204(field_324, this.field_285, field_335[this.processedTileX][this.processedTileY]);
 			int var2 = (field_324._anims_af_start[this.field_285] + this.field_286) * 5;
@@ -5447,81 +5443,62 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: d (int, int) void
-	// TODO RESTRUCTURE THIS CORRECLT
 	private void method_163(int var1, int var2) {
 		Graphics var3 = this.field_314;
 
-		for(int var4 = 0; var4 < 12; ++var4) {
-			for(int var5 = 0; var5 < 12; ++var5) {
-				int var7 = var5 + this.field_201 / 24;
-				int var8 = var4 + this.field_202 / 24;
-				if (var7 >= 0 && var7 < this.crtLevelWidth && var8 >= 0 && var8 < this.crtLevelHeight) {
-					int var6 = field_500[var7][var8];
-					int var10 = var5 * 24 - var1;
-					int var11 = var4 * 24 - var2;
-					byte var12 = 0;
-					if (var6 > 0) {
-						byte var10000 = 0;
+		for(int i = 0; i < 12; i++) {
+			for(int j = 0; j < 12; j++) {
+				int var7 = j + this.field_201 / 24;
+				int var8 = i + this.field_202 / 24;
+				if (!(var7 >= 0 && var7 < this.crtLevelWidth && var8 >= 0 && var8 < this.crtLevelHeight)) {
+					continue;
+				}
 
-						while(true) {
-							byte var13 = var10000;
-							if (var10000 > 2) {
-								break;
-							}
+				int var6 = field_500[var7][var8];
+				int var10 = j * 24 - var1;
+				int var11 = i * 24 - var2;
+				byte var12 = 0;
+				if (var6 <=.0) {
+					continue;
+				}
 
-							if (method_373(var6, var13, (byte)0, (byte)3) != 0) {
-								if ((var12 = (byte)(method_373(var6, var13, (byte)7, (byte)2) << 3)) > 0) {
-									byte var18;
-									var12 = method_375(method_373(var6, var13, (byte)0, (byte)3), (byte)45, (byte)2) <= 1 ? (var18 = (byte)(var12 - 24)) : (byte)(24 - var12);
-									this.method_152();
-									var3.clipRect(var10, var11 + (var13 << 3), 24, 8);
-								}
-
-								int var14;
-								int var15;
-								int var16 = ((var15 = (var14 = this.method_396(var7, var8, var6, var13)) >> 1) == 7 ? frameCounter >> 3 : frameCounter) & 1;
-								if (var15 == 15) {
-									field_499.PaintFrame(var3, var14 + this.field_393, var10 + var12 - 8, var11 + (var13 << 3) + 8, 36, 0, 0);
-									++this.field_393;
-									if (this.field_393 > 2) {
-										this.field_393 = 0;
-									}
-								} else {
-									label102: {
-										ASprite var19;
-										Graphics var10001;
-										int var10002;
-										int var10003;
-										int var10004;
-										if (var15 != 14 && var15 != 11) {
-											if (var15 == 8 && var13 == 0 && field_500[var7][var8 - 1] > 0) {
-												field_499.PaintFrame(var3, 33, var10 + var12, var11, 20, 0, 0);
-												var13 = 3;
-												break label102;
-											}
-
-											var19 = field_499;
-											var10001 = var3;
-											var10002 = var14 + var16;
-											var10003 = var10 + var12;
-											var10004 = var11 + (var13 << 3);
-										} else {
-											var19 = field_499;
-											var10001 = var3;
-											var10002 = var14 + var16;
-											var10003 = var10 + var12;
-											var10004 = var11;
-										}
-
-										var19.PaintFrame(var10001, var10002, var10003, var10004, 20, 0, 0);
-										this.method_152();
-									}
-								}
-							}
-
-							var10000 = (byte)(var13 + 1);
-						}
+				for (byte var13 = 0; var13 <= 2; var13++) {
+					if (method_373(var6, var13, (byte)0, (byte)3) == 0) {
+						continue;
 					}
+
+					if ((var12 = (byte)(method_373(var6, var13, (byte)7, (byte)2) << 3)) > 0) {
+						byte var18; // This is in the bytecode, keep it
+						var12 = method_375(method_373(var6, var13, (byte)0, (byte)3), (byte)45, (byte)2) <= 1 ? (var18 = (byte)(var12 - 24)) : (byte)(24 - var12);
+						this.method_152();
+						var3.clipRect(var10, var11 + (var13 << 3), 24, 8);
+					}
+
+					int var14 = this.method_396(var7, var8, var6, var13);
+					int var15 = var14 >> 1;
+					int var16 = (var15 == 7 ? frameCounter >> 3 : frameCounter) & 1;
+					if (var15 == 15) {
+						field_499.PaintFrame(var3, var14 + this.field_393, var10 + var12 - 8, var11 + (var13 << 3) + 8, 36, 0, 0);
+						++this.field_393;
+						if (this.field_393 > 2) {
+							this.field_393 = 0;
+						}
+					} else {
+						if (var15 != 14 && var15 != 11) {
+							if (var15 == 8 && var13 == 0 && field_500[var7][var8 - 1] > 0) {
+								field_499.PaintFrame(var3, 33, var10 + var12, var11, 20, 0, 0);
+								var13 = 3;
+								continue;
+							}
+
+							field_499.PaintFrame(var3, var14 + var16, var10 + var12, var11 + (var13 << 3), 20, 0, 0);
+						} else {
+							field_499.PaintFrame(var3, var14 + var16, var10 + var12, var11, 20, 0, 0);
+						}
+
+						this.method_152();
+					}
+
 				}
 			}
 		}
@@ -10270,7 +10247,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			}
 			break;
 		case 1:
-			boolean var14 = false;
+			boolean var14 = false; // This is in the bytecode, keep it
 			if (this.field_181 > 40) {
 				this.field_180 = 2;
 				this.field_181 = 0;
@@ -10282,7 +10259,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			}
 			break;
 		case 2:
-			boolean var13 = false;
+			boolean var13 = false; // This is in the bytecode, keep it
 			if (this.method_273(var5, 8)) {
 				--this.field_182;
 				this.field_139 = this.field_180;
@@ -10309,7 +10286,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			}
 			break;
 		case 3:
-			boolean var12 = false;
+			boolean var12 = false; // This is in the bytecode, keep it
 			if (this.field_181 > 40) {
 				if (this.field_182 > 0) {
 					if (this.field_139 == 10) {
@@ -15150,7 +15127,6 @@ public final class cGame extends GameCanvas implements Runnable {
 		byte var6;
 		byte var7;
 		int var8;
-		int var10000;
 		if (var10 && field_500[var1][var2] != 3) {
 			var6 = -1;
 			var7 = 1;
@@ -16241,7 +16217,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			this.method_376(var1, (byte)1, (byte)47, (byte)2);
 			--var3;
 			this.method_376(var1, (byte)var3, (byte)20, (byte)6);
-			boolean var20 = false;
+			boolean var20 = false; // This is in the bytecode, keep it
 			if ((byte)(field_334[var2][var3] - 80) < 0 && field_334[var2][var3] != 10 && field_334[var2][var3] != 37 && field_334[var2][var3] != 34 && field_334[var2][var3] != 35) {
 				while((byte)(field_334[var2 + 1][var3] - 80) < 0 && field_334[var2 + 1][var3] != 10 && field_334[var2 + 1][var3] != 37 && field_334[var2 + 1][var3] != 34 && field_334[var2 + 1][var3] != 35) {
 					var2++;
@@ -18574,7 +18550,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			return;
 		case 2:
 			if (isKeyPressed(SKEY_NUM2|SKEY_UP)) {
-				boolean var2 = false;
+				boolean var2 = false; // This is in the bytecode, keep it
 				if (this.field_559 >= 240) {
 					this.field_559 -= 3;
 					if (this.field_559 < 240) {
@@ -18638,7 +18614,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			int var3 = -17;
 			int var4 = this.field_560;
 			int var5 = this.field_560;
-			boolean var7 = false;
+			boolean var7 = false; // This is in the bytecode, keep it
 
 			for (int var10 = this.field_559 >= 340 ? -(this.field_559 % 17) : 340 - this.field_559 - 17; var4 < field_565.length && var3 < 340; ++var4) {
 				if (field_565[var4] == 10) {
