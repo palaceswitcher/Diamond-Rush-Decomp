@@ -192,7 +192,7 @@ public final class IGA {
 		} else if (cGame.isKeyPressed(cGame.SKEY_NUM5|cGame.SKEY_CENTER_ALT|cGame.SKEY_LSH|cGame.SKEY_CENTER)) {
 			method_37(field_61[field_63]);
 		} else if (cGame.isKeyPressed(cGame.SKEY_RSH)) {
-			cGame.field_92.openSubmenu(0);
+			cGame.field_92.openMenu(0);
 			field_65 = 2;
 			cGame.keysPressed = 0;
 		}

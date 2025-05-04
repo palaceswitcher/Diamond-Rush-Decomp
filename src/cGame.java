@@ -371,7 +371,7 @@ public final class cGame extends GameCanvas implements Runnable {
 	// $FF: renamed from: x boolean
 	public boolean field_261;
 	// $FF: renamed from: bo int
-	public int currentMenu;
+	public int crtMenu;
 	// $FF: renamed from: bp int
 	public int previousMenu;
 	// $FF: renamed from: bq int
@@ -685,7 +685,7 @@ public final class cGame extends GameCanvas implements Runnable {
 	// $FF: renamed from: cW int
 	public int field_418;
 	// $FF: renamed from: cX int
-	public int field_419;
+	public int crtMenuItems;
 	// $FF: renamed from: cY int
 	public int field_420;
 	// $FF: renamed from: cZ int
@@ -1232,14 +1232,14 @@ public final class cGame extends GameCanvas implements Runnable {
 
 	// $FF: renamed from: a (int) void
 	/**
-	 * Navigates the UI to a submenu
+	 * Navigates the UI to a menu
 	 * @param menu Menu number
 	 */
-	public final void openSubmenu(int menu) {
-		this.previousMenu = this.currentMenu;
+	public final void openMenu(int menu) {
+		this.previousMenu = this.crtMenu;
 		this.field_261 = false;
 		this.currentMenuSelection = 0;
-		this.currentMenu = menu;
+		this.crtMenu = menu;
 		this.field_418 = 0;
 		if (menu >= 0) {
 			this.method_172();
@@ -1414,7 +1414,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			loadFontSprite();
 			field_320[18] = loadGfxFile("/ui.f", 3);
 			this.method_95();
-			this.openSubmenu(3);
+			this.openMenu(3);
 			field_222 = 7;
 			return;
 		case 7:
@@ -1444,9 +1444,9 @@ public final class cGame extends GameCanvas implements Runnable {
 				if (var1 == 8) {
 					if (this.field_371) {
 						field_222 = 4;
-						if (this.currentMenu == -1) {
+						if (this.crtMenu == -1) {
 							this.field_223 = 0;
-							this.openSubmenu(0);
+							this.openMenu(0);
 						} else {
 							this.field_223 = 2;
 						}
@@ -1637,7 +1637,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			break;
 		case 10:
 			this.method_95();
-			this.openSubmenu(0);
+			this.openMenu(0);
 			field_222 = 22;
 			this.field_223 = 0;
 			this.field_353.method_59();
@@ -2014,7 +2014,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			case 24:
 				this.field_353.method_52();
 				field_222 = 9;
-				this.openSubmenu(-1);
+				this.openMenu(-1);
 				field_510 = new StringBuffer(menuText[8]);
 				field_510.delete(field_510.length() - 1, field_510.length());
 				field_511 = new StringBuffer(menuText[20]);
@@ -2331,26 +2331,33 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: b () int
-	private int method_81() {
-		return menuData[this.currentMenu][this.currentMenuSelection << 1];
+	/**
+	 * Returns the currently selected item number
+	 * @return Item number
+	 */
+	private int getSelectedMenuItem() {
+		return menuData[this.crtMenu][this.currentMenuSelection << 1];
 	}
 
 	// $FF: renamed from: p () void
-	private void method_82() {
-		field_320[41]._crt_pal = 0;
+	/**
+	 * Handle item selections for the current menu
+	 */
+	private void menuSelectionHandler() {
+		field_320[41]._crt_pal = 0; // Set text palette
 		this.field_261 = true;
-		switch (this.currentMenu) {
+		switch (this.crtMenu) {
 		case 0:
-			this.method_89();
+			this.titleMenuSelectionHandler();
 			return;
 		case 1:
-			this.method_85();
+			this.pauseMenuSelectionHandler();
 			return;
 		case 2:
-			this.method_87();
+			this.sealMenuSelectionHandler();
 			return;
 		case 3:
-			this.method_88();
+			this.soundMenuSelectionHandler();
 			return;
 		case 5:
 			this.method_84();
@@ -2359,40 +2366,49 @@ public final class cGame extends GameCanvas implements Runnable {
 		default:
 			return;
 		case 7:
-			this.method_83();
+			this.confirmMenuSelectionHandler();
 		}
 	}
 
 	// $FF: renamed from: q () void
-	private void method_83() {
-		switch (this.method_81()) {
+	/**
+	 * Handle item selections for the yes/no confirmation menu
+	 */
+	private void confirmMenuSelectionHandler() {
+		switch (this.getSelectedMenuItem()) {
+		// No
 		case 0:
 			if (this.previousMenu == 0) {
 				field_222 = 4;
 			}
 
-			this.openSubmenu(this.previousMenu);
+			this.openMenu(this.previousMenu); // Close confirmation menu
 			break;
+		// Yes
 		case 1:
 			switch (this.field_223) {
+			// Restart level
 			case 1:
 				this.method_86();
 			case 2:
 			default:
 				break;
+			// Go to map
 			case 3:
 				field_222 = 15;
 				this.field_375 = true;
 				this.field_373 = true;
 				this.method_408();
 				break;
+			// Go to title screen
 			case 4:
 				this.method_95();
 				field_222 = 9;
 				this.field_265 = 8;
-				this.openSubmenu(-1);
+				this.openMenu(-1);
 				this.field_266 = 0;
 				break;
+			// Close game
 			case 5:
 				field_222 = 3;
 				this.field_353.method_55();
@@ -2403,27 +2419,28 @@ public final class cGame extends GameCanvas implements Runnable {
 		this.field_223 = -1;
 	}
 
+
 	// $FF: renamed from: r () void
 	private void method_84() {
-		switch (this.method_81()) {
+		switch (this.getSelectedMenuItem()) {
 		case 0:
 			cSoundEngine.soundEnabled = !cSoundEngine.soundEnabled;
 			if (cSoundEngine.soundEnabled) {
 				this.method_433(0);
-				setMenuTextIndex(5, 0, (short) 32); //Set sound text to on
+				setMenuItemText(5, 0, (short) 32); // Set sound text to on
 			} else {
 				this.field_353.method_59();
 				this.field_353.method_59();
-				setMenuTextIndex(5, 0, (short) 33); //Set sound text to off
+				setMenuItemText(5, 0, (short) 33); // Set sound text to off
 			}
 			break;
 		case 1:
 			vibrationEnabled = !vibrationEnabled;
 			if (vibrationEnabled) {
 				vibrate(200);
-				setMenuTextIndex(5, 1, (short) 50); //Set vibrate text to on
+				setMenuItemText(5, 1, (short) 50); // Set vibrate text to on
 			} else {
-				setMenuTextIndex(5, 1, (short) 51); //Set vibrate text to off
+				setMenuItemText(5, 1, (short) 51); // Set vibrate text to off
 			}
 			break;
 		default:
@@ -2431,36 +2448,47 @@ public final class cGame extends GameCanvas implements Runnable {
 		}
 	}
 
+	/**
+	 * Handle item selections for the pause menu
+	 */
 	// $FF: renamed from: s () void
-	private void method_85() {
-		switch (this.method_81()) {
+	private void pauseMenuSelectionHandler() {
+		switch (this.getSelectedMenuItem()) {
+		// Resume
 		case 0:
 			field_222 = 1;
 			field_513 = null;
 			field_428 = null;
 			return;
+		// Restart
 		case 1:
-			this.openSubmenu(7); //Open yes/no confirmation
-			this.field_223 = 1;
+			this.openMenu(7); // Open yes/no confirmation
+			this.field_223 = 1; // Restart level on yes
 			return;
+		// Options
 		case 2:
-			this.openSubmenu(5); //Show options menu
+			this.openMenu(5); // Show options menu
 			return;
+		// Go to Map
 		case 3:
+			// Disable this option for the tutorial level
 			if (this.currentLevel != 13 || this.currentWorld != 0) {
-				this.openSubmenu(7); //Open yes/no confirmation
-				this.field_223 = 3;
+				this.openMenu(7); // Open yes/no confirmation
+				this.field_223 = 3; // Go to map on yes
 				return;
 			}
 			break;
+		// Main Menu
 		case 4:
-			this.openSubmenu(7); //Open yes/no confirmation
-			this.field_223 = 4;
+			this.openMenu(7); // Open yes/no confirmation
+			this.field_223 = 4; // Exit to main menu on yes
 			return;
+		// Exit
 		case 5:
-			this.openSubmenu(7); //Open yes/no confirmation
-			this.field_223 = 5;
+			this.openMenu(7); // Open yes/no confirmation
+			this.field_223 = 5; // Close game on yes
 			return;
+		// Help
 		case 6:
 			field_222 = 33;
 			this.field_557 = true;
@@ -2470,6 +2498,7 @@ public final class cGame extends GameCanvas implements Runnable {
 		}
 
 	}
+
 
 	// $FF: renamed from: t () void
 	private void method_86() {
@@ -2484,8 +2513,11 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: u () void
-	private void method_87() {
-		switch (this.method_81()) {
+	/**
+	 * Handle item selections for the seal menu
+	 */
+	private void sealMenuSelectionHandler() {
+		switch (this.getSelectedMenuItem()) {
 		case 0:
 			this.field_353.method_59();
 			this.currentWorld = 0;
@@ -2530,7 +2562,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			}
 			break;
 		case 3:
-			this.openSubmenu(4);
+			this.openMenu(4);
 			return;
 		default:
 			field_222 = 3;
@@ -2541,9 +2573,12 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: v () void
-	private void method_88() {
+	/**
+	 * Handle item selections for the sound toggle menu
+	 */
+	private void soundMenuSelectionHandler() {
 		byte var1 = 0;
-		switch (this.method_81()) {
+		switch (this.getSelectedMenuItem()) {
 		case 0:
 			cSoundEngine.soundEnabled = true;
 			var1 = 32;
@@ -2556,12 +2591,16 @@ public final class cGame extends GameCanvas implements Runnable {
 		}
 
 		this.field_223 = 0;
-		setMenuTextIndex(5, 0, var1);
+		setMenuItemText(5, 0, var1);
 	}
 
 	// $FF: renamed from: w () void
-	private void method_89() {
-		switch (this.method_81()) {
+	/**
+	 * Handle item selections for the seal menu
+	 */
+	private void titleMenuSelectionHandler() {
+		switch (this.getSelectedMenuItem()) {
+		// Continue
 		case 1:
 			this.field_353.method_59();
 			this.method_109();
@@ -2573,6 +2612,7 @@ public final class cGame extends GameCanvas implements Runnable {
 				field_222 = 28;
 				return;
 			}
+		// New Game
 		case 0:
 			this.field_353.method_59();
 			if (!method_105()) {
@@ -2584,24 +2624,29 @@ public final class cGame extends GameCanvas implements Runnable {
 			this.field_329 = false;
 			field_222 = 31;
 			return;
+		// Options
 		case 2:
-			this.openSubmenu(5);
+			this.openMenu(5);
 			this.field_353.method_59();
 			return;
+		// Help
 		case 3:
 			field_222 = 33;
 			this.field_353.method_59();
 			this.field_557 = true;
 			return;
+		// About
 		case 4:
 			field_222 = 22;
 			this.field_223 = 0;
 			this.field_353.method_59();
 			return;
+		// Exit
 		case 5:
-			this.openSubmenu(7);
+			this.openMenu(7);
 			this.field_223 = 5;
 			return;
+		// More Games
 		case 6:
 			field_222 = 10;
 			return;
@@ -2614,14 +2659,14 @@ public final class cGame extends GameCanvas implements Runnable {
 	private void selectPreviousMenuItem() {
 		this.currentMenuSelection--;
 		if (this.currentMenuSelection < 0) {
-			this.currentMenuSelection = (menuData[this.currentMenu].length >> 1) - 1; //Wrap around menu
+			this.currentMenuSelection = (menuData[this.crtMenu].length >> 1) - 1; //Wrap around menu
 		}
 
 	}
 
 	// $FF: renamed from: y () void
 	private void selectNextMenuItem() {
-		this.currentMenuSelection = (this.currentMenuSelection + 1) % (menuData[this.currentMenu].length >> 1);
+		this.currentMenuSelection = (this.currentMenuSelection + 1) % (menuData[this.crtMenu].length >> 1);
 	}
 
 	// $FF: renamed from: z () void
@@ -5706,12 +5751,12 @@ public final class cGame extends GameCanvas implements Runnable {
 
 	// $FF: renamed from: al () void
 	private void method_172() {
-		this.field_419 = menuData[this.currentMenu].length >> 1;
+		this.crtMenuItems = menuData[this.crtMenu].length >> 1; // Get amount of items in current menu
 		this.field_420 = 0;
 
-		for (int var1 = 0; var1 < this.field_419; ++var1) {
-			int var2 = getStringWidth(field_320[41], menuText[menuData[this.currentMenu][var1 * 2 + 1]], 0);
-			if ((this.currentMenu != 0 || var1 != 3) && var2 > this.field_420) {
+		for (int i = 0; i < this.crtMenuItems; i++) {
+			int var2 = getStringWidth(field_320[41], menuText[menuData[this.crtMenu][i * 2 + 1]], 0);
+			if ((this.crtMenu != 0 || i != 3) && var2 > this.field_420) {
 				this.field_420 = var2;
 			}
 		}
@@ -5755,7 +5800,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			this.method_174();
 		}
 
-		int var1 = (var1 = 320 - (this.field_419 * 15 + 1 + 2)) + (!this.field_432 && this.currentMenu == 0 ? 15 : 0);
+		int var1 = (var1 = 320 - (this.crtMenuItems * 15 + 1 + 2)) + (!this.field_432 && this.crtMenu == 0 ? 15 : 0);
 		int var2 = 320;
 		this.field_314.setClip(0, 0, 240, 320);
 		if (field_222 == 2 && field_429 && field_430) {
@@ -5771,7 +5816,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			var2 = 320 - var3;
 		}
 
-		if (this.currentMenu == 7) {
+		if (this.crtMenu == 7) {
 			field_320[41].DrawString(this.field_314, menuText[this.field_223 == 5 ? 102 : 113], 120, var1 - 20, 17);
 		}
 
@@ -5793,7 +5838,7 @@ public final class cGame extends GameCanvas implements Runnable {
 		}
 
 		if (this.field_427 != -1 && !field_429) {
-			int var5 = this.currentMenu == 0 && this.field_427 > 1 && !this.field_432 ? 15 : 0;
+			int var5 = this.crtMenu == 0 && this.field_427 > 1 && !this.field_432 ? 15 : 0;
 			int var6 = var1 + this.field_427 * 15 - var5;
 			this.field_314.setClip(0, var6, 240, 16);
 		}
@@ -5802,21 +5847,21 @@ public final class cGame extends GameCanvas implements Runnable {
 			this.method_173(var1, var2);
 		}
 
-		for (int i = 0; i < this.field_419; i++) {
-			if ((this.field_427 == -1 || i == this.field_427 || i == this.currentMenuSelection || field_429) && (this.currentMenu != 0 || i != 1 || this.field_432)) {
+		for (int i = 0; i < this.crtMenuItems; i++) {
+			if ((this.field_427 == -1 || i == this.field_427 || i == this.currentMenuSelection || field_429) && (this.crtMenu != 0 || i != 1 || this.field_432)) {
 				int var19;
 				int var7 = (var19 = var1 + i * 15) + 7;
-				if (this.currentMenu == 0 && i > 1 && !this.field_432) {
+				if (this.crtMenu == 0 && i > 1 && !this.field_432) {
 					var19 -= 15;
 					var7 -= 15;
 				}
 
 				byte var8 = 0;
-				if (i == 2 && this.currentMenu == 0) {
+				if (i == 2 && this.crtMenu == 0) {
 					var8 = 1;
 				}
 
-				if (this.field_174 == 2 && i == 4 && this.currentMenu == 1) {
+				if (this.field_174 == 2 && i == 4 && this.crtMenu == 1) {
 					var8 = 0;
 					if (i != this.currentMenuSelection) {
 						this.field_314.setColor(0xCCCCCC);
@@ -5832,10 +5877,10 @@ public final class cGame extends GameCanvas implements Runnable {
 
 				int var11 = 0;
 				boolean var14 = false;
-				field_320[41].UpdateStringSize(menuText[menuData[this.currentMenu][i * 2 + 1]]);
+				field_320[41].UpdateStringSize(menuText[menuData[this.crtMenu][i * 2 + 1]]);
 				int var9;
 				int var10 = var9 = ASprite._text_w;
-				int var12 = i == 2 && this.currentMenu == 0 ? 152 : 210;
+				int var12 = i == 2 && this.crtMenu == 0 ? 152 : 210;
 				if (var9 > var12) {
 					var14 = true;
 					var9 = var12;
@@ -5848,7 +5893,7 @@ public final class cGame extends GameCanvas implements Runnable {
 				}
 
 				field_320[41]._crt_pal = var8;
-				field_320[41].DrawString(this.field_314, menuText[menuData[this.currentMenu][i * 2 + 1]], 120 - var9 / 2 - var11, var7 + 1, 6);
+				field_320[41].DrawString(this.field_314, menuText[menuData[this.crtMenu][i * 2 + 1]], 120 - var9 / 2 - var11, var7 + 1, 6);
 				if (var14) {
 					this.field_314.setClip(0, 0, 240, 320);
 				}
@@ -5877,20 +5922,20 @@ public final class cGame extends GameCanvas implements Runnable {
 			this.field_424 -= 1;
 		}
 
-		if (this.field_424 == 0 && this.field_423 + 1 < this.field_419) {
+		if (this.field_424 == 0 && this.field_423 + 1 < this.crtMenuItems) {
 			this.field_423++;
 		}
 
 		this.field_314.setClip(0, 0, 240, 320);
-		if (this.currentMenu == 0 && this.field_473) {
+		if (this.crtMenu == 0 && this.field_473) {
 			if (this.field_418 % 20 >= 10) {
 				field_320[18].PaintFrame(this.field_314, 1, 1, var1 + 30 + 7 - (this.field_432 ? 0 : 15), 0, 0, 6);
 			} else if (this.currentMenuSelection != 2) {
 				if (field_428 == null) {
 					int var20 = var1 + 30 + 1 - (this.field_432 ? 0 : 15);
 					field_428 = Image.createImage(28, 14);
-					Graphics var21;
-					(var21 = field_428.getGraphics()).translate(-1, -var20);
+					Graphics var21 = field_428.getGraphics();
+					var21.translate(-1, -var20);
 					this.drawSplash(var21, false);
 					var21.translate(1, var20);
 
@@ -5903,7 +5948,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			}
 		}
 
-		if (this.currentMenu != 0 && this.currentMenu != 3 && this.currentMenu != 1 && this.currentMenu != 7) {
+		if (this.crtMenu != 0 && this.crtMenu != 3 && this.crtMenu != 1 && this.crtMenu != 7) {
 			this.drawBackButton();
 		}
 
@@ -5918,7 +5963,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			this.field_425 = -1;
 			this.field_170 = true;
 			this.field_427 = -1;
-			this.method_82();
+			this.menuSelectionHandler();
 		}
 
 	}
@@ -7302,7 +7347,7 @@ public final class cGame extends GameCanvas implements Runnable {
 	private void method_216() {
 		if (isKeyPressed(SKEY_RSH)) {
 			field_222 = 4;
-			this.openSubmenu(4);
+			this.openMenu(4);
 		}
 
 		keysPressed = 0;
@@ -7387,9 +7432,9 @@ public final class cGame extends GameCanvas implements Runnable {
 			case 30:
 				if (isKeyPressed(SKEY_NUM5|SKEY_CENTER)) {
 					field_222 = 4;
-					if (this.currentMenu == -1) {
+					if (this.crtMenu == -1) {
 						this.field_223 = 0;
-						this.openSubmenu(0);
+						this.openMenu(0);
 					} else {
 						this.field_223 = 2;
 					}
@@ -7402,7 +7447,7 @@ public final class cGame extends GameCanvas implements Runnable {
 					this.field_266 = 0;
 					this.field_265 = 8;
 					field_222 = 9;
-					this.openSubmenu(-1);
+					this.openMenu(-1);
 				} else if (isKeyPressed(SKEY_NUM5|SKEY_CENTER_ALT|SKEY_CENTER|SKEY_LSH)) {
 					this.method_218();
 				}
@@ -7442,17 +7487,17 @@ public final class cGame extends GameCanvas implements Runnable {
 	// $FF: renamed from: aS () void
 	private void method_219() {
 		if (isKeyPressed(SKEY_RSH)) {
-			if (this.currentMenu == 0) {
+			if (this.crtMenu == 0) {
 				field_222 = 4;
-				this.openSubmenu(0);
+				this.openMenu(0);
 				this.field_353.method_58(19);
 			}
 
-			if (this.currentMenu == 1) {
+			if (this.crtMenu == 1) {
 				field_222 = 2;
 				field_429 = true;
 				this.field_170 = true;
-				this.openSubmenu(1);
+				this.openMenu(1);
 			}
 		}
 
@@ -7496,7 +7541,7 @@ public final class cGame extends GameCanvas implements Runnable {
 					this.method_95();
 					field_222 = 9;
 					this.field_265 = 8;
-					this.openSubmenu(-1);
+					this.openMenu(-1);
 					this.field_266 = 0;
 				}
 
@@ -8011,7 +8056,7 @@ public final class cGame extends GameCanvas implements Runnable {
 				}
 
 				this.selectPreviousMenuItem();
-				if (this.currentMenu == 0 && this.currentMenuSelection == 1 && !this.field_432) {
+				if (this.crtMenu == 0 && this.currentMenuSelection == 1 && !this.field_432) {
 					this.selectPreviousMenuItem();
 				}
 			} else if (isKeyPressed(SKEY_NUM8|SKEY_DOWN)) {
@@ -8020,7 +8065,7 @@ public final class cGame extends GameCanvas implements Runnable {
 				}
 
 				this.selectNextMenuItem();
-				if (this.currentMenu == 0 && this.currentMenuSelection == 1 && !this.field_432) {
+				if (this.crtMenu == 0 && this.currentMenuSelection == 1 && !this.field_432) {
 					this.selectNextMenuItem();
 				}
 			} else if (isKeyPressed(SKEY_NUM5|SKEY_CENTER_ALT|SKEY_CENTER|SKEY_LSH)) {
@@ -8038,7 +8083,7 @@ public final class cGame extends GameCanvas implements Runnable {
 
 	// $FF: renamed from: bc () void
 	private void method_229() {
-		switch (this.currentMenu) {
+		switch (this.crtMenu) {
 		case -1:
 			return;
 		case 0:
@@ -8048,24 +8093,24 @@ public final class cGame extends GameCanvas implements Runnable {
 			break;
 		case 2:
 			field_222 = 9;
-			this.openSubmenu(0);
+			this.openMenu(0);
 			this.field_265 = 8;
 			this.field_266 = 0;
 			return;
 		case 4:
-			this.openSubmenu(2);
+			this.openMenu(2);
 			break;
 		case 5:
 			field_429 = true;
 			field_430 = false;
 			if (field_222 == 2) {
-				this.openSubmenu(1);
+				this.openMenu(1);
 				this.method_96();
 				field_430 = true;
 			}
 
 			if (field_222 == 4) {
-				this.openSubmenu(0);
+				this.openMenu(0);
 				this.method_433(19);
 				return;
 			}
@@ -11335,7 +11380,7 @@ public final class cGame extends GameCanvas implements Runnable {
 	private void method_290() {
 		field_222 = 2;
 		field_429 = true;
-		this.openSubmenu(1);
+		this.openMenu(1);
 		this.method_96();
 		if (field_320[18] == null) {
 			field_320[18] = loadGfxFile("/ui.f", 3);
@@ -11377,7 +11422,7 @@ public final class cGame extends GameCanvas implements Runnable {
 		this.noKeysPressed = true;
 		keysPressed = 0;
 		this.field_425 = -1;
-		if (this.currentMenu == 7) {
+		if (this.crtMenu == 7) {
 			this.currentMenuSelection = 0;
 		}
 
@@ -11423,7 +11468,7 @@ public final class cGame extends GameCanvas implements Runnable {
 		case 2:
 			field_513 = null;
 			this.field_170 = true;
-			if (this.currentMenu == 1) {
+			if (this.crtMenu == 1) {
 				this.currentMenuSelection = 0;
 				return;
 			}
@@ -18431,7 +18476,7 @@ public final class cGame extends GameCanvas implements Runnable {
 	 * @param targetNum The ID of the index being modified (represented as the first byte in the pair)
 	 * @param index The new text index
 	 */
-	private static void setMenuTextIndex(int menu, int targetNum, short index) {
+	private static void setMenuItemText(int menu, int targetNum, short index) {
 		for (int i = 0; i < menuData[menu].length; i += 2) {
 			if (targetNum == menuData[menu][i]) {
 				menuData[menu][i + 1] = index;
@@ -18527,7 +18572,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			System.gc();
 			field_222 = 4;
 			this.field_223 = 2;
-			this.openSubmenu(0);
+			this.openMenu(0);
 			this.field_353.method_58(19);
 		}
 
@@ -18748,6 +18793,8 @@ public final class cGame extends GameCanvas implements Runnable {
 		field_467 = false;
 		field_501 = new long[15];
 		field_502 = new long[15];
+		
+		// Each option is a pair of values with the first value being the number of the option and the second being the number of the string
 		menuData = new short[][]{{0, 0, 1, 1, 6, 3, 2, 2, 3, 4, 4, 5, 5, 6},
 			{0, 25, 1, 26, 2, 2, 6, 4, 3, 49, 4, 27, 5, 6},
 			{0, 28, 1, 29, 2, 30, 3, 31},
@@ -18756,10 +18803,10 @@ public final class cGame extends GameCanvas implements Runnable {
 			{0, 33, 1, 50},
 			{0, 25, 4, 27},
 			{0, 101, 1, 100}};
-			field_562 = new int[]{28, 29, 30};
-			field_563 = new int[][]{{8, 9, 10, 11, 12, 14, 15, 16, 17, 20, 21, 22, 23}, {8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 20, 21, 22}, {8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 20, 21, 22, 47}};
-			field_565 = null;
-			field_566 = new String[]{"/w0.bin", "/w1.bin", "/w2.bin"};
-			field_567 = 0;
+		field_562 = new int[]{28, 29, 30};
+		field_563 = new int[][]{{8, 9, 10, 11, 12, 14, 15, 16, 17, 20, 21, 22, 23}, {8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 20, 21, 22}, {8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 20, 21, 22, 47}};
+		field_565 = null;
+		field_566 = new String[]{"/w0.bin", "/w1.bin", "/w2.bin"};
+		field_567 = 0;
 	}
 }
