@@ -1178,7 +1178,7 @@ public final class cGame extends GameCanvas implements Runnable {
 						}
 
 						this.field_233 = this.field_233 & -113 | var2;
-						this.method_433(5);
+						this.method_433(cSoundEngine.SOUND_SFX_HERO_HURT);
 						switch (var2) {
 						case 16:
 							this.field_190 = this.field_191 = 0;
@@ -1455,7 +1455,7 @@ public final class cGame extends GameCanvas implements Runnable {
 						this.field_371 = true;
 					}
 
-					this.field_353.method_58(19);
+					this.field_353.playSound(cSoundEngine.SOUND_M_TITLE);
 				}
 			} catch (Exception var3) {
 			}
@@ -1522,7 +1522,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			if (this.field_266 == 12) {
 				field_222 = 17;
 				this.field_223 = 0;
-				this.method_433(15);
+				this.method_433(cSoundEngine.SOUND_M_LEVEL_CLEAR);
 				return;
 			}
 		}
@@ -1612,7 +1612,7 @@ public final class cGame extends GameCanvas implements Runnable {
 				GemsRain.field_29 = new byte[12][13];
 				this.field_145++;
 				GemsRain.method_17(3);
-				this.field_353.method_58(19);
+				this.field_353.playSound(cSoundEngine.SOUND_M_TITLE);
 				this.method_65();
 				return;
 			}
@@ -1640,7 +1640,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			this.openMenu(0);
 			field_222 = 22;
 			this.field_223 = 0;
-			this.field_353.method_59();
+			this.field_353.freeCrtPlayerResource();
 		}
 
 	}
@@ -1752,7 +1752,7 @@ public final class cGame extends GameCanvas implements Runnable {
 				(var6 = loadGfxFileInit("/cm.f", 2, 0)).BuildCacheImages(0, 0, -1, -1);
 				var6.BuildCacheImages(1, 0, 0, -1);
 				field_320[59] = var6;
-				GemsRain.frames = var6._modules_image[0].length;
+				GemsRain.framesCount = var6._modules_image[0].length;
 				var6._modules_data = null;
 				if (field_320[17] == null) {
 					field_320[17] = loadGfxFile("/ms.f", 0);
@@ -1925,7 +1925,7 @@ public final class cGame extends GameCanvas implements Runnable {
 					case 0:
 						this.field_372 = true;
 						this.field_373 = true;
-						this.field_353.method_59();
+						this.field_353.freeCrtPlayerResource();
 						this.currentWorld = 0;
 						this.field_155 = false;
 						field_222 = 15;
@@ -1936,7 +1936,7 @@ public final class cGame extends GameCanvas implements Runnable {
 						if (method_73(this.crtSelectSealItem)) {
 							this.field_372 = true;
 							this.field_373 = true;
-							this.field_353.method_59();
+							this.field_353.freeCrtPlayerResource();
 							this.currentWorld = 1;
 							this.currentLevel = 0;
 							field_222 = 15;
@@ -1953,7 +1953,7 @@ public final class cGame extends GameCanvas implements Runnable {
 						if (method_73(this.crtSelectSealItem)) {
 							this.field_372 = true;
 							this.field_373 = true;
-							this.field_353.method_59();
+							this.field_353.freeCrtPlayerResource();
 							this.currentWorld = 2;
 							this.currentLevel = 0;
 							this.field_155 = false;
@@ -2266,7 +2266,7 @@ public final class cGame extends GameCanvas implements Runnable {
 										this.field_329 = false;
 										field_322 = null;
 										System.gc();
-										this.field_353.method_58(16 + this.currentWorld); //Play intro theme for current world
+										this.field_353.playSound(cSoundEngine.SOUND_M_WORLDS_INIT + this.currentWorld); //Play intro theme for current world
 										field_222 = 1;
 									}
 
@@ -2426,11 +2426,11 @@ public final class cGame extends GameCanvas implements Runnable {
 		case 0:
 			cSoundEngine.soundEnabled = !cSoundEngine.soundEnabled;
 			if (cSoundEngine.soundEnabled) {
-				this.method_433(0);
+				this.method_433(cSoundEngine.SOUND_SFX_SWITCH);
 				setMenuItemText(5, 0, (short) 32); // Set sound text to on
 			} else {
-				this.field_353.method_59();
-				this.field_353.method_59();
+				this.field_353.freeCrtPlayerResource();
+				this.field_353.freeCrtPlayerResource();
 				setMenuItemText(5, 0, (short) 33); // Set sound text to off
 			}
 			break;
@@ -2519,7 +2519,7 @@ public final class cGame extends GameCanvas implements Runnable {
 	private void sealMenuSelectionHandler() {
 		switch (this.getSelectedMenuItem()) {
 		case 0:
-			this.field_353.method_59();
+			this.field_353.freeCrtPlayerResource();
 			this.currentWorld = 0;
 			this.field_155 = false;
 			field_222 = 15;
@@ -2528,7 +2528,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			this.method_408();
 			return;
 		case 1:
-			this.field_353.method_59();
+			this.field_353.freeCrtPlayerResource();
 			this.currentWorld = 1;
 			this.currentLevel = 0;
 			field_222 = 15;
@@ -2543,7 +2543,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			}
 			break;
 		case 2:
-			this.field_353.method_59();
+			this.field_353.freeCrtPlayerResource();
 			this.currentWorld = 2;
 			this.currentLevel = 0;
 			this.field_155 = false;
@@ -2602,7 +2602,7 @@ public final class cGame extends GameCanvas implements Runnable {
 		switch (this.getSelectedMenuItem()) {
 		// Continue
 		case 1:
-			this.field_353.method_59();
+			this.field_353.freeCrtPlayerResource();
 			this.method_109();
 			if (field_330 != null && method_105()) {
 				this.field_167 = 0;
@@ -2614,7 +2614,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			}
 		// New Game
 		case 0:
-			this.field_353.method_59();
+			this.field_353.freeCrtPlayerResource();
 			if (!method_105()) {
 				this.method_218();
 				return;
@@ -2627,19 +2627,19 @@ public final class cGame extends GameCanvas implements Runnable {
 		// Options
 		case 2:
 			this.openMenu(5);
-			this.field_353.method_59();
+			this.field_353.freeCrtPlayerResource();
 			return;
 		// Help
 		case 3:
 			field_222 = 33;
-			this.field_353.method_59();
+			this.field_353.freeCrtPlayerResource();
 			this.field_557 = true;
 			return;
 		// About
 		case 4:
 			field_222 = 22;
 			this.field_223 = 0;
-			this.field_353.method_59();
+			this.field_353.freeCrtPlayerResource();
 			return;
 		// Exit
 		case 5:
@@ -7490,7 +7490,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			if (this.crtMenu == 0) {
 				field_222 = 4;
 				this.openMenu(0);
-				this.field_353.method_58(19);
+				this.field_353.playSound(cSoundEngine.SOUND_M_TITLE);
 			}
 
 			if (this.crtMenu == 1) {
@@ -7822,7 +7822,7 @@ public final class cGame extends GameCanvas implements Runnable {
 								if ((field_332[this.playerXPos][this.playerYPos] & 255) == 4) {
 									this.method_347();
 								} else {
-									this.method_433(2);
+									this.method_433(cSoundEngine.SOUND_SFX_DEATH);
 									this.method_211(19);
 								}
 							}
@@ -7837,7 +7837,7 @@ public final class cGame extends GameCanvas implements Runnable {
 								if ((field_332[this.playerXPos][this.playerYPos] & 255) == 4) {
 									this.method_347();
 								} else {
-									this.method_433(2);
+									this.method_433(cSoundEngine.SOUND_SFX_DEATH);
 									this.method_211(19);
 								}
 							}
@@ -7848,7 +7848,7 @@ public final class cGame extends GameCanvas implements Runnable {
 					} else {
 						keysPressed = 0;
 						if (this.field_293 == this.playerXPos && this.field_294 == this.playerYPos && (field_332[this.playerXPos][this.playerYPos] & 255) == 4) {
-							this.method_433(9);
+							this.method_433(cSoundEngine.SOUND_SFX_CHECKPOINT);
 							this.method_347();
 						} else {
 							int var21 = field_500 == null ? 0 : method_373(field_500[this.playerXPos][this.playerYPos], (byte)0, (byte)3, (byte)4);;
@@ -8111,7 +8111,7 @@ public final class cGame extends GameCanvas implements Runnable {
 
 			if (field_222 == 4) {
 				this.openMenu(0);
-				this.method_433(19);
+				this.method_433(cSoundEngine.SOUND_M_TITLE);
 				return;
 			}
 		}
@@ -8158,7 +8158,7 @@ public final class cGame extends GameCanvas implements Runnable {
 		case 30:
 			var5 = true;
 			if (field_333[var1][var2] == 0) {
-				this.method_433(11);
+				this.method_433(cSoundEngine.SOUND_SFX_BREAK);
 				field_333[var1][var2] = 1;
 			}
 			break;
@@ -8171,7 +8171,7 @@ public final class cGame extends GameCanvas implements Runnable {
 
 		if (var7) {
 			vibrate(200);
-			this.method_433(6);
+			this.method_433(cSoundEngine.SOUND_SFX_HAMMER_HIT_UNBREAKABLE);
 			this.method_211(41 + (this.field_233 & 7) - 1);
 		}
 
@@ -8203,7 +8203,7 @@ public final class cGame extends GameCanvas implements Runnable {
 						}
 
 						if (var13) {
-							this.method_433(10);
+							this.method_433(cSoundEngine.SOUND_SFX_ENEMY_HURT);
 						}
 					}
 
@@ -8277,7 +8277,7 @@ public final class cGame extends GameCanvas implements Runnable {
 		if (this.field_487 == 3) {
 			int var1 = field_332[this.playerXPos][this.playerYPos] & 255;
 			if (this.field_311 == 0 && var1 != 15 && var1 != 16) {
-				this.method_433(0);
+				this.method_433(cSoundEngine.SOUND_SFX_SWITCH);
 				this.field_311 = (this.field_310 <= 0) ? 1 : -1;
 			}
 
@@ -8323,7 +8323,7 @@ public final class cGame extends GameCanvas implements Runnable {
 	private void method_235(int var1, int var2) {
 		switch (field_334[var1][var2]) {
 		case 0:
-			this.method_433(11);
+			this.method_433(cSoundEngine.SOUND_SFX_BREAK);
 		case 19:
 		case 43:
 		case 45:
@@ -8476,7 +8476,7 @@ public final class cGame extends GameCanvas implements Runnable {
 
 		if (this.field_232 <= 0 && this.field_235) {
 			this.field_235 = false;
-			this.method_433(9);
+			this.method_433(cSoundEngine.SOUND_SFX_CHECKPOINT);
 
 			try {
 				Thread.sleep(100L);
@@ -9270,7 +9270,7 @@ public final class cGame extends GameCanvas implements Runnable {
 				}
 
 				field_332[var2][var3] = var5 << 8 | var4;
-				this.method_433(8);
+				this.method_433(cSoundEngine.SOUND_SFX_WORKING);
 			}
 		}
 	}
@@ -9292,7 +9292,7 @@ public final class cGame extends GameCanvas implements Runnable {
 		if ((field_332[var1][var2] & 255) == 7) {
 			if ((var3 & 240) != 0) {
 				if (field_334[var1][var2] != 32) {
-					this.method_433(14);
+					this.method_433(cSoundEngine.SOUND_SFX_BOULDER);
 					var3 &= -241;
 					field_332[var1][var2] = var3 << 8 | 7;
 					this.method_297(var1, var2 - 1, 1, 0, 0);
@@ -9301,7 +9301,7 @@ public final class cGame extends GameCanvas implements Runnable {
 						this.field_241 = 0L;
 						this.field_254 = 0;
 						this.method_61(field_330[8], 48, 0);
-						this.method_433(2);
+						this.method_433(cSoundEngine.SOUND_SFX_DEATH);
 					} else {
 						switch (field_334[var1][var2]) {
 						case 0:
@@ -9547,7 +9547,7 @@ public final class cGame extends GameCanvas implements Runnable {
 						this.field_196 = this.field_197 = 0;
 						if (var2._nCrtTime == 0) {
 							if (var2._nCrtAFrame == (var2._nCrtAnim == 40 ? 12 : 6)) {
-								this.method_433(4);
+								this.method_433(cSoundEngine.SOUND_SFX_CHEST_2);
 							}
 
 							if (var2._nCrtAFrame == (var2._nCrtAnim == 40 ? 13 : 6)) {
@@ -9619,7 +9619,7 @@ public final class cGame extends GameCanvas implements Runnable {
 	private int method_261() {
 		int var1 = 0;
 		if (this.field_239 <= 0) {
-			this.method_433(2);
+			this.method_433(cSoundEngine.SOUND_SFX_DEATH);
 			var1 = 12;
 			this.field_240 = 80;
 		} else {
@@ -9865,7 +9865,7 @@ public final class cGame extends GameCanvas implements Runnable {
 				this.field_180 = 15;
 				this.method_335(11, 11);
 			} else {
-				this.field_353.method_58(7);
+				this.field_353.playSound(cSoundEngine.SOUND_SFX_MINE);
 			}
 		} else {
 			if (this.field_180 == -1) {
@@ -10129,7 +10129,7 @@ public final class cGame extends GameCanvas implements Runnable {
 							field_334[var8][var7] = 30;
 							field_336[var8][var7] = 24;
 							field_333[var8][var7] = 4;
-							this.method_433(14);
+							this.method_433(cSoundEngine.SOUND_SFX_BOULDER);
 						}
 					}
 				}
@@ -10306,7 +10306,7 @@ public final class cGame extends GameCanvas implements Runnable {
 				this.field_139 = this.field_180;
 				this.field_180 = 3;
 				var2 = 3;
-				this.method_433(10);
+				this.method_433(cSoundEngine.SOUND_SFX_ENEMY_HURT);
 			}
 
 			if (this.field_181 > 15 && var1._nCrtAnim != 6) {
@@ -10386,7 +10386,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			}
 
 			if ((this.field_181 & 111) == 1) {
-				this.method_433(7);
+				this.method_433(cSoundEngine.SOUND_SFX_MINE);
 			}
 		case 8:
 		default:
@@ -10515,7 +10515,7 @@ public final class cGame extends GameCanvas implements Runnable {
 				this.field_180 = 15;
 				this.method_335(11, 11);
 			} else {
-				this.field_353.method_58(7);
+				this.field_353.playSound(cSoundEngine.SOUND_SFX_MINE);
 			}
 		} else {
 			if (this.field_180 == -1) {
@@ -10793,7 +10793,7 @@ public final class cGame extends GameCanvas implements Runnable {
 							field_334[var19][var13] = 30;
 							field_336[var19][var13] = 24;
 							field_333[var19][var13] = 4;
-							this.method_433(14);
+							this.method_433(cSoundEngine.SOUND_SFX_BOULDER);
 						}
 					}
 				}
@@ -11397,7 +11397,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			this.field_456 = true;
 		}
 
-		this.field_353.method_59();
+		this.field_353.freeCrtPlayerResource();
 	}
 
 	public final void showNotify() {
@@ -11485,7 +11485,7 @@ public final class cGame extends GameCanvas implements Runnable {
 		case 4:
 		case 30:
 			if (this.field_456) {
-				this.field_353.method_58(19);
+				this.field_353.playSound(cSoundEngine.SOUND_M_TITLE);
 				return;
 			}
 
@@ -12409,7 +12409,7 @@ public final class cGame extends GameCanvas implements Runnable {
 
 	// $FF: renamed from: v (int) void
 	private void method_302(int var1) {
-		this.method_433(1);
+		this.method_433(cSoundEngine.SOUND_SFX_RIDDLE);
 		int var2 = this.crtLevelWidth - 1;
 		int var3 = this.crtLevelHeight - 1;
 
@@ -12458,7 +12458,7 @@ public final class cGame extends GameCanvas implements Runnable {
 
 	// $FF: renamed from: w (int) void
 	private void method_303(int var1) {
-		this.method_433(8);
+		this.method_433(cSoundEngine.SOUND_SFX_WORKING);
 		int var2 = this.crtLevelWidth - 1;
 		int var3 = this.crtLevelHeight - 1;
 
@@ -13306,11 +13306,11 @@ public final class cGame extends GameCanvas implements Runnable {
 						var5 = false;
 						break;
 					case 30:
-						this.method_433(11);
+						this.method_433(cSoundEngine.SOUND_SFX_BREAK);
 						field_333[var1][var2 + 1] = 1;
 						break;
 					default:
-						this.method_433(14);
+						this.method_433(cSoundEngine.SOUND_SFX_BOULDER);
 					}
 				}
 			}
@@ -13405,7 +13405,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			method_345(var1, var2);
 		} else {
 			if (var3 == 1) {
-				this.method_433(7);
+				this.method_433(cSoundEngine.SOUND_SFX_MINE);
 				method_345(var1, var2);
 			} else if (var3 == var5 >> 1) {
 				for (int var6 = -1; var6 < 2; ++var6) {
@@ -13486,7 +13486,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			field_345 = field_332[this.field_279][this.field_280] >> 8;
 			this.method_258(this.playerXPos + field_325[this.field_233 & 7], this.playerYPos);
 			if (field_345 >= 0 && field_345 < field_344.length) {
-				this.method_433(1);
+				this.method_433(cSoundEngine.SOUND_SFX_RIDDLE);
 				this.field_342 = 1;
 				this.method_302(field_345);
 			} else {
@@ -14014,7 +14014,7 @@ public final class cGame extends GameCanvas implements Runnable {
 	private void method_326() {
 		int var1;
 		if ((var1 = (field_332[this.field_279][this.field_280] & -268435456) >> 28) == 0) {
-			this.method_433(10);
+			this.method_433(cSoundEngine.SOUND_SFX_ENEMY_HURT);
 		}
 
 		if ((frameCounter & 1) == 0) {
@@ -14360,7 +14360,7 @@ public final class cGame extends GameCanvas implements Runnable {
 					case 47:
 					case 48:
 					case 49:
-						this.method_433(12);
+						this.method_433(cSoundEngine.SOUND_SFX_HOOKING);
 						this.field_251 = 0;
 						this.field_254 = this.playerXPos - (var1 + var4) + var10;
 						this.field_252 = var1 + var4;
@@ -14677,7 +14677,7 @@ public final class cGame extends GameCanvas implements Runnable {
 		}
 
 		if (this.method_343(var1, var2)) {
-			this.method_433(14);
+			this.method_433(cSoundEngine.SOUND_SFX_BOULDER);
 			field_334[var1][var2 + var4] = -1;
 			this.method_335(var1, var2 + var4);
 			field_334[var1][var2 + var3] = -1;
@@ -14858,7 +14858,7 @@ public final class cGame extends GameCanvas implements Runnable {
 					}
 
 					var10000.method_211(var10001);
-					this.method_433(3);
+					this.method_433(cSoundEngine.SOUND_SFX_CHEST_1);
 					return;
 				}
 			} else if ((frameCounter >> 1 & 1) == 0 && field_320[var1 == 14 ? 8 : 22] != null && var4 < field_320[var1 == 14 ? 8 : 22].GetAFrames(0) - 1) {
@@ -15249,7 +15249,7 @@ public final class cGame extends GameCanvas implements Runnable {
 							if (var11 == var7) {
 								if ((var5 == 0 || var5 == 9) && var6 > 0 && !method_309(var1, var2 + 1)) {
 									vibrate(200);
-									this.method_433(14);
+									this.method_433(cSoundEngine.SOUND_SFX_BOULDER);
 									this.field_255 = 10;
 									if (var5 == 9 && this.field_234 > 0 && this.method_298(var1, var2)) {
 										this.method_61(1, 0, 0);
@@ -15563,7 +15563,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			this.method_95();
 			this.field_472 = new IGA();
 			this.method_365();
-			this.field_353.method_59();
+			this.field_353.freeCrtPlayerResource();
 			method_363(1);
 			this.field_473 = false;
 			break;
@@ -16712,7 +16712,7 @@ public final class cGame extends GameCanvas implements Runnable {
 
 			if (this.field_483 != 0) {
 				this.field_487 = 5;
-				this.method_433(13);
+				this.method_433(cSoundEngine.SOUND_SFX_WATER);
 				this.field_481 = var1;
 				this.field_482 = var2;
 			}
@@ -18488,7 +18488,7 @@ public final class cGame extends GameCanvas implements Runnable {
 
 	// $FF: renamed from: C (int) void
 	private void method_433(int var1) {
-		this.field_353.method_58(var1);
+		this.field_353.playSound(var1);
 	}
 
 	// $FF: renamed from: cH () void
@@ -18573,7 +18573,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			field_222 = 4;
 			this.field_223 = 2;
 			this.openMenu(0);
-			this.field_353.method_58(19);
+			this.field_353.playSound(cSoundEngine.SOUND_M_TITLE);
 		}
 
 	}

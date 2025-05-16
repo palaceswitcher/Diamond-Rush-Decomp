@@ -7,26 +7,54 @@ import javax.microedition.media.control.VolumeControl;
 
 // $FF: renamed from: h
 public final class cSoundEngine implements Runnable, PlayerListener {
+	/* Sound IDs */
+	final static int SOUND_SFX_SWITCH = 0;
+	final static int SOUND_SFX_RIDDLE = 1;
+	final static int SOUND_SFX_DEATH = 2;
+	final static int SOUND_SFX_CHEST_1 = 3;
+	final static int SOUND_SFX_CHEST_2 = 4;
+	final static int SOUND_SFX_HERO_HURT = 5;
+	final static int SOUND_SFX_HAMMER_HIT_UNBREAKABLE = 6;
+	final static int SOUND_SFX_MINE = 7;
+	final static int SOUND_SFX_WORKING = 8;
+	final static int SOUND_SFX_CHECKPOINT = 9;
+	final static int SOUND_SFX_ENEMY_HURT = 10;
+	final static int SOUND_SFX_BREAK = 11;
+	final static int SOUND_SFX_HOOKING = 12;
+	final static int SOUND_SFX_WATER = 13;
+	final static int SOUND_SFX_BOULDER = 14;
+	final static int SOUND_M_LEVEL_CLEAR = 15;
+	final static int SOUND_M_WORLDS_INIT = 16;
+	final static int SOUND_M_GERMANY = 17;
+	final static int SOUND_M_TIBET = 18;
+	final static int SOUND_M_TITLE = 19;
+	final static int SOUND_M_GAMEOVER = 20;
+
+	/* Number of sounds */
+	final static int TOTAL_SOUNDS = 21;
+
+	final static int SOUND_VOLUME = 100;
+
 	// $FF: renamed from: a int
-	public static int field_78 = -1;
+	public static int crtSoundId = -1;
 	// $FF: renamed from: b int
-	public static int field_79 = -1;
+	public static int newSoundId = -1;
 	// $FF: renamed from: c int
-	public static int field_80;
+	public static int crtSoundPriority;
 	// $FF: renamed from: d int
-	public static int field_81;
+	public static int newSoundPriority;
 	// $FF: renamed from: e int
-	public static int field_82 = -1;
+	public static int previousSoundId = -1;
 	// $FF: renamed from: a long
-	public long field_83 = 0L;
+	public long soundLoopStartTime = 0L;
 	// $FF: renamed from: a javax.microedition.media.Player[]
 	public static Player[] midiPlayers;
 	// $FF: renamed from: a boolean
 	public static boolean soundEnabled;
 	// $FF: renamed from: b boolean
-	public static boolean field_86;
+	public static boolean stopSoundThreadLoop;
 	// $FF: renamed from: c boolean
-	public static boolean field_87 = false;
+	public static boolean needFreeCrtPlayerResource = false;
 	// $FF: renamed from: a java.io.ByteArrayInputStream
 	public ByteArrayInputStream midiByteStream;
 	// $FF: renamed from: a java.io.InputStream
@@ -34,26 +62,26 @@ public final class cSoundEngine implements Runnable, PlayerListener {
 	// $FF: renamed from: a byte[]
 	public byte[] sndFileMetadata;
 	// $FF: renamed from: a java.lang.Thread
-	public Thread field_91;
+	public Thread soundThread;
 
 	// $FF: renamed from: a (int) void
 	/**
-	 * Plays a specific MIDI track.
-	 * @param trackNum The MIDI being played
+	 * Loads a specific MIDI track.
+	 * @param soundId The MIDI will load
 	 */
-	public final void method_51(int trackNum) {
+	public final void method_51(int soundId) {
 		if (midiPlayers == null) {
 			midiPlayers = new Player[21]; //Initialize players for each MIDI
 		}
 
 		try {
-			byte[] midiFile = new byte[cGame.getShortFromBytes(this.sndFileMetadata, trackNum * 8 + 4)]; //Get size of song's MIDI
+			byte[] midiFile = new byte[cGame.getShortFromBytes(this.sndFileMetadata, soundId * 8 + 4)]; //Get size of song's MIDI
 			this.sndFileStream.read(midiFile);
 			this.midiByteStream = new ByteArrayInputStream(midiFile);
-			midiPlayers[trackNum] = Manager.createPlayer(this.midiByteStream, "audio/midi");
-			midiPlayers[trackNum].addPlayerListener(this);
-			midiPlayers[trackNum].realize();
-			((VolumeControl)midiPlayers[trackNum].getControl("VolumeControl")).setLevel(100); //Play at full volume
+			midiPlayers[soundId] = Manager.createPlayer(this.midiByteStream, "audio/midi");
+			midiPlayers[soundId].addPlayerListener(this);
+			midiPlayers[soundId].realize();
+			((VolumeControl)midiPlayers[soundId].getControl("VolumeControl")).setLevel(SOUND_VOLUME); //Play at full volume
 			this.midiByteStream.close();
 			this.midiByteStream = null;
 			System.gc();
@@ -63,10 +91,10 @@ public final class cSoundEngine implements Runnable, PlayerListener {
 
 	// $FF: renamed from: a () void
 	public final void method_52() {
-		field_86 = false;
-		this.field_91 = new Thread(this);
-		this.field_91.setPriority(1);
-		this.field_91.start();
+		stopSoundThreadLoop = false;
+		this.soundThread = new Thread(this);
+		this.soundThread.setPriority(1);
+		this.soundThread.start();
 	}
 
 	// $FF: renamed from: b () void
@@ -78,7 +106,7 @@ public final class cSoundEngine implements Runnable, PlayerListener {
 			try {
 				this.sndFileStream = this.getClass().getResourceAsStream("/snd.f");
 				this.sndFileStream.skip(1L); //Ignore file count
-				this.sndFileMetadata = new byte[168]; //Metadata size for MIDI data
+				this.sndFileMetadata = new byte[TOTAL_SOUNDS << 3]; //Metadata size for MIDI data
 				this.sndFileStream.read(this.sndFileMetadata); //Load MIDI file pack metadata
 				return;
 			} catch (Exception var2) {
@@ -91,9 +119,9 @@ public final class cSoundEngine implements Runnable, PlayerListener {
 	// $FF: renamed from: c () void
 	public final void method_54() {
 		try {
-			field_78 = -1;
-			field_82 = -1;
-			field_80 = 0;
+			crtSoundId = -1;
+			previousSoundId = -1;
+			crtSoundPriority = 0;
 			this.sndFileStream.close();
 			this.sndFileStream = null;
 			this.sndFileMetadata = null;
@@ -105,7 +133,7 @@ public final class cSoundEngine implements Runnable, PlayerListener {
 	// $FF: renamed from: d () void
 	public final void method_55() {
 		if (midiPlayers != null) {
-			this.method_59();
+			this.freeCrtPlayerResource();
 			int var1 = midiPlayers.length;
 
 			for(int var2 = 0; var2 < var1; ++var2) {
@@ -117,35 +145,35 @@ public final class cSoundEngine implements Runnable, PlayerListener {
 		}
 
 		midiPlayers = null;
-		field_86 = true;
+		stopSoundThreadLoop = true;
 	}
 
 	// $FF: renamed from: a (int) int
-	private static int method_56(int var0) {
-		switch (var0) {
-			case 0:
-			case 5:
-			case 6:
-			case 10:
-			case 14:
+	private static int getSoundPriority(int soundId) {
+		switch (soundId) {
+			case SOUND_SFX_SWITCH:
+			case SOUND_SFX_HERO_HURT:
+			case SOUND_SFX_HAMMER_HIT_UNBREAKABLE:
+			case SOUND_SFX_ENEMY_HURT:
+			case SOUND_SFX_BOULDER:
 				return 10;
-			case 1:
-			case 2:
-			case 4:
-			case 15:
-			case 16:
-			case 17:
-			case 18:
-			case 19:
-			case 20:
+			case SOUND_SFX_RIDDLE:
+			case SOUND_SFX_DEATH:
+			case SOUND_SFX_CHEST_2:
+			case SOUND_M_LEVEL_CLEAR:
+			case SOUND_M_WORLDS_INIT:
+			case SOUND_M_GERMANY:
+			case SOUND_M_TIBET:
+			case SOUND_M_TITLE:
+			case SOUND_M_GAMEOVER:
 				return 30;
-			case 3:
-			case 7:
-			case 8:
-			case 9:
-			case 11:
-			case 12:
-			case 13:
+			case SOUND_SFX_CHEST_1:
+			case SOUND_SFX_MINE:
+			case SOUND_SFX_WORKING:
+			case SOUND_SFX_CHECKPOINT:
+			case SOUND_SFX_BREAK:
+			case SOUND_SFX_HOOKING:
+			case SOUND_SFX_WATER:
 				return 20;
 			default:
 				return 0;
@@ -153,77 +181,70 @@ public final class cSoundEngine implements Runnable, PlayerListener {
 	}
 
 	// $FF: renamed from: a (int) boolean
-	/**
-	 * Returns true if the track number is for music and false if it's a sound effect.
-	 * @param trackNum Number of the MIDI track
-	 * @return True if track is music, false if SFX
-	 */
-	private static boolean isMusic(int trackNum) {
-		switch (trackNum) {
-		// Sound effect MIDI tracks
-			case 0:
-			case 5:
-			case 6:
-			case 7:
-			case 8:
-			case 10:
-			case 11:
-			case 12:
-			case 13:
-			case 14:
+	private static boolean isNonContinuouslyTriggerableSFX(int soundId) {
+		switch (soundId) {
+			case SOUND_SFX_SWITCH:
+			case SOUND_SFX_HERO_HURT:
+			case SOUND_SFX_HAMMER_HIT_UNBREAKABLE:
+			case SOUND_SFX_MINE:
+			case SOUND_SFX_WORKING:
+			case SOUND_SFX_ENEMY_HURT:
+			case SOUND_SFX_BREAK:
+			case SOUND_SFX_HOOKING:
+			case SOUND_SFX_WATER:
+			case SOUND_SFX_BOULDER:
 				return false;
-		// Music MIDI tracks
-			case 1:
-			case 2:
-			case 3:
-			case 4:
-			case 9:
+			case SOUND_SFX_RIDDLE:
+			case SOUND_SFX_DEATH:
+			case SOUND_SFX_CHEST_1:
+			case SOUND_SFX_CHEST_2:
+			case SOUND_SFX_CHECKPOINT:
 			default:
 				return true;
 		}
 	}
 
 	public final synchronized void run() {
-		while(!field_86) {
+		while(!stopSoundThreadLoop) {
 			try {
 				this.wait();
 			} catch (Exception var18) {
 			}
 
-			if (field_87) {
+			if (needFreeCrtPlayerResource) {
 				try {
-					if (isMusic(field_78)) {
-						midiPlayers[field_78].deallocate();
-						field_82 = -1;
+					if (isNonContinuouslyTriggerableSFX(crtSoundId)) {
+						midiPlayers[crtSoundId].deallocate();
+						previousSoundId = -1;
 					}
 
-					field_78 = -1;
-					field_87 = false;
+					crtSoundId = -1;
+					needFreeCrtPlayerResource = false;
 				} catch (Exception var16) {
 				} finally {
-					field_80 = 0;
+					crtSoundPriority = 0;
 				}
 			}
 
-			if (field_79 != -1) {
+			if (newSoundId != -1) {
 				try {
-					if (field_82 != -1 && field_79 != field_82) {
-						midiPlayers[field_82].deallocate();
-						field_82 = -1;
+					if (previousSoundId != -1 && newSoundId != previousSoundId) {
+						midiPlayers[previousSoundId].deallocate();
+						previousSoundId = -1;
 					}
 
-					if (field_82 == -1) {
-						midiPlayers[field_79].prefetch();
-						field_82 = field_79;
+					if (previousSoundId == -1) {
+						midiPlayers[newSoundId].prefetch();
+						previousSoundId = newSoundId;
 					}
 
-					midiPlayers[field_79].start();
-					field_78 = field_79;
-					field_80 = field_81;
-					this.field_83 = System.currentTimeMillis();
+					midiPlayers[newSoundId].start();
+					crtSoundId = newSoundId;
+					crtSoundPriority = newSoundPriority;
+					this.soundLoopStartTime = System.currentTimeMillis();
 				} catch (Exception var14) {
 				} finally {
-					field_79 = -1;
+					newSoundId = -1;
 				}
 			}
 		}
@@ -231,22 +252,23 @@ public final class cSoundEngine implements Runnable, PlayerListener {
 	}
 
 	// $FF: renamed from: b (int) void
-	public final synchronized void method_58(int var1) {
+	public final synchronized void playSound(int soundId) {
 		if (soundEnabled) {
-			if (field_78 != -1) {
-				if (field_80 >= method_56(var1) && (field_80 != method_56(var1) || Math.abs(System.currentTimeMillis() - this.field_83) <= 50L)) {
+			if (crtSoundId != -1) {
+				// if (crtSoundPriority > getSoundPriority(soundId) || Math.abs(System.currentTimeMillis() - this.soundLoopStartTime) <= 50L) {
+				if (crtSoundPriority >= getSoundPriority(soundId) && (crtSoundPriority != getSoundPriority(soundId) || Math.abs(System.currentTimeMillis() - this.soundLoopStartTime) <= 50L)) {
 					return;
 				}
 
-				field_87 = true;
+				needFreeCrtPlayerResource = true;
 			} else {
-				field_80 = 0;
+				crtSoundPriority = 0;
 			}
 
-			int var2;
-			if ((var2 = method_56(var1)) >= field_80) {
-				field_79 = var1;
-				field_81 = var2;
+			int priority;
+			if ((priority = getSoundPriority(soundId)) >= crtSoundPriority) {
+				newSoundId = soundId;
+				newSoundPriority = priority;
 				this.notify();
 			}
 		}
@@ -254,9 +276,9 @@ public final class cSoundEngine implements Runnable, PlayerListener {
 	}
 
 	// $FF: renamed from: e () void
-	public final synchronized void method_59() {
-		if (field_78 != -1) {
-			field_87 = true;
+	public final synchronized void freeCrtPlayerResource() {
+		if (crtSoundId != -1) {
+			needFreeCrtPlayerResource = true;
 		}
 
 		this.notify();
@@ -264,12 +286,12 @@ public final class cSoundEngine implements Runnable, PlayerListener {
 
 	// $FF: renamed from: a () boolean
 	public static synchronized boolean method_60() {
-		return field_78 != -1;
+		return crtSoundId != -1;
 	}
 
-	public final void playerUpdate(Player var1, String var2, Object var3) {
-		if (midiPlayers != null && field_78 != -1 && var2.equals("endOfMedia")) {
-			this.method_59();
+	public final void playerUpdate(Player player, String event, Object eventData) {
+		if (midiPlayers != null && crtSoundId != -1 && event.equals("endOfMedia")) {
+			this.freeCrtPlayerResource();
 		}
 
 	}
