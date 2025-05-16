@@ -9,7 +9,7 @@ public final class GemsRain {
 	// $FF: renamed from: b byte
 	public static byte field_31 = 4;
 	// $FF: renamed from: a int
-	public static int curFrame = 0;
+	public static int crtFrame = 0;
 	// $FF: renamed from: b byte[][]
 	public static byte[][] field_33;
 	// $FF: renamed from: c byte
@@ -19,7 +19,7 @@ public final class GemsRain {
 	// $FF: renamed from: a boolean
 	public static boolean field_36 = false;
 	// $FF: renamed from: b int
-	public static int frames = 0;
+	public static int framesCount = 0;
 
 	// $FF: renamed from: a (int) void
 	public static void method_16(int var0) {
@@ -96,7 +96,7 @@ public final class GemsRain {
 		for(int var1 = 0; var1 < 12; ++var1) {
 			for(int var2 = 0; var2 < 13; ++var2) {
 				if (field_29[var1][var2] == 1) {
-					cGame.field_320[cGame.method_149(2)].PaintFrame(g, curFrame, var1 * 24, (var2 - 1) * 24 + field_30, 0, 0, 0);
+					cGame.field_320[cGame.method_149(2)].PaintFrame(g, crtFrame, var1 * 24, (var2 - 1) * 24 + field_30, 0, 0, 0);
 				} else if (field_29[var1][var2] == 2) {
 					cGame.field_320[cGame.method_149(2)].PaintFrame(g, 0, var1 * 24, (var2 - 1) * 24 + field_30, 0, 0, 0);
 				}
@@ -113,6 +113,6 @@ public final class GemsRain {
 			}
 		}
 
-		curFrame = (curFrame + 1) % frames;
+		crtFrame = (crtFrame + 1) % framesCount;
 	}
 }

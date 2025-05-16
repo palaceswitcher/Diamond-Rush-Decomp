@@ -86,48 +86,37 @@ public final class IGA {
 			field_63 += var0;
 		}
 
-		byte var10000;
 		if (field_63 < 0) {
-			var10000 = 4;
-		} else {
-			if (field_63 != 5) {
-				return;
-			}
-
-			var10000 = 0;
+			field_63 = 4;
+		} else if (field_63 == 5) {
+			field_63 = 0;
 		}
-
-		field_63 = var10000;
 	}
 
 	// $FF: renamed from: a (javax.microedition.lcdui.Graphics, int) void
 	private static void method_40(Graphics var0, int var1) {
 		if (field_61[field_63] != null) {
 			if (field_64 % 30 >= 15) {
-				String[] var10000;
-				byte var10001;
+				String var2;
 				if (field_63 >= 3) {
-					var10000 = field_62;
-					var10001 = 8;
+					var2 = field_62[8];
 				} else {
-					var10000 = field_62;
-					var10001 = 9;
+					var2 = field_62[9];
 				}
 
-				String var2 = var10000[var10001];
 				field_60.UpdateStringSize(var2);
 				int var3 = ASprite._text_w + 2;
 				int var4 = field_60.GetStringHeight(var2);
 				int var6;
 				if (var1 != 0) {
 					var6 = 320 + var1 >> 1;
-					var10001 = (byte) ((var4 >> 1) + 4); //NOTE: ADDED CAST
+					var6 -= (byte) ((var4 >> 1) + 4); //NOTE: ADDED CAST
 				} else {
 					var6 = 160;
-					var10001 = (byte) (var4 >> 1); //NOTE: ADDED CAST
+					var6 -= (byte) (var4 >> 1); //NOTE: ADDED CAST
 				}
 
-				int var5 = var6 - var10001;
+				int var5 = var6;
 				var0.setClip(0, 0, 240, 320);
 				var0.setColor(16711680);
 				var0.fillRect(120 - (var3 >> 1) - 4, var5 - 4, var3 + 8, var4 + 8);
