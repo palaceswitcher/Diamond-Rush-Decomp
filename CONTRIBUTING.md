@@ -12,6 +12,11 @@ If you are interested in contributing, you may do so via a pull request. If you 
 	- Names should be descriptive and not generic (existing decompiler-generated names are exempt from this).
 	- Abbreviate only when a name becomes excessively long, and do so consistently. The word "current", for example, should always be abbreviated as "crt", regardless of how long the full name is. So `isCrtSelectSealItemNeedUpdate` and `crtSealArrowOffsetX`, for example, are both using the same abbreviation for "current", even though one name is much longer than the other.
 - Do not rename any methods or variables with names derived from official code. As of right now, this only applies to the `ASprite` and `ASpriteInstance` classes.
+
+### Comment Guidelines
+
+- Comments should be in uppercase. Omitting a few words like "the" to shorten them is fine but they should be grammatically correct enough to be understandable.
+- Inline comments should have a space after the `//`.
 - When making doc comments for methods, unless they are derived from official source code, please follow [Javadoc conventions](https://www.oracle.com/technical-resources/articles/java/javadoc-tool.html). Doc comments should look something like the example below.
 
 ### Optimization Guidelines
