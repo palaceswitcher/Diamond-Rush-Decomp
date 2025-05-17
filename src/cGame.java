@@ -4049,7 +4049,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			this.field_314.setClip(0, 0, 240, 320);
 			if (this.field_130 < this.field_129) {
 				field_320[9].PaintAFrame(this.field_314, 5, this.field_130, Define.sealItemPosOffset[this.field_118 << 1] + 120 - 12, Define.sealItemPosOffset[(this.field_118 << 1) + 1] + 124, 0, 0, 0);
-				++this.field_130;
+				this.field_130++;
 			} else {
 				if (this.field_115 % this.field_114 >= this.field_114 >> 1) {
 					field_320[10].PaintFrame(this.field_314, this.field_118 + 1, this.field_116, this.field_117, 0, 0, 0);

@@ -227,15 +227,15 @@ public final class ASprite {
 	 * Build Cache Images for this sprite
 	 * @param pal palette to be initialized
 	 * @param m1 first module
-	 * @param m2 last module (-1 . to end)
-	 * @param pal_copy mapping to another palette (-1 . build)
+	 * @param m2 last module (-1 to end)
+	 * @param pal_copy mapping to another palette (-1 to build)
 	 *
 	 * @note GC is called twice internally here.
 	 */
 	public final void BuildCacheImages(int pal, int m1, int m2, int pal_copy) {
 		if (this._modules != null) {
 			if (m2 == -1) {
-				m2 = (this._modules.length >> 1) - 1; //Get all sprites up to the last
+				m2 = (this._modules.length >> 1) - 1; // Get all sprites up to the last
 			}
 
 			if (this._modules_image == null) {
@@ -258,8 +258,8 @@ public final class ASprite {
 
 				for (int i = m1; i <= m2; i++) {
 					int offset = i * 2;
-					int sizeX = this._modules[offset] & 0xFF; //Get width
-					int sizeY = this._modules[offset + 1] & 0xFF; //Get height
+					int sizeX = this._modules[offset] & 0xFF; // Get width
+					int sizeY = this._modules[offset + 1] & 0xFF; // Get height
 					int[] image_data;
 					if (sizeX > 0 && sizeY > 0 && (image_data = this.DecodeImage(i)) != null) {
 						boolean hasAlpha = false;
@@ -294,7 +294,7 @@ public final class ASprite {
 					}
 
 					this._modules_image[pal] = null;
-					--this._palettes;
+					this._palettes--;
 				}
 			}
 		}
@@ -371,14 +371,14 @@ public final class ASprite {
 	// @param offsetY
 	//------------------------------------------------------------------------------
 	public final void PaintAFrame(Graphics g, int anim, int aframe, int posX, int posY, int flags, int offsetX, int offsetY) {
-		int offset = (this._anims_af_start[anim] + aframe) * 5;
-		int frame = this._aframes[offset] & 0xFF;
+		int index = (this._anims_af_start[anim] + aframe) * 5;
+		int frame = this._aframes[index] & 0xFF;
 		if ((flags & FLAG_OFFSET_AF) != 0) {
-			offsetX = (flags & FLAG_FLIP_X) != 0 ? offsetX + this._aframes[offset + 2] : offsetX - this._aframes[offset + 2];
-			offsetY = (flags & FLAG_FLIP_Y) != 0 ? offsetY + this._aframes[offset + 3] : offsetY - this._aframes[offset + 3];
+			offsetX = (flags & FLAG_FLIP_X) != 0 ? offsetX + this._aframes[index + 2] : offsetX - this._aframes[index + 2];
+			offsetY = (flags & FLAG_FLIP_Y) != 0 ? offsetY + this._aframes[index + 3] : offsetY - this._aframes[index + 3];
 		}
 
-		this.PaintFrame(g, frame, posX - offsetX, posY - offsetY, (flags ^ this._aframes[offset + 4]) & 0xF, offsetX, offsetY);
+		this.PaintFrame(g, frame, posX - offsetX, posY - offsetY, (flags ^ this._aframes[index + 4]) & 0xF, offsetX, offsetY);
 	}
 
 	// $FF: renamed from: a (javax.microedition.lcdui.Graphics, int, int, int, int, int, int) void
@@ -438,9 +438,9 @@ public final class ASprite {
 	// @param flags The flags to be used for this operation
 	//------------------------------------------------------------------------------
 	public final void PaintModule(Graphics g, int module, int posX, int posY, int flags) {
-		int offset = module << 1;
-		int moduleW = this._modules[offset] & 0xFF;
-		int moduleH = this._modules[offset + 1] & 0xFF;
+		int index = module << 1;
+		int moduleW = this._modules[index] & 0xFF;
+		int moduleH = this._modules[index + 1] & 0xFF;
 		if (moduleW > 0 && moduleH > 0) {
 			Image img_image = null;
 			if (this._modules_image != null && this._modules_image[this._crt_pal] != null) {
@@ -448,8 +448,8 @@ public final class ASprite {
 			}
 
 			if (img_image == null) {
-				int[] img_intA;
-				if ((img_intA = this.DecodeImage(module)) == null) {
+				int[] img_intA = this.DecodeImage(module);
+				if (img_intA == null) {
 					return;
 				}
 
