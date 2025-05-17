@@ -2862,7 +2862,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			break;
 		case 1:
 			// Grass sprite
-			if ((this.field_328 & 2L) == 0L) {
+			if ((this.field_328 & (1L << 1)) == 0L) {
 				break;
 			}
 			field_320[16] = var4;
@@ -3608,8 +3608,8 @@ public final class cGame extends GameCanvas implements Runnable {
 		this.field_182 = 4;
 		this.field_185 = 408;
 		this.field_174 = 5;
-		this.field_327 |= 128L;
-		this.field_327 |= 8L;
+		this.field_327 |= (1L << 7);
+		this.field_327 |= (1L << 3);
 		this.field_452 = false;
 		this.field_135 = 16;
 		this.field_136 = 16;
@@ -3647,8 +3647,8 @@ public final class cGame extends GameCanvas implements Runnable {
 				this.field_183 = 0;
 				this.field_181 = 0;
 				this.field_141 = false;
-				this.field_327 |= 8L;
-				this.field_327 |= 1024L;
+				this.field_327 |= (1L << 3);
+				this.field_327 |= (1L << 10);
 				this.field_135 = 2;
 				this.field_136 = 12;
 				this.field_137 = 15;
@@ -3665,8 +3665,8 @@ public final class cGame extends GameCanvas implements Runnable {
 				this.method_281();
 				this.field_184 = 360;
 				this.field_174 = 3;
-				this.field_327 |= 128L;
-				this.field_327 |= 8L;
+				this.field_327 |= (1L << 7);
+				this.field_327 |= (1L << 3);
 			}
 		}
 
@@ -11562,11 +11562,9 @@ public final class cGame extends GameCanvas implements Runnable {
 
 	// $FF: renamed from: n (int, int) void
 	private void method_294(int var1, int var2) {
-		this.field_327 |= 4194304L;
-		int[] var10000 = field_332[var1];
-		var10000[var2] &= -256;
-		var10000 = field_332[var1];
-		var10000[var2] |= 14;
+		this.field_327 |= (1L << 22);
+		field_332[var1][var2] &= -256;
+		field_332[var1][var2] |= 14;
 	}
 
 	// $FF: renamed from: e () boolean
@@ -11607,11 +11605,11 @@ public final class cGame extends GameCanvas implements Runnable {
 							field_332[var8][var9] = var11 << 8 | var10 & 255;
 							break;
 						case 2:
-							this.field_327 |= 1048576L;
+							this.field_327 |= (1L << 20);
 							switch (var11) {
 							case 0:
 							case 1:
-								this.field_327 |= 524288L;
+								this.field_327 |= (1L << 19);
 							default:
 								field_332[var8][var9] = var11 << 8 | 2;
 								break label377;
@@ -11624,7 +11622,7 @@ public final class cGame extends GameCanvas implements Runnable {
 							break;
 						case 4:
 							var5++;
-							this.field_327 |= 16L;
+							this.field_327 |= (1L << 4);
 							field_332[var8][var9] = var11 << 8 | var10 & 255;
 							break;
 						case 5:
@@ -11635,7 +11633,7 @@ public final class cGame extends GameCanvas implements Runnable {
 							Integer var40 = (Integer)var1.get(var34);
 							var40 = var40 == null ? new Integer(1) : new Integer(var40.intValue() + 1);
 							var1.put(var34, var40);
-							this.field_327 |= 536870912L;
+							this.field_327 |= (1L << 29);
 							field_332[var8][var9] = var11 << 8 | 6;
 							break;
 						case 7:
@@ -11653,7 +11651,7 @@ public final class cGame extends GameCanvas implements Runnable {
 								this.hasLockedGoldenGateInLevel = true;
 							}
 
-							this.field_327 |= 268435456L;
+							this.field_327 |= (1L << 28);
 							Integer var33 = new Integer(var11);
 							Integer var38 = (Integer)var1.get(var33);
 							var38 = var38 == null ? new Integer(1) : new Integer(var38.intValue() + 1);
@@ -11681,10 +11679,10 @@ public final class cGame extends GameCanvas implements Runnable {
 								field_332[var8][var9] = var10;
 								switch (this.currentWorld) {
 								case 0:
-									this.field_327 = this.field_327 | 16L;
+									this.field_327 = this.field_327 | (1L << 4);
 									break;
 								case 1:
-									this.field_327 = this.field_327 | 2097152L;
+									this.field_327 = this.field_327 | (1L << 21);
 									break;
 								default:
 									break label377;
@@ -11759,20 +11757,20 @@ public final class cGame extends GameCanvas implements Runnable {
 							this.field_308 = (byte)var11;
 							break;
 						case 30:
-							this.field_327 |= 1073741824L;
+							this.field_327 |= (1L << 30);
 							++var7;
 						case 1:
 						case 26:
 							field_332[var8][var9] = var11 << 8 | var10 & 255;
 							break;
 						case 31:
-							this.field_327 |= 1073741824L;
+							this.field_327 |= (1L << 30);
 							field_332[var8][var9] = var11 << 8 | 31;
 						case 19:
 							field_332[var8][var9] = var11 << 8 | 19;
 							break;
 						case 34:
-							this.field_327 |= 17179869184L;
+							this.field_327 |= (1L << 34);
 						}
 				}
 
@@ -11834,33 +11832,33 @@ public final class cGame extends GameCanvas implements Runnable {
 					++var4;
 					this.method_294(var8, var9);
 				case 7:
-					this.field_327 |= 16L;
+					this.field_327 |= (1L << 4);
 					field_333[var8][var9] = 0;
 					continue;
 				case 8:
-					this.field_327 |= 32L;
-					this.field_327 |= 8L;
+					this.field_327 |= (1L << 5);
+					this.field_327 |= (1L << 3);
 				case 4:
 					if (var12 != 8) {
 						this.method_294(var8, var9);
 					}
 				case 5:
-					this.field_327 |= 4L;
+					this.field_327 |= (1L << 2);
 				case 2:
 					++var4;
 				case 0:
 					field_336[var8][var9] = 48;
 					field_333[var8][var9] = 0;
-					this.field_328 |= 1L;
+					this.field_328 |= (1L << 0);
 					continue;
 				case 10:
 					field_333[var8][var9] = 0;
-					this.field_328 |= 2L;
+					this.field_328 |= (1L << 1);
 					continue;
 				case 11:
 					field_333[var8][var9] = var11 == 1 ? 16 : 0;
 					field_336[var8][var9] = 48;
-					this.field_327 |= 16384L;
+					this.field_327 |= (1L << 14);
 					continue;
 				case 12:
 					field_334[var8][var9] = -1;
@@ -11869,7 +11867,7 @@ public final class cGame extends GameCanvas implements Runnable {
 					this.field_156 = var11;
 					continue;
 				case 14:
-					this.field_327 |= 4096L;
+					this.field_327 |= (1L << 12);
 					field_333[var8][var9] = field_333[var8][var9] == 4 ? 8 : 0;
 					var46 = field_336[var8];
 					var53 = var9;
@@ -11881,13 +11879,13 @@ public final class cGame extends GameCanvas implements Runnable {
 						field_333[var8][var9 - 1] = var11;
 					}
 
-					this.field_327 |= 8192L;
+					this.field_327 |= (1L << 13);
 					continue;
 				case 18:
 					this.field_310 = 0;
 					this.field_311 = 0;
-					this.field_327 |= 549755813888L;
-					this.field_327 |= 128L;
+					this.field_327 |= (1L << 39);
+					this.field_327 |= (1L << 7);
 					continue;
 				case 19:
 					this.field_327 |= 1L << (this.currentWorld == 1 ? 17 : 15);
@@ -11898,24 +11896,24 @@ public final class cGame extends GameCanvas implements Runnable {
 					break;
 				case 22:
 				case 23:
-					this.field_327 |= 512L;
-					this.field_327 |= 1024L;
+					this.field_327 |= (1L << 9);
+					this.field_327 |= (1L << 10);
 					var46 = field_336[var8];
 					var53 = var9;
 					var58 = 48;
 					break;
 				case 26:
-					this.field_327 |= 1099511627776L;
+					this.field_327 |= (1L << 40);
 				case 24:
 				case 27:
 					++var7;
 					++var4;
-					this.field_327 |= 1073741824L;
-					this.field_327 |= 524288L;
+					this.field_327 |= (1L << 30);
+					this.field_327 |= (1L << 19);
 					this.method_294(var8, var9);
 					continue;
 				case 28:
-					this.field_327 |= 2048L;
+					this.field_327 |= (1L << 11);
 					if (var11 > 10) {
 						int[] var48 = field_333[var8];
 						var48[var9] /= 11;
@@ -11928,7 +11926,7 @@ public final class cGame extends GameCanvas implements Runnable {
 					var58 = 24;
 					break;
 				case 30:
-					this.field_327 |= 128L;
+					this.field_327 |= (1L << 7);
 					field_333[var8][var9] = 0;
 				case 31:
 				case 33:
@@ -11939,12 +11937,12 @@ public final class cGame extends GameCanvas implements Runnable {
 				case 34:
 					field_334[var8][var9] = -1;
 					field_332[var8][var9] = 15;
-					this.field_327 |= 16777216L;
+					this.field_327 |= (1L << 24);
 					continue;
 				case 35:
 					field_334[var8][var9] = 35;
 					field_332[var8][var9] = -1;
-					this.field_327 |= 16777216L;
+					this.field_327 |= (1L << 24);
 					this.field_460 = true;
 					continue;
 				case 36:
@@ -11952,27 +11950,27 @@ public final class cGame extends GameCanvas implements Runnable {
 						field_333[var8][var9] = 0;
 					}
 
-					this.field_327 |= 256L;
+					this.field_327 |= (1L << 8);
 					continue;
 				case 37:
-					this.field_327 |= 33554432L;
+					this.field_327 |= (1L << 25);
 					field_333[var8][var9] = 0;
 					continue;
 				case 38:
 					this.field_155 = true;
-					this.field_327 |= 67108864L;
+					this.field_327 |= (1L << 26);
 					field_332[var8][var9] = 27;
-					this.field_327 |= 64L;
+					this.field_327 |= (1L << 6);
 					continue;
 				case 39:
 					this.field_155 = true;
-					this.field_327 |= 67108864L;
+					this.field_327 |= (1L << 26);
 					continue;
 				case 40:
-					this.field_327 |= 1073741824L;
+					this.field_327 |= (1L << 30);
 					++var7;
 					this.field_155 = true;
-					this.field_327 |= 134217728L;
+					this.field_327 |= (1L << 27);
 					this.method_294(var8, var9);
 					++var4;
 					continue;
@@ -11986,8 +11984,8 @@ public final class cGame extends GameCanvas implements Runnable {
 				case 42:
 					++var7;
 					++var4;
-					this.field_327 |= 2147483648L;
-					this.field_327 |= 1073741824L;
+					this.field_327 |= (1L << 31);
+					this.field_327 |= (1L << 30);
 					this.method_294(var8, var9);
 					continue;
 				case 43:
@@ -12001,23 +11999,23 @@ public final class cGame extends GameCanvas implements Runnable {
 				case 44:
 					field_336[var8][var9] = 24;
 					field_333[var8][var9] = 0;
-					this.field_327 |= 17179869184L;
+					this.field_327 |= (1L << 34);
 					continue;
 				case 45:
 					field_333[var8][var9] = 0;
 					field_336[var8][var9] = 24;
-					this.field_327 |= 34359738368L;
+					this.field_327 |= (1L << 35);
 					continue;
 				case 46:
 					field_333[var8][var9] = 0;
 					field_336[var8][var9] = 24;
 					field_335[var8][var9] = 0;
-					this.field_327 |= 137438953472L;
+					this.field_327 |= (1L << 37);
 					continue;
 				case 47:
 					field_336[var8][var9] = 48;
 					field_333[var8][var9] = 0;
-					this.field_327 |= 8388608L;
+					this.field_327 |= (1L << 23);
 					continue;
 				case 48:
 					int[] var47;
@@ -12033,15 +12031,15 @@ public final class cGame extends GameCanvas implements Runnable {
 
 					var47[var53] = var58;
 					++this.field_193;
-					this.field_327 |= 1099511627776L;
-					this.field_327 |= 4294967296L;
+					this.field_327 |= (1L << 40);
+					this.field_327 |= (1L << 32);
 					int var29 = var9 - 1;
 					field_334[var8][var29] = 48;
 					field_333[var8][var29] = 8;
 					method_345(var8, var29);
 					continue;
 				case 49:
-					this.field_327 |= 2199023255552L;
+					this.field_327 |= (1L << 41);
 					var46 = field_336[var8];
 					var53 = var9;
 					var58 = 48;
@@ -12217,28 +12215,28 @@ public final class cGame extends GameCanvas implements Runnable {
 		}
 
 		field_332[this.field_195 - 2][this.playerYPos] = -193 << 8 | 7;
-		if ((this.field_327 & 4294967296L) != 0L || field_330[9] >= 8) {
-			this.field_327 |= 1099511627776L;
-			this.field_327 |= 2L;
-			this.field_327 |= 1L;
-			if ((this.field_327 & 131072L) != 0L) {
-				this.field_327 |= 262144L;
+		if ((this.field_327 & (1L << 32)) != 0L || field_330[9] >= 8) {
+			this.field_327 |= (1L << 40);
+			this.field_327 |= (1L << 1);
+			this.field_327 |= (1L << 0);
+			if ((this.field_327 & (1L << 17)) != 0L) {
+				this.field_327 |= (1L << 18);
 			}
 
-			if ((this.field_327 & 32768L) != 0L) {
-				this.field_327 |= 65536L;
+			if ((this.field_327 & (1L << 15)) != 0L) {
+				this.field_327 |= (1L << 16);
 			}
 
-			if ((this.field_327 & 34359738368L) != 0L) {
-				this.field_327 |= 68719476736L;
+			if ((this.field_327 & (1L << 35)) != 0L) {
+				this.field_327 |= (1L << 36);
 			}
 
-			if ((this.field_327 & 137438953472L) != 0L) {
-				this.field_327 |= 274877906944L;
+			if ((this.field_327 & (1L << 37)) != 0L) {
+				this.field_327 |= (1L << 38);
 			}
 
-			if ((this.field_327 & 2199023255552L) != 0L) {
-				this.field_327 |= 4398046511104L;
+			if ((this.field_327 & (1L << 41)) != 0L) {
+				this.field_327 |= (1L << 42);
 			}
 		}
 
@@ -18505,8 +18503,8 @@ public final class cGame extends GameCanvas implements Runnable {
 
 			while(var4 < field_565.length) {
 				if (field_565[var4] == 92 && field_565[var4 + 1] == 110) {
-					field_565[var4++] = 10;
-					field_565[var4++] = 32;
+					field_565[var4++] = '\n';
+					field_565[var4++] = ' ';
 				} else {
 					var4++;
 				}
@@ -18515,8 +18513,8 @@ public final class cGame extends GameCanvas implements Runnable {
 			for (var4 = 0; field_565[var4] != 36; ++var4) {
 			}
 
-			for (int i = 0; i < GloftDIRU.field_574.length; ++var4) {
-				field_565[var4] = GloftDIRU.field_574[i];
+			for (int i = 0; i < GloftDIRU.gameVersion.length; ++var4) {
+				field_565[var4] = GloftDIRU.gameVersion[i];
 				i++;
 			}
 
