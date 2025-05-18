@@ -7,7 +7,7 @@ import javax.microedition.media.control.VolumeControl;
 
 // $FF: renamed from: h
 public final class cSoundEngine implements Runnable, PlayerListener {
-	/* Sound IDs */
+	// Sound IDs
 	final static int SOUND_SFX_SWITCH = 0;
 	final static int SOUND_SFX_RIDDLE = 1;
 	final static int SOUND_SFX_DEATH = 2;
@@ -30,9 +30,10 @@ public final class cSoundEngine implements Runnable, PlayerListener {
 	final static int SOUND_M_TITLE = 19;
 	final static int SOUND_M_GAMEOVER = 20;
 
-	/* Number of sounds */
+	// Number of sounds
 	final static int TOTAL_SOUNDS = 21;
 
+	// The volume of sounds
 	final static int SOUND_VOLUME = 100;
 
 	// $FF: renamed from: a int
@@ -66,12 +67,12 @@ public final class cSoundEngine implements Runnable, PlayerListener {
 
 	// $FF: renamed from: a (int) void
 	/**
-	 * Loads a specific MIDI track.
-	 * @param soundId The MIDI will load
+	 * Load the specified audio data into the midiPlayers
+	 * @param soundId The ID of the audio data to be loaded
 	 */
 	public final void method_51(int soundId) {
 		if (midiPlayers == null) {
-			midiPlayers = new Player[21]; //Initialize players for each MIDI
+			midiPlayers = new Player[21]; // Initialize players for each MIDI
 		}
 
 		try {
@@ -90,6 +91,9 @@ public final class cSoundEngine implements Runnable, PlayerListener {
 	}
 
 	// $FF: renamed from: a () void
+	/**
+	 * Start the audio playback thread
+	 */
 	public final void method_52() {
 		stopSoundThreadLoop = false;
 		this.soundThread = new Thread(this);
@@ -105,9 +109,9 @@ public final class cSoundEngine implements Runnable, PlayerListener {
 		if (midiPlayers == null) {
 			try {
 				this.sndFileStream = this.getClass().getResourceAsStream("/snd.f");
-				this.sndFileStream.skip(1L); //Ignore file count
-				this.sndFileMetadata = new byte[TOTAL_SOUNDS << 3]; //Metadata size for MIDI data
-				this.sndFileStream.read(this.sndFileMetadata); //Load MIDI file pack metadata
+				this.sndFileStream.skip(1L); // Ignore file count
+				this.sndFileMetadata = new byte[TOTAL_SOUNDS << 3]; // Metadata size for MIDI data
+				this.sndFileStream.read(this.sndFileMetadata); // Load MIDI file pack metadata
 				return;
 			} catch (Exception var2) {
 				((Throwable)var2).printStackTrace();
@@ -131,6 +135,9 @@ public final class cSoundEngine implements Runnable, PlayerListener {
 	}
 
 	// $FF: renamed from: d () void
+	/**
+	 * Release player resources and stop the audio playback thread loop
+	 */
 	public final void method_55() {
 		if (midiPlayers != null) {
 			this.freeCrtPlayerResource();
@@ -149,6 +156,10 @@ public final class cSoundEngine implements Runnable, PlayerListener {
 	}
 
 	// $FF: renamed from: a (int) int
+	/**
+	 * Get the playback priority of a specific sound
+	 * @param soundId The ID of the sound
+	 */
 	private static int getSoundPriority(int soundId) {
 		switch (soundId) {
 			case SOUND_SFX_SWITCH:
@@ -181,6 +192,12 @@ public final class cSoundEngine implements Runnable, PlayerListener {
 	}
 
 	// $FF: renamed from: a (int) boolean
+	/**
+	 * Gets whether the sound effect will not be triggered continuously
+	 * Used to release resources of the sound player that will
+	 * not be triggered continuously in the game
+	 * @param soundId The ID of the sound
+	 */
 	private static boolean isNonContinuouslyTriggerableSFX(int soundId) {
 		switch (soundId) {
 			case SOUND_SFX_SWITCH:
@@ -207,7 +224,7 @@ public final class cSoundEngine implements Runnable, PlayerListener {
 	public final synchronized void run() {
 		while(!stopSoundThreadLoop) {
 			try {
-				this.wait();
+				this.wait(); // Waiting for this.notify() call
 			} catch (Exception var18) {
 			}
 
@@ -228,6 +245,8 @@ public final class cSoundEngine implements Runnable, PlayerListener {
 
 			if (newSoundId != -1) {
 				try {
+					// If the previous sound is different from the current sound
+					// release the player resources of the previous sound
 					if (previousSoundId != -1 && newSoundId != previousSoundId) {
 						midiPlayers[previousSoundId].deallocate();
 						previousSoundId = -1;
@@ -252,6 +271,13 @@ public final class cSoundEngine implements Runnable, PlayerListener {
 	}
 
 	// $FF: renamed from: b (int) void
+	/**
+	 * Play specified sound
+	 * @param soundId The ID of the sound
+	 * @note It has the same function as freeCrtPlayerResource
+	 *       The specified sound may not be played due to the sound priority
+	 *       or the interval between the last sound playback is too short
+	 */
 	public final synchronized void playSound(int soundId) {
 		if (soundEnabled) {
 			if (crtSoundId != -1) {
@@ -276,6 +302,9 @@ public final class cSoundEngine implements Runnable, PlayerListener {
 	}
 
 	// $FF: renamed from: e () void
+	/**
+	 * Release the current player resource, reset crtSoundId and crtSoundPriority
+	 */
 	public final synchronized void freeCrtPlayerResource() {
 		if (crtSoundId != -1) {
 			needFreeCrtPlayerResource = true;
