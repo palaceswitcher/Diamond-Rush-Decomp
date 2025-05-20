@@ -106,7 +106,7 @@ public final class IGA {
 
 				field_60.UpdateStringSize(var2);
 				int var3 = ASprite._text_w + 2;
-				int var4 = field_60.GetStringHeight(var2);
+				int var4 = field_60.getStringHeight(var2);
 				int var6;
 				if (var1 != 0) {
 					var6 = 320 + var1 >> 1;
@@ -146,7 +146,7 @@ public final class IGA {
 		method_41(var1);	
 		int var2 = 0;
 		if (field_63 != 3) {
-			cGame.field_323[0]._sprite.PaintFrame(var1, 11, 120, 15, 0, 0, 0);
+			cGame.field_323[0]._sprite.drawFrame(var1, 11, 120, 15, 0, 0, 0);
 		}
 
 		switch (field_63) {
@@ -186,8 +186,8 @@ public final class IGA {
 			cGame.keysPressed = 0;
 		}
 
-		field_59.PaintAFrame(var1, cGame.isKeyPressed(cGame.SKEY_NUM4|cGame.SKEY_LEFT) ? 2 : 0, field_64 % field_59.GetAFrames(0), 20 + this.field_67, 160, 0, 0, 0);
-		field_59.PaintAFrame(var1, cGame.isKeyPressed(cGame.SKEY_NUM6|cGame.SKEY_RIGHT) ? 3 : 1, field_64 % field_59.GetAFrames(1), 220 - this.field_67, 160, 0, 0, 0);
+		field_59.drawAnimFrame(var1, cGame.isKeyPressed(cGame.SKEY_NUM4|cGame.SKEY_LEFT) ? 2 : 0, field_64 % field_59.getAnimFrames(0), 20 + this.field_67, 160, 0, 0, 0);
+		field_59.drawAnimFrame(var1, cGame.isKeyPressed(cGame.SKEY_NUM6|cGame.SKEY_RIGHT) ? 3 : 1, field_64 % field_59.getAnimFrames(1), 220 - this.field_67, 160, 0, 0, 0);
 		this.field_67 += this.field_66 ? -1 : 1;
 		if (this.field_67 > 3 || this.field_67 < 1) {
 			this.field_66 = !this.field_66;

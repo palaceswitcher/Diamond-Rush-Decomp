@@ -50,12 +50,12 @@ public final class ASpriteInstance {
 	public final void ApplyAnimOff() {
 		int off = (this._sprite._anims_af_start[this._nCrtAnim] + this._nCrtAFrame) * 5;
 
-		this._pos_ox = (this._sprite._aframes[off + 2] << 0) * 1 / 1;
+		this._pos_ox = (this._sprite.animFrames[off + 2] << 0) * 1 / 1;
 		if ((this._flags & ASprite.FLAG_FLIP_X) != 0) {
 			this._pos_ox = -this._pos_ox;
 		}
 
-		this._pos_oy = (this._sprite._aframes[off + 3] << 0) * 1 / 1;
+		this._pos_oy = (this._sprite.animFrames[off + 3] << 0) * 1 / 1;
 		if ((this._flags & ASprite.FLAG_FLIP_Y) != 0) {
 			this._pos_oy = -this._pos_oy;
 		}
@@ -66,7 +66,7 @@ public final class ASpriteInstance {
 
 	// $FF: renamed from: a () boolean
 	public final boolean IsAnimEnded() {
-		if (this._nCrtAFrame != this._sprite.GetAFrames(this._nCrtAnim) - 1)
+		if (this._nCrtAFrame != this._sprite.getAnimFrames(this._nCrtAnim) - 1)
 			return false;
 
 		int time = this._sprite.GetAFrameTime(this._nCrtAnim, this._nCrtAFrame);
@@ -91,11 +91,11 @@ public final class ASpriteInstance {
 		posX = ZOOM_IN_FIXED_X(posX) + 0;
 		posY = ZOOM_IN_FIXED_Y(posY) + 0;
 		if (this._nCrtTime >= 0) {
-			this._sprite.PaintAFrame(g, this._nCrtAnim, this._nCrtAFrame, posX, posY, this._flags, 0, 0);
+			this._sprite.drawAnimFrame(g, this._nCrtAnim, this._nCrtAFrame, posX, posY, this._flags, 0, 0);
 		} else if (this._nCrtAnim >= 0) {
-			this._sprite.PaintModule(g, this._nCrtAnim, posX, posY, this._flags);
+			this._sprite.drawModule(g, this._nCrtAnim, posX, posY, this._flags);
 		} else if (this._nCrtAFrame >= 0) {
-			this._sprite.PaintFrame(g, this._nCrtAFrame, posX, posY, this._flags, 0, 0);
+			this._sprite.drawFrame(g, this._nCrtAFrame, posX, posY, this._flags, 0, 0);
 		}
 	}
 
@@ -121,7 +121,7 @@ public final class ASpriteInstance {
 
 		++this._nCrtAFrame;
 
-		if (this._nCrtAFrame >= this._sprite.GetAFrames(this._nCrtAnim)) {
+		if (this._nCrtAFrame >= this._sprite.getAnimFrames(this._nCrtAnim)) {
 			this._nCrtAFrame = 0;
 			this._pos_ox = 0;
 			this._pos_oy = 0;

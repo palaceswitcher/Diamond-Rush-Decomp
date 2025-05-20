@@ -23,21 +23,21 @@ public final class ASprite {
 	// $FF: renamed from: a int[]
 	public static int[] temp = new int[4*1024];
 	// $FF: renamed from: a byte[]
-	public byte[] _modules;
+	public byte[] modules;
 	// $FF: renamed from: b byte[]
 	public byte[] _frames_nfm;
 	// $FF: renamed from: a short[]
 	public short[] _frames_fm_start;
 	// $FF: renamed from: c byte[]
-	public byte[] _frames_rc;
+	public byte[] frameRects;
 	// $FF: renamed from: d byte[]
-	public byte[] _fmodules;
+	public byte[] frameModules;
 	// $FF: renamed from: e byte[]
 	public byte[] _anims_naf;
 	// $FF: renamed from: b short[]
 	public short[] _anims_af_start;
 	// $FF: renamed from: f byte[]
-	public byte[] _aframes;
+	public byte[] animFrames;
 	// $FF: renamed from: a int[][]
 	public int[][] _map;
 	// $FF: renamed from: b int[][]
@@ -78,60 +78,60 @@ public final class ASprite {
 	public final void Load(byte[] file, int offset) {
 		try {
 			System.gc();
-			++offset;
-			++offset;
-			++offset;
-			++offset;
-			++offset;
-			++offset;
-			short nModules; //Amount of image dimensions present
-			if ((nModules = (short)((file[offset++] & 0xFF) + ((file[offset++] & 0xFF) << 8))) > 0) {
-				this._modules = new byte[nModules * 2];
-				System.arraycopy(file, offset, this._modules, 0, this._modules.length);
-				offset += this._modules.length;
+			offset++;
+			offset++;
+			offset++;
+			offset++;
+			offset++;
+			offset++;
+			short nModules = (short)((file[offset++] & 0xFF) + ((file[offset++] & 0xFF) << 8)); //Amount of image dimensions present
+			if (nModules > 0) {
+				this.modules = new byte[nModules * 2];
+				System.arraycopy(file, offset, this.modules, 0, this.modules.length);
+				offset += this.modules.length;
 			}
 
-			short nFModules;
-			if ((nFModules = (short)((file[offset++] & 0xFF) + ((file[offset++] & 0xFF) << 8))) > 0) {
-				this._fmodules = new byte[nFModules * 4];
-				System.arraycopy(file, offset, this._fmodules, 0, this._fmodules.length);
-				offset += this._fmodules.length;
+			short nFModules = (short)((file[offset++] & 0xFF) + ((file[offset++] & 0xFF) << 8));
+			if (nFModules > 0) {
+				this.frameModules = new byte[nFModules * 4];
+				System.arraycopy(file, offset, this.frameModules, 0, this.frameModules.length);
+				offset += this.frameModules.length;
 			}
 
-			short nFrames;
-			if ((nFrames = (short)((file[offset++] & 0xFF) + ((file[offset++] & 0xFF) << 8))) > 0) {
+			short nFrames = (short)((file[offset++] & 0xFF) + ((file[offset++] & 0xFF) << 8));
+			if (nFrames > 0) {
 				this._frames_nfm = new byte[nFrames];
 				this._frames_fm_start = new short[nFrames];
 
 				for (int i = 0; i < nFrames; i++) {
 					this._frames_nfm[i] = file[offset++];
-					++offset;
+					offset++;
 					this._frames_fm_start[i] = (short)((file[offset++] & 0xFF) + ((file[offset++] & 0xFF) << 8));
 				}
 
 				int nFRectSize = nFrames << 2;
-				this._frames_rc = new byte[nFRectSize];
+				this.frameRects = new byte[nFRectSize];
 
 				for (int i = 0; i < nFRectSize; i++) {
-					this._frames_rc[i] = file[offset++];
+					this.frameRects[i] = file[offset++];
 				}
 			}
 
-			short nAFrames;
-			if ((nAFrames = (short)((file[offset++] & 0xFF) + ((file[offset++] & 0xFF) << 8))) > 0) {
-				this._aframes = new byte[nAFrames * 5];
-				System.arraycopy(file, offset, this._aframes, 0, this._aframes.length);
-				offset += this._aframes.length;
+			short nAFrames = (short)((file[offset++] & 0xFF) + ((file[offset++] & 0xFF) << 8));
+			if (nAFrames > 0) {
+				this.animFrames = new byte[nAFrames * 5];
+				System.arraycopy(file, offset, this.animFrames, 0, this.animFrames.length);
+				offset += this.animFrames.length;
 			}
 
-			short nAnims;
-			if ((nAnims = (short)((file[offset++] & 0xFF) + ((file[offset++] & 0xFF) << 8))) > 0) {
+			short nAnims = (short)((file[offset++] & 0xFF) + ((file[offset++] & 0xFF) << 8));
+			if (nAnims > 0) {
 				this._anims_naf = new byte[nAnims];
 				this._anims_af_start = new short[nAnims];
 
 				for (int i = 0; i < nAnims; i++) {
 					this._anims_naf[i] = file[offset++];
-					++offset;
+					offset++;
 					this._anims_af_start[i] = (short)((file[offset++] & 0xFF) + ((file[offset++] & 0xFF) << 8));
 				}
 			}
@@ -233,9 +233,9 @@ public final class ASprite {
 	 * @note GC is called twice internally here.
 	 */
 	public final void BuildCacheImages(int pal, int m1, int m2, int pal_copy) {
-		if (this._modules != null) {
+		if (this.modules != null) {
 			if (m2 == -1) {
-				m2 = (this._modules.length >> 1) - 1; // Get all sprites up to the last
+				m2 = (this.modules.length >> 1) - 1; // Get all sprites up to the last
 			}
 
 			if (this._modules_image == null) {
@@ -243,7 +243,7 @@ public final class ASprite {
 			}
 
 			if (this._modules_image[pal] == null) {
-				this._modules_image[pal] = new Image[this._modules.length >> 1];
+				this._modules_image[pal] = new Image[this.modules.length >> 1];
 			}
 
 			if (pal_copy >= 0) {
@@ -258,10 +258,10 @@ public final class ASprite {
 
 				for (int i = m1; i <= m2; i++) {
 					int offset = i * 2;
-					int sizeX = this._modules[offset] & 0xFF; // Get width
-					int sizeY = this._modules[offset + 1] & 0xFF; // Get height
+					int sizeX = this.modules[offset] & 0xFF; // Get width
+					int sizeY = this.modules[offset + 1] & 0xFF; // Get height
 					int[] image_data;
-					if (sizeX > 0 && sizeY > 0 && (image_data = this.DecodeImage(i)) != null) {
+					if (sizeX > 0 && sizeY > 0 && (image_data = this.decodeImage(i)) != null) {
 						boolean hasAlpha = false;
 						int size = sizeX * sizeY;
 
@@ -286,7 +286,7 @@ public final class ASprite {
 
 	// $FF: renamed from: a (int) void
 	public final void DeleteCacheImages(int pal) {
-		if (this._modules != null) {
+		if (this.modules != null) {
 			if (this._modules_image != null) {
 				if (this._modules_image[pal] != null) {
 					for (int i = 0; i < this._modules_image[pal].length; i++) {
@@ -304,8 +304,8 @@ public final class ASprite {
 		int nModulesMem = 0;
 
 		// Memory usage...
-		for (int i = 0; i < this._modules.length / 2; i++) {
-			nModulesMem += (this._modules[2 * i] & 0xFF) * (this._modules[2 * i + 1] & 0xFF);
+		for (int i = 0; i < this.modules.length / 2; i++) {
+			nModulesMem += (this.modules[2 * i] & 0xFF) * (this.modules[2 * i + 1] & 0xFF);
 		}
 
 		return "raw/full: " + this._modules_data.length + "/" + (nModulesMem * 2);
@@ -319,7 +319,7 @@ public final class ASprite {
 	// @returns The frame time
 	//------------------------------------------------------------------------------
 	public final int GetAFrameTime(int anim, int aframe) {
-		return this._aframes[(this._anims_af_start[anim] + aframe) * 5 + 1] & 0xFF;
+		return this.animFrames[(this._anims_af_start[anim] + aframe) * 5 + 1] & 0xFF;
 	}
 
 	// $FF: renamed from: a (int) int
@@ -328,7 +328,7 @@ public final class ASprite {
 	// @param anim The animation to be examined
 	// @returns The number of frames
 	//------------------------------------------------------------------------------
-	public final int GetAFrames(int anim) {
+	public final int getAnimFrames(int anim) {
 		return this._anims_naf[anim] & 0xFF;
 	}
 
@@ -338,12 +338,12 @@ public final class ASprite {
 	// @param frame The frame to be examined
 	// @returns The number of modules
 	//------------------------------------------------------------------------------
-	public final int GetFModules(int frame) {
+	public final int getFrameModules(int frame) {
 		return this._frames_nfm[frame] & 0xFF;
 	}
 
 	// $FF: renamed from: a (java.lang.String) int
-	public final int GetStringHeight(String s) {
+	public final int getStringHeight(String s) {
 		int lines = 1;
 		int nStrLen = s.length();
 
@@ -355,7 +355,7 @@ public final class ASprite {
 			i = i < nStrLen - 1 ? s.indexOf('\n', i + 1) : -1;
 		}
 
-		return this._nLineSpacing * (lines - 1) + this._modules[1] * lines;
+		return this._nLineSpacing * (lines - 1) + this.modules[1] * lines;
 	}
 
 	// $FF: renamed from: a (javax.microedition.lcdui.Graphics, int, int, int, int, int, int, int) void
@@ -370,15 +370,15 @@ public final class ASprite {
 	// @param offsetX
 	// @param offsetY
 	//------------------------------------------------------------------------------
-	public final void PaintAFrame(Graphics g, int anim, int aframe, int posX, int posY, int flags, int offsetX, int offsetY) {
+	public final void drawAnimFrame(Graphics g, int anim, int aframe, int posX, int posY, int flags, int offsetX, int offsetY) {
 		int index = (this._anims_af_start[anim] + aframe) * 5;
-		int frame = this._aframes[index] & 0xFF;
+		int frame = this.animFrames[index] & 0xFF;
 		if ((flags & FLAG_OFFSET_AF) != 0) {
-			offsetX = (flags & FLAG_FLIP_X) != 0 ? offsetX + this._aframes[index + 2] : offsetX - this._aframes[index + 2];
-			offsetY = (flags & FLAG_FLIP_Y) != 0 ? offsetY + this._aframes[index + 3] : offsetY - this._aframes[index + 3];
+			offsetX = (flags & FLAG_FLIP_X) != 0 ? offsetX + this.animFrames[index + 2] : offsetX - this.animFrames[index + 2];
+			offsetY = (flags & FLAG_FLIP_Y) != 0 ? offsetY + this.animFrames[index + 3] : offsetY - this.animFrames[index + 3];
 		}
 
-		this.PaintFrame(g, frame, posX - offsetX, posY - offsetY, (flags ^ this._aframes[index + 4]) & 0xF, offsetX, offsetY);
+		this.drawFrame(g, frame, posX - offsetX, posY - offsetY, (flags ^ this.animFrames[index + 4]) & 0xF, offsetX, offsetY);
 	}
 
 	// $FF: renamed from: a (javax.microedition.lcdui.Graphics, int, int, int, int, int, int) void
@@ -390,11 +390,11 @@ public final class ASprite {
 	// @param posY The Y coordinate to be drawn to
 	// @param flags The flags to be used for this operation
 	//------------------------------------------------------------------------------
-	public final void PaintFrame(Graphics g, int frame, int posX, int posY, int flags, int unused1, int unused2) {
+	public final void drawFrame(Graphics g, int frame, int posX, int posY, int flags, int unused1, int unused2) {
 		int nFModules = this._frames_nfm[frame] & 0xFF;
 
 		for (int fmodule = 0; fmodule < nFModules; fmodule++) {
-			this.PaintFModule(g, frame, fmodule, posX, posY, flags);
+			this.drawFrameModule(g, frame, fmodule, posX, posY, flags);
 		}
 	}
 
@@ -408,24 +408,24 @@ public final class ASprite {
 	// @param posY The Y coordinate to be drawn to
 	// @param flags The flags to be used for this operation
 	//------------------------------------------------------------------------------
-	public final void PaintFModule(Graphics g, int frame, int fmodule, int posX, int posY, int flags) {
+	public final void drawFrameModule(Graphics g, int frame, int fmodule, int posX, int posY, int flags) {
 		int offset, index, fm_flags;
 
 		offset = this._frames_fm_start[frame] + fmodule << 2;
-		fm_flags = this._fmodules[offset + 3] & 0xFF;
-		index = this._fmodules[offset] & 0xFF;
-		posX = (flags & FLAG_FLIP_X) != 0 ? posX - this._fmodules[offset + 1] : posX + this._fmodules[offset + 1];
-		posY = (flags & FLAG_FLIP_Y) != 0 ? posY - this._fmodules[offset + 2] : posY + this._fmodules[offset + 2];
+		fm_flags = this.frameModules[offset + 3] & 0xFF;
+		index = this.frameModules[offset] & 0xFF;
+		posX = (flags & FLAG_FLIP_X) != 0 ? posX - this.frameModules[offset + 1] : posX + this.frameModules[offset + 1];
+		posY = (flags & FLAG_FLIP_Y) != 0 ? posY - this.frameModules[offset + 2] : posY + this.frameModules[offset + 2];
 
 		if ((flags & FLAG_FLIP_X) != 0) {
-			posX -= this._modules[index << 1] & 0xFF;
+			posX -= this.modules[index << 1] & 0xFF;
 		}
 
 		if ((flags & FLAG_FLIP_Y) != 0) {
-			posY -= this._modules[(index << 1) + 1] & 0xFF;
+			posY -= this.modules[(index << 1) + 1] & 0xFF;
 		}
 
-		this.PaintModule(g, index, posX, posY, (flags ^ fm_flags) & 0xF);
+		this.drawModule(g, index, posX, posY, (flags ^ fm_flags) & 0xF);
 	}
 
 	// $FF: renamed from: a (javax.microedition.lcdui.Graphics, int, int, int, int) void
@@ -437,10 +437,10 @@ public final class ASprite {
 	// @param posY The Y coordinate to be drawn to
 	// @param flags The flags to be used for this operation
 	//------------------------------------------------------------------------------
-	public final void PaintModule(Graphics g, int module, int posX, int posY, int flags) {
+	public final void drawModule(Graphics g, int module, int posX, int posY, int flags) {
 		int index = module << 1;
-		int moduleW = this._modules[index] & 0xFF;
-		int moduleH = this._modules[index + 1] & 0xFF;
+		int moduleW = this.modules[index] & 0xFF;
+		int moduleH = this.modules[index + 1] & 0xFF;
 		if (moduleW > 0 && moduleH > 0) {
 			Image img_image = null;
 			if (this._modules_image != null && this._modules_image[this._crt_pal] != null) {
@@ -448,7 +448,7 @@ public final class ASprite {
 			}
 
 			if (img_image == null) {
-				int[] img_intA = this.DecodeImage(module);
+				int[] img_intA = this.decodeImage(module);
 				if (img_intA == null) {
 					return;
 				}
@@ -479,11 +479,11 @@ public final class ASprite {
 	// @param module Module to be decoded
 	// @returns int[] The decoded image data
 	//------------------------------------------------------------------------------
-	private int[] DecodeImage(int module) {
+	private int[] decodeImage(int module) {
 		if (this._modules_data != null && this._modules_data_off != null) {
 			int imageIndex = module * 2;
-			int sizeX = this._modules[imageIndex] & 0xFF; //Get width
-			int sizeY = this._modules[imageIndex + 1] & 0xFF; //Get height
+			int sizeX = this.modules[imageIndex] & 0xFF; //Get width
+			int sizeY = this.modules[imageIndex + 1] & 0xFF; //Get height
 
 			int[] pal_int = this._pal[this._crt_pal]; //Palette
 			if (pal_int == null) {
@@ -570,7 +570,7 @@ public final class ASprite {
 	//------------------------------------------------------------------------------
 	public final void UpdateStringSize(String s) {
 		_text_w = 0;
-		_text_h = this._modules[1] & 0xFF;
+		_text_h = this.modules[1] & 0xFF;
 		int tw = 0; // text width
 		int index1 = _index1 >= 0 ? _index1 : 0;
 		int index2 = _index2 >= 0 ? _index2 : s.length();
@@ -582,14 +582,14 @@ public final class ASprite {
 				c = _pMapChar[c] & 0xFF;
 			} else {
 				if (c == ' ') {
-					tw += (this._modules[0] & 0xFF) + this._fmodules[1];
+					tw += (this.modules[0] & 0xFF) + this.frameModules[1];
 					continue;
 				} else if (c == '\n') {
 					if (tw > _text_w) {
 						_text_w = tw;
 					}
 					tw = 0;
-					_text_h += this._nLineSpacing + (this._modules[1] & 0xFF);
+					_text_h += this._nLineSpacing + (this.modules[1] & 0xFF);
 					continue;
 				} else if (c == 1) {
 					i++;
@@ -600,12 +600,12 @@ public final class ASprite {
 				}
 			}
 
-			if (c >= this.GetFModules(0)) {
-				int frame = c - this.GetFModules(0);
-				tw += ((this._frames_rc[(frame << 2) + 2] & 0xFF) - (this._frames_rc[frame << 2] & 0xFF)) + this._fmodules[1];
+			if (c >= this.getFrameModules(0)) {
+				int frame = c - this.getFrameModules(0);
+				tw += ((this.frameRects[(frame << 2) + 2] & 0xFF) - (this.frameRects[frame << 2] & 0xFF)) + this.frameModules[1];
 			} else {
-				int module = (this._fmodules[c << 2] & 0xFF) << 1;
-				tw += ((this._modules[module] & 0xFF) - (this._fmodules[(c << 2) + 1])) + this._fmodules[1];
+				int module = (this.frameModules[c << 2] & 0xFF) << 1;
+				tw += ((this.modules[module] & 0xFF) - (this.frameModules[(c << 2) + 1])) + this.frameModules[1];
 			}
 		}
 
@@ -614,7 +614,7 @@ public final class ASprite {
 		}
 
 		if (_text_w > 0) {
-			_text_w -= this._fmodules[1];
+			_text_w -= this.frameModules[1];
 		}
 
 	}
@@ -628,8 +628,8 @@ public final class ASprite {
 	// @param y The Y coordinate to be drawn to
 	// @param anchor The anchor flags to be used for drawing
 	//------------------------------------------------------------------------------
-	public final void DrawString(Graphics g, String s, int x, int y, int anchor) {
-		y -= this._fmodules[2];
+	public final void drawString(Graphics g, String s, int x, int y, int anchor) {
+		y -= this.frameModules[2];
 		if ((anchor & (Graphics.RIGHT | Graphics.HCENTER | Graphics.BOTTOM | Graphics.VCENTER)) != 0) {
 			this.UpdateStringSize(s);
 			if ((anchor & Graphics.RIGHT) != 0) {
@@ -660,11 +660,11 @@ public final class ASprite {
 				c = _pMapChar[c] & 0xFF;
 			} else {
 				if (c == ' ') {
-					xx += (this._modules[0] & 0xFF) + this._fmodules[1];
+					xx += (this.modules[0] & 0xFF) + this.frameModules[1];
 					continue;
 				} else if (c == '\n') {
 					xx = x;
-					yy += this._nLineSpacing + (this._modules[1] & 0xFF);
+					yy += this._nLineSpacing + (this.modules[1] & 0xFF);
 					continue;
 				} else if (c == 1) {                // change current palette
 					++i;
@@ -676,18 +676,18 @@ public final class ASprite {
 				}
 			}
 
-			if (c >= this.GetFModules(0)) {
-				int frame = c - this.GetFModules(0);
-				this.PaintFrame(g, frame, xx, yy, 0, 0, 0);
-				nCharW = (this._frames_rc[(frame << 2) + 2] & 0xFF) - (this._frames_rc[frame << 2] & 0xFF);
+			if (c >= this.getFrameModules(0)) {
+				int frame = c - this.getFrameModules(0);
+				this.drawFrame(g, frame, xx, yy, 0, 0, 0);
+				nCharW = (this.frameRects[(frame << 2) + 2] & 0xFF) - (this.frameRects[frame << 2] & 0xFF);
 			} else {
-				int module = (this._fmodules[c << 2] & 0xFF) << 1;
-				this.PaintFModule(g, 0, c, xx, yy, 0);
-				nCharW = (this._modules[module] & 0xFF) - this._fmodules[(c << 2) + 1];
+				int module = (this.frameModules[c << 2] & 0xFF) << 1;
+				this.drawFrameModule(g, 0, c, xx, yy, 0);
+				nCharW = (this.modules[module] & 0xFF) - this.frameModules[(c << 2) + 1];
 			}
 
 			// xx += this.GetCharWidth(c) + this.GetCharSpacing();
-			xx += nCharW + this._fmodules[1];
+			xx += nCharW + this.frameModules[1];
 		}
 		// restore current palette
 		this._crt_pal = _old_pal;
@@ -714,7 +714,7 @@ public final class ASprite {
 		}
 
 		// total height
-		int th = this._nLineSpacing + (this._modules[1] & 0xFF);
+		int th = this._nLineSpacing + (this.modules[1] & 0xFF);
 		off[lines++] = nStrLen;
 		if ((anchor & Graphics.BOTTOM) != 0) {
 			y -= th * (lines - 1);
@@ -725,7 +725,7 @@ public final class ASprite {
 		for (int j = 0; j < lines; ++j) {
 			_index1 = j > 0 ? off[j - 1] + 1 : 0;
 			_index2 = off[j];
-			this.DrawString(g, s, x, y + j * th, anchor);
+			this.drawString(g, s, x, y + j * th, anchor);
 		}
 
 		_index1 = -1;
@@ -733,15 +733,15 @@ public final class ASprite {
 	}
 
 	// $FF: renamed from: a (boolean) void
-	public final void FreeCacheData(boolean freeImageCache) {
-		this._modules = null;
+	public final void freeCache(boolean freeImageCache) {
+		this.modules = null;
 		this._frames_nfm = null;
 		this._frames_fm_start = null;
-		this._frames_rc = null;
-		this._fmodules = null;
+		this.frameRects = null;
+		this.frameModules = null;
 		this._anims_naf = null;
 		this._anims_af_start = null;
-		this._aframes = null;
+		this.animFrames = null;
 		if (this._map != null) {
 			for (int i = 0; i < this._map.length; i++) {
 				this._map[i] = null;

@@ -173,7 +173,7 @@ public final class DemoInterpreter {
                short var9 = (short)((var31 * var44 + var36 * (var40 - var44)) / var40);
                short var11 = (short)cGame.getShortFromBytes(var2, var3 + 10);
                short var12 = (short)cGame.getShortFromBytes(var2, var3 + 12);
-               field_41[var11].PaintFrame(var1, var12, var8, var9, 0, 0, 0);
+               field_41[var11].drawFrame(var1, var12, var8, var9, 0, 0, 0);
                return;
             case 12:
                int var43 = this.field_46;
@@ -228,7 +228,7 @@ public final class DemoInterpreter {
 
                this.method_33(var22, 196);
                this.method_32(var1, var22, 22, 231, var21, var21 + 2);
-               cGame.field_320[41].DrawString(var1, cGame.menuText[70], 19, 211, 20);
+               cGame.field_320[41].drawString(var1, cGame.menuText[70], 19, 211, 20);
                if (cGame.field_227 / 2 % 4 < 2) {
                   var1.drawImage(cGame.field_319[0][9], 223, 220, 17);
                   return;
@@ -327,7 +327,7 @@ public final class DemoInterpreter {
                var1.setColor(0);
                var1.fillRect(0, 0, 240, 42);
                var1.fillRect(0, 278, 240, 42);
-               cGame.field_320[41].DrawString(var1, cGame.menuText[53], 5, 315, 36);
+               cGame.field_320[41].drawString(var1, cGame.menuText[53], 5, 315, 36);
          }
 
          if (this.field_45[0] == 0) {
@@ -346,10 +346,10 @@ public final class DemoInterpreter {
          if (this.field_47) {
             var1.setColor(0);
             var1.fillRect(this.field_48 - 3, this.field_49 - 3, 109, 45);
-            field_41[this.field_51].PaintAFrame(var1, 0, this.field_46 % field_41[this.field_51].GetAFrames(0), this.field_48, this.field_49, 0, 0, 0);
-            field_41[0].PaintFrame(var1, this.field_50, this.field_48 + 0, this.field_49, 0, 0, 0);
+            field_41[this.field_51].drawAnimFrame(var1, 0, this.field_46 % field_41[this.field_51].getAnimFrames(0), this.field_48, this.field_49, 0, 0, 0);
+            field_41[0].drawFrame(var1, this.field_50, this.field_48 + 0, this.field_49, 0, 0, 0);
             if (this.field_52 >= 0) {
-               field_41[1].PaintFrame(var1, this.field_52, this.field_48 + 90, this.field_49 + -6, 0, 0, 0);
+               field_41[1].drawFrame(var1, this.field_52, this.field_48 + 90, this.field_49 + -6, 0, 0, 0);
             }
          }
 
@@ -1016,7 +1016,7 @@ public final class DemoInterpreter {
 
    // $FF: renamed from: a (javax.microedition.lcdui.Graphics, java.lang.String, int, int, int, int) void
    private void method_32(Graphics var1, String var2, int var3, int var4, int var5, int var6) {
-      int var7 = cGame.field_320[41]._nLineSpacing + (cGame.field_320[41]._modules[1] & 255);
+      int var7 = cGame.field_320[41]._nLineSpacing + (cGame.field_320[41].modules[1] & 255);
       if (var6 > this.field_56) {
          var6 = this.field_56;
       }
@@ -1024,7 +1024,7 @@ public final class DemoInterpreter {
       for(int var8 = var5; var8 < var6; ++var8) {
          ASprite._index1 = var8 > 0 ? this.field_55[var8 - 1] + 1 : 0;
          ASprite._index2 = this.field_55[var8];
-         cGame.field_320[41].DrawString(var1, var2, var3, var4 + (var8 - var5) * var7, 4);
+         cGame.field_320[41].drawString(var1, var2, var3, var4 + (var8 - var5) * var7, 4);
       }
 
       ASprite._index1 = -1;
@@ -1043,8 +1043,8 @@ public final class DemoInterpreter {
             char var7;
             if ((var7 = var1.charAt(var6)) > ' ') {
                int var8 = ASprite._pMapChar[var7] & 255;
-               int var12 = (cGame.field_320[41]._fmodules[var8 << 2] & 255) << 1;
-               var4 += (cGame.field_320[41]._modules[var12] & 255) - cGame.field_320[41]._fmodules[(var8 << 2) + 1] + cGame.field_320[41]._fmodules[1];
+               int var12 = (cGame.field_320[41].frameModules[var8 << 2] & 255) << 1;
+               var4 += (cGame.field_320[41].modules[var12] & 255) - cGame.field_320[41].frameModules[(var8 << 2) + 1] + cGame.field_320[41].frameModules[1];
             } else {
                if (var7 != ' ' || var6 + 1 >= var3 || var1.charAt(var6 + 1) != '?' && var1.charAt(var6 + 1) != '!' && var1.charAt(var6 + 1) != ':') {
                   if (var7 != ' ') {
@@ -1055,14 +1055,14 @@ public final class DemoInterpreter {
                      continue;
                   }
 
-                  var4 += (cGame.field_320[41]._modules[0] & 255) + cGame.field_320[41]._fmodules[1];
+                  var4 += (cGame.field_320[41].modules[0] & 255) + cGame.field_320[41].frameModules[1];
                   break label60;
                }
 
-               var4 += (cGame.field_320[41]._modules[0] & 255) + cGame.field_320[41]._fmodules[1];
+               var4 += (cGame.field_320[41].modules[0] & 255) + cGame.field_320[41].frameModules[1];
                int var9 = ASprite._pMapChar[var1.charAt(var6 + 1)] & 255;
-               int var10 = (cGame.field_320[41]._fmodules[var9 << 2] & 255) << 1;
-               var4 += (cGame.field_320[41]._modules[var10] & 255) - cGame.field_320[41]._fmodules[(var9 << 2) + 1] + cGame.field_320[41]._fmodules[1];
+               int var10 = (cGame.field_320[41].frameModules[var9 << 2] & 255) << 1;
+               var4 += (cGame.field_320[41].modules[var10] & 255) - cGame.field_320[41].frameModules[(var9 << 2) + 1] + cGame.field_320[41].frameModules[1];
             }
 
             if (var4 > var2) {

@@ -96,9 +96,9 @@ public final class GemsRain {
 		for(int var1 = 0; var1 < 12; ++var1) {
 			for(int var2 = 0; var2 < 13; ++var2) {
 				if (field_29[var1][var2] == 1) {
-					cGame.field_320[cGame.method_149(2)].PaintFrame(g, crtFrame, var1 * 24, (var2 - 1) * 24 + field_30, 0, 0, 0);
+					cGame.field_320[cGame.method_149(2)].drawFrame(g, crtFrame, var1 * 24, (var2 - 1) * 24 + field_30, 0, 0, 0);
 				} else if (field_29[var1][var2] == 2) {
-					cGame.field_320[cGame.method_149(2)].PaintFrame(g, 0, var1 * 24, (var2 - 1) * 24 + field_30, 0, 0, 0);
+					cGame.field_320[cGame.method_149(2)].drawFrame(g, 0, var1 * 24, (var2 - 1) * 24 + field_30, 0, 0, 0);
 				}
 			}
 		}
@@ -107,7 +107,7 @@ public final class GemsRain {
 			for(int var3 = 0; var3 < 12; ++var3) {
 				for(int var4 = 0; var4 < 13; ++var4) {
 					if (field_33[var3][var4] == 1 || field_33[var3][var4] == 2) {
-						cGame.field_320[cGame.method_149(2)].PaintFrame(g, 0, var3 * 24, (var4 - 1) * 24 + field_34, 0, 0, 0);
+						cGame.field_320[cGame.method_149(2)].drawFrame(g, 0, var3 * 24, (var4 - 1) * 24 + field_34, 0, 0, 0);
 					}
 				}
 			}
