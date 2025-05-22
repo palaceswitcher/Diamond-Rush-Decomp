@@ -72,7 +72,7 @@ public final class cSoundEngine implements Runnable, PlayerListener {
 	 */
 	public final void method_51(int soundId) {
 		if (midiPlayers == null) {
-			midiPlayers = new Player[21]; // Initialize players for each MIDI
+			midiPlayers = new Player[TOTAL_SOUNDS]; // Initialize players for each MIDI
 		}
 
 		try {
@@ -193,13 +193,14 @@ public final class cSoundEngine implements Runnable, PlayerListener {
 
 	// $FF: renamed from: a (int) boolean
 	/**
-	 * Gets whether the sound effect will not be triggered continuously
-	 * Used to release resources of the sound player that will
-	 * not be triggered continuously in the game
+	 * Determines if the specified sound effect ID is a long-duration sound effect
+	 * This method checks whether the specified sound effect resource is classified
+	 * as long-duration, which is used to decide whether special resource cleanup
+	 * is required for long-duration sound effects
 	 * @param soundId The ID of the sound
 	 */
-	private static boolean isNonContinuouslyTriggerableSFX(int soundId) {
-		switch (soundId) {
+	private static boolean isLongDurationSFX(int sfxId) {
+		switch (sfxId) {
 			case SOUND_SFX_SWITCH:
 			case SOUND_SFX_HERO_HURT:
 			case SOUND_SFX_HAMMER_HIT_UNBREAKABLE:
@@ -230,7 +231,7 @@ public final class cSoundEngine implements Runnable, PlayerListener {
 
 			if (needFreeCrtPlayerResource) {
 				try {
-					if (isNonContinuouslyTriggerableSFX(crtSoundId)) {
+					if (isLongDurationSFX(crtSoundId)) {
 						midiPlayers[crtSoundId].deallocate();
 						previousSoundId = -1;
 					}
