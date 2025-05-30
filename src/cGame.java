@@ -18527,14 +18527,14 @@ public final class cGame extends GameCanvas implements Runnable {
 					this.field_559 -= 3;
 					if (this.field_559 < 240) {
 						this.field_559 = 240;
-						break;
 					}
 				}
 			} else {
 				if (isKeyPressed(SKEY_NUM8|SKEY_DOWN)) {
-					this.field_559 += 3;
-					break;
-				} else if (isKeyPressed(SKEY_RSH)) {
+					this.field_559 = this.field_559 + 3;
+				}
+
+				if (isKeyPressed(SKEY_RSH)) {
 					if (this.field_131) {
 						this.field_266 = 0;
 						this.field_265 = 8;
@@ -18543,9 +18543,8 @@ public final class cGame extends GameCanvas implements Runnable {
 					} else {
 						this.field_223 = 3;
 					}
-					break;
 				} else {
-					this.field_559 += 1;
+					this.field_559 = this.field_559 + 1;
 				}
 			}
 
