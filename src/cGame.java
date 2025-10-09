@@ -18281,26 +18281,15 @@ public final class cGame extends GameCanvas implements Runnable {
 
 		for (int var1 = 0; var1 < 12; ++var1) {
 			for (int var2 = 0; var2 < 12; ++var2) {
-				long var3;
-				if ((var3 = field_509[var1][var2]) != 0L) {
+				long var3 = field_509[var1][var2];
+				if (var3 != 0L) {
 					int var5 = method_410(var3, (byte)6, (byte)5);
-					cGame var10000;
-					int var10001;
-					int var10002;
-					byte var10003;
 					if ((this.method_116(this.currentWorld, var5) & 64) == 0 && var5 != 0) {
-						var10000 = this;
-						var10001 = var1;
-						var10002 = var2;
-						var10003 = 1;
+						this.method_411(var1, var2, (byte)1, (byte)0, (byte)3);
 					} else {
-						var10000 = this;
-						var10001 = var1;
-						var10002 = var2;
-						var10003 = 0;
+						this.method_411(var1, var2, (byte)0, (byte)0, (byte)3);
 					}
 
-					var10000.method_411(var10001, var10002, var10003, (byte)0, (byte)3);
 					if (var5 == this.currentLevel) {
 						this.field_528 = var1;
 						this.field_529 = var2;
