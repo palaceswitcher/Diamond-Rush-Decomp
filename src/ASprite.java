@@ -382,14 +382,14 @@ public final class ASprite {
 	}
 
 	// $FF: renamed from: a (javax.microedition.lcdui.Graphics, int, int, int, int, int, int) void
-	//------------------------------------------------------------------------------
-	// Draws a frame at PosX/PosY with Flags
-	// @param g The Graphics context
-	// @param frame The frame to be drawn
-	// @param posX The X coordinate to be drawn to
-	// @param posY The Y coordinate to be drawn to
-	// @param flags The flags to be used for this operation
-	//------------------------------------------------------------------------------
+	/**
+	 * Draws a frame at PosX/PosY with Flags
+	 * @param g The Graphics context
+	 * @param frame The frame to be drawn
+	 * @param posX The X coordinate to be drawn to
+	 * @param posY The Y coordinate to be drawn to
+	 * @param flags The flags to be used for this operation
+	 */
 	public final void drawFrame(Graphics g, int frame, int posX, int posY, int flags, int unused1, int unused2) {
 		int nFModules = this._frames_nfm[frame] & 0xFF;
 
@@ -695,13 +695,13 @@ public final class ASprite {
 
 	// $FF: renamed from: b (javax.microedition.lcdui.Graphics, java.lang.String, int, int, int) void
 	//------------------------------------------------------------------------------
-	// Draws a string with appropriate newline characters as a page given a start and end
-	// @param g The graphics context
-	// @param s The string to be drawn
-	// @param x The X coordinate to be drawn to
-	// @param y The Y coordinate to be drawn to
-	// @param anchor The anchor flags to be used for drawing
-	//------------------------------------------------------------------------------
+	/** Draws a string with appropriate newline characters as a page given a start and end
+	 * @param g The graphics context
+	 * @param s The string to be drawn
+	 * @param x The X coordinate to be drawn to
+	 * @param y The Y coordinate to be drawn to
+	 * @param anchor The anchor flags to be used for drawing
+	*/
 	public final void DrawPage(Graphics g, String s, int x, int y, int anchor) {
 		int lines = 0;
 		int nStrLen = s.length();
