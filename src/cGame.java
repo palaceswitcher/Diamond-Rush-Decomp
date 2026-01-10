@@ -3524,18 +3524,18 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: c (int) int
-	private static int method_120(int var0) {
-		if (var0 < 0) {
-			var0 = 0;
+	private static int method_120(int world) {
+		if (world < 0) {
+			world = 0;
 		} else {
-			if (var0 < 3) {
-				return getShortFromBytes(recordData, 14 + var0 * 2);
+			if (world < 3) {
+				return getShortFromBytes(recordData, 14 + world * 2);
 			}
 
-			var0 = 2;
+			world = 2;
 		}
 
-		return getShortFromBytes(recordData, 14 + var0 * 2);
+		return getShortFromBytes(recordData, 14 + world * 2);
 	}
 
 	// $FF: renamed from: d (int) int
@@ -3553,13 +3553,13 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: a (int, int) int
-	private int method_123(int var1, int var2) {
-		return getShortFromBytes(recordData, method_120(var1) + 3 + var2 * 2);
+	private int method_123(int world, int level) {
+		return getShortFromBytes(recordData, method_120(world) + 3 + level * 2);
 	}
 
 	// $FF: renamed from: b (int, int) int
-	private int method_124(int var1, int var2) {
-		return recordData[this.method_123(var1, var2) + 0];
+	private int method_124(int world, int level) {
+		return recordData[this.method_123(world, level) + 0];
 	}
 
 	// $FF: renamed from: b (int, int, int) void
@@ -17204,8 +17204,15 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: a (long, byte, byte) int
-	private static int method_410(long var0, byte var2, byte var3) {
-		return (int)(var0 >>> var2 & ~(-1L << var3));
+	/**
+	 * Pulls a specified amount of bits and ignoring a speicfied number of LSB?
+	 * @param value
+	 * @param shift
+	 * @param bitCount
+	 * @return
+	 */
+	private static int method_410(long value, byte shift, byte bitCount) {
+		return (int)(value >>> shift & ~(-1L << bitCount));
 	}
 
 	// $FF: renamed from: a (int, int, int, byte, byte) void
@@ -17228,7 +17235,7 @@ public final class cGame extends GameCanvas implements Runnable {
 		if (this.field_557) {
 			this.field_557 = false;
 			this.field_558 = true;
-			this.method_422();
+			this.drawMapHud();
 			this.method_421();
 		}
 
@@ -17743,37 +17750,32 @@ public final class cGame extends GameCanvas implements Runnable {
 			this.field_543 = true;
 		}
 
-		for (int var1 = 0; var1 < 12; ++var1) {
-			for (int var2 = 0; var2 < 12; ++var2) {
-				long var3 = field_509[var1][var2];
+		for (int i = 0; i < 12; i++) {
+			for (int j = 0; j < 12; j++) {
+				long var3 = field_509[i][j];
 				boolean var5 = false;
 				if (var3 != 0L) {
 					int var6 = method_410(var3, (byte)3, (byte)3);
-					int var7 = method_410(var3, (byte)6, (byte)5);
+					int var7 = method_410(var3, (byte)6, (byte)5); // Level number?
 					int var8 = !this.field_543 && var7 == field_532 && var7 != 0 ? 1 : method_410(var3, (byte)0, (byte)3);
 					int var9 = -1;
 					byte var10 = -1;
 					byte var11 = -1;
 					if (var8 == 0) {
-						label112: {
-							var5 = this.method_124(this.currentWorld, var7) == this.method_126(this.currentWorld, var7);
-							int var10000;
-							switch (var6) {
-							case 0:
-								var10 = 17;
-								var11 = 0;
-								var10000 = method_410(var3, (byte)11, (byte)3) > 2 ? 13 : 0;
-								break;
-							case 1:
-								var10 = 18;
-								var11 = 2;
-								var10000 = 9;
-								break;
-							default:
-								break label112;
-							}
-
-							var9 = var10000;
+						var5 = this.method_124(this.currentWorld, var7) == this.method_126(this.currentWorld, var7);
+						switch (var6) {
+						case 0:
+							var10 = 17;
+							var11 = 0;
+							var9 = method_410(var3, (byte)11, (byte)3) > 2 ? 13 : 0;
+							break;
+						case 1:
+							var10 = 18;
+							var11 = 2;
+							var9 = 9;
+							break;
+						default:
+							break;
 						}
 					} else {
 						switch (var6) {
@@ -17784,46 +17786,37 @@ public final class cGame extends GameCanvas implements Runnable {
 						}
 					}
 
-					this.method_419(var1, var2, var3, var6, var8);
+					this.method_419(i, j, var3, var6, var8);
 					if (var11 != -1 && var9 != -1) {
 						if (var5 && var10 != -1) {
-							field_320[17].drawFrame(field_514, var10, var1 * 13 + var11 + 37 - 27, var2 * 13 + var11 + 73 - 56, 0, 0, 0);
+							field_320[17].drawFrame(field_514, var10, i * 13 + var11 + 37 - 27, j * 13 + var11 + 73 - 56, 0, 0, 0);
 						}
 
 						byte var12;
-						label72: {
-							field_320[17].drawFrame(field_514, var9, var1 * 13 + var11 + 37 - 27, var2 * 13 + var11 + 73 - 56, 0, 0, 0);
-							var12 = -1;
-							byte var13;
-							switch (this.currentWorld) {
-							case 0:
-								if (var7 != 8) {
-									break label72;
-								}
-
-								var13 = 52;
-								break;
-							case 1:
-								if (var7 != 9) {
-									break label72;
-								}
-
-								var13 = 53;
-								break;
-							case 2:
-								if (var7 == 10) {
-									var13 = 54;
-									break;
-								}
-							default:
-								break label72;
+						field_320[17].drawFrame(field_514, var9, i * 13 + var11 + 37 - 27, j * 13 + var11 + 73 - 56, 0, 0, 0);
+						var12 = -1;
+						switch (this.currentWorld) {
+						case 0:
+							if (var7 == 8) {
+								var12 = 52;
 							}
-
-							var12 = var13;
+							break;
+						case 1:
+							if (var7 == 9) {
+								var12 = 53;
+							}
+							break;
+						case 2:
+							if (var7 == 10) {
+								var12 = 54;
+								break;
+							}
+						default:
+							break;
 						}
 
 						if (var12 != -1) {
-							field_320[var12].drawFrame(field_514, 0, var1 * 13 + -8 + 37 - 27, var2 * 13 + -8 + 73 - 56, 0, 0, 0);
+							field_320[var12].drawFrame(field_514, 0, i * 13 + -8 + 37 - 27, j * 13 + -8 + 73 - 56, 0, 0, 0);
 						}
 					}
 				}
@@ -17834,7 +17827,8 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: cB () void
-	private void method_422() {
+	private void drawMapHud() {
+		// Get graphics and colors for this world
 		int bgColor = 0;
 		int stageLabelColor = 0;
 		int stageLabelBorderColor = 0;
@@ -17867,6 +17861,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			break;
 		}
 
+		// Draw HUD
 		this.field_314.setColor(bgColor);
 		this.field_314.fillRect(0, 0, 240, 320);
 		field_320[var5].drawFrame(this.field_314, 0, 120, 0, 0, 0, 0);
@@ -17882,12 +17877,14 @@ public final class cGame extends GameCanvas implements Runnable {
 		this.drawBackButton();
 		this.drawOKButton();
 		field_320[41].drawString(this.field_314, menuText[96], 222, 311, 10);
+		// Draw HUD icons
 		if (field_320[17] != null) {
 			field_320[17].drawFrame(this.field_314, 12, 11, 284, 0, 0, 0);
 			field_320[17].drawFrame(this.field_314, 10, 155, 285, 0, 0, 0);
 			field_320[17].drawFrame(this.field_314, 11, 80, 285, 0, 0, 0);
 		}
 
+		// Draw HUD counters
 		field_512.delete(0, field_512.length());
 		field_512.append(this.playerLifeCount);
 		field_320[41].drawString(this.field_314, field_512.toString(), 39, 285, 20);

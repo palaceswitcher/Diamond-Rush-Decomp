@@ -399,15 +399,15 @@ public final class ASprite {
 	}
 
 	// $FF: renamed from: a (javax.microedition.lcdui.Graphics, int, int, int, int, int) void
-	//------------------------------------------------------------------------------
-	// Draws a module from a frame at PosX/PosY with Flags
-	// @param g The Graphics context
-	// @param frame The frame containing the module
-	// @param fmodule The module to be drawn
-	// @param posX The X coordinate to be drawn to
-	// @param posY The Y coordinate to be drawn to
-	// @param flags The flags to be used for this operation
-	//------------------------------------------------------------------------------
+	/**
+	 * Draws a module from a frame at PosX/PosY with Flags
+	 * @param g The Graphics context
+	 * @param frame The frame containing the module
+	 * @param fmodule The module to be drawn
+	 * @param posX The X coordinate to be drawn to
+	 * @param posY The Y coordinate to be drawn to
+	 * @param flags The flags to be used for this operation
+	 */
 	public final void drawFrameModule(Graphics g, int frame, int fmodule, int posX, int posY, int flags) {
 		int offset, index, fm_flags;
 
