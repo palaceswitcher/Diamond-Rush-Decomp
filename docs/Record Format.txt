@@ -1,0 +1,5 @@
+Diamond Rush Save Data Format (2026-1-4)
+
+0x4: Purple Diamond Count (uint16)
+0x6: Red Diamond Count (uint16)
+

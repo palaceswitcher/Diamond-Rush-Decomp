@@ -1,0 +1,17 @@
+Diamond Rush Map Data Format (2026-7-12)
+
+## Header
+
+Data Size (u16)
+Amount of Nodes (u8)
+
+node data format? (after already parsed and being rendered?):
+
+
+Level Status Flag Format:
+Bit 1 = Level Unlocked?
+Bit 2 = All Diamonds Collected
+Bit 3 = All Red Diamonds Collected
+Bit 4 = Completed Without Taking Damage
+Bit 5 = Completed Without Dying
+

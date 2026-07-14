@@ -491,7 +491,7 @@ public final class cGame extends GameCanvas implements Runnable {
 	// $FF: renamed from: a a
 	public static ASprite tipSprite;
 	// $FF: renamed from: f byte[]
-	public static byte[] field_322;
+	public static byte[] mapData;
 	// $FF: renamed from: a g[]
 	public static ASpriteInstance[] field_323;
 	// $FF: renamed from: b a
@@ -2264,7 +2264,7 @@ public final class cGame extends GameCanvas implements Runnable {
 										return;
 									case 7:
 										this.field_329 = false;
-										field_322 = null;
+										mapData = null;
 										System.gc();
 										this.field_353.playSound(cSoundEngine.SOUND_M_WORLDS_INIT + this.currentWorld); // Play intro theme for current world
 										gameState = 1;
@@ -3831,7 +3831,7 @@ public final class cGame extends GameCanvas implements Runnable {
 					this.renderProgressBar();
 				}
 
-				if (field_322 != null && this.field_388) {
+				if (mapData != null && this.field_388) {
 					this.drawGameTip();
 				}
 				break;
@@ -16922,8 +16922,8 @@ public final class cGame extends GameCanvas implements Runnable {
 			int var4 = getShortFromBytes(var3, tipIndex << 1);
 			int var5 = getShortFromBytes(var3, tipIndex + 1 << 1);
 			var1.skip((long)var4);
-			field_322 = new byte[var5 - var4];
-			var1.read(field_322);
+			mapData = new byte[var5 - var4];
+			var1.read(mapData);
 			var1.close();
 		} catch (Exception var6) {
 		}
@@ -16934,7 +16934,7 @@ public final class cGame extends GameCanvas implements Runnable {
 		field_320[41]._nLineSpacing = 5;
 		int var22 = 0;
 		++var22;
-		byte var2 = field_322[0];
+		byte var2 = mapData[0];
 		this.field_388 = false;
 		Graphics var3;
 		(var3 = this.field_314).setColor(0x0C2F39); // Tip box background color
@@ -16959,23 +16959,23 @@ public final class cGame extends GameCanvas implements Runnable {
 				label35: {
 					int var27;
 					int var10000;
-					if (field_322[var22++] == 0) {
+					if (mapData[var22++] == 0) {
 						var22 += 2;
 						var22 += 2;
-						int var10 = getShortFromBytes(field_322, var22);
+						int var10 = getShortFromBytes(mapData, var22);
 						var22 += 2;
 						int var11 = var22; // NOTE: ADDED TO MATCH PROCYON OUTPUT, BASED ON N95 1.0.3 DECOMP
 						int var19 = var22 + var10;
-						byte var12 = field_322[var19++];
+						byte var12 = mapData[var19++];
 						int n7 = var19; // NOTE: ADDED BASED ON PROCYON OUTPUT
 						var22 = var19 + var12;
 						var4 -= 3;
 						var10000 = var4;
-						var27 = this.method_406(var3, field_322, field_320[41], var11, var10, var5 ? -1 : var4, tipSprite, n7, 192); // NOTE: CHANGED TO MATCH PROCYON OUTPUT
+						var27 = this.method_406(var3, mapData, field_320[41], var11, var10, var5 ? -1 : var4, tipSprite, n7, 192); // NOTE: CHANGED TO MATCH PROCYON OUTPUT
 					} else {
 						int var21 = var22 + 2;
 						var22 = var21 + 2;
-						int var25 = field_322[var22++] & 255;
+						int var25 = mapData[var22++] & 255;
 						if (tipSprite == null) {
 							break label35;
 						}
@@ -17217,11 +17217,11 @@ public final class cGame extends GameCanvas implements Runnable {
 
 	// $FF: renamed from: a (int, int, int, byte, byte) void
 	private void method_411(int var1, int var2, int var3, byte var4, byte var5) {
-		long var6;
-		long var8 = (long)method_410(var6 = field_509[var1][var2], var4, var5) << var4;
+		long var6 = field_509[var1][var2];
+		long var8 = (long)method_410(var6, var4, var5) << var4;
 		var6 ^= var8;
-		long var10;
-		var10 = (var10 = (long)var3) << var4;
+		long var10 = (long)var3;
+		var10 = var10 << var4;
 		var6 |= var10;
 		field_509[var1][var2] = var6;
 	}
@@ -17747,7 +17747,7 @@ public final class cGame extends GameCanvas implements Runnable {
 		this.field_516 = 0;
 		if ((this.method_116(this.currentWorld, this.currentLevel + 1) & 2) != 0 && this.currentLevel + 1 == field_532 || this.currentLevel == field_532) {
 			this.field_542 = false;
-			this.field_543 = true;
+			this.field_543 = true; // Is level unlocked??
 		}
 
 		for (int i = 0; i < 12; i++) {
@@ -17971,7 +17971,7 @@ public final class cGame extends GameCanvas implements Runnable {
 					this.field_373 = true;
 					this.field_377 = true;
 					this.assetsLoaded = 0;
-					gameState = 28;
+					gameState = 28; // Exit to seal
 					keysPressed = 0;
 					return;
 				}
@@ -18121,6 +18121,7 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: B (int) void
+	// Loads map data?
 	private void method_425(int var1) {
 		try {
 			switch (var1) {
@@ -18228,41 +18229,41 @@ public final class cGame extends GameCanvas implements Runnable {
 
 	// $FF: renamed from: a (java.lang.String) void
 	private void method_426(String var1) throws IOException {
-		InputStream var2;
-		int var3 = ((byte)(var2 = this.getClass().getResourceAsStream(var1)).read() & 255) + ((byte)var2.read() & 255) * 256;
-		int var4 = var2.read();
-		field_322 = new byte[var3];
-		var2.read(field_322);
+		InputStream var2 = this.getClass().getResourceAsStream(var1);
+		int payloadSize = ((byte)var2.read() & 255) + ((byte)var2.read() & 255) * 256;
+		int numModes = var2.read();
+		mapData = new byte[payloadSize];
+		var2.read(mapData);
 		var2.close();
 		int var5 = 0;
 
-		for (int var6 = 0; var6 < var4; ++var6) {
-			byte var7 = field_322[var5++];
-			byte var8 = field_322[var5++];
-			byte var9 = field_322[var5++];
-			byte var10 = field_322[var5++];
+		for (int i = 0; i < numModes; i++) {
+			byte var7 = mapData[var5++];
+			byte var8 = mapData[var5++];
+			byte var9 = mapData[var5++];
+			byte var10 = mapData[var5++];
 			if (var9 == 1 && var10 < this.field_515) {
 				this.field_515 = var10;
 			}
 
-			byte var11 = field_322[var5++];
+			byte var11 = mapData[var5++];
 			this.method_411(var7, var8, 1, (byte)0, (byte)3);
 			this.method_411(var7, var8, var9, (byte)3, (byte)3);
 			this.method_411(var7, var8, var10, (byte)6, (byte)5);
 			this.method_411(var7, var8, var11, (byte)11, (byte)3);
 			byte var12 = 14;
 
-			for (int var13 = 0; var13 < var11; ++var13) {
-				byte var14 = field_322[var5++];
+			for (int j = 0; j < var11; j++) {
+				byte var14 = mapData[var5++];
 				this.method_411(var7, var8, var14, var12, (byte)4);
 				var12 = (byte)(var12 + 4);
-				byte var15 = field_322[var5++];
+				byte var15 = mapData[var5++];
 				this.method_411(var7, var8, var15, var12, (byte)4);
 				var12 = (byte)(var12 + 4);
 			}
 		}
 
-		field_322 = null;
+		mapData = null;
 		System.gc();
 	}
 
