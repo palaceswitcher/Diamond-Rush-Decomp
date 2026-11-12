@@ -1650,13 +1650,13 @@ public final class cGame extends GameCanvas implements Runnable {
 		this.field_372 = false;
 		freeSpriteCache(field_320[17], true);
 		field_320[17] = null;
-		int var1 = IGA.field_58.length;
+		int var1 = IGA.promotionImages.length;
 
 		for (int var2 = 0; var2 < var1; ++var2) {
-			IGA.field_58[var2] = null;
+			IGA.promotionImages[var2] = null;
 		}
 
-		IGA.field_58 = null;
+		IGA.promotionImages = null;
 		freeSpriteCache(field_320[10], true);
 		field_320[10] = null;
 		freeSpriteCache(field_320[46], true);
@@ -1701,7 +1701,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			break;
 		case 4:
 			this.method_95();
-			IGA.field_58 = loadSpritesFromFile("/demoui.f", 0);
+			IGA.promotionImages = loadSpritesFromFile("/demoui.f", 0);
 			if (field_320[10] == null) {
 				field_320[10] = loadGfxFile("/mmv.f", 0);
 			}
@@ -15559,13 +15559,13 @@ public final class cGame extends GameCanvas implements Runnable {
 
 	// $FF: renamed from: b (int) void
 	public static void method_363(int var0) {
-		IGA.field_65 = var0;
+		IGA.promotionScreenState = var0;
 	}
 
 	// $FF: renamed from: a (javax.microedition.lcdui.Graphics) boolean
 	private boolean method_364(Graphics var1) {
-		IGA.field_64++;
-		switch (IGA.field_65) {
+		IGA.promotionFrameCounter++;
+		switch (IGA.promotionScreenState) {
 		case 0:
 			this.method_95();
 			this.field_472 = new IGA();
@@ -15575,18 +15575,18 @@ public final class cGame extends GameCanvas implements Runnable {
 			this.field_473 = false;
 			break;
 		case 1:
-			IGA.method_38();
+			IGA.loadPromotionScreen();
 			field_430 = false;
 			break;
 		case 2:
-			IGA.method_43();
+			IGA.releasePromotionResources();
 			this.method_95();
 			gameState = 9;
 			this.assetsTotal = 8;
 			this.assetsLoaded = 0;
 			break;
 		case 3:
-			this.field_472.method_42(var1);
+			this.field_472.drawAndHandlePromotionScreen(var1);
 			break;
 		case 4:
 			method_363(0);

@@ -4,33 +4,33 @@ import javax.microedition.lcdui.Image;
 // $FF: renamed from: e
 public final class IGA {
 	// $FF: renamed from: a javax.microedition.lcdui.Image[]
-	public static Image[] field_58;
+	public static Image[] promotionImages;
 	// $FF: renamed from: a a
-	public static ASprite field_59;
+	public static ASprite navigationArrowSprite;
 	// $FF: renamed from: b a
-	public static ASprite field_60;
+	public static ASprite promotionFont;
 	// $FF: renamed from: a java.lang.String[]
-	public static String[] field_61;
+	public static String[] promotionLinks;
 	// $FF: renamed from: b java.lang.String[]
-	public static String[] field_62;
+	public static String[] promotionText;
 	// $FF: renamed from: a int
-	public static int field_63;
+	public static int crtPromotionPage;
 	// $FF: renamed from: b int
-	public static int field_64;
+	public static int promotionFrameCounter;
 	// $FF: renamed from: c int
-	public static int field_65;
+	public static int promotionScreenState;
 	// $FF: renamed from: a boolean
-	public boolean field_66;
+	public boolean arrowOffsetDecreasing;
 	// $FF: renamed from: d int
-	public int field_67;
+	public int arrowOffset;
 
 	public IGA() {
-		field_58 = new Image[5];
-		field_61 = new String[5];
+		promotionImages = new Image[5];
+		promotionLinks = new String[5];
 	}
 
 	// $FF: renamed from: a (java.lang.String) void
-	private static void method_37(String var0) {
+	private static void openPromotionLink(String var0) {
 		if (var0 != null) {
 			try {
 				cGame.field_358.platformRequest(var0);
@@ -40,73 +40,73 @@ public final class IGA {
 	}
 
 	// $FF: renamed from: a () void
-	public static void method_38() {
-		field_60 = cGame.field_320[41];
-		field_60._nLineSpacing = 1;
-		field_59 = cGame.loadGfxFile("/tips.f", 0);
-		if (field_62 == null) {
+	public static void loadPromotionScreen() {
+		promotionFont = cGame.field_320[41];
+		promotionFont._nLineSpacing = 1;
+		navigationArrowSprite = cGame.loadGfxFile("/tips.f", 0);
+		if (promotionText == null) {
 			boolean var0 = false;
-			field_62 = cGame.loadStringsFromFile("/lang_IGA.f", 15);
-			field_62[7] = cGame.getWrapText(field_62[7], 170);
-			field_62[8] = cGame.getWrapText(field_62[8], 170);
-			field_62[9] = cGame.getWrapText(field_62[9], 170);
+			promotionText = cGame.loadStringsFromFile("/lang_IGA.f", 15);
+			promotionText[7] = cGame.getWrapText(promotionText[7], 170);
+			promotionText[8] = cGame.getWrapText(promotionText[8], 170);
+			promotionText[9] = cGame.getWrapText(promotionText[9], 170);
 		}
 
 		int var3 = 10;
 
 		for(int var1 = 0; var3 <= 14; ++var1) {
-			field_61[var1] = cGame.field_358.getAppProperty(field_62[var3]);
-			if (field_61[var1] != null && (field_61[var1].compareTo("no") == 0 || field_61[var1].compareTo("") == 0)) {
-				field_61[var1] = null;
+			promotionLinks[var1] = cGame.field_358.getAppProperty(promotionText[var3]);
+			if (promotionLinks[var1] != null && (promotionLinks[var1].compareTo("no") == 0 || promotionLinks[var1].compareTo("") == 0)) {
+				promotionLinks[var1] = null;
 			}
 
 			++var3;
 		}
 
-		field_62[3] = field_62[3] + "\n\u0001\u0001" + field_62[4] + "\n\u0001\u0000" + field_62[5];
-		field_62[7] = new String("\u0001\u0000" + field_62[7]);
+		promotionText[3] = promotionText[3] + "\n\u0001\u0001" + promotionText[4] + "\n\u0001\u0000" + promotionText[5];
+		promotionText[7] = new String("\u0001\u0000" + promotionText[7]);
 
 		try {
 			for(int var4 = 0; var4 < 4; ++var4) {
-				field_58[var4] = Image.createImage("/ad" + (var4 + 1));
+				promotionImages[var4] = Image.createImage("/ad" + (var4 + 1));
 			}
 
 			cGame.field_323[0] = new ASpriteInstance(cGame.loadGfxFile("/ui.f", 0), 0, 0, (ASpriteInstance)null);
 		} catch (Exception var2) {
 		}
 
-		field_63 = 0;
+		crtPromotionPage = 0;
 		cGame.method_363(3);
 	}
 
 	// $FF: renamed from: a (int) void
-	private static void method_39(int var0) {
-		field_63 += var0;
-		if (field_63 == 3 && field_61[field_63] == null) {
-			field_63 += var0;
+	private static void movePromotionPage(int var0) {
+		crtPromotionPage += var0;
+		if (crtPromotionPage == 3 && promotionLinks[crtPromotionPage] == null) {
+			crtPromotionPage += var0;
 		}
 
-		if (field_63 < 0) {
-			field_63 = 4;
-		} else if (field_63 == 5) {
-			field_63 = 0;
+		if (crtPromotionPage < 0) {
+			crtPromotionPage = 4;
+		} else if (crtPromotionPage == 5) {
+			crtPromotionPage = 0;
 		}
 	}
 
 	// $FF: renamed from: a (javax.microedition.lcdui.Graphics, int) void
-	private static void method_40(Graphics var0, int var1) {
-		if (field_61[field_63] != null) {
-			if (field_64 % 30 >= 15) {
+	private static void drawBlinkingLinkPrompt(Graphics var0, int var1) {
+		if (promotionLinks[crtPromotionPage] != null) {
+			if (promotionFrameCounter % 30 >= 15) {
 				String var2;
-				if (field_63 >= 3) {
-					var2 = field_62[8];
+				if (crtPromotionPage >= 3) {
+					var2 = promotionText[8];
 				} else {
-					var2 = field_62[9];
+					var2 = promotionText[9];
 				}
 
-				field_60.UpdateStringSize(var2);
+				promotionFont.UpdateStringSize(var2);
 				int var3 = ASprite._text_w + 2;
-				int var4 = field_60.getStringHeight(var2);
+				int var4 = promotionFont.getStringHeight(var2);
 				int var6;
 				if (var1 != 0) {
 					var6 = 320 + var1 >> 1;
@@ -120,13 +120,13 @@ public final class IGA {
 				var0.setClip(0, 0, 240, 320);
 				var0.setColor(16711680);
 				var0.fillRect(120 - (var3 >> 1) - 4, var5 - 4, var3 + 8, var4 + 8);
-				field_60.DrawPage(var0, var2, 120, var5, 1);
+				promotionFont.DrawPage(var0, var2, 120, var5, 1);
 			}
 		}
 	}
 
 	// $FF: renamed from: b (javax.microedition.lcdui.Graphics) void
-	private static void method_41(Graphics var0) {
+	private static void drawPromotionGradient(Graphics var0) {
 		int var10 = 99;
 		int var12 = 189;
 		var0.setClip(0, 0, 240, 320);
@@ -142,87 +142,87 @@ public final class IGA {
 	}
 
 	// $FF: renamed from: a (javax.microedition.lcdui.Graphics) void
-	public final void method_42(Graphics var1) {
-		method_41(var1);	
+	public final void drawAndHandlePromotionScreen(Graphics var1) {
+		drawPromotionGradient(var1);
 		int var2 = 0;
-		if (field_63 != 3) {
+		if (crtPromotionPage != 3) {
 			cGame.field_323[0]._sprite.drawFrame(var1, 11, 120, 15, 0, 0, 0);
 		}
 
-		switch (field_63) {
+		switch (crtPromotionPage) {
 			case 3:
-				var1.drawImage(field_58[field_63], 120, 15, 17);
-				field_60.DrawPage(var1, field_62[3], 120, 160, 3);
-				field_60.UpdateStringSize(field_62[3]);
+				var1.drawImage(promotionImages[crtPromotionPage], 120, 15, 17);
+				promotionFont.DrawPage(var1, promotionText[3], 120, 160, 3);
+				promotionFont.UpdateStringSize(promotionText[3]);
 				var2 = 160 + (ASprite._text_h >> 1) + 4;
 				break;
 			case 4:
-				field_60.DrawPage(var1, "\n\u0001\u0002" + field_62[6], 120, 35, 17);
-				field_60.DrawPage(var1, field_62[7], 120, 160, 3);
-				field_60.UpdateStringSize(field_62[7]);
+				promotionFont.DrawPage(var1, "\n\u0001\u0002" + promotionText[6], 120, 35, 17);
+				promotionFont.DrawPage(var1, promotionText[7], 120, 160, 3);
+				promotionFont.UpdateStringSize(promotionText[7]);
 				var2 = 160 + (ASprite._text_h >> 1) + 4;
 				break;
 			default:
-				var1.drawImage(field_58[field_63], 120, 240, 33);
-				field_60.DrawPage(var1, field_62[field_63], 120, 242, 17);
+				var1.drawImage(promotionImages[crtPromotionPage], 120, 240, 33);
+				promotionFont.DrawPage(var1, promotionText[crtPromotionPage], 120, 242, 17);
 				var2 = 0;
 		}
 
 		cGame.field_92.drawBackButton();
-		if (field_61[field_63] != null) {
+		if (promotionLinks[crtPromotionPage] != null) {
 			cGame.field_92.drawOKButton();
 		}
 
-		method_40(var1, var2);
+		drawBlinkingLinkPrompt(var1, var2);
 		if (cGame.isKeyPressed(cGame.SKEY_NUM4|cGame.SKEY_LEFT)) {
-			method_39(-1);
+			movePromotionPage(-1);
 		} else if (cGame.isKeyPressed(cGame.SKEY_NUM6|cGame.SKEY_RIGHT)) {
-			method_39(1);
+			movePromotionPage(1);
 		} else if (cGame.isKeyPressed(cGame.SKEY_NUM5|cGame.SKEY_CENTER_ALT|cGame.SKEY_LSH|cGame.SKEY_CENTER)) {
-			method_37(field_61[field_63]);
+			openPromotionLink(promotionLinks[crtPromotionPage]);
 		} else if (cGame.isKeyPressed(cGame.SKEY_RSH)) {
 			cGame.field_92.openMenu(0);
-			field_65 = 2;
+			promotionScreenState = 2;
 			cGame.keysPressed = 0;
 		}
 
-		field_59.drawAnimFrame(var1, cGame.isKeyPressed(cGame.SKEY_NUM4|cGame.SKEY_LEFT) ? 2 : 0, field_64 % field_59.getAnimFrames(0), 20 + this.field_67, 160, 0, 0, 0);
-		field_59.drawAnimFrame(var1, cGame.isKeyPressed(cGame.SKEY_NUM6|cGame.SKEY_RIGHT) ? 3 : 1, field_64 % field_59.getAnimFrames(1), 220 - this.field_67, 160, 0, 0, 0);
-		this.field_67 += this.field_66 ? -1 : 1;
-		if (this.field_67 > 3 || this.field_67 < 1) {
-			this.field_66 = !this.field_66;
+		navigationArrowSprite.drawAnimFrame(var1, cGame.isKeyPressed(cGame.SKEY_NUM4|cGame.SKEY_LEFT) ? 2 : 0, promotionFrameCounter % navigationArrowSprite.getAnimFrames(0), 20 + this.arrowOffset, 160, 0, 0, 0);
+		navigationArrowSprite.drawAnimFrame(var1, cGame.isKeyPressed(cGame.SKEY_NUM6|cGame.SKEY_RIGHT) ? 3 : 1, promotionFrameCounter % navigationArrowSprite.getAnimFrames(1), 220 - this.arrowOffset, 160, 0, 0, 0);
+		this.arrowOffset += this.arrowOffsetDecreasing ? -1 : 1;
+		if (this.arrowOffset > 3 || this.arrowOffset < 1) {
+			this.arrowOffsetDecreasing = !this.arrowOffsetDecreasing;
 		}
 
 		cGame.keysPressed = 0;
 	}
 
 	// $FF: renamed from: b () void
-	public static void method_43() {
+	public static void releasePromotionResources() {
 		boolean var0 = false;
-		int var1 = field_58.length;
+		int var1 = promotionImages.length;
 
 		for(int var2 = 0; var2 < var1; ++var2) {
-			field_58[var2] = null;
+			promotionImages[var2] = null;
 		}
 
-		field_58 = null;
-		var1 = field_61.length;
+		promotionImages = null;
+		var1 = promotionLinks.length;
 
 		for(int var3 = 0; var3 < var1; ++var3) {
-			field_61[var3] = null;
+			promotionLinks[var3] = null;
 		}
 
-		field_61 = null;
-		var1 = field_62.length;
+		promotionLinks = null;
+		var1 = promotionText.length;
 
 		for(int var4 = 0; var4 < var1; ++var4) {
-			field_62[var4] = null;
+			promotionText[var4] = null;
 		}
 
-		field_62 = null;
-		field_60 = null;
-		field_59 = null;
-		field_65 = 0;
+		promotionText = null;
+		promotionFont = null;
+		navigationArrowSprite = null;
+		promotionScreenState = 0;
 		System.gc();
 	}
 }
