@@ -32,6 +32,7 @@ public final class cGame extends GameCanvas implements Runnable {
 	public static final int SKEY_NUM9 = 524288;
 	private static final int ENTITY_BROWN_SPIDER = 19;
 	private static final int ENTITY_RED_SPIDER = 43;
+	private static final int ENTITY_TURTLE = 49;
 	private static final int ENEMY_STUN_MASK = 248;
 	private static final int ENEMY_STUN_DECREMENT = 8;
 	private static final int ENEMY_STUN_ON_HIT = 120;
@@ -8213,7 +8214,7 @@ public final class cGame extends GameCanvas implements Runnable {
 					case 49:
 						int var14;
 						byte var15 = (var14 = field_333[var10][var11] & 7) == 0 ? 0 : field_335[var10][var11];
-						boolean var16 = var8 != 49 && var8 != 46;
+						boolean var16 = var8 != ENTITY_TURTLE && var8 != 46;
 						if (method_350(var1, var2, 0, 0, var10, var11, var14, var15)) {
 							var13 = true;
 							var12 = var16;
@@ -11304,7 +11305,7 @@ public final class cGame extends GameCanvas implements Runnable {
 					var5 &= -9;
 					break;
 				case 31:
-				case 49:
+				case ENTITY_TURTLE:
 					var15 = false;
 					break;
 				case 34:
@@ -12804,8 +12805,8 @@ public final class cGame extends GameCanvas implements Runnable {
 								this.method_305();
 							}
 							break label215;
-						case 49:
-							this.updatePatrollingEnemy((byte)49);
+						case ENTITY_TURTLE:
+							this.updatePatrollingEnemy((byte)ENTITY_TURTLE);
 							break label215;
 						case 50:
 							if (this.field_232 < 12 && this.method_298(this.field_279, this.field_280) && !this.field_140) {
