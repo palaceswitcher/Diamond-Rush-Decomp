@@ -6,26 +6,26 @@ public final class GloftDIRU extends MIDlet {
 	// $FF: renamed from: a byte[]
 	public static byte[] gameVersion = null;
 	// $FF: renamed from: a i
-	public cGame field_575;
+	public cGame gameCanvas;
 	// $FF: renamed from: a javax.microedition.lcdui.Display
-	public Display field_576;
+	public Display display;
 
 	public GloftDIRU() {
 		gameVersion = this.getAppProperty("MIDlet-Version").getBytes();
-		this.field_575 = new cGame(this);
+		this.gameCanvas = new cGame(this);
 	}
 
 	public final void startApp() throws MIDletStateChangeException {
-		if (this.field_576 == null) {
-			this.field_576 = Display.getDisplay(this);
+		if (this.display == null) {
+			this.display = Display.getDisplay(this);
 		}
 
-		this.field_576.setCurrent(this.field_575);
-		this.field_575.method_292();
+		this.display.setCurrent(this.gameCanvas);
+		this.gameCanvas.resumeGameCanvas();
 	}
 
 	public final void pauseApp() {
-		this.field_575.method_291();
+		this.gameCanvas.pauseGameCanvas();
 		this.notifyPaused();
 	}
 
@@ -34,10 +34,10 @@ public final class GloftDIRU extends MIDlet {
 	}
 
 	// $FF: renamed from: a () void
-	public final void method_443() {
-		cGame.method_289();
-		this.field_575.field_353.method_55(); // Release sound player resources
-		this.method_444();
+	public final void exitGame() {
+		cGame.requestGameLoopExit();
+		this.gameCanvas.soundEngine.releaseMidiPlayersAndStopThread(); // Release sound player resources
+		this.releaseDisplayReferences();
 
 		try {
 			this.destroyApp(true);
@@ -46,9 +46,9 @@ public final class GloftDIRU extends MIDlet {
 	}
 
 	// $FF: renamed from: b () void
-	private void method_444() {
-		this.field_575 = null;
-		this.field_576 = null;
+	private void releaseDisplayReferences() {
+		this.gameCanvas = null;
+		this.display = null;
 		System.gc();
 	}
 }

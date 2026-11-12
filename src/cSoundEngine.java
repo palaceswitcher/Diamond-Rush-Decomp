@@ -70,7 +70,7 @@ public final class cSoundEngine implements Runnable, PlayerListener {
 	 * Load the specified audio data into the midiPlayers
 	 * @param soundId The ID of the audio data to be loaded
 	 */
-	public final void method_51(int soundId) {
+	public final void loadMidiPlayer(int soundId) {
 		if (midiPlayers == null) {
 			midiPlayers = new Player[TOTAL_SOUNDS]; // Initialize players for each MIDI
 		}
@@ -94,7 +94,7 @@ public final class cSoundEngine implements Runnable, PlayerListener {
 	/**
 	 * Start the audio playback thread
 	 */
-	public final void method_52() {
+	public final void startSoundThread() {
 		stopSoundThreadLoop = false;
 		this.soundThread = new Thread(this);
 		this.soundThread.setPriority(1);
@@ -121,7 +121,7 @@ public final class cSoundEngine implements Runnable, PlayerListener {
 	}
 
 	// $FF: renamed from: c () void
-	public final void method_54() {
+	public final void closeSoundPackStream() {
 		try {
 			crtSoundId = -1;
 			previousSoundId = -1;
@@ -138,7 +138,7 @@ public final class cSoundEngine implements Runnable, PlayerListener {
 	/**
 	 * Release player resources and stop the audio playback thread loop
 	 */
-	public final void method_55() {
+	public final void releaseMidiPlayersAndStopThread() {
 		if (midiPlayers != null) {
 			this.freeCrtPlayerResource();
 			int var1 = midiPlayers.length;
@@ -315,7 +315,7 @@ public final class cSoundEngine implements Runnable, PlayerListener {
 	}
 
 	// $FF: renamed from: a () boolean
-	public static synchronized boolean method_60() {
+	public static synchronized boolean hasCrtSound() {
 		return crtSoundId != -1;
 	}
 
