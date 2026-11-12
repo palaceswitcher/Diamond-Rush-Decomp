@@ -6864,34 +6864,34 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: aL () void
-	private void method_206() {
+	private void updateSmallMonkey() {
 		int var1 = this.field_279;
 		int var2 = this.field_280;
 		field_336[var1][var2] = 24;
-		int var3 = (field_333[var1][var2] & 7168) >> 10;
-		int var4 = field_333[var1][var2] & 15;
-		int var5 = 0;
+		int hammerHitCount = (field_333[var1][var2] & 7168) >> 10;
+		int crtMonkeyAnimation = field_333[var1][var2] & 15;
+		int monkeyAnimationDuration = 0;
 		boolean var6 = (field_332[var1][var2] & 255) == 35;
-		if (var4 == 10) {
-			var5 = 100;
+		if (crtMonkeyAnimation == 10) {
+			monkeyAnimationDuration = 100;
 		} else {
-			int var7 = field_320[28].getAnimFrames(var4);
+			int var7 = field_320[28].getAnimFrames(crtMonkeyAnimation);
 
 			for (int var8 = 0; var8 < var7; ++var8) {
-				var5 += field_320[28].GetAFrameTime(var4, var8);
+				monkeyAnimationDuration += field_320[28].GetAFrameTime(crtMonkeyAnimation, var8);
 			}
 		}
 
-		int var16 = (field_333[var1][var2] & 2088960) >> 13;
-		var16++;
-		field_333[var1][var2] = field_333[var1][var2] & -2088961 | var16 << 13;
-		field_335[var1][var2] = (byte) ((var4 >= 4 && var4 <= 9) ? 12 : 0);
+		int elapsedAnimationTicks = (field_333[var1][var2] & 2088960) >> 13;
+		elapsedAnimationTicks++;
+		field_333[var1][var2] = field_333[var1][var2] & -2088961 | elapsedAnimationTicks << 13;
+		field_335[var1][var2] = (byte) ((crtMonkeyAnimation >= 4 && crtMonkeyAnimation <= 9) ? 12 : 0);
 
-		if (var16 > var5 >> 1) {
+		if (elapsedAnimationTicks > monkeyAnimationDuration >> 1) {
 			if (!var6) {
-				if (this.method_298(var1, var2) && var4 != 10) {
+				if (this.method_298(var1, var2) && crtMonkeyAnimation != 10) {
 					byte var21;
-					switch (var4) {
+					switch (crtMonkeyAnimation) {
 					case 4:
 					case 5:
 						var21 = 1;
@@ -6921,11 +6921,11 @@ public final class cGame extends GameCanvas implements Runnable {
 				}
 			}
 
-			if (var16 >= var5) {
+			if (elapsedAnimationTicks >= monkeyAnimationDuration) {
 				method_345(var1, var2);
-				int var10 = this.chooseDirectionTowardTile(var1, var2, this.playerXPos, this.playerYPos, true);
+				int directionTowardPlayer = this.chooseDirectionTowardTile(var1, var2, this.playerXPos, this.playerYPos, true);
 				boolean var11 = false;
-				switch (var4) {
+				switch (crtMonkeyAnimation) {
 				case 0:
 				case 3:
 				case 4:
@@ -6938,56 +6938,56 @@ public final class cGame extends GameCanvas implements Runnable {
 				case 6:
 				case 8:
 				default:
-					boolean var12 = var10 == 4;
-					int var9;
+					boolean var12 = directionTowardPlayer == 4;
+					int nextMonkeyAnimation;
 					int var13;
 					int var14;
 					if (var11 != var12) {
-						var9 = var12 ? 3 : 2;
+						nextMonkeyAnimation = var12 ? 3 : 2;
 						var13 = var1;
 						var14 = var2;
 					} else {
-						var13 = var1 - field_325[var10];
-						var14 = var2 - field_325[8 + var10];
+						var13 = var1 - field_325[directionTowardPlayer];
+						var14 = var2 - field_325[8 + directionTowardPlayer];
 						if (var12) {
-							if (this.method_298(var13, var14) && var4 != 0) {
-								var9 = 0;
+							if (this.method_298(var13, var14) && crtMonkeyAnimation != 0) {
+								nextMonkeyAnimation = 0;
 								var13 = var1;
 								var14 = var2;
 							} else {
-								switch (var10) {
+								switch (directionTowardPlayer) {
 								case 1:
-									var9 = 4;
+									nextMonkeyAnimation = 4;
 									break;
 								case 2:
 								default:
-									var9 = 0;
+									nextMonkeyAnimation = 0;
 									break;
 								case 3:
-									var9 = 7;
+									nextMonkeyAnimation = 7;
 									break;
 								case 4:
-									var9 = 9;
+									nextMonkeyAnimation = 9;
 								}
 							}
 						} else {
-							if (this.method_298(var13, var14) && var4 != 1) {
-								var9 = 1;
+							if (this.method_298(var13, var14) && crtMonkeyAnimation != 1) {
+								nextMonkeyAnimation = 1;
 								var13 = var1;
 								var14 = var2;
 							} else {
-								switch (var10) {
+								switch (directionTowardPlayer) {
 								case 1:
-									var9 = 5;
+									nextMonkeyAnimation = 5;
 									break;
 								case 2:
-									var9 = 6;
+									nextMonkeyAnimation = 6;
 									break;
 								case 3:
-									var9 = 8;
+									nextMonkeyAnimation = 8;
 									break;
 								default:
-									var9 = 1;
+									nextMonkeyAnimation = 1;
 								}
 							}
 						}
@@ -6995,7 +6995,7 @@ public final class cGame extends GameCanvas implements Runnable {
 
 					if (field_334[var13][var14] >= 0 || var6) {
 						if (var13 != var1 || var14 != var2) {
-							var9 = 0;
+							nextMonkeyAnimation = 0;
 						}
 
 						var13 = var1;
@@ -7004,7 +7004,7 @@ public final class cGame extends GameCanvas implements Runnable {
 
 					field_334[var1][var2] = -1;
 					field_335[var13][var14] = 0;
-					field_333[var13][var14] = var3 << 10 | var9;
+					field_333[var13][var14] = hammerHitCount << 10 | nextMonkeyAnimation;
 					field_333[var13][var14] &= -2088961;
 					field_334[var13][var14] = 45;
 				}
@@ -7012,13 +7012,13 @@ public final class cGame extends GameCanvas implements Runnable {
 		}
 
 		if (var6) {
-			if (!this.method_298(var1, var2) || var4 == 10) {
+			if (!this.method_298(var1, var2) || crtMonkeyAnimation == 10) {
 				return;
 			}
 		} else {
 			int var19 = var1;
 			int var20 = var2;
-			switch (var4) {
+			switch (crtMonkeyAnimation) {
 			case 0:
 			case 1:
 			case 2:
@@ -8136,7 +8136,7 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: f (int, int) void
-	private void method_230(int var1, int var2) {
+	private void applyHammerHit(int var1, int var2) {
 		int[] var3;
 		int[] var4;
 		boolean var5;
@@ -8231,13 +8231,13 @@ public final class cGame extends GameCanvas implements Runnable {
 					} else if (var12) {
 						this.field_233 |= 8192;
 						if (var8 == 45) {
-							int var17;
-							if ((var17 = (field_333[var10][var11] & 7168) >> 10) == 3) {
+							int monkeyHammerHitCount;
+							if ((monkeyHammerHitCount = (field_333[var10][var11] & 7168) >> 10) == 3) {
 								field_334[var10][var11] = -1;
 								this.method_335(var10, var11);
 							} else {
-								var17++;
-								field_333[var10][var11] = 10 | var17 << 10;
+								monkeyHammerHitCount++;
+								field_333[var10][var11] = 10 | monkeyHammerHitCount << 10;
 								field_333[var10][var11] = field_333[var10][var11] & -249 | 120;
 								field_335[var10][var11] = 0;
 							}
@@ -8511,7 +8511,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			this.method_263();
 		}
 
-		this.method_304();
+		this.updateNearbyTiles();
 		if (this.field_193 > 0) {
 			this.method_239();
 		}
@@ -9460,7 +9460,7 @@ public final class cGame extends GameCanvas implements Runnable {
 									this.method_254(var11, var14, -1);
 								}
 
-								this.method_230(var11, var14);
+								this.applyHammerHit(var11, var14);
 								this.field_196 = 0;
 								keysPressed = 0;
 							}
@@ -12496,15 +12496,15 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: bF () void
-	private void method_304() {
+	private void updateNearbyTiles() {
 		int var2 = this.playerXPos - 8;
 		int var3 = this.playerXPos + 8;
 		int var4 = this.playerYPos + 8;
 		int var5 = this.playerYPos - 8;
-		int var6 = 0;
+		int dragonFlameReach = 0;
 		if (field_323[4] != null) {
-			int var7;
-			var6 = (var7 = field_323[4]._nCrtAFrame) == 0 ? 0 : (var7 <= 10 ? 1 : (var7 <= 20 ? 2 : 3));
+			int dragonFlameFrame;
+			dragonFlameReach = (dragonFlameFrame = field_323[4]._nCrtAFrame) == 0 ? 0 : (dragonFlameFrame <= 10 ? 1 : (dragonFlameFrame <= 20 ? 2 : 3));
 		}
 
 		if (var2 < 1) {
@@ -12788,7 +12788,7 @@ public final class cGame extends GameCanvas implements Runnable {
 							this.method_314();
 							break label215;
 						case 45:
-							this.method_206();
+							this.updateSmallMonkey();
 							break label215;
 						case 46:
 							this.method_312();
@@ -12826,7 +12826,7 @@ public final class cGame extends GameCanvas implements Runnable {
 							break label215;
 						}
 
-						var10000.method_320(var10001, var6);
+						var10000.checkDragonFlameCollision(var10001, dragonFlameReach);
 					}
 				}
 
@@ -13514,15 +13514,15 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: o (int, int) void
-	private void method_320(int var1, int var2) {
-		int var3 = this.field_279;
-		int var4 = this.field_280;
-		int var5 = var1 == 23 ? -1 : 1;
-		field_336[var3][var4] = 24;
-		if (this.playerYPos == var4) {
-			for (int var6 = 0; var6 <= var2; ++var6) {
-				int var7 = var3 + var6 * var5;
-				if (this.playerXPos == var7) {
+	private void checkDragonFlameCollision(int dragonHeadEntityId, int flameReach) {
+		int dragonTileX = this.field_279;
+		int dragonTileY = this.field_280;
+		int flameDirectionX = dragonHeadEntityId == 23 ? -1 : 1;
+		field_336[dragonTileX][dragonTileY] = 24;
+		if (this.playerYPos == dragonTileY) {
+			for (int flameTileDistance = 0; flameTileDistance <= flameReach; ++flameTileDistance) {
+				int flameTileX = dragonTileX + flameTileDistance * flameDirectionX;
+				if (this.playerXPos == flameTileX) {
 					this.method_61(1, 64, 0);
 				}
 			}
