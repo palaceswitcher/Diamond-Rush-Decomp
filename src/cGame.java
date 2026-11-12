@@ -459,7 +459,7 @@ public final class cGame extends GameCanvas implements Runnable {
 	// $FF: renamed from: cd int
 	public int field_305;
 	// $FF: renamed from: a java.io.InputStream
-	public InputStream field_306;
+	public InputStream resourceInputStream;
 	// $FF: renamed from: p byte
 	public byte field_307;
 	// $FF: renamed from: q byte
@@ -979,7 +979,7 @@ public final class cGame extends GameCanvas implements Runnable {
 	// $FF: renamed from: s byte[]
 	public static byte[] field_565;
 	// $FF: renamed from: b java.lang.String[]
-	public static final String[] field_566;
+	public static final String[] worldMapResourcePaths;
 	// $FF: renamed from: es int
 	public static int field_567;
 	// $FF: renamed from: o long
@@ -2127,12 +2127,12 @@ public final class cGame extends GameCanvas implements Runnable {
 				return;
 			case 10: // Get current world block sprite
 				String var2 = "/" + this.currentWorld + ".f";
-				this.field_306 = this.getClass().getResourceAsStream(var2);
+				this.resourceInputStream = this.getClass().getResourceAsStream(var2);
 				// Get how many sprites in packed data file
-				this.field_304 = this.field_306.read();
+				this.field_304 = this.resourceInputStream.read();
 				// Load data length and data offset in packed data file
 				field_347 = new byte[this.field_304 << 3];
-				this.field_306.read(field_347);
+				this.resourceInputStream.read(field_347);
 				return;
 			default:
 				int var6 = var1 - 10 - 1;
@@ -2152,8 +2152,8 @@ public final class cGame extends GameCanvas implements Runnable {
 							// Already load all needed sprites in cm.f
 							// close file stream
 							if (var6 == 7) {
-								this.field_306.close();
-								this.field_306 = null;
+								this.resourceInputStream.close();
+								this.resourceInputStream = null;
 								System.gc();
 							}
 
@@ -2179,8 +2179,8 @@ public final class cGame extends GameCanvas implements Runnable {
 									case 1:
 										this.method_102(var6);
 										if (var6 == 2) {
-											this.field_306.close();
-											this.field_306 = null;
+											this.resourceInputStream.close();
+											this.resourceInputStream = null;
 										}
 
 										return;
@@ -2207,8 +2207,8 @@ public final class cGame extends GameCanvas implements Runnable {
 										field_318[32] = var12._modules_image[0];
 										field_320[20] = loadGfxFileInit("/gen0.f", 7, 0);
 										if (var6 == 1) {
-											this.field_306.close();
-											this.field_306 = null;
+											this.resourceInputStream.close();
+											this.resourceInputStream = null;
 										}
 
 										return;
@@ -2732,7 +2732,7 @@ public final class cGame extends GameCanvas implements Runnable {
 		this.field_172 = 0;
 		field_173 = null;
 		field_192 = null;
-		this.field_306 = null;
+		this.resourceInputStream = null;
 		field_347 = null;
 		field_513 = null;
 		field_514 = null;
@@ -2848,7 +2848,7 @@ public final class cGame extends GameCanvas implements Runnable {
 	private void loadCrtWorldBlockSprite(int sprIndex) throws Exception {
 		ASprite var4;
 		byte[] var3 = new byte[getI32FromBytes(field_347, sprIndex * 8 + 4)];
-		this.field_306.read(var3);
+		this.resourceInputStream.read(var3);
 		var4 = new ASprite();
 		var4.Load(var3, 0);
 		var4.BuildCacheImages(0, 0, -1, -1);
@@ -2890,18 +2890,18 @@ public final class cGame extends GameCanvas implements Runnable {
 	private void loadCmSprite(int spriteNum) {
 		try {
 			if (spriteNum == 0) {
-				this.field_306.close();
-				this.field_306 = null;
+				this.resourceInputStream.close();
+				this.resourceInputStream = null;
 				System.gc();
-				this.field_306 = this.getClass().getResourceAsStream("/cm.f");
-				this.field_304 = this.field_306.read();
+				this.resourceInputStream = this.getClass().getResourceAsStream("/cm.f");
+				this.field_304 = this.resourceInputStream.read();
 				field_347 = new byte[this.field_304 << 3];
-				this.field_306.read(field_347);
+				this.resourceInputStream.read(field_347);
 			}
 
 			ASprite var4;
 			byte[] var3 = new byte[getI32FromBytes(field_347, spriteNum * 8 + 4)];
-			this.field_306.read(var3);
+			this.resourceInputStream.read(var3);
 			var4 = new ASprite();
 			var4.Load(var3, 0);
 			var4.BuildCacheImages(0, 0, -1, -1);
@@ -2970,14 +2970,14 @@ public final class cGame extends GameCanvas implements Runnable {
 	private void loadGenSprite(int sprIndex) {
 		try {
 			if (sprIndex % 10 == 0) {
-				this.field_306.close();
-				this.field_306 = null;
+				this.resourceInputStream.close();
+				this.resourceInputStream = null;
 				StringBuffer var2 = new StringBuffer("/gen");
 				var2.append(this.field_267).append(".f");
-				this.field_306 = this.getClass().getResourceAsStream(var2.toString());
-				this.field_304 = this.field_306.read();
+				this.resourceInputStream = this.getClass().getResourceAsStream(var2.toString());
+				this.field_304 = this.resourceInputStream.read();
 				field_347 = new byte[this.field_304 << 3];
-				this.field_306.read(field_347);
+				this.resourceInputStream.read(field_347);
 				this.field_305 = 0;
 				this.field_267++;
 			}
@@ -2992,13 +2992,13 @@ public final class cGame extends GameCanvas implements Runnable {
 
 			// Skip the data offset we previously stored
 			if (this.field_305 != 0) {
-				this.field_306.skip((long)this.field_305);
+				this.resourceInputStream.skip((long)this.field_305);
 				this.field_305 = 0;
 			}
 
 			// Load sprite to specific pos
 			byte[] var4 = new byte[sprDataSize];
-			this.field_306.read(var4);
+			this.resourceInputStream.read(var4);
 			ASprite var5 = new ASprite();
 			var5.Load(var4, 0);
 			if ((sprIndex != 28 || this.hasLockedGoldenGateInLevel) && (sprIndex != 24 || this.field_460)) {
@@ -3199,14 +3199,14 @@ public final class cGame extends GameCanvas implements Runnable {
 	private void loadAngkorBossSprite(int spriteNum) {
 		try {
 			if (spriteNum == 0) {
-				this.field_306 = this.getClass().getResourceAsStream("/b0.f");
-				this.field_304 = this.field_306.read(); // Get number of subfiles
+				this.resourceInputStream = this.getClass().getResourceAsStream("/b0.f");
+				this.field_304 = this.resourceInputStream.read(); // Get number of subfiles
 				field_347 = new byte[this.field_304 * 8];
-				this.field_306.read(field_347); // Offset and size pairs for each subfile
+				this.resourceInputStream.read(field_347); // Offset and size pairs for each subfile
 			}
 
 			byte[] subFileData = new byte[getI32FromBytes(field_347, spriteNum * 8 + 4)]; // Allocate space for size of subfile
-			this.field_306.read(subFileData); // Read subfile data
+			this.resourceInputStream.read(subFileData); // Read subfile data
 			ASprite sprite = new ASprite();
 			sprite.Load(subFileData, 0); // Load sprite from subfile
 			sprite.BuildCacheImages(0, 0, -1, -1); // Cache images from sprite
@@ -3229,14 +3229,14 @@ public final class cGame extends GameCanvas implements Runnable {
 	private void method_102(int var1) {
 		try {
 			if (var1 == 0) {
-				this.field_306 = this.getClass().getResourceAsStream("/mm0.f");
-				this.field_304 = this.field_306.read();
+				this.resourceInputStream = this.getClass().getResourceAsStream("/mm0.f");
+				this.field_304 = this.resourceInputStream.read();
 				field_347 = new byte[this.field_304 * 8];
-				this.field_306.read(field_347);
+				this.resourceInputStream.read(field_347);
 			}
 
 			byte[] var3 = new byte[getI32FromBytes(field_347, var1 * 8 + 4)];
-			this.field_306.read(var3);
+			this.resourceInputStream.read(var3);
 			ASprite var4;
 			(var4 = new ASprite()).Load(var3, 0);
 			var4.BuildCacheImages(0, 0, -1, -1);
@@ -3415,13 +3415,13 @@ public final class cGame extends GameCanvas implements Runnable {
 					var2 = "/map_tibet.out";
 				}
 
-				this.field_306 = this.getClass().getResourceAsStream(field_566[var1 - 2]);
-				this.field_306.read();
+				this.resourceInputStream = this.getClass().getResourceAsStream(worldMapResourcePaths[var1 - 2]);
+				this.resourceInputStream.read();
 				int var4 = var1 - 2;
 				int var5 = this.field_382;
 				recordData[14 + var4 * 2] = (byte)(this.field_382 & 255);
 				recordData[14 + var4 * 2 + 1] = (byte)(this.field_382 >> 8);
-				int var6 = this.field_306.read();
+				int var6 = this.resourceInputStream.read();
 				recordData[this.field_382++] = (byte)var6;
 				recordData[this.field_382++] = 0;
 				this.method_409();
@@ -3436,10 +3436,10 @@ public final class cGame extends GameCanvas implements Runnable {
 					recordData[var5 + 3 + i * 2 + 1] = (byte)(var8 >> 8);
 					byte var9 = 0;
 					byte var10 = 0;
-					int var11 = readU16FromStream(this.field_306);
-					int var12 = readU16FromStream(this.field_306);
+					int var11 = readU16FromStream(this.resourceInputStream);
+					int var12 = readU16FromStream(this.resourceInputStream);
 					byte[] var13 = new byte[var11 * var12];
-					this.field_306.read(var13);
+					this.resourceInputStream.read(var13);
 
 					for (int var14 = 0; var14 < var12; ++var14) {
 						for (int var15 = 0; var15 < var11; ++var15) {
@@ -3453,10 +3453,10 @@ public final class cGame extends GameCanvas implements Runnable {
 					recordData[this.field_382++] = 0;
 					recordData[this.field_382++] = var10;
 					recordData[this.field_382++] = 0;
-					this.field_306.skip((long)(var11 * var12));
+					this.resourceInputStream.skip((long)(var11 * var12));
 					int var19 = this.field_382;
 					this.field_382 += 2;
-					this.field_306.read(var13);
+					this.resourceInputStream.read(var13);
 
 					for (int var20 = 0; var20 < var12; ++var20) {
 						for (int var16 = 0; var16 < var11; ++var16) {
@@ -3472,8 +3472,8 @@ public final class cGame extends GameCanvas implements Runnable {
 					recordData[var19 + 1] = var9;
 				}
 
-				this.field_306.close();
-				this.field_306 = null;
+				this.resourceInputStream.close();
+				this.resourceInputStream = null;
 				System.gc();
 			case 5:
 			}
@@ -3695,20 +3695,20 @@ public final class cGame extends GameCanvas implements Runnable {
 		field_345 = -1;
 		field_344 = null;
 		field_343 = null;
-		this.field_306 = this.getClass().getResourceAsStream(field_566[this.currentWorld]);
-		this.field_306.read();
+		this.resourceInputStream = this.getClass().getResourceAsStream(worldMapResourcePaths[this.currentWorld]);
+		this.resourceInputStream.read();
 		boolean var2 = false;
 
 		while(!var2) {
-			int var3 = this.field_306.read();
+			int var3 = this.resourceInputStream.read();
 			int var4 = 0;
 
 			for (byte[] buf = new byte[4]; var4 < var3 && !var2; var4++) {
-				this.field_306.read(buf);
+				this.resourceInputStream.read(buf);
 				int levelWidth = getShortFromBytes(buf, 0);
 				int levelHeight = getShortFromBytes(buf, 2); // Get level dimensions
 				if (var4 != this.currentLevel) {
-					this.field_306.skip((long)(levelWidth * levelHeight * 3)); // Skip until the data for the current level is found
+					this.resourceInputStream.skip((long)(levelWidth * levelHeight * 3)); // Skip until the data for the current level is found
 				} else {
 					this.crtLevelWidth = levelWidth;
 					this.crtLevelHeight = levelHeight;
@@ -3720,7 +3720,7 @@ public final class cGame extends GameCanvas implements Runnable {
 					field_336 = new byte[this.crtLevelWidth][this.crtLevelHeight];
 					field_332 = new int[this.crtLevelWidth][this.crtLevelHeight];
 					buf = new byte[this.crtLevelWidth * this.crtLevelHeight];
-					this.field_306.read(buf);
+					this.resourceInputStream.read(buf);
 
 					for (int c = 0; c < this.crtLevelWidth; c++) {
 						for (int r = 0; r < this.crtLevelHeight; r++) {
@@ -3730,7 +3730,7 @@ public final class cGame extends GameCanvas implements Runnable {
 
 					field_335 = new byte[this.crtLevelWidth][this.crtLevelHeight];
 					field_333 = new int[this.crtLevelWidth][this.crtLevelHeight];
-					this.field_306.read(buf);
+					this.resourceInputStream.read(buf);
 
 					for (int c = 0; c < this.crtLevelWidth; c++) {
 						for (int r = 0; r < this.crtLevelHeight; r++) {
@@ -3738,7 +3738,7 @@ public final class cGame extends GameCanvas implements Runnable {
 						}
 					}
 
-					this.field_306.read(buf);
+					this.resourceInputStream.read(buf);
 
 					for (int c = 0; c < this.crtLevelWidth; c++) {
 						for (int r = 0; r < this.crtLevelHeight; r++) {
@@ -3752,8 +3752,8 @@ public final class cGame extends GameCanvas implements Runnable {
 			}
 		}
 
-		this.field_306.close();
-		this.field_306 = null;
+		this.resourceInputStream.close();
+		this.resourceInputStream = null;
 		this.field_201 = this.field_203 = 0;
 		this.field_202 = this.field_204 = 0;
 		this.method_285();
@@ -18789,7 +18789,7 @@ public final class cGame extends GameCanvas implements Runnable {
 		field_562 = new int[]{28, 29, 30};
 		field_563 = new int[][]{{8, 9, 10, 11, 12, 14, 15, 16, 17, 20, 21, 22, 23}, {8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 20, 21, 22}, {8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 20, 21, 22, 47}};
 		field_565 = null;
-		field_566 = new String[]{"/w0.bin", "/w1.bin", "/w2.bin"};
+		worldMapResourcePaths = new String[]{"/w0.bin", "/w1.bin", "/w2.bin"};
 		field_567 = 0;
 	}
 }
