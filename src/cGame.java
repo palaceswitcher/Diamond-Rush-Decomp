@@ -757,11 +757,11 @@ public final class cGame extends GameCanvas implements Runnable {
 	// $FF: renamed from: l long
 	public long field_454;
 	// $FF: renamed from: ae boolean
-	public boolean field_455;
+	public boolean gameCanvasPaused;
 	// $FF: renamed from: af boolean
 	public boolean field_456;
 	// $FF: renamed from: m long
-	public long field_457;
+	public long elapsedTimeAtPause;
 	// $FF: renamed from: ag boolean
 	public boolean hasLockedGoldenGateInLevel;
 	// $FF: renamed from: ah boolean
@@ -1116,7 +1116,7 @@ public final class cGame extends GameCanvas implements Runnable {
 		this.field_451 = 0;
 		this.field_453 = 0L;
 		this.field_454 = 0L;
-		this.field_455 = false;
+		this.gameCanvasPaused = false;
 		this.field_456 = false;
 		this.field_461 = false;
 		this.field_463 = 0;
@@ -1299,7 +1299,7 @@ public final class cGame extends GameCanvas implements Runnable {
 
 		while(!this.quit) {
 			Thread.yield(); // Yield to any other running threads
-			if (!this.field_455) {
+			if (!this.gameCanvasPaused) {
 				this.field_368 = System.currentTimeMillis();
 
 				try {
@@ -1609,16 +1609,16 @@ public final class cGame extends GameCanvas implements Runnable {
 			break;
 		case 7:
 			if (System.currentTimeMillis() - this.field_228 >= 1000L) {
-				GemsRain.field_29 = new byte[12][13];
+				GemsRain.primaryGemGrid = new byte[12][13];
 				this.field_145++;
-				GemsRain.method_17(3);
+				GemsRain.seedTopGemRows(3);
 				this.soundEngine.playSound(cSoundEngine.SOUND_M_TITLE);
 				this.method_65();
 				return;
 			}
 			break;
 		case 8:
-			GemsRain.method_16(3);
+			GemsRain.advanceGemRain(3);
 			this.field_557 = true;
 			if (System.currentTimeMillis() - this.field_228 >= 15000L) {
 				this.field_145++;
@@ -1628,7 +1628,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			break;
 		case 9:
 			this.field_557 = true;
-			GemsRain.method_16(3);
+			GemsRain.advanceGemRain(3);
 			if (System.currentTimeMillis() - this.field_228 >= 12000L) {
 				this.field_145++;
 				this.method_65();
@@ -4011,11 +4011,11 @@ public final class cGame extends GameCanvas implements Runnable {
 		case 7:
 			return;
 		case 8:
-			GemsRain.method_18(this.field_314);
+			GemsRain.drawGemRain(this.field_314);
 			return;
 		case 9:
 		case 10:
-			GemsRain.method_18(this.field_314);
+			GemsRain.drawGemRain(this.field_314);
 			int var4 = field_320[41]._nLineSpacing;
 			field_320[41]._nLineSpacing = 3;
 			String var6 = getWrapText(menuText[40] + "\n" + menuText[97], 220);
@@ -11399,8 +11399,8 @@ public final class cGame extends GameCanvas implements Runnable {
 
 	// $FF: renamed from: e () void
 	public final void pauseGameCanvas() {
-		this.field_457 = System.currentTimeMillis() - this.field_228;
-		this.field_455 = true;
+		this.elapsedTimeAtPause = System.currentTimeMillis() - this.field_228;
+		this.gameCanvasPaused = true;
 		System.out.println(cSoundEngine.hasCrtSound());
 		if ((gameState == 30 || gameState == 4) && cSoundEngine.hasCrtSound()) {
 			this.field_456 = true;
@@ -11410,14 +11410,14 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	public final void showNotify() {
-		if (this.field_455) {
+		if (this.gameCanvasPaused) {
 			this.resumeGameCanvas();
 		}
 
 	}
 
 	public final void hideNotify() {
-		if (!this.field_455) {
+		if (!this.gameCanvasPaused) {
 			this.pauseGameCanvas();
 		}
 
@@ -11425,7 +11425,7 @@ public final class cGame extends GameCanvas implements Runnable {
 
 	// $FF: renamed from: f () void
 	public final void resumeGameCanvas() {
-		this.field_455 = false;
+		this.gameCanvasPaused = false;
 		field_429 = true;
 		field_430 = true;
 		this.noKeysPressed = true;
@@ -11435,7 +11435,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			this.currentMenuSelection = 0;
 		}
 
-		this.field_228 = System.currentTimeMillis() - this.field_457;
+		this.field_228 = System.currentTimeMillis() - this.elapsedTimeAtPause;
 		switch (gameState) {
 		case 0:
 		case 6:
