@@ -4880,7 +4880,7 @@ public final class cGame extends GameCanvas implements Runnable {
 									this.method_194((byte)this.field_283);
 									break label194;
 								case 44:
-									this.method_160();
+									this.selectIcicleSprite();
 									this.field_286 = 0;
 									break label194;
 								case 45:
@@ -5459,7 +5459,7 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: ae () void
-	private void method_160() {
+	private void selectIcicleSprite() {
 		this.field_285 = (field_333[this.processedTileX][this.processedTileY] & 56) >> 3;
 		field_324 = field_320[27];
 		switch (this.field_285) {
@@ -10517,7 +10517,7 @@ public final class cGame extends GameCanvas implements Runnable {
 				if ((j <= var4 || j >= var5 || i <= var6 || i >= var7) && field_334[j][i] == 44) {
 					this.field_279 = j;
 					this.field_280 = i;
-					this.method_314();
+					this.updateFallingIcicle();
 				}
 			}
 		}
@@ -12786,7 +12786,7 @@ public final class cGame extends GameCanvas implements Runnable {
 							this.updatePatrollingEnemy((byte)ENTITY_RED_SPIDER);
 							break label215;
 						case 44:
-							this.method_314();
+							this.updateFallingIcicle();
 							break label215;
 						case 45:
 							this.updateSmallMonkey();
@@ -13244,41 +13244,41 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: bK () void
-	private void method_314() {
-		int var1 = this.field_279;
-		int var2 = this.field_280;
-		field_336[var1][var2] = 24;
+	private void updateFallingIcicle() {
+		int icicleTileX = this.field_279;
+		int icicleTileY = this.field_280;
+		field_336[icicleTileX][icicleTileY] = 24;
 		byte[] var8;
 		int var10001;
 		byte var10002;
-		switch ((field_333[var1][var2] & 56) >> 3) {
+		switch ((field_333[icicleTileX][icicleTileY] & 56) >> 3) {
 		case 0:
-			if ((this.playerXPos != var1 || (var2 + 1) * 24 <= this.field_202 || this.field_174 == 3) && (this.field_174 != 3 || this.field_454 == 0L || (long)frameCounter < this.field_454 + (long)(21 - var1))) {
+			if ((this.playerXPos != icicleTileX || (icicleTileY + 1) * 24 <= this.field_202 || this.field_174 == 3) && (this.field_174 != 3 || this.field_454 == 0L || (long)frameCounter < this.field_454 + (long)(21 - icicleTileX))) {
 				return;
 			}
 
-			int var6 = var2 + 1;
+			int scanTileY = icicleTileY + 1;
 
 			while(true) {
-				byte var7 = field_334[var1][var6];
-				if (this.playerYPos == var6 || var7 >= 80 || var7 == 30 || var7 == 34 || var7 == 35 || var7 == 0) {
-					if (this.playerYPos == var6 || this.field_174 == 3) {
-						field_333[var1][var2] = field_333[var1][var2] & -57 | 8;
-						field_335[var1][var2] = 10;
+				byte entityBelow = field_334[icicleTileX][scanTileY];
+				if (this.playerYPos == scanTileY || entityBelow >= 80 || entityBelow == 30 || entityBelow == 34 || entityBelow == 35 || entityBelow == 0) {
+					if (this.playerYPos == scanTileY || this.field_174 == 3) {
+						field_333[icicleTileX][icicleTileY] = field_333[icicleTileX][icicleTileY] & -57 | 8;
+						field_335[icicleTileX][icicleTileY] = 10;
 						return;
 					}
 
 					return;
 				}
 
-				++var6;
+				++scanTileY;
 			}
 		case 1:
-			--field_335[var1][var2];
-			if (field_335[var1][var2] <= 0) {
-				field_332[var1][var2] = 34;
-				field_333[var1][var2] = field_333[var1][var2] & -64 | 24 | 3;
-				field_335[var1][var2] = 0;
+			--field_335[icicleTileX][icicleTileY];
+			if (field_335[icicleTileX][icicleTileY] <= 0) {
+				field_332[icicleTileX][icicleTileY] = 34;
+				field_333[icicleTileX][icicleTileY] = field_333[icicleTileX][icicleTileY] & -64 | 24 | 3;
+				field_335[icicleTileX][icicleTileY] = 0;
 				return;
 			}
 
@@ -13287,25 +13287,25 @@ public final class cGame extends GameCanvas implements Runnable {
 		default:
 			return;
 		case 3:
-			if (field_335[var1][var2] > 0) {
-				var8 = field_335[var1];
-				var8[var2] = (byte)(var8[var2] - 5);
+			if (field_335[icicleTileX][icicleTileY] > 0) {
+				var8 = field_335[icicleTileX];
+				var8[icicleTileY] = (byte)(var8[icicleTileY] - 5);
 				return;
 			}
 
-			boolean var4 = this.method_298(var1, var2 + 1);
-			boolean var5 = false;
-			if (var4 || field_334[var1][var2 + 1] >= 0 || this.field_155 && field_500[var1][var2 + 1] != 0) {
-				if (var4) {
+			boolean playerBelow = this.method_298(icicleTileX, icicleTileY + 1);
+			boolean impactStopsFall = false;
+			if (playerBelow || field_334[icicleTileX][icicleTileY + 1] >= 0 || this.field_155 && field_500[icicleTileX][icicleTileY + 1] != 0) {
+				if (playerBelow) {
 					this.method_61(1, 48, 0);
-					var5 = true;
+					impactStopsFall = true;
 				} else {
-					var5 = true;
-					switch (field_334[var1][var2 + 1]) {
+					impactStopsFall = true;
+					switch (field_334[icicleTileX][icicleTileY + 1]) {
 					case 10:
-						field_332[var1][var2 + 1] = 32;
-						this.method_147(var1, var2 + 1);
-						var5 = false;
+						field_332[icicleTileX][icicleTileY + 1] = 32;
+						this.method_147(icicleTileX, icicleTileY + 1);
+						impactStopsFall = false;
 						break;
 					case 18:
 						this.method_232();
@@ -13315,15 +13315,15 @@ public final class cGame extends GameCanvas implements Runnable {
 					case 45:
 					case 46:
 					case 49:
-						this.method_335(var1, var2 + 1);
-						field_334[var1][var2 + 1] = -1;
+						this.method_335(icicleTileX, icicleTileY + 1);
+						field_334[icicleTileX][icicleTileY + 1] = -1;
 						break;
 					case 21:
-						var5 = false;
+						impactStopsFall = false;
 						break;
 					case 30:
 						this.method_433(cSoundEngine.SOUND_SFX_BREAK);
-						field_333[var1][var2 + 1] = 1;
+						field_333[icicleTileX][icicleTileY + 1] = 1;
 						break;
 					default:
 						this.method_433(cSoundEngine.SOUND_SFX_BOULDER);
@@ -13331,17 +13331,17 @@ public final class cGame extends GameCanvas implements Runnable {
 				}
 			}
 
-			if (var5) {
-				field_333[var1][var2] = field_333[var1][var2] & -64 | 32;
-				field_335[var1][var2] = 0;
+			if (impactStopsFall) {
+				field_333[icicleTileX][icicleTileY] = field_333[icicleTileX][icicleTileY] & -64 | 32;
+				field_335[icicleTileX][icicleTileY] = 0;
 				return;
 			}
 
-			field_334[var1][var2] = -1;
-			field_334[var1][var2 + 1] = 44;
-			field_333[var1][var2 + 1] = field_333[var1][var2];
-			var8 = field_335[var1];
-			var10001 = var2 + 1;
+			field_334[icicleTileX][icicleTileY] = -1;
+			field_334[icicleTileX][icicleTileY + 1] = 44;
+			field_333[icicleTileX][icicleTileY + 1] = field_333[icicleTileX][icicleTileY];
+			var8 = field_335[icicleTileX];
+			var10001 = icicleTileY + 1;
 			var10002 = 19;
 			break;
 		case 4:
@@ -13349,18 +13349,18 @@ public final class cGame extends GameCanvas implements Runnable {
 				return;
 			}
 
-			++field_335[var1][var2];
-			if (field_335[var1][var2] != field_320[27].getAnimFrames(4)) {
+			++field_335[icicleTileX][icicleTileY];
+			if (field_335[icicleTileX][icicleTileY] != field_320[27].getAnimFrames(4)) {
 				return;
 			}
 
-			var8 = field_334[var1];
-			var10001 = var2;
+			var8 = field_334[icicleTileX];
+			var10001 = icicleTileY;
 			var10002 = -1;
 		}
 
 		var8[var10001] = var10002;
-		method_345(var1, var2);
+		method_345(icicleTileX, icicleTileY);
 	}
 
 	// $FF: renamed from: bL () void
