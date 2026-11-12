@@ -5,13 +5,13 @@ import javax.microedition.lcdui.Graphics;
 // $FF: renamed from: c
 public final class DemoInterpreter {
    // $FF: renamed from: a long
-   public static long field_38 = 1000L;
+   public static long demoCommandDelayMs = 1000L;
    // $FF: renamed from: a java.lang.String
-   public static String field_39 = "/demoSpr.bin";
+   public static String demoSpriteResourcePath = "/demoSpr.bin";
    // $FF: renamed from: b java.lang.String
-   public static String field_40 = "/demo.f";
+   public static String demoScriptResourcePath = "/demo.f";
    // $FF: renamed from: a a[]
-   public static ASprite[] field_41 = null;
+   public static ASprite[] demoSprites = null;
    // $FF: renamed from: a byte[][]
    public byte[][] field_42 = (byte[][])null;
    // $FF: renamed from: a int
@@ -173,7 +173,7 @@ public final class DemoInterpreter {
                short var9 = (short)((var31 * var44 + var36 * (var40 - var44)) / var40);
                short var11 = (short)cGame.getShortFromBytes(var2, var3 + 10);
                short var12 = (short)cGame.getShortFromBytes(var2, var3 + 12);
-               field_41[var11].drawFrame(var1, var12, var8, var9, 0, 0, 0);
+               demoSprites[var11].drawFrame(var1, var12, var8, var9, 0, 0, 0);
                return;
             case 12:
                int var43 = this.field_46;
@@ -295,7 +295,7 @@ public final class DemoInterpreter {
    // $FF: renamed from: a () void
    public final void method_21() {
       if (this.field_45 != null) {
-         if (Math.abs(this.field_44 - System.currentTimeMillis()) >= field_38) {
+         if (Math.abs(this.field_44 - System.currentTimeMillis()) >= demoCommandDelayMs) {
             if (this.field_45[0] == 0) {
                byte var1 = this.field_45[1];
                int var2 = 2 + var1 * 4;
@@ -346,10 +346,10 @@ public final class DemoInterpreter {
          if (this.field_47) {
             var1.setColor(0);
             var1.fillRect(this.field_48 - 3, this.field_49 - 3, 109, 45);
-            field_41[this.field_51].drawAnimFrame(var1, 0, this.field_46 % field_41[this.field_51].getAnimFrames(0), this.field_48, this.field_49, 0, 0, 0);
-            field_41[0].drawFrame(var1, this.field_50, this.field_48 + 0, this.field_49, 0, 0, 0);
+            demoSprites[this.field_51].drawAnimFrame(var1, 0, this.field_46 % demoSprites[this.field_51].getAnimFrames(0), this.field_48, this.field_49, 0, 0, 0);
+            demoSprites[0].drawFrame(var1, this.field_50, this.field_48 + 0, this.field_49, 0, 0, 0);
             if (this.field_52 >= 0) {
-               field_41[1].drawFrame(var1, this.field_52, this.field_48 + 90, this.field_49 + -6, 0, 0, 0);
+               demoSprites[1].drawFrame(var1, this.field_52, this.field_48 + 90, this.field_49 + -6, 0, 0, 0);
             }
          }
 
@@ -675,7 +675,7 @@ public final class DemoInterpreter {
    // $FF: renamed from: a (int) void
    public final void method_31(int var1) {
       try {
-         String var10002 = field_40;
+         String var10002 = demoScriptResourcePath;
          this.field_54.getClass();
          ByteArrayInputStream var2 = new ByteArrayInputStream(cGame.loadPackedFile(var10002, 0));
          byte[] var3 = new byte[4];
@@ -725,12 +725,12 @@ public final class DemoInterpreter {
                      }
                   }
 
-                  InputStream var75 = this.getClass().getResourceAsStream(field_39);
+                  InputStream var75 = this.getClass().getResourceAsStream(demoSpriteResourcePath);
                   byte[] var14 = new byte[4];
                   var75.read(var14, 0, 2);
                   short var15 = (short)cGame.getShortFromBytes(var14, 0);
-                  if (field_41 == null) {
-                     field_41 = new ASprite[var15];
+                  if (demoSprites == null) {
+                     demoSprites = new ASprite[var15];
                   }
 
                   for(int var16 = 0; var16 < var9; ++var16) {
@@ -746,15 +746,15 @@ public final class DemoInterpreter {
 
                         var75.read(var14, 0, 4);
                         int var20 = cGame.getI32FromBytes(var14, 0);
-                        if (!var18 && field_41[var17] != null) {
+                        if (!var18 && demoSprites[var17] != null) {
                            var75.skip((long)var20);
                         } else {
                            var14 = new byte[var20];
                            var75.read(var14);
-                           field_41[var17] = new ASprite();
-                           field_41[var17].Load(var14, 0);
-                           field_41[var17].BuildCacheImages(0, 0, -1, -1);
-                           field_41[var17]._modules_data = null;
+                           demoSprites[var17] = new ASprite();
+                           demoSprites[var17].Load(var14, 0);
+                           demoSprites[var17].BuildCacheImages(0, 0, -1, -1);
+                           demoSprites[var17]._modules_data = null;
                         }
                      }
                   }

@@ -76,7 +76,7 @@ public final class IGA {
 		}
 
 		crtPromotionPage = 0;
-		cGame.method_363(3);
+		cGame.setPromotionScreenState(3);
 	}
 
 	// $FF: renamed from: a (int) void

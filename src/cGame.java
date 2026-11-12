@@ -791,7 +791,7 @@ public final class cGame extends GameCanvas implements Runnable {
 	// $FF: renamed from: dr int
 	public static int field_471;
 	// $FF: renamed from: a e
-	public IGA field_472;
+	public IGA promotionScreen;
 	// $FF: renamed from: al boolean
 	public boolean field_473;
 	// $FF: renamed from: am boolean
@@ -2690,10 +2690,10 @@ public final class cGame extends GameCanvas implements Runnable {
 	// $FF: renamed from: a (c) void
 	private static void method_93(DemoInterpreter var0) {
 		if (var0 != null) {
-			if (DemoInterpreter.field_41 != null) {
-				for (int var1 = 0; var1 < DemoInterpreter.field_41.length; ++var1) {
-					freeSpriteCache(DemoInterpreter.field_41[var1], true);
-					DemoInterpreter.field_41[var1] = null;
+			if (DemoInterpreter.demoSprites != null) {
+				for (int var1 = 0; var1 < DemoInterpreter.demoSprites.length; ++var1) {
+					freeSpriteCache(DemoInterpreter.demoSprites[var1], true);
+					DemoInterpreter.demoSprites[var1] = null;
 				}
 			}
 
@@ -3848,7 +3848,7 @@ public final class cGame extends GameCanvas implements Runnable {
 				this.renderProgressBar();
 				break;
 			case 10:
-				this.method_364(this.field_314);
+				this.runPromotionScreenState(this.field_314);
 				break;
 			case 12:
 				this.method_143();
@@ -15558,20 +15558,20 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: b (int) void
-	public static void method_363(int var0) {
+	public static void setPromotionScreenState(int var0) {
 		IGA.promotionScreenState = var0;
 	}
 
 	// $FF: renamed from: a (javax.microedition.lcdui.Graphics) boolean
-	private boolean method_364(Graphics var1) {
+	private boolean runPromotionScreenState(Graphics var1) {
 		IGA.promotionFrameCounter++;
 		switch (IGA.promotionScreenState) {
 		case 0:
 			this.method_95();
-			this.field_472 = new IGA();
+			this.promotionScreen = new IGA();
 			this.method_365();
 			this.soundEngine.freeCrtPlayerResource();
-			method_363(1);
+			setPromotionScreenState(1);
 			this.field_473 = false;
 			break;
 		case 1:
@@ -15586,11 +15586,11 @@ public final class cGame extends GameCanvas implements Runnable {
 			this.assetsLoaded = 0;
 			break;
 		case 3:
-			this.field_472.drawAndHandlePromotionScreen(var1);
+			this.promotionScreen.drawAndHandlePromotionScreen(var1);
 			break;
 		case 4:
-			method_363(0);
-			this.field_472 = null;
+			setPromotionScreenState(0);
+			this.promotionScreen = null;
 			System.gc();
 			return false;
 		}
