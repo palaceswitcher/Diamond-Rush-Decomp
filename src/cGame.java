@@ -8156,7 +8156,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			if ((this.field_233 & 8192) == 0) {
 				this.field_233 |= 8192;
 				var5 = true;
-				this.method_231(var1, var2);
+				this.restoreFrozenEntity(var1, var2);
 			}
 			break;
 		case 10:
@@ -8226,7 +8226,7 @@ public final class cGame extends GameCanvas implements Runnable {
 					}
 
 					if (var6 && var13 && (var10 != this.playerXPos || var11 != this.playerYPos)) {
-						if (this.method_240(var10, var11)) {
+						if (this.applyIceBeamToTile(var10, var11)) {
 							this.field_233 |= 8192;
 						}
 					} else if (var12) {
@@ -8253,8 +8253,8 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: g (int, int) void
-	private void method_231(int var1, int var2) {
-		if (!method_238(var1, var2)) {
+	private void restoreFrozenEntity(int var1, int var2) {
+		if (!isAtIceBeamBoundary(var1, var2)) {
 			method_345(var1, var2);
 			int var3 = this.method_298(var1, var2 - 1) ? 2 : 1;
 			switch ((field_333[var1][var2] & 264241152) >> 22) {
@@ -8788,7 +8788,7 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: a (int, int, int, int) byte
-	private byte method_237(int var1, int var2, int var3, int var4) {
+	private byte extendIceBeamEndpoint(int var1, int var2, int var3, int var4) {
 		int var5 = var1 + var2;
 		if ((var1 > 0 && var3 == 0 || var1 < var3 && var3 > 0) && (field_334[var5][var4] < 0 || field_334[var5][var4] == 31 || getFrozenEntityType(var5, var4) >= 0)) {
 			do {
@@ -8801,7 +8801,7 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: a (int, int) boolean
-	private static boolean method_238(int var0, int var1) {
+	private static boolean isAtIceBeamBoundary(int var0, int var1) {
 		if (iceBeamSpans == null) {
 			return false;
 		} else {
@@ -8824,11 +8824,11 @@ public final class cGame extends GameCanvas implements Runnable {
 			if (var3 > 0) {
 				byte var4 = iceBeamSpans[i + 1];
 				byte var5 = iceBeamSpans[i + 0];
-				var5 = iceBeamSpans[i + 0] = this.method_237(var5, -1, 0, var3);
-				var4 = iceBeamSpans[i + 1] = this.method_237(var4, 1, var1, var3);
+				var5 = iceBeamSpans[i + 0] = this.extendIceBeamEndpoint(var5, -1, 0, var3);
+				var4 = iceBeamSpans[i + 1] = this.extendIceBeamEndpoint(var4, 1, var1, var3);
 
 				for (int j = var5; j <= var4; ++j) {
-					this.method_240(j, var3);
+					this.applyIceBeamToTile(j, var3);
 				}
 			}
 		}
@@ -8836,7 +8836,7 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: b (int, int) boolean
-	private boolean method_240(int var1, int var2) {
+	private boolean applyIceBeamToTile(int var1, int var2) {
 		int var3 = getFrozenEntityType(var1, var2);
 		int var4 = 0;
 		if (var3 >= 0) {
