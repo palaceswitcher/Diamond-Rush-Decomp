@@ -240,7 +240,7 @@ public final class cGame extends GameCanvas implements Runnable {
 	// $FF: renamed from: ak int
 	public int field_191;
 	// $FF: renamed from: e byte[]
-	public static byte[] field_192;
+	public static byte[] iceBeamSpans;
 	// $FF: renamed from: al int
 	public int field_193;
 	// $FF: renamed from: am int
@@ -2740,7 +2740,7 @@ public final class cGame extends GameCanvas implements Runnable {
 		this.field_171 = 0;
 		this.field_172 = 0;
 		field_173 = null;
-		field_192 = null;
+		iceBeamSpans = null;
 		this.resourceInputStream = null;
 		field_347 = null;
 		field_513 = null;
@@ -2836,7 +2836,7 @@ public final class cGame extends GameCanvas implements Runnable {
 		this.field_485 = 0;
 		this.field_486 = -1;
 		this.field_155 = false;
-		field_192 = null;
+		iceBeamSpans = null;
 		method_171();
 		System.gc();
 	}
@@ -4887,13 +4887,13 @@ public final class cGame extends GameCanvas implements Runnable {
 									this.method_203();
 									break label194;
 								case 46:
-									this.method_159();
+									this.selectShaolinMonkSprite();
 									break label194;
 								case 47:
 									var7 = this;
 									break;
 								case 48:
-									this.method_155();
+									this.selectIceDragonStatueSprite();
 									break label194;
 								case 49:
 									this.method_193();
@@ -5080,7 +5080,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			}
 
 			if (this.field_193 > 0) {
-				this.method_154();
+				this.drawIceBeams();
 			}
 
 			if (this.field_174 != 0) {
@@ -5294,20 +5294,20 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: Y () void
-	private void method_154() {
+	private void drawIceBeams() {
 		int var1 = this.field_202 - 24;
 		int var2 = this.field_202 + 320;
 		int var3 = this.field_201;
 		int var4 = this.field_201 + 240;
 		int var5 = (frameCounter >> 1) % field_320[2].getAnimFrames(1);
 
-		for (int var6 = 0; var6 < field_192.length; var6 += 3) {
+		for (int var6 = 0; var6 < iceBeamSpans.length; var6 += 3) {
 			int var7 = 0;
 			byte var8;
 			int var9;
-			if ((var9 = (var8 = field_192[var6 + 2]) * 24) > var1 && var9 < var2) {
-				byte var10 = field_192[var6 + 0];
-				byte var11 = field_192[var6 + 1];
+			if ((var9 = (var8 = iceBeamSpans[var6 + 2]) * 24) > var1 && var9 < var2) {
+				byte var10 = iceBeamSpans[var6 + 0];
+				byte var11 = iceBeamSpans[var6 + 1];
 				int var12 = var10 * 24;
 				int var13 = var11 * 24 + 24;
 				if (var12 >= var3 && var12 <= var4 || var13 >= var3 && var13 <= var4 || var12 <= var3 && var13 >= var4) {
@@ -5358,7 +5358,7 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: Z () void
-	private void method_155() {
+	private void selectIceDragonStatueSprite() {
 		int var1;
 		if (((var1 = field_333[this.processedTileX][this.processedTileY]) & 8) == 0) {
 			field_324 = field_320[32];
@@ -5438,7 +5438,7 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: ad () void
-	private void method_159() {
+	private void selectShaolinMonkSprite() {
 		field_324 = field_320[29];
 		this.field_285 = field_333[this.processedTileX][this.processedTileY] & 31;
 
@@ -8360,7 +8360,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			field_334[var1][var3] = -1;
 			this.method_335(var1, var3);
 			int var4 = (field_333[var1][var2] >> 24) * 3;
-			field_192[var4 + 2] = -1;
+			iceBeamSpans[var4 + 2] = -1;
 			return;
 		default:
 			field_332[var1][var2] = -1;
@@ -8514,7 +8514,7 @@ public final class cGame extends GameCanvas implements Runnable {
 
 		this.updateNearbyTiles();
 		if (this.field_193 > 0) {
-			this.method_239();
+			this.updateIceBeams();
 		}
 
 		this.method_381();
@@ -8790,11 +8790,11 @@ public final class cGame extends GameCanvas implements Runnable {
 	// $FF: renamed from: a (int, int, int, int) byte
 	private byte method_237(int var1, int var2, int var3, int var4) {
 		int var5 = var1 + var2;
-		if ((var1 > 0 && var3 == 0 || var1 < var3 && var3 > 0) && (field_334[var5][var4] < 0 || field_334[var5][var4] == 31 || method_241(var5, var4) >= 0)) {
+		if ((var1 > 0 && var3 == 0 || var1 < var3 && var3 > 0) && (field_334[var5][var4] < 0 || field_334[var5][var4] == 31 || getFrozenEntityType(var5, var4) >= 0)) {
 			do {
 				var1 = var5;
 				var5 += var2;
-			} while((var1 > 0 && var3 == 0 || var1 < var3 && var3 > 0) && (field_334[var5][var4] < 0 || method_241(var5, var4) >= 0 || field_334[var5][var4] == 31));
+			} while((var1 > 0 && var3 == 0 || var1 < var3 && var3 > 0) && (field_334[var5][var4] < 0 || getFrozenEntityType(var5, var4) >= 0 || field_334[var5][var4] == 31));
 		}
 
 		return (byte)var1;
@@ -8802,11 +8802,11 @@ public final class cGame extends GameCanvas implements Runnable {
 
 	// $FF: renamed from: a (int, int) boolean
 	private static boolean method_238(int var0, int var1) {
-		if (field_192 == null) {
+		if (iceBeamSpans == null) {
 			return false;
 		} else {
-			for (int var2 = 0; var2 < field_192.length; var2 += 3) {
-				if (field_192[var2 + 2] == var1 && (field_192[var2 + 0] - 1 == var0 || field_192[var2 + 1] + 1 == var0)) {
+			for (int var2 = 0; var2 < iceBeamSpans.length; var2 += 3) {
+				if (iceBeamSpans[var2 + 2] == var1 && (iceBeamSpans[var2 + 0] - 1 == var0 || iceBeamSpans[var2 + 1] + 1 == var0)) {
 					return true;
 				}
 			}
@@ -8816,16 +8816,16 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: bf () void
-	private void method_239() {
+	private void updateIceBeams() {
 		int var1 = this.crtLevelWidth - 1;
 
-		for (int i = 0; i < field_192.length; i += 3) {
-			byte var3 = field_192[i + 2];
+		for (int i = 0; i < iceBeamSpans.length; i += 3) {
+			byte var3 = iceBeamSpans[i + 2];
 			if (var3 > 0) {
-				byte var4 = field_192[i + 1];
-				byte var5 = field_192[i + 0];
-				var5 = field_192[i + 0] = this.method_237(var5, -1, 0, var3);
-				var4 = field_192[i + 1] = this.method_237(var4, 1, var1, var3);
+				byte var4 = iceBeamSpans[i + 1];
+				byte var5 = iceBeamSpans[i + 0];
+				var5 = iceBeamSpans[i + 0] = this.method_237(var5, -1, 0, var3);
+				var4 = iceBeamSpans[i + 1] = this.method_237(var4, 1, var1, var3);
 
 				for (int j = var5; j <= var4; ++j) {
 					this.method_240(j, var3);
@@ -8837,7 +8837,7 @@ public final class cGame extends GameCanvas implements Runnable {
 
 	// $FF: renamed from: b (int, int) boolean
 	private boolean method_240(int var1, int var2) {
-		int var3 = method_241(var1, var2);
+		int var3 = getFrozenEntityType(var1, var2);
 		int var4 = 0;
 		if (var3 >= 0) {
 			if (var3 == 37 && field_334[var1][var2] == 43) {
@@ -8860,7 +8860,7 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: d (int, int) int
-	private static int method_241(int var0, int var1) {
+	private static int getFrozenEntityType(int var0, int var1) {
 		if (field_334[var0][var1] < 0) {
 			return -1;
 		} else {
@@ -12098,7 +12098,7 @@ public final class cGame extends GameCanvas implements Runnable {
 		}
 
 		if (this.field_193 > 0) {
-			field_192 = new byte[this.field_193 * 3];
+			iceBeamSpans = new byte[this.field_193 * 3];
 		}
 
 		int var26 = 0;
@@ -12208,14 +12208,14 @@ public final class cGame extends GameCanvas implements Runnable {
 					if ((field_333[var28][var27] & 8) != 0) {
 						int var36 = var28 + ((field_333[var28][var27 + 1] & 16) == 0 ? 1 : -1);
 						int var43 = var26 * 3;
-						if (method_241(var36, var27) >= 0) {
-							field_192[var43 + 0] = (byte)var36;
-							field_192[var43 + 1] = (byte)var36;
-							var52 = field_192;
+						if (getFrozenEntityType(var36, var27) >= 0) {
+							iceBeamSpans[var43 + 0] = (byte)var36;
+							iceBeamSpans[var43 + 1] = (byte)var36;
+							var52 = iceBeamSpans;
 							var57 = var43 + 2;
 							var62 = (byte)var27;
 						} else {
-							var52 = field_192;
+							var52 = iceBeamSpans;
 							var57 = var43 + 2;
 							var62 = -1;
 						}
@@ -12739,7 +12739,7 @@ public final class cGame extends GameCanvas implements Runnable {
 							this.updatePatrollingEnemy((byte)ENTITY_BROWN_SPIDER);
 							break label215;
 						case 21:
-							this.method_334();
+							this.updateMonkProjectile();
 							break label215;
 						case 22:
 							var10000 = this;
@@ -12792,7 +12792,7 @@ public final class cGame extends GameCanvas implements Runnable {
 							this.updateSmallMonkey();
 							break label215;
 						case 46:
-							this.method_312();
+							this.updateShaolinMonk();
 							break label215;
 						case 47:
 							this.method_351();
@@ -12800,9 +12800,9 @@ public final class cGame extends GameCanvas implements Runnable {
 							break label215;
 						case 48:
 							if ((field_333[this.field_279][this.field_280] & 8) == 0) {
-								this.method_306((byte)48);
+								this.updateIceDragonStatueBase((byte)48);
 							} else {
-								this.method_305();
+								this.resetIceBeamOrigin();
 							}
 							break label215;
 						case ENTITY_TURTLE:
@@ -12838,7 +12838,7 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: bG () void
-	private void method_305() {
+	private void resetIceBeamOrigin() {
 		int var1;
 		int var2;
 		int var7;
@@ -12871,13 +12871,13 @@ public final class cGame extends GameCanvas implements Runnable {
 		int var10001;
 		byte var10002;
 		if (field_334[var5][var2] < 0) {
-			field_192[var6 + 2] = (byte)var2;
-			field_192[var6 + 1] = (byte)var5;
-			var8 = field_192;
+			iceBeamSpans[var6 + 2] = (byte)var2;
+			iceBeamSpans[var6 + 1] = (byte)var5;
+			var8 = iceBeamSpans;
 			var10001 = var6 + 0;
 			var10002 = (byte)var5;
 		} else {
-			var8 = field_192;
+			var8 = iceBeamSpans;
 			var10001 = var6 + 2;
 			var10002 = -1;
 		}
@@ -12886,7 +12886,7 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: d (byte) void
-	private void method_306(byte var1) {
+	private void updateIceDragonStatueBase(byte var1) {
 		int var2 = this.field_279;
 		int var3 = this.field_280;
 		if (field_335[var2][var3] == 6 && (field_332[var2][var3] & 255) == 6) {
@@ -12924,7 +12924,7 @@ public final class cGame extends GameCanvas implements Runnable {
 				field_336[var2 + 1][var7] = 48;
 				method_345(var2, var3);
 				if (var1 == 48) {
-					this.method_305();
+					this.resetIceBeamOrigin();
 				}
 			} else {
 				if ((var4 & 7) == 3 && this.method_298(var2, var3 + 1)) {
@@ -13053,7 +13053,7 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: bJ () void
-	private void method_312() {
+	private void updateShaolinMonk() {
 		int var1 = this.field_279;
 		int var2 = this.field_280;
 		int var3 = field_333[var1][var2] & 31;
@@ -14466,7 +14466,7 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: bY () void
-	private void method_334() {
+	private void updateMonkProjectile() {
 		int var1 = this.field_279;
 		int var2 = this.field_280;
 		int var3 = field_333[var1][var2] & 7;
@@ -15059,16 +15059,16 @@ public final class cGame extends GameCanvas implements Runnable {
 			this.method_369();
 		}
 
-		if (field_192 != null) {
+		if (iceBeamSpans != null) {
 			for (int var8 = 0; var8 < this.crtLevelHeight; ++var8) {
 				for (int var9 = 0; var9 < this.crtLevelWidth; ++var9) {
 					if (field_334[var9][var8] == 48) {
 						this.field_279 = var9;
 						this.field_280 = var8;
 						if ((field_333[var9][var8] & 8) == 0) {
-							this.method_306((byte)48);
+							this.updateIceDragonStatueBase((byte)48);
 						} else {
-							this.method_305();
+							this.resetIceBeamOrigin();
 						}
 					}
 				}
