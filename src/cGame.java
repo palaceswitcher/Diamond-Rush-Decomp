@@ -30,6 +30,14 @@ public final class cGame extends GameCanvas implements Runnable {
 	public static final int SKEY_NUM7 = 131072;
 	public static final int SKEY_NUM8 = 262144;
 	public static final int SKEY_NUM9 = 524288;
+	private static final int ENTITY_BROWN_SPIDER = 19;
+	private static final int ENTITY_RED_SPIDER = 43;
+	private static final int ENEMY_STUN_MASK = 248;
+	private static final int ENEMY_STUN_DECREMENT = 8;
+	private static final int ENEMY_STUN_ON_HIT = 120;
+	private static final int RED_SPIDER_CHASE_MASK = 3840;
+	private static final int RED_SPIDER_CHASE_DECREMENT = 256;
+	private static final int RED_SPIDER_CHASE_ON_RECOVERY = 3072;
 	// $FF: renamed from: a i
 	public static cGame field_92;
 	// $FF: renamed from: a int
@@ -6915,7 +6923,7 @@ public final class cGame extends GameCanvas implements Runnable {
 
 			if (var16 >= var5) {
 				method_345(var1, var2);
-				int var10 = this.method_324(var1, var2, this.playerXPos, this.playerYPos, true);
+				int var10 = this.chooseDirectionTowardTile(var1, var2, this.playerXPos, this.playerYPos, true);
 				boolean var11 = false;
 				switch (var4) {
 				case 0:
@@ -8234,7 +8242,7 @@ public final class cGame extends GameCanvas implements Runnable {
 								field_335[var10][var11] = 0;
 							}
 						} else {
-							this.method_233(var8, var10, var11);
+							this.applyEnemyStunHit(var8, var10, var11);
 						}
 					}
 				}
@@ -8272,7 +8280,7 @@ public final class cGame extends GameCanvas implements Runnable {
 				}
 
 				field_333[var1][var2] = var3;
-				this.method_233(19, var1, var2);
+				this.applyEnemyStunHit(19, var1, var2);
 				return;
 			case 39:
 				field_334[var1][var2] = 49;
@@ -8297,9 +8305,9 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: c (int, int, int) void
-	private void method_233(int var1, int var2, int var3) {
+	private void applyEnemyStunHit(int var1, int var2, int var3) {
 		int var4 = field_333[var2][var3];
-		if (var1 == 43 && (var4 & 248) == 0) {
+		if (var1 == ENTITY_RED_SPIDER && (var4 & ENEMY_STUN_MASK) == 0) {
 			if ((var4 & 98304) == 0) {
 				field_334[var2][var3] = -1;
 				this.method_335(var2, var3);
@@ -8311,7 +8319,7 @@ public final class cGame extends GameCanvas implements Runnable {
 			var4 = (var6 & 7) != 1 && (var6 & 7) != 3 ? var6 & Integer.MAX_VALUE : var6 | Integer.MIN_VALUE;
 		}
 
-		var4 = var4 & -249 | 120;
+		var4 = var4 & ~ENEMY_STUN_MASK | ENEMY_STUN_ON_HIT;
 		field_333[var2][var3] = var4;
 	}
 
@@ -12726,8 +12734,8 @@ public final class cGame extends GameCanvas implements Runnable {
 						case 16:
 							this.method_337();
 							break label215;
-						case 19:
-							this.method_325((byte)19);
+						case ENTITY_BROWN_SPIDER:
+							this.updatePatrollingEnemy((byte)ENTITY_BROWN_SPIDER);
 							break label215;
 						case 21:
 							this.method_334();
@@ -12773,8 +12781,8 @@ public final class cGame extends GameCanvas implements Runnable {
 						case 42:
 							this.method_322(42);
 							break label215;
-						case 43:
-							this.method_325((byte)43);
+						case ENTITY_RED_SPIDER:
+							this.updatePatrollingEnemy((byte)ENTITY_RED_SPIDER);
 							break label215;
 						case 44:
 							this.method_314();
@@ -12797,7 +12805,7 @@ public final class cGame extends GameCanvas implements Runnable {
 							}
 							break label215;
 						case 49:
-							this.method_325((byte)49);
+							this.updatePatrollingEnemy((byte)49);
 							break label215;
 						case 50:
 							if (this.field_232 < 12 && this.method_298(this.field_279, this.field_280) && !this.field_140) {
@@ -13144,7 +13152,7 @@ public final class cGame extends GameCanvas implements Runnable {
 							label269: {
 								var4 = 0;
 								int var16;
-								switch (this.method_324(var1, var2, this.playerXPos, this.playerYPos, false)) {
+								switch (this.chooseDirectionTowardTile(var1, var2, this.playerXPos, this.playerYPos, false)) {
 								case 1:
 									if (this.playerXPos == var1 && var3 != 6 && var3 != 7 && var2 * 24 <= this.field_202 + 320 - 80) {
 										var3 = var3 == 2 ? 6 : 7;
@@ -13780,7 +13788,7 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: a (int, int, int, int, boolean) int
-	private int method_324(int var1, int var2, int var3, int var4, boolean var5) {
+	private int chooseDirectionTowardTile(int var1, int var2, int var3, int var4, boolean var5) {
 		int var6 = var1 - var3;
 		int var7 = var2 - var4;
 		int var8 = var6 > 0 ? var6 : -var6;
@@ -13851,7 +13859,7 @@ public final class cGame extends GameCanvas implements Runnable {
 	}
 
 	// $FF: renamed from: e (byte) void
-	private void method_325(byte var1) {
+	private void updatePatrollingEnemy(byte var1) {
 		int var2 = this.field_279;
 		int var3 = this.field_280;
 		int var4 = field_333[var2][var3];
@@ -13859,7 +13867,7 @@ public final class cGame extends GameCanvas implements Runnable {
 		int var6 = 0;
 		int var7 = 0;
 		boolean var8 = (field_332[var2][var3] & 255) == 35;
-		boolean var9 = var1 == 43 && (var4 & 3840) != 0;
+		boolean isChasingPlayer = var1 == ENTITY_RED_SPIDER && (var4 & RED_SPIDER_CHASE_MASK) != 0;
 		if (!var8 && this.method_343(var2, var3)) {
 			field_334[var2][var3] = -1;
 			this.method_335(var2, var3);
@@ -13877,9 +13885,9 @@ public final class cGame extends GameCanvas implements Runnable {
 						}
 					} else {
 						method_345(var2, var3);
-						if (var9) {
+						if (isChasingPlayer) {
 							var5 = 18;
-							int var18 = this.method_324(var2, var3, this.playerXPos, this.playerYPos, true);
+							int var18 = this.chooseDirectionTowardTile(var2, var3, this.playerXPos, this.playerYPos, true);
 							var4 = var4 & -8 | var18;
 							var10 = var18;
 							var6 = -field_325[var18];
@@ -13890,10 +13898,10 @@ public final class cGame extends GameCanvas implements Runnable {
 								var6 = 0;
 							}
 
-							var4 -= 256;
+							var4 -= RED_SPIDER_CHASE_DECREMENT;
 						} else {
 							label150: {
-								if ((var4 & 16646144) != 0 && (var4 & 248) == 0) {
+								if ((var4 & 16646144) != 0 && (var4 & ENEMY_STUN_MASK) == 0) {
 									int var17 = (var4 & 16646144) >> 17;
 									int var12 = (var4 & 2130706432) >> 24;
 									if (var2 == var17 && var3 == var12) {
@@ -13904,7 +13912,7 @@ public final class cGame extends GameCanvas implements Runnable {
 									}
 
 									var5 = 21;
-									int var13 = this.method_324(var2, var3, var17, var12, true);
+									int var13 = this.chooseDirectionTowardTile(var2, var3, var17, var12, true);
 									var4 = var4 & -8 | var13;
 									var6 = -field_325[var13];
 									var7 = -field_325[var13 + 8];
@@ -13973,7 +13981,7 @@ public final class cGame extends GameCanvas implements Runnable {
 						}
 					}
 
-					if ((var4 & 248) == 0) {
+					if ((var4 & ENEMY_STUN_MASK) == 0) {
 						field_334[var2][var3] = -1;
 						field_334[var2 + var6][var3 + var7] = var1;
 						field_336[var2 + var6][var3 + var7] = 48;
@@ -13983,9 +13991,9 @@ public final class cGame extends GameCanvas implements Runnable {
 					}
 
 					if ((frameCounter & 3) == 0) {
-						var4 = var4 & -249 | (var4 & 248) - 8;
-						if (var1 == 43 && (var4 & 248) == 0) {
-							var4 = var4 & -3841 | 3072;
+						var4 = var4 & ~ENEMY_STUN_MASK | (var4 & ENEMY_STUN_MASK) - ENEMY_STUN_DECREMENT;
+						if (var1 == ENTITY_RED_SPIDER && (var4 & ENEMY_STUN_MASK) == 0) {
+							var4 = var4 & ~RED_SPIDER_CHASE_MASK | RED_SPIDER_CHASE_ON_RECOVERY;
 						}
 					}
 
@@ -14006,10 +14014,10 @@ public final class cGame extends GameCanvas implements Runnable {
 				var19[var20] = var10002;
 			}
 
-			if ((var4 & 248) == 0 && (field_323[0]._nCrtAnim < 13 || field_323[0]._nCrtAnim > 16) && method_350(var2, var3, var10, field_335[var2][var3], this.playerXPos, this.playerYPos, (this.field_233 & 4096) == 0 ? this.field_197 : 0, this.field_232)) {
+			if ((var4 & ENEMY_STUN_MASK) == 0 && (field_323[0]._nCrtAnim < 13 || field_323[0]._nCrtAnim > 16) && method_350(var2, var3, var10, field_335[var2][var3], this.playerXPos, this.playerYPos, (this.field_233 & 4096) == 0 ? this.field_197 : 0, this.field_232)) {
 				this.method_61(1, 48, var10);
-				if (var9) {
-					var4 &= -3841;
+				if (isChasingPlayer) {
+					var4 &= ~RED_SPIDER_CHASE_MASK;
 				}
 			}
 
