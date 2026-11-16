@@ -35,3 +35,11 @@ If you are interested in contributing, you may do so via a pull request. If you 
  * @return Return description
  */
 ```
+
+## AI Assistance
+
+Please abide by the following guidelines when using LLMs (hereinafter referred to as "AI") to contribute to this project.
+
+- You may not use AI to name unnamed fields, variables, or methods.
+- You may not use AI to restructure complex unobfuscated code. More specifically, if an obfuscated method features strangely structured code with a lot of labels, please make an effort to restructure it yourself.
+- You may not use AI to generate the text or comments associated with your pull requests. Your understanding of the code you submit must be your own. Pull requests that do not abide by this may be immediately closed.
